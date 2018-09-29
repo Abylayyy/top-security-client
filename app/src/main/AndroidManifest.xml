@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="kz.topsecurity.top_signal">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <application
+        android:name=".application.TopSignalApplication"
+        android:allowBackup="true"
+        android:fullBackupContent="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+        <service
+            android:name=".service.trackingService.volumeService.VolumeService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/serviceconfig" />
+        </service>
+
+        <!-- <meta-data android:name="net.hockeyapp.android.appIdentifier" android:value="${HOCKEYAPP_APP_ID}" /> -->
+
+        <activity
+            android:name=".domain.SplashScreen.SplashScreen"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashScreenTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".domain.StartScreen.StartActivity"
+            android:label="@string/title_activity_splash_screen"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".domain.LoginScreen.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".domain.RegisterScreen.RegisterActivity"
+            android:label="@string/title_activity_register"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".domain.MainScreen.MainActivity"
+            android:label="@string/title_activity_main"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".domain.ProfileScreen.ProfileActivity"
+            android:label="@string/title_activity_profile"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".domain.ProfileScreen.EditPasswordScreen.EditPasswordActivity"
+            android:label="@string/title_activity_edit_password"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <!-- Services -->
+
+        <service
+            android:name=".service.trackingService.TrackingService"
+            android:enabled="true" />
+
+        <receiver android:name=".service.trackingService.listenerImpl.PowerConnectionReceiver" />
+        <receiver android:name=".service.trackingService.listenerImpl.VolumeReceiver">
+            <intent-filter>
+                <action android:name="android.media.VOLUME_CHANGED_ACTION" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".service.trackingService.listenerImpl.TrackingServiceRestarterBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:label="RestartTrackerServiceWhenStopped">
+            <intent-filter>
+                <action android:name=".RestartTrackingService" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".service.trackingService.listenerImpl.VolumeServiceReceiver">
+            <intent-filter>
+                <action android:name="kz.topsecurity.topsignal.service.trackingService.volumeService.VolumeServiceActionBroadcast" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".domain.SettingsScreen.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".domain.PlaceScreen.PlaceActivity"
+            android:label="@string/title_activity_place"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".domain.TrustedNumbersScreen.TrustedNumbersActivity"
+            android:label="@string/title_activity_trusted_numbers"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".domain.TrustedNumbersScreen.additionalScreen.CreateTrustedNumberActivity"
+            android:label="@string/title_activity_trusted_numbers"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".domain.ProfileScreen.CropPhotoScreen.CropPictureActivity"
+            android:label="@string/title_activity_crop_picture_activiry"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".domain.ProfileScreen.EditEmailScreen.EditEmailActivity"
+            android:label="@string/title_activity_edit_email"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".domain.RestorePasswordScreen.RestorePasswordActivity"
+            android:label="@string/title_activity_restore_password"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".domain.RestorePasswordScreen.additional.ChangePasswordActivity"
+            android:label="@string/title_activity_change_password"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".domain.InputCodeScreen.SmsCodeActivity"
+            android:label="@string/title_activity_sms_code"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".domain.PaymentScreen.PaymentActivity"
+            android:label="@string/title_activity_payment"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".domain.SetSecretCancelCodeScreen.SetSecretCancelCodeActivity"
+            android:label="@string/title_activity_set_secret_cancel_code"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,105 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "kz.topsecurity.top_signal"
+        minSdkVersion 16
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+}
+
+ext {
+    permissionsDispatcherVersion = '2.1.2'
+}
+
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.google.android.gms:play-services-maps:15.0.1'
+    implementation 'com.google.android.gms:play-services-places:15.0.1'
+    implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.android.support:support-vector-drawable:27.1.1'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    implementation 'com.github.ybq:Android-SpinKit:1.1.0'
+    //ButterKnife
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+
+    //LOCATION
+    implementation 'com.google.android.gms:play-services-location:15.0.1'
+    //API RETROFIT
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    //FIREBASE
+//    implementation 'com.google.firebase:firebase-messaging:17.0.0'
+//    implementation 'com.google.firebase:firebase-core:16.0.0'
+//    apply plugin: 'com.google.gms.google-services'
+    //JOB Services
+    implementation 'com.firebase:firebase-jobdispatcher:0.8.5'
+
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+    //Phone validator
+    implementation 'io.michaelrocks:libphonenumber-android:8.9.5'
+
+    //GLide
+
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+
+    //RX_2
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.15'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+
+    //Ripple animation
+    implementation 'com.skyfishjy.ripplebackground:library:1.0.1'
+
+//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
+//    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
+//    // Optional, if you use support library fragments:
+//    debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.1'
+
+
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.+'
+
+    //CropMe
+    //implementation 'com.github.takusemba:cropme:1.0.0'
+    //implementation 'com.android.support:support-dynamic-animation:27.1.1'
+
+    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
+    annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:$permissionsDispatcherVersion"
+    implementation "com.github.hotchemi:permissionsdispatcher:$permissionsDispatcherVersion"
+
+    //hockeyapp
+//    implementation 'net.hockeyapp.android:HockeySDK:5.1.1'
+
+    implementation "net.gotev:uploadservice:3.4.2"
+}
