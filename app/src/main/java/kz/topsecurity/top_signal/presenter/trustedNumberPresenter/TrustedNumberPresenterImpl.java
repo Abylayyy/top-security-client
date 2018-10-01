@@ -63,12 +63,12 @@ public class TrustedNumberPresenterImpl extends BasePresenterImpl<TrustedNumbers
         Disposable subscribe = new RequestService<>(new RequestService.RequestResponse<BasicResponse>() {
             @Override
             public void onSuccess(BasicResponse r) {
-                setDeleteContactError();
+                setDeleteContactSuccess(id);
             }
 
             @Override
             public void onFailed(BasicResponse data, int error_message) {
-                setDeleteContactSuccess(id);
+                setDeleteContactError();
             }
 
             @Override
