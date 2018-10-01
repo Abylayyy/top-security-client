@@ -19,8 +19,8 @@ public class RetrofitClient {
     private static Retrofit getRetrofitInstance() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder().connectTimeout(100, TimeUnit.SECONDS)
-                .readTimeout(100,TimeUnit.SECONDS).addInterceptor(interceptor).build();
+        OkHttpClient client = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10,TimeUnit.SECONDS).addInterceptor(interceptor).build();
 
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()

@@ -44,7 +44,6 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     @BindView(R.id.ll_volume_button_options) LinearLayout ll_volume_button_options;
     @BindView(R.id.rl_volume_direction) RelativeLayout rl_volume_direction;
     @BindView(R.id.s_volume_direction) Switch s_volume_direction;
-    @BindView(R.id.spin_volume_click_rate) Spinner spin_volume_click_rate;
 
     DataBaseManager dataBaseManager = new DataBaseManagerImpl(this);
     CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -90,26 +89,26 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Constants.click_type_rate);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        spin_volume_click_rate.setAdapter(adapter);
-        spin_volume_click_rate.setPrompt("Click rate");
-        spin_volume_click_rate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                SharedPreferencesManager.setVolumeButtonClickRate(SettingsActivity.this, i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+//        spin_volume_click_rate.setAdapter(adapter);
+//        spin_volume_click_rate.setPrompt("Click rate");
+//        spin_volume_click_rate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                SharedPreferencesManager.setVolumeButtonClickRate(SettingsActivity.this, i);
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
     }
 
     void setCurrentState(){
         s_tracking_service.setChecked(SharedPreferencesManager.getTrackingServiceActiveState(this));
         s_volume_track.setChecked(SharedPreferencesManager.getVolumeDirection(this) && isAccessibilitySettingsOn(this));
         s_volume_direction.setChecked(SharedPreferencesManager.getVolumeDirection(this));
-        spin_volume_click_rate.setSelection(SharedPreferencesManager.getVolumeButtonClickRate(this));
+//        spin_volume_click_rate.setSelection(SharedPreferencesManager.getVolumeButtonClickRate(this));
         updateVolumeOptionsView(SharedPreferencesManager.getVolumeDirection(this)&& isAccessibilitySettingsOn(this));
     }
 

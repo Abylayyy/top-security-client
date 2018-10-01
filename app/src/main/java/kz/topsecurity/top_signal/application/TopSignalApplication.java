@@ -14,7 +14,7 @@ public class TopSignalApplication extends Application {
     public void onCreate() {
         super.onCreate();
         UploadService.NAMESPACE = BuildConfig.APPLICATION_ID;
-        UploadService.NAMESPACE = "kz.topsecurity.topsignal";
+        UploadService.NAMESPACE = "kz.topsecurity.top_signal";
         trackingApp = this;
     }
 

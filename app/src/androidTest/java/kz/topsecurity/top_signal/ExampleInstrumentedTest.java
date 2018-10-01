@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("kz.topsecurity.topsignal", appContext.getPackageName());
+        assertEquals("kz.topsecurity.top_signal", appContext.getPackageName());
     }
 }

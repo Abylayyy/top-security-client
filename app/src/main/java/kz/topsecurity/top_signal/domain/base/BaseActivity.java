@@ -336,7 +336,7 @@ public abstract class BaseActivity
 
     public boolean isAccessibilitySettingsOn(Context context) {
         int accessibilityEnabled = 0;
-        final String service = "kz.topsecurity.topsignal/kz.topsecurity.topsignal.service.trackingService.volumeService.VolumeService";
+        final String service = "kz.topsecurity.top_signal/kz.topsecurity.top_signal.service.trackingService.volumeService.VolumeService";
         boolean accessibilityFound = false;
         try {
             accessibilityEnabled = Settings.Secure.getInt(
