@@ -10,7 +10,7 @@ import kz.topsecurity.top_signal.service.trackingService.model.DeviceData;
 public class DataBaseHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "Tracker.db";
+    public static final String DATABASE_NAME = "newTracker.db";
 
     public DataBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
