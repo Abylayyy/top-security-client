@@ -33,6 +33,34 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
     }
 
     @Override
+    public void actionAlert(){
+        if(isAlertActive){
+            try {
+                throw new Exception("UNABLE TO CALL ALERT WHEN ALERT IS ACTIVE");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            view.onCallingAlert();
+        }
+    }
+
+    @Override
+    public void actionCancel(){
+        if(isAlertActive){
+            view.onStoppingAlert();
+        }
+        else{
+            try {
+                throw new Exception("UNABLE TO CANCEL ALERT WHEN ALERT IS NOT ACTIVE");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
     public void cancelAlert() {
         isAlertActive = false;
         view.onStopAlert();

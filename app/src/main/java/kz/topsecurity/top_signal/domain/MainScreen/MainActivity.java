@@ -48,6 +48,7 @@ public class MainActivity extends ServiceControlActivity
     public static final String CANCEL_ALERT_EXTRA = "CANCEL_ALERT_EXTRA";
     public static final String TRACKING_SERVICE_STATUS_RESULT = "IS_MADE_CHANGES";
     public static final String EXIT_FROM_APPLICATION = "EXIT_FROM_APPLICATION";
+
     @BindView(R.id.tv_profile) TextView tv_profile;
     @BindView(R.id.tv_places) TextView tv_places;
     @BindView(R.id.tv_contacts) TextView tv_contacts;
@@ -64,8 +65,8 @@ public class MainActivity extends ServiceControlActivity
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    boolean isAlertViewActive = false;
-
+//    boolean isAlertViewActive = false;
+    boolean isAlertViewVisible = false;
     private static final int PROFILE_REQUEST_CODE = 723;
     private static final int SETTINGS_REQUEST_CODE = 486;
 
@@ -97,7 +98,7 @@ public class MainActivity extends ServiceControlActivity
 
     @Override
     protected void setAlertActiveView() {
-        if(!isAlertViewActive){
+        if(!isAlertViewVisible){
             runOnUiThread(()->{
                 if(presenter!=null) {
                     presenter.setAlertActive(true);
@@ -116,13 +117,14 @@ public class MainActivity extends ServiceControlActivity
     protected void onNewIntent(Intent intent)
     {
         super.onNewIntent(intent);
-        if(!isAlertViewActive && Constants.is_service_sending_alert()){
+        if(Constants.is_service_sending_alert()){
             showCancelAlertView();
             presenter.setAlertActive(true);
         }
         boolean isCancelAlertAction = intent.getBooleanExtra(CANCEL_ALERT_EXTRA,false);
         if(isCancelAlertAction){
-            presenter.actionWithCheck();
+//            presenter.actionWithCheck();
+            presenter.actionCancel();
         }
     }
 
@@ -142,10 +144,10 @@ public class MainActivity extends ServiceControlActivity
                 if (newState == DrawerLayout.STATE_SETTLING) {
                     if (!drawer.isDrawerOpen(GravityCompat.START)) {
                         // starts opening
-                        if(rippleBackground!=null && isAlertViewActive)
+                        if(rippleBackground!=null && isAlertViewVisible)
                             rippleBackground.stopRippleAnimation();
                     } else {
-                        if(rippleBackground!=null && isAlertViewActive)
+                        if(rippleBackground!=null && isAlertViewVisible)
                             rippleBackground.startRippleAnimation();
                     }
                     invalidateOptionsMenu();
@@ -170,13 +172,13 @@ public class MainActivity extends ServiceControlActivity
         initPresenter(new MainPresenterImpl(this));
 
         setupBroadcastReceiver();
-        if(!isAlertViewActive && Constants.is_service_sending_alert()){
+        if(Constants.is_service_sending_alert()){
             showCancelAlertView();
             presenter.setAlertActive(true);
         }
         boolean isCancelAlertAction = getIntent().getBooleanExtra(CANCEL_ALERT_EXTRA,false);
         if(isCancelAlertAction){
-            presenter.actionWithCheck();
+            presenter.actionCancel();
         }
         setDrawerData();
         btn_alert.setEnabled(false);
@@ -209,10 +211,17 @@ public class MainActivity extends ServiceControlActivity
     @Override
     public void onAlertIsActive() {
         hideProgressDialog();
-        Constants.is_service_sending_alert(true);
+//        Constants.is_service_sending_alert(true);
         presenter.setAlertActive(true);
+        setTrackerAlertActiveStatus();
         showCancelAlertView();
         restoreStatus();
+    }
+
+    private void setTrackerAlertActiveStatus() {
+        Intent intent = new Intent(this, TrackingService.class);
+        intent.setAction(Constants.ALERT_ACTIVE_ACTION);
+        broadcastToService(intent);
     }
 
     private void setDrawerData() {
@@ -369,7 +378,7 @@ public class MainActivity extends ServiceControlActivity
                     promptTurnOnService();
                 }
                 else {
-                    presenter.actionWithCheck();
+                    presenter.actionAlert();
                 }
                 break;
             }
@@ -378,7 +387,7 @@ public class MainActivity extends ServiceControlActivity
                     return;
                 }
                 else {
-                    presenter.actionWithCheck();
+                    presenter.actionCancel();
                 }
                 break;
             }
@@ -409,7 +418,6 @@ public class MainActivity extends ServiceControlActivity
         startActivity(intent);
     }
 
-
     @Override
     public void onAlert() {
         btn_cancel_alert.setEnabled(false);
@@ -429,7 +437,7 @@ public class MainActivity extends ServiceControlActivity
     }
 
     void showCallAlertView(){
-        isAlertViewActive = false;
+        isAlertViewVisible = false;
         runOnUiThread(()->{
                 rippleBackground.stopRippleAnimation();
                 rippleBackground.clearAnimation();
@@ -441,7 +449,7 @@ public class MainActivity extends ServiceControlActivity
     }
 
     void showCancelAlertView(){
-        isAlertViewActive = true;
+        isAlertViewVisible = true;
         runOnUiThread(()->{
             rippleBackground.setVisibility(View.VISIBLE);
             rippleBackground.startRippleAnimation();
@@ -465,15 +473,13 @@ public class MainActivity extends ServiceControlActivity
             @Override
             public void onCancelBtnClicked() {
                 dialogFragment.dismiss();
-                if(isAlertViewActive)
-                    rippleBackground.startRippleAnimation();
+                rippleBackground.startRippleAnimation();
             }
 
             @Override
             public void onPositiveBtnClicked() {
                 dialogFragment.dismiss();
-                if(isAlertViewActive)
-                    presenter.cancelAlert();
+                presenter.cancelAlert();
             }
         });
         dialogFragment.show(ft, "dialog");

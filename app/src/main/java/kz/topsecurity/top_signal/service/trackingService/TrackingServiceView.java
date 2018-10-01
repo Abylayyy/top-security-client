@@ -11,4 +11,8 @@ public interface TrackingServiceView {
     void onShowToast(int no_devices);
     void onBroadcastMessage(int actionStatusAlertSend);
     void onShowToast(String s);
+    void setAlertSendStatus();
+    void setAlertFailedStatus();
+    void setAlertCancelFailedStatus();
+    void setAlertCanceledStatus();
 }

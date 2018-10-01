@@ -33,6 +33,8 @@ import kz.topsecurity.top_signal.helper.dataBase.DataBaseManager;
 import kz.topsecurity.top_signal.helper.dataBase.DataBaseManagerImpl;
 import kz.topsecurity.top_signal.service.trackingService.model.DeviceData;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 //import com.example.sample.trackingapp.services.actionService.ActionService;
 
 public class TrackingService extends Service implements TrackingServiceView {
@@ -196,12 +198,14 @@ public class TrackingService extends Service implements TrackingServiceView {
         broadcastMessage(ACTION_STATUS_ALERT_CALLED);
     }
 
-    private void setAlertFailedStatus(){
+    @Override
+    public void setAlertFailedStatus(){
         sendNotification("Alert is failed", ACTION_STATUS_ALERT_FAILED);
         broadcastMessage(ACTION_STATUS_ALERT_FAILED);
     }
 
-    private void setAlertSendStatus(){
+    @Override
+    public void setAlertSendStatus(){
         sendNotification("Alert is send", ACTION_STATUS_ALERT_SEND);
         broadcastMessage(ACTION_STATUS_ALERT_SEND);
     }
@@ -210,12 +214,15 @@ public class TrackingService extends Service implements TrackingServiceView {
         sendNotification("Click to call alert", ACTION_NEW_SERVICE);
         broadcastMessage(ACTION_STATUS_ALERT_CANCEL);
     }
-    private void setAlertCancelFailedStatus(){
+
+    @Override
+    public void setAlertCancelFailedStatus(){
         sendNotification("Click to call alert", ACTION_NEW_SERVICE);
         broadcastMessage(ACTION_STATUS_ALERT_CANCEL_FAILED);
     }
 
-    private void setAlertCanceledStatus(){
+    @Override
+    public void setAlertCanceledStatus(){
         sendNotification("Click to call alert", ACTION_NEW_SERVICE);
         broadcastMessage(ACTION_STATUS_ALERT_CANCEL_SEND);
     }
@@ -262,8 +269,9 @@ public class TrackingService extends Service implements TrackingServiceView {
 
     private void sendNotification(String msg, int action_type) {
 //        //TODO: NavigationLogic
-        Intent notificationIntent = new Intent(this, SplashScreen.class);
-        notificationIntent.putExtra(SplashScreen.START_MAIN_SCREEN_KEY,true);
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+//        notificationIntent.putExtra(SplashScreen.START_MAIN_SCREEN_KEY,true);
+        notificationIntent.addFlags(FLAG_ACTIVITY_NEW_TASK);
         String channelId = "channel_02";
 
         //notificationIntent.setAction(Constants.MAIN_ACTION);// ??
@@ -350,6 +358,19 @@ public class TrackingService extends Service implements TrackingServiceView {
                 bottomText = "Слежка включена";
                 bottomIcon = R.drawable.ic_active;
                 btn_text = getString(R.string.alert);
+            }else{
+                //TODO: IT IS JUST AN PLACEHOLDER
+                set_action = Constants.ALERT_ACTION;
+                bg_color_info_container = colorWhite;
+                bg_btn = lightPink;
+                btn_image = R.drawable.ic_call_alert;
+                notif_icon = R.drawable.ic_notification_pink_bg;
+                topTextColor = darkGrey;
+                topText = "трекер активен";
+                bottomTextColor = darkGrey;
+                bottomText = "Слежка включена";
+                bottomIcon = R.drawable.ic_active;
+                btn_text = getString(R.string.alert);
             }
         }
         else if(action_type==ACTION_STATUS_ALERT_CALLED || action_type == ACTION_STATUS_ALERT_SEND)
@@ -358,7 +379,20 @@ public class TrackingService extends Service implements TrackingServiceView {
             if (isPossibleToSendAlert()) {
                 isAlertActive = true;
                 SharedPreferencesManager.setAlertActive(this,true);
-                //set_action = Constants.ALERT_CANCEL_ACTION;
+                set_action = Constants.ALERT_CANCEL_ACTION;
+                bg_color_info_container = lightPink;
+                bg_btn = darkBlue;
+                btn_image = R.drawable.ic_cancel_alert;
+                notif_icon = R.drawable.ic_notification_white_bg;
+                topTextColor = colorWhite;
+                topText = "тревога отправлена";
+                bottomTextColor = colorWhite;
+                bottomText = "Тревога активна";
+                bottomIcon = R.drawable.ic_active;
+                btn_text = getString(R.string.cancel);
+            }else{
+                //TODO: IT IS JUST AN PLACEHOLDER
+                set_action = Constants.ALERT_CANCEL_ACTION;
                 bg_color_info_container = lightPink;
                 bg_btn = darkBlue;
                 btn_image = R.drawable.ic_cancel_alert;
@@ -426,7 +460,7 @@ public class TrackingService extends Service implements TrackingServiceView {
         views.setImageViewResource(R.id.iv_status,bottomIcon);
 
         views.setTextViewText(R.id.tv_alert_btn,btn_text);
-        if(set_action!=null && !set_action.equals("")) {
+        if(!set_action.equals("") && set_action.equals(Constants.ALERT_ACTION)) {
             Intent alertIntent = new Intent(this, TrackingService.class);
             alertIntent.setAction(set_action);
             alertIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -436,12 +470,22 @@ public class TrackingService extends Service implements TrackingServiceView {
 
             views.setOnClickPendingIntent(R.id.rl_alert, pAlertIntent);
         }
+        else if(!set_action.equals("")){
+            Intent cancelAlertIntent = new Intent(this, MainActivity.class);
+            cancelAlertIntent.putExtra(MainActivity.CANCEL_ALERT_EXTRA,true);
+            cancelAlertIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                    Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            PendingIntent pAlertIntent = PendingIntent.getActivity(this, 0,
+                    cancelAlertIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            views.setOnClickPendingIntent(R.id.rl_alert, pAlertIntent);
+        }
         else{
             Intent cancelAlertIntent = new Intent(this, MainActivity.class);
             cancelAlertIntent.putExtra(MainActivity.CANCEL_ALERT_EXTRA,true);
-            cancelAlertIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            cancelAlertIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                    Intent.FLAG_ACTIVITY_SINGLE_TOP);
             PendingIntent pAlertIntent = PendingIntent.getActivity(this, 0,
-                    cancelAlertIntent, 0);
+                    cancelAlertIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             views.setOnClickPendingIntent(R.id.rl_alert, pAlertIntent);
         }
     }

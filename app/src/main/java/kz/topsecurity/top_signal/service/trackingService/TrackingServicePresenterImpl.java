@@ -315,11 +315,15 @@ public class TrackingServicePresenterImpl implements LocationListener {
     private void setAlertIsActiveStatus() {
         isAlertActive = true;
         setupAlertTimer();
+        Constants.is_service_sending_alert(true);
         view.onBroadcastMessage(TrackingService.ACTION_STATUS_ALERT_SEND);
+        view.setAlertSendStatus();
     }
 
     void setAlertSendError(){
+        Constants.is_service_sending_alert(false);
         view.onBroadcastMessage(TrackingService.ACTION_STATUS_ALERT_FAILED);
+        view.setAlertFailedStatus();
     }
 
     public void cancelAlert(DeviceData data, String password){
@@ -352,10 +356,14 @@ public class TrackingServicePresenterImpl implements LocationListener {
     private void setAlertIsCanceledStatus() {
         setupIdleTimer();
         isAlertActive = false;
+        Constants.is_service_sending_alert(false);
+        view.setAlertCanceledStatus();
         view.onBroadcastMessage(TrackingService.ACTION_STATUS_ALERT_CANCEL_SEND);
     }
 
     void setCancelError(){
+        Constants.is_service_sending_alert(true);
         view.onBroadcastMessage(TrackingService.ACTION_STATUS_ALERT_CANCEL_FAILED);
+        view.setAlertCancelFailedStatus();
     }
 }

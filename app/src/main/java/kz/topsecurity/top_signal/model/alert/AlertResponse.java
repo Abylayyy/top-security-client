@@ -9,15 +9,27 @@ import kz.topsecurity.top_signal.model.other.BasicResponseTemplate;
 
 public class AlertResponse extends BasicResponseTemplate {
 
+//    @SerializedName("errors")
+//    @Expose
+//    private Errors errors;
+//
+//    public Errors getErrors() {
+//        return errors;
+//    }
+//
+//    public void setErrors(Errors errors) {
+//        this.errors = errors;
+//    }
+
     @SerializedName("errors")
     @Expose
-    private Errors errors;
+    private List<String> errors = null;
 
-    public Errors getErrors() {
+    public List<String> getErrors() {
         return errors;
     }
 
-    public void setErrors(Errors errors) {
+    public void setErrors(List<String> errors) {
         this.errors = errors;
     }
 }

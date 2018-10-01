@@ -106,10 +106,10 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
 
     void setCurrentState(){
         s_tracking_service.setChecked(SharedPreferencesManager.getTrackingServiceActiveState(this));
-        s_volume_track.setChecked(SharedPreferencesManager.getVolumeDirection(this) && isAccessibilitySettingsOn(this));
+        s_volume_track.setChecked(SharedPreferencesManager.getVolumeTrackingServiceActiveState(this) && isAccessibilitySettingsOn(this));
         s_volume_direction.setChecked(SharedPreferencesManager.getVolumeDirection(this));
 //        spin_volume_click_rate.setSelection(SharedPreferencesManager.getVolumeButtonClickRate(this));
-        updateVolumeOptionsView(SharedPreferencesManager.getVolumeDirection(this)&& isAccessibilitySettingsOn(this));
+        updateVolumeOptionsView(SharedPreferencesManager.getVolumeTrackingServiceActiveState(this)&& isAccessibilitySettingsOn(this));
     }
 
     @Override

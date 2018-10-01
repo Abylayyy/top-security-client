@@ -8,4 +8,8 @@ public interface MainPresenter extends BasePresenter {
     void cancelAlert();
     void setAlertActive(boolean status);
     void checkStatus();
+
+    void actionAlert();
+
+    void actionCancel();
 }

@@ -34,7 +34,7 @@ public class VolumeServiceReceiver extends BroadcastReceiver {
             }
             case VolumeService.ACTION_KEY_DOWN_VOLUME_UP:{
                 Log.d(TAG,"VOLUME ACTION_KEY_DOWN_VOLUME_UP");
-                processClick(VolumeService.ACTION_KEY_UP_VOLUME_UP);
+                processClick(VolumeService.ACTION_KEY_DOWN_VOLUME_UP);
                 break;
             }
             case VolumeService.ACTION_KEY_UP_VOLUME_DOWN:{
@@ -63,7 +63,7 @@ public class VolumeServiceReceiver extends BroadcastReceiver {
     private void processClick(int type) {
         if(handler!=null)
             handler.removeCallbacks(clickEndCallback);
-        if(type != (SharedPreferencesManager.getVolumeDirection(mContext) ? VolumeService.ACTION_KEY_UP_VOLUME_UP :  VolumeService.ACTION_KEY_UP_VOLUME_DOWN )){
+        if(type != (SharedPreferencesManager.getVolumeDirection(mContext) ? VolumeService.ACTION_KEY_DOWN_VOLUME_UP :  VolumeService.ACTION_KEY_DOWN_VOLUME_DOWN )){
             return;
         }
         handler = new Handler();
