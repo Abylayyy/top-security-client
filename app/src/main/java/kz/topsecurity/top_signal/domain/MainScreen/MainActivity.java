@@ -22,6 +22,7 @@ import com.skyfishjy.library.RippleBackground;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
+import kz.topsecurity.top_signal.domain.PaymentScreen.PaymentActivity;
 import kz.topsecurity.top_signal.domain.PlaceScreen.PlaceActivity;
 import kz.topsecurity.top_signal.domain.ProfileScreen.ProfileActivity;
 import kz.topsecurity.top_signal.R;
@@ -69,6 +70,7 @@ public class MainActivity extends ServiceControlActivity
     boolean isAlertViewVisible = false;
     private static final int PROFILE_REQUEST_CODE = 723;
     private static final int SETTINGS_REQUEST_CODE = 486;
+    private static final int PAYMENT_REQUEST_CODE = 236;
 
     DataBaseManager dataBaseManager = new DataBaseManagerImpl(this);
 
@@ -367,7 +369,10 @@ public class MainActivity extends ServiceControlActivity
             }
             case R.id.tv_payment:{
                 ifNavButtons = true;
-                showToast("Not implemented");
+                if(!Constants.is_service_sending_alert())
+                    startActivityForResult(new Intent(MainActivity.this, PaymentActivity.class),PAYMENT_REQUEST_CODE);
+                else
+                    onShowToast(R.string.you_cant_when_alert_active);
                 break;
             }
             case R.id.btn_alert:{

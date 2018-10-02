@@ -169,4 +169,5 @@
     <string name="title_set_secret_code">Секретный код</string>
     <string name="secret_code">Добавить секретный код</string>
     <string name="codes_are_same">Коды не могут быть одинаковыми</string>
+    <string name="payment_activity_name">Оплата</string>
 </resources>

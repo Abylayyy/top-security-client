@@ -1,7 +1,5 @@
 package kz.topsecurity.top_signal.service.api;
 
-import android.content.Context;
-
 import java.util.concurrent.TimeUnit;
 
 import kz.topsecurity.top_signal.application.TopSignalApplication;
@@ -38,6 +36,10 @@ public class RetrofitClient {
     }
 
     public static String getRequestToken(){
-        return "Bearer " + SharedPreferencesManager.getUserAuthToken(TopSignalApplication.getInstance().getApplicationContext());
+        return "Bearer " + getRawToken();
+    }
+
+    public static String getRawToken(){
+        return SharedPreferencesManager.getUserAuthToken(TopSignalApplication.getInstance().getApplicationContext());
     }
 }
