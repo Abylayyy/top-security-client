@@ -31,7 +31,8 @@ public class BatteryListenerManager implements BatteryLevelListener {
 
     @Override
     public void onBatteryLevelChanged(int batteryPercentage) {
-        batteryPct = batteryPercentage;
+        if(batteryPercentage>0)
+            batteryPct = batteryPercentage;
     }
 
     public void stop(Context context){

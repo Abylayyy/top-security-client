@@ -104,9 +104,9 @@
             </intent-filter>
         </receiver>
         <receiver android:name=".service.trackingService.listenerImpl.VolumeServiceReceiver">
-            <intent-filter>
-                <action android:name="kz.topsecurity.top_signal.service.trackingService.volumeService.VolumeServiceActionBroadcast" />
-            </intent-filter>
+            <!--<intent-filter>-->
+                <!--<action android:name="kz.topsecurity.top_signal.service.trackingService.volumeService.VolumeServiceActionBroadcast" />-->
+            <!--</intent-filter>-->
         </receiver>
 
         <activity

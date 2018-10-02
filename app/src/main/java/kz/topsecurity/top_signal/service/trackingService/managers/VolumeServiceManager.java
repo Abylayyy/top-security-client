@@ -13,10 +13,12 @@ public class VolumeServiceManager {
     boolean mIsActive = false;
 
     public void setupVolumeReceiver(Context context){
+        if(mIsActive && volumeServiceReceiver!=null )
+            return;
+        mIsActive = true;
         volumeServiceReceiver = new VolumeServiceReceiver();
         IntentFilter iF = new IntentFilter(VolumeService.FILTER_ACTION_SERVICE_BROADCAST);
         context.registerReceiver(volumeServiceReceiver,iF);
-        mIsActive = true;
     }
 
     public void stop(Context context){
