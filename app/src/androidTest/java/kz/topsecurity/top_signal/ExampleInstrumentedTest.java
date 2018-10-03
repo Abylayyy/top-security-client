@@ -1,4 +1,4 @@
-package kz.topsecurity.top_signal;
+package kz.topsecurity.client;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("kz.topsecurity.top_signal", appContext.getPackageName());
+        assertEquals("kz.topsecurity.client", appContext.getPackageName());
     }
 }

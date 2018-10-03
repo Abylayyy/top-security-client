@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/black"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".domain.ProfileScreen.CropPhotoScreen.CropPictureActivity"
+    tools:context="kz.topsecurity.client.domain.ProfileScreen.CropPhotoScreen.CropPictureActivity"
     tools:showIn="@layout/activity_crop_picture">
 
     <com.theartofdev.edmodo.cropper.CropImageView xmlns:custom="http://schemas.android.com/apk/res-auto"

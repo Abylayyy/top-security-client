@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".domain.StartScreen.StartActivity"
+    tools:context="kz.topsecurity.client.domain.StartScreen.StartActivity"
     android:paddingLeft="50dp"
     android:paddingRight="50dp"
     android:background="@drawable/splash_screen_bg">

@@ -1,4 +1,4 @@
-package kz.topsecurity.top_signal;
+package kz.topsecurity.client;
 
 import org.junit.Test;
 

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".domain.InputCodeScreen.SmsCodeActivity"
+    tools:context="kz.topsecurity.client.domain.InputCodeScreen.SmsCodeActivity"
     android:orientation="vertical"
     android:id="@+id/ll_main_container"
     android:background="@drawable/white_pattern_bg">

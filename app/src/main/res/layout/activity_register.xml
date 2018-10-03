@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/white_pattern_bg"
-    tools:context=".domain.RegisterScreen.RegisterActivity">
+    tools:context="kz.topsecurity.client.domain.RegisterScreen.RegisterActivity">
 
 
     <RelativeLayout

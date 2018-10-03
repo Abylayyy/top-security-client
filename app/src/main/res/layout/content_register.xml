@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".domain.RegisterScreen.RegisterActivity"
+    tools:context="kz.topsecurity.client.domain.RegisterScreen.RegisterActivity"
     tools:showIn="@layout/activity_register">
     <android.support.constraint.ConstraintLayout
         android:id="@+id/cl_register_view"
@@ -58,7 +58,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="parent" />
 
-                <kz.topsecurity.top_signal.ui_widgets.roundCorneredEditText.RoundCorneredEditTextWithMask
+                <kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditTextWithMask
                     android:id="@+id/ed_tel_number"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -106,7 +106,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_phone_number_error" />
 
-                <kz.topsecurity.top_signal.ui_widgets.roundCorneredEditText.RoundCorneredEditText
+                <kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditText
                     android:id="@+id/ed_username"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -153,7 +153,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_user_name_error" />
 
-                <kz.topsecurity.top_signal.ui_widgets.roundCorneredEditText.RoundCorneredEditText
+                <kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditText
                     android:id="@+id/ed_email"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -199,7 +199,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_email_error" />
 
-                <kz.topsecurity.top_signal.ui_widgets.roundCorneredEditText.RoundCorneredEditText
+                <kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditText
                     android:id="@+id/ed_password"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"

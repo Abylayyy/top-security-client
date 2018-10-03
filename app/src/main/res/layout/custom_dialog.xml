@@ -18,7 +18,7 @@
             android:focusableInTouchMode="true"
             android:layout_width="match_parent"
             android:layout_height="0px"/>
-        <kz.topsecurity.top_signal.ui_widgets.roundCorneredEditText.RoundCorneredEditText
+        <kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditText
             android:id="@+id/ed_user_password"
             android:hint="@string/password"
             android:inputType="textPassword"

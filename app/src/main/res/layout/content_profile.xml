@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".domain.ProfileScreen.ProfileActivity">
+    tools:context="kz.topsecurity.client.domain.ProfileScreen.ProfileActivity">
     <android.support.constraint.ConstraintLayout
         android:id="@+id/cl_profile_view"
         android:layout_width="match_parent"
@@ -59,7 +59,7 @@
             app:layout_constraintTop_toBottomOf="@+id/rl_user_avatar" />
 
 
-        <kz.topsecurity.top_signal.ui_widgets.roundCorneredEditText.RoundCorneredEditText
+        <kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditText
             android:id="@+id/ed_edit_user_email"
             android:layout_width="match_parent"
             android:layout_height="50dp"

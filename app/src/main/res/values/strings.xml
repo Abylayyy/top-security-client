@@ -2,7 +2,7 @@
     <string name="weather_api_key">debd5815e147d711956903e31432cf66</string>
     <string name="google_server_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBKoK2fR8cfdfqmgrpy8Kk3KUzEhgh2df0</string>
 
-    <string name="app_name">Top Security</string>
+    <string name="app_name">Top Security KZ</string>
     <string name="title_activity_splash_screen">Стартовый экран</string>
     <string name="splash_screen_loading">Загрузка...</string>
     <string name="sign_up">Регистрация</string>
