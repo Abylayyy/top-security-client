@@ -83,7 +83,7 @@ public abstract class BaseActivity
     }
 
     protected void showLoadingDialog()  {
-        pg_loader = ProgressDialog.show(this,"","Loading, please wait ..",true);
+        pg_loader = ProgressDialog.show(this,"","Идет загрузка ...",true);
     }
 
     protected void hideProgressDialog() {
