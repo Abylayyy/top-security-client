@@ -65,8 +65,9 @@ public class PlaceActivity
     @BindView(R.id.ed_place_name) EditText ed_place_name;
     @BindView(R.id.ed_place_description) EditText ed_place_description;
 
-    int currentViewState = 0;
+    int currentViewState = UNKNOWN_VIEW;
 
+    private static final int UNKNOWN_VIEW = -1;
     private static final int RADIUS_VIEW = 364;
     private static final int TEXT_INFO_VIEW = 123;
     private static final int LIST_VIEW = 432;
@@ -383,7 +384,7 @@ public class PlaceActivity
 
     @Override
     public void onBackPressed() {
-        if(currentViewState==-1 || currentViewState==LIST_VIEW) {
+        if(currentViewState==UNKNOWN_VIEW || currentViewState==LIST_VIEW) {
             super.onBackPressed();
         }
         else if(currentViewState == RADIUS_VIEW){

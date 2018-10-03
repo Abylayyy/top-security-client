@@ -5,7 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Errors {
+import kz.topsecurity.client.model.other.BasicErrorTemplate;
+
+public class Errors extends BasicErrorTemplate {
     @SerializedName("lat")
     @Expose
     private List<String> lat = null;

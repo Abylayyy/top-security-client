@@ -83,6 +83,7 @@ public class Constants {
         public static final int NOT_AUTHENTICATED_CODE = 102;
         public static final int USER_NOT_FOUND_CODE = 103;
         public static final int ALREADY_AUTHENTICATE_CODE = 104;
+        public static final int PHONE_NUMBER_EXISTS_CODE = 106 ;
         public static final int SUCCESSFUL_AUTHENTICATE_CODE = 1;
         public static final int SUCCESSFUL_REGISTERED_CODE = 2;
         public static final int PASSWORD_MISSMATCH_CODE = 6101;

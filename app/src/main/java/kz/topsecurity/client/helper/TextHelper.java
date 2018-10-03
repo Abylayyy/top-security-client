@@ -13,6 +13,8 @@ public class TextHelper {
 
             case Constants.ERROR_STATES.ALREADY_AUTHENTICATE_CODE: return R.string.already_authenticate_code;
 
+            case Constants.ERROR_STATES.PHONE_NUMBER_EXISTS_CODE: return R.string.telephone_number_exist;
+
             case Constants.ERROR_STATES.SUCCESSFUL_AUTHENTICATE_CODE: return R.string.successful_authenticate_code;
 
             case Constants.ERROR_STATES.SUCCESSFUL_REGISTERED_CODE: return R.string.successful_registered_code;
