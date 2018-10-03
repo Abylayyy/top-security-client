@@ -3,10 +3,9 @@ package kz.topsecurity.client.helper;
 
 import android.content.Context;
 
-import kz.topsecurity.client.application.TopSignalApplication;
+import kz.topsecurity.client.application.TopSecurityClientApplication;
 import kz.topsecurity.client.helper.dataBase.DataBaseManager;
 import kz.topsecurity.client.helper.dataBase.DataBaseManagerImpl;
-import kz.topsecurity.client.model.other.Client;
 
 public class Constants {
     public static final int LOCATION_INTERVAL = 30*1000;
@@ -64,19 +63,19 @@ public class Constants {
     }
 
     public static boolean is_service_sending_alert(){
-        return SharedPreferencesManager.getIsServiceSendingAlert(TopSignalApplication.getInstance().getApplicationContext());
+        return SharedPreferencesManager.getIsServiceSendingAlert(TopSecurityClientApplication.getInstance().getApplicationContext());
     }
 
     public static void is_service_sending_alert(boolean status){
-        SharedPreferencesManager.setIsServiceSendingAlert(TopSignalApplication.getInstance().getApplicationContext(),status);
+        SharedPreferencesManager.setIsServiceSendingAlert(TopSecurityClientApplication.getInstance().getApplicationContext(),status);
     }
 
     public static boolean is_service_active(){
-        return SharedPreferencesManager.getIsServiceActive(TopSignalApplication.getInstance().getApplicationContext());
+        return SharedPreferencesManager.getIsServiceActive(TopSecurityClientApplication.getInstance().getApplicationContext());
     }
 
     public static void is_service_active(boolean status){
-        SharedPreferencesManager.setIsServiceActive(TopSignalApplication.getInstance().getApplicationContext(),status);
+        SharedPreferencesManager.setIsServiceActive(TopSecurityClientApplication.getInstance().getApplicationContext(),status);
     }
 
     public class ERROR_STATES {

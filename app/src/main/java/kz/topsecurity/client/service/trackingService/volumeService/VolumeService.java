@@ -1,21 +1,12 @@
 package kz.topsecurity.client.service.trackingService.volumeService;
 
 import android.accessibilityservice.AccessibilityService;
-import android.app.Instrumentation;
 import android.content.Intent;
-import android.os.Build;
-import android.os.Handler;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.accessibility.AccessibilityEvent;
 
-import kz.topsecurity.client.application.TopSignalApplication;
-import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
-import kz.topsecurity.client.service.trackingService.TrackingService;
-
-import static kz.topsecurity.client.service.trackingService.TrackingService.EXTRA_ACTION_TYPE;
 
 public class VolumeService extends AccessibilityService {
 

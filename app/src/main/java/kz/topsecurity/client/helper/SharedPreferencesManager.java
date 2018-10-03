@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import kz.topsecurity.client.application.TopSignalApplication;
-
 public class SharedPreferencesManager {
     private static final String TAG = SharedPreferencesManager.class.getSimpleName();
 

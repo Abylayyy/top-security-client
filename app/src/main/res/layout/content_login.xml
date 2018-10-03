@@ -121,48 +121,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ed_password" />
-        <!--<kz.topsecurity.topsignal.ui_widgets.ComplexCustomEditText-->
-            <!--android:id="@+id/ed_password"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginEnd="8dp"-->
-            <!--android:layout_marginStart="8dp"-->
-            <!--android:layout_marginTop="20dp"-->
-            <!--android:hint="@string/password"-->
-            <!--android:gravity="center"-->
-            <!--app:ed_hint="@string/password"-->
-            <!--app:label_text="@string/password"-->
-            <!--app:layout_constraintEnd_toEndOf="parent"-->
-            <!--app:layout_constraintStart_toStartOf="parent"-->
-            <!--app:layout_constraintTop_toBottomOf="@+id/ed_tel_number"/>-->
-        <!--<LinearLayout-->
-            <!--android:id="@+id/ll_options"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="50dp"-->
-            <!--android:layout_marginEnd="8dp"-->
-            <!--android:layout_marginStart="8dp"-->
-            <!--android:layout_marginTop="20dp"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:gravity="right"-->
-            <!--app:layout_constraintEnd_toEndOf="parent"-->
-            <!--app:layout_constraintStart_toStartOf="parent"-->
-            <!--app:layout_constraintTop_toBottomOf="@+id/tv_password_error">-->
-            <!--&lt;!&ndash;<Switch&ndash;&gt;-->
-                <!--&lt;!&ndash;android:id="@+id/sw_remember_me"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_height="wrap_content"  />&ndash;&gt;-->
-            <!--&lt;!&ndash;<TextView&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:text="Запомнить меня."/>&ndash;&gt;-->
-            <!--<TextView-->
-                <!--android:id="@+id/tv_forget_password"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="Забыль пароль?"-->
-                <!--/>-->
-        <!--</LinearLayout>-->
-
         <TextView
             android:id="@+id/tv_forget_password"
             android:layout_width="wrap_content"

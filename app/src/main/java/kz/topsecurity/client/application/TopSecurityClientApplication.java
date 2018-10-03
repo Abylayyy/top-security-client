@@ -8,7 +8,7 @@ import net.gotev.uploadservice.UploadService;
 import kz.topsecurity.client.BuildConfig;
 
 
-public class TopSignalApplication extends Application {
+public class TopSecurityClientApplication extends Application {
 
     @Override
     public void onCreate() {
@@ -18,9 +18,9 @@ public class TopSignalApplication extends Application {
         trackingApp = this;
     }
 
-    private static TopSignalApplication trackingApp;
+    private static TopSecurityClientApplication trackingApp;
 
-    public static TopSignalApplication getInstance(){
+    public static TopSecurityClientApplication getInstance(){
         return trackingApp;
     }
 

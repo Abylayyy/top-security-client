@@ -2,7 +2,7 @@ package kz.topsecurity.client.service.api;
 
 import java.util.concurrent.TimeUnit;
 
-import kz.topsecurity.client.application.TopSignalApplication;
+import kz.topsecurity.client.application.TopSecurityClientApplication;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -40,6 +40,6 @@ public class RetrofitClient {
     }
 
     public static String getRawToken(){
-        return SharedPreferencesManager.getUserAuthToken(TopSignalApplication.getInstance().getApplicationContext());
+        return SharedPreferencesManager.getUserAuthToken(TopSecurityClientApplication.getInstance().getApplicationContext());
     }
 }

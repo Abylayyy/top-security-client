@@ -8,7 +8,7 @@ import android.os.Handler;
 import android.util.Log;
 
 
-import kz.topsecurity.client.application.TopSignalApplication;
+import kz.topsecurity.client.application.TopSecurityClientApplication;
 import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
 import kz.topsecurity.client.service.trackingService.TrackingService;
@@ -82,7 +82,7 @@ public class VolumeServiceReceiver extends BroadcastReceiver {
     };
 
     private void callAlert() {
-        if(!SharedPreferencesManager.getAlertActive(TopSignalApplication.getInstance().getApplicationContext())){
+        if(!SharedPreferencesManager.getAlertActive(TopSecurityClientApplication.getInstance().getApplicationContext())){
             Log.d(TAG,"CALL ALERT");
             Intent intent = new Intent(mContext, TrackingService.class);
             intent.setAction(Constants.ALERT_ACTION);

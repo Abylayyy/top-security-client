@@ -15,7 +15,7 @@ import android.widget.Toast;
 import java.util.concurrent.locks.ReentrantLock;
 
 import kz.topsecurity.client.R;
-import kz.topsecurity.client.application.TopSignalApplication;
+import kz.topsecurity.client.application.TopSecurityClientApplication;
 import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
 import kz.topsecurity.client.service.trackingService.TrackingService;
@@ -246,7 +246,7 @@ public class VolumeReceiver extends BroadcastReceiver {
     }
 
     private Context getApplicationContext(){
-        return TopSignalApplication.getInstance();
+        return TopSecurityClientApplication.getInstance();
     }
 
     private void StartStandbyService() {

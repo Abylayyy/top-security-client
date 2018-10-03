@@ -1,27 +1,23 @@
 package kz.topsecurity.client.service.trackingService.managers;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Looper;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.io.IOException;
 import java.util.List;
 
-import kz.topsecurity.client.application.TopSignalApplication;
+import kz.topsecurity.client.application.TopSecurityClientApplication;
 import kz.topsecurity.client.helper.Constants;
 
 public class LocationListenerManager {
@@ -171,7 +167,7 @@ public class LocationListenerManager {
 
 
     public boolean isGpsEnabled() {
-        String provider = Settings.Secure.getString(TopSignalApplication.getInstance().getApplicationContext().getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+        String provider = Settings.Secure.getString(TopSecurityClientApplication.getInstance().getApplicationContext().getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
         boolean isGpsEnabled = provider.contains("gps");
 
         return isGpsEnabled || mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
