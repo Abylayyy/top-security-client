@@ -170,4 +170,5 @@
     <string name="codes_are_same">Коды не могут быть одинаковыми</string>
     <string name="payment_activity_name">Оплата</string>
     <string name="telephone_number_exist">Пользователь с данным номером уже зарегистрирован</string>
+    <string name="save">Сохранить</string>
 </resources>

@@ -73,6 +73,7 @@ public class CreateTrustedNumberActivity extends BaseActivity implements StatusL
             ed_tel_number.setText(getIntent().getStringExtra(CONTACT_PHONE_TO_EDIT).substring(1));
             ed_username.setText(getIntent().getStringExtra(CONTACT_NAME_TO_EDIT));
             editPhoneNumber = true;
+            btn_create_contact.setText(R.string.save);
         }
         else{
             setTitle("Добавить");

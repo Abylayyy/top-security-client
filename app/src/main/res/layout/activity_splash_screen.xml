@@ -74,6 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/app_name"
+                android:visibility="gone"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="14sp"
