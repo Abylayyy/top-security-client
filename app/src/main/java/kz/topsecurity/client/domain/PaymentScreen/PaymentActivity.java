@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
@@ -23,6 +24,7 @@ import kz.topsecurity.client.service.api.RetrofitClient;
 
 public class PaymentActivity extends BaseActivity {
 
+    public static final String FORCED = "FORCED_PAYMENT";
     @BindView(R.id.wv_payment_site)
     WebView wv_payment_site;
 
@@ -34,6 +36,8 @@ public class PaymentActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle(R.string.payment_activity_name);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         WebSettings webSettings = wv_payment_site.getSettings();
         webSettings.setDomStorageEnabled(true);
@@ -70,4 +74,14 @@ public class PaymentActivity extends BaseActivity {
             return false;
         }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }

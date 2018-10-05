@@ -96,6 +96,14 @@ public class MainActivity extends ServiceControlActivity
     @Override
     protected void onResume() {
         super.onResume();
+        checkAlertBtn();
+    }
+
+    private void checkAlertBtn() {
+        if(SharedPreferencesManager.getIsServiceActive(this))
+            btn_cancel_alert.setEnabled(true);
+        else
+            btn_alert.setEnabled(true);
     }
 
     @Override

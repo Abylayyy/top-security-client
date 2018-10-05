@@ -50,6 +50,10 @@ public class Client {
     @SerializedName("photo")
     @Expose
     private String photo;
+    @SerializedName("plan")
+    @Expose
+    private Plan plan;
+
 
     public Integer getId() {
         return id;
@@ -97,5 +101,13 @@ public class Client {
 
     public String getPhoto() {
         return photo;
+    }
+
+    public Plan getPlan() {
+        return plan;
+    }
+
+    public void setPlan(Plan plan) {
+        this.plan = plan;
     }
 }

@@ -22,9 +22,11 @@ import butterknife.ButterKnife;
 import kz.topsecurity.client.BuildConfig;
 import kz.topsecurity.client.domain.MainScreen.MainActivity;
 import kz.topsecurity.client.R;
+import kz.topsecurity.client.domain.PaymentScreen.PaymentActivity;
 import kz.topsecurity.client.domain.RestorePasswordScreen.RestorePasswordActivity;
 import kz.topsecurity.client.domain.StartScreen.StartActivity;
 import kz.topsecurity.client.domain.base.BaseActivity;
+import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
 import kz.topsecurity.client.helper.dataBase.DataBaseManager;
 import kz.topsecurity.client.helper.dataBase.DataBaseManagerImpl;
@@ -214,7 +216,15 @@ public class LoginActivity extends BaseActivity<LoginView, LoginPresenter, Login
         SharedPreferencesManager.setUserPhone(this, ed_tel_number.getRawText());
         SharedPreferencesManager.setUserData(this,true);
         SharedPreferencesManager.setUserAuthToken(this,token);
-        startMainActivity();
+        if(Constants.IS_DEBUG || (client.getPlan()!=null && !client.getPlan().getIsExpired())){
+            startMainActivity();
+        }
+        else{
+            Intent intent = new Intent(this, PaymentActivity.class);
+            intent.putExtra(PaymentActivity.FORCED,true);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Override

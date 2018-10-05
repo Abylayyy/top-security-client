@@ -8,6 +8,9 @@ import kz.topsecurity.client.helper.dataBase.DataBaseManager;
 import kz.topsecurity.client.helper.dataBase.DataBaseManagerImpl;
 
 public class Constants {
+
+    public static final boolean IS_DEBUG = true;
+
     public static final int LOCATION_INTERVAL = 30*1000;
     public static final int FASTEST_LOCATION_INTERVAL = 5*1000;
     public static final int TIMER_WAKE_UP_INTERVAL = 15*1000;

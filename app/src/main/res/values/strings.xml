@@ -107,7 +107,7 @@
     <string name="button_deny">Отмена</string>
     <string name="new_email">Новый email</string>
     <string name="correct_errors">Исправьте ошибки</string>
-    <string name="forget_password">Забыл пароль?</string>
+    <string name="forget_password">Забыли пароль?</string>
     <string name="no_location_data">Нет данных по локации</string>
     <string name="password_do_not_match">Пароли не совпадают</string>
     <string name="password_changed_successfully">Изменение пароля прошло успешно</string>

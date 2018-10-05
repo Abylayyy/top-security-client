@@ -16,6 +16,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import kz.topsecurity.client.R;
 import kz.topsecurity.client.domain.MainScreen.MainActivity;
+import kz.topsecurity.client.domain.PaymentScreen.PaymentActivity;
 import kz.topsecurity.client.domain.RegisterScreen.RegisterActivity;
 import kz.topsecurity.client.domain.LoginScreen.LoginActivity;
 import kz.topsecurity.client.domain.base.BaseActivity;
@@ -106,8 +107,16 @@ public class StartActivity extends BaseActivity implements View.OnClickListener 
 
     private void onSuccessLogin(Client client) {
         dataBaseManager.saveClientData(client);
-        startActivity(new Intent(this,MainActivity.class));
-        finish();
+        if(Constants.IS_DEBUG || (client.getPlan()!=null && !client.getPlan().getIsExpired())) {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
+        else{
+            Intent intent = new Intent(this, PaymentActivity.class);
+            intent.putExtra(PaymentActivity.FORCED,true);
+            startActivity(intent);
+            finish();
+        }
     }
 
     void mimicLoading(){
