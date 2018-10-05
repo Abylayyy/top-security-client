@@ -5,6 +5,7 @@ import io.reactivex.Observable;
 import kz.topsecurity.client.model.alert.AlertResponse;
 import kz.topsecurity.client.model.alert.CancelAlertResponse;
 import kz.topsecurity.client.model.alert.CheckAlertResponse;
+import kz.topsecurity.client.model.alertList.AlertsListResponse;
 import kz.topsecurity.client.model.auth.AuthResponse;
 import kz.topsecurity.client.model.auth.GetClientResponse;
 import kz.topsecurity.client.model.contact.GetContactsResponse;
@@ -26,6 +27,7 @@ import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiService {
     @FormUrlEncoded
@@ -60,12 +62,24 @@ public interface ApiService {
                                                 @Field("address") String address,
                                                 @Field("timestamp") Integer timestamp);
 
+//    @FormUrlEncoded
+//    @POST("client/alert")
+//    Observable<AlertResponse> sendAlert(@Header("Authorization") String token,
+//                                        @Field("lat") Double lat,
+//                                        @Field("lng") Double lng,
+//                                        @Field("timestamp") Integer timestamp);
+
+
     @FormUrlEncoded
     @POST("client/alert")
     Observable<AlertResponse> sendAlert(@Header("Authorization") String token,
-                                        @Field("lat") Double lat,
-                                        @Field("lng") Double lng,
-                                        @Field("timestamp") Integer timestamp);
+                                                @Field("lat") Double lat,
+                                                @Field("lng") Double lng,
+                                                @Field("alt") Double alt,
+                                                @Field("alt_barometer") Double alt_barometer,
+                                                @Field("charge") Integer charge,
+                                                @Field("address") String address,
+                                                @Field("timestamp") Integer timestamp);
 
     @POST("client/alert/cancel")
     Observable<CancelAlertResponse> cancelAlert(@Header("Authorization") String token);
@@ -143,4 +157,10 @@ public interface ApiService {
     Observable<BasicResponse> changePassword(@Field("new_password") String new_password ,
             @Field("new_password_confirmation") String new_password_confirmation,
             @Field("verification_code") String verification_code);
+
+
+    @GET("client/alerts")
+    Observable<AlertsListResponse> getAlertList(@Header("Authorization") String token,
+                                                @Query("limit") int limit,
+                                                @Query("offset") int offset);
 }

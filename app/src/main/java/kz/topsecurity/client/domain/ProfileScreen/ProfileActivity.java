@@ -20,6 +20,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +29,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.vision.Frame;
+import com.google.android.gms.vision.face.Face;
+import com.google.android.gms.vision.face.FaceDetector;
 
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.UploadNotificationConfig;
@@ -144,6 +149,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     Bitmap bitmap = getBitmap(stringExtra);
                     setImage(bitmap, iv_user_avatar);
                     uploadMultipart(this,stringExtra);
+                   // detectFace(bitmap);
                     isMadeChanges = true;
                 }
                 break;
@@ -156,6 +162,21 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             }
         }
 
+    }
+
+    private void detectFace(Bitmap bitmap) {
+        FaceDetector detector = new FaceDetector.Builder(this)
+                .setTrackingEnabled(false)
+                .setLandmarkType(FaceDetector.ALL_LANDMARKS)
+                .build();
+        Frame frame = new Frame.Builder().setBitmap(bitmap).build();
+        SparseArray<Face> faces = detector.detect(frame);
+        if(faces!=null){
+            showToast("FaCE found");
+        }
+        else{
+            showToast("No faces");
+        }
     }
 
     public String saveImage(Bitmap myBitmap) {

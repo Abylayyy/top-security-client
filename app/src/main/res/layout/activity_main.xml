@@ -125,13 +125,13 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tv_settings"
+                android:id="@+id/tv_alert_history"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:text="@string/settings"
+                android:text="@string/alert_history"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
@@ -143,6 +143,17 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:text="@string/payment"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="@string/settings"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
         </LinearLayout>

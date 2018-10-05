@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
-        android:name="kz.topsecurity.client.application.TopSecurityClientApplication"
+        android:name=".application.TopSecurityClientApplication"
         android:allowBackup="true"
         android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
@@ -21,8 +21,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <meta-data android:name="com.google.android.gms.vision.DEPENDENCIES" android:value="face"/>
         <service
-            android:name="kz.topsecurity.client.service.trackingService.volumeService.VolumeService"
+            android:name=".service.trackingService.volumeService.VolumeService"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
@@ -38,7 +39,7 @@
         <!-- <meta-data android:name="net.hockeyapp.android.appIdentifier" android:value="${HOCKEYAPP_APP_ID}" /> -->
 
         <activity
-            android:name="kz.topsecurity.client.domain.SplashScreen.SplashScreen"
+            android:name=".domain.SplashScreen.SplashScreen"
             android:screenOrientation="portrait"
             android:theme="@style/SplashScreenTheme">
             <intent-filter>
@@ -48,36 +49,36 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="kz.topsecurity.client.domain.StartScreen.StartActivity"
+            android:name=".domain.StartScreen.StartActivity"
             android:label="@string/title_activity_splash_screen"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="kz.topsecurity.client.domain.LoginScreen.LoginActivity"
+            android:name=".domain.LoginScreen.LoginActivity"
             android:label="@string/title_activity_login"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="kz.topsecurity.client.domain.RegisterScreen.RegisterActivity"
+            android:name=".domain.RegisterScreen.RegisterActivity"
             android:label="@string/title_activity_register"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="kz.topsecurity.client.domain.MainScreen.MainActivity"
+            android:name=".domain.MainScreen.MainActivity"
             android:label="@string/title_activity_main"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="kz.topsecurity.client.domain.ProfileScreen.ProfileActivity"
+            android:name=".domain.ProfileScreen.ProfileActivity"
             android:label="@string/title_activity_profile"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="kz.topsecurity.client.domain.ProfileScreen.EditPasswordScreen.EditPasswordActivity"
+            android:name=".domain.ProfileScreen.EditPasswordScreen.EditPasswordActivity"
             android:label="@string/title_activity_edit_password"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -85,17 +86,17 @@
         <!-- Services -->
 
         <service
-            android:name="kz.topsecurity.client.service.trackingService.TrackingService"
+            android:name=".service.trackingService.TrackingService"
             android:enabled="true" />
 
-        <receiver android:name="kz.topsecurity.client.service.trackingService.listenerImpl.PowerConnectionReceiver" />
-        <receiver android:name="kz.topsecurity.client.service.trackingService.listenerImpl.VolumeReceiver">
+        <receiver android:name=".service.trackingService.listenerImpl.PowerConnectionReceiver" />
+        <receiver android:name=".service.trackingService.listenerImpl.VolumeReceiver">
             <intent-filter>
                 <action android:name="android.media.VOLUME_CHANGED_ACTION" />
             </intent-filter>
         </receiver>
         <receiver
-            android:name="kz.topsecurity.client.service.trackingService.listenerImpl.TrackingServiceRestarterBroadcastReceiver"
+            android:name=".service.trackingService.listenerImpl.TrackingServiceRestarterBroadcastReceiver"
             android:enabled="true"
             android:exported="true"
             android:label="RestartTrackerServiceWhenStopped">
@@ -103,19 +104,20 @@
                 <action android:name=".RestartTrackingService" />
             </intent-filter>
         </receiver>
-        <receiver android:name="kz.topsecurity.client.service.trackingService.listenerImpl.VolumeServiceReceiver">
-            <!--<intent-filter>-->
-                <!--<action android:name="kz.topsecurity.client.service.trackingService.volumeService.VolumeServiceActionBroadcast" />-->
-            <!--</intent-filter>-->
+        <receiver android:name=".service.trackingService.listenerImpl.VolumeServiceReceiver">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="kz.topsecurity.client.service.trackingService.volumeService.VolumeServiceActionBroadcast" /> -->
+            <!-- </intent-filter> -->
         </receiver>
 
         <activity
-            android:name="kz.topsecurity.client.domain.SettingsScreen.SettingsActivity"
+            android:name=".domain.SettingsScreen.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="kz.topsecurity.client.domain.PlaceScreen.PlaceActivity"
+            android:name=".domain.PlaceScreen.PlaceActivity"
             android:label="@string/title_activity_place"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -132,43 +134,47 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name="kz.topsecurity.client.domain.TrustedNumbersScreen.TrustedNumbersActivity"
+            android:name=".domain.TrustedNumbersScreen.TrustedNumbersActivity"
             android:label="@string/title_activity_trusted_numbers"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="kz.topsecurity.client.domain.TrustedNumbersScreen.additionalScreen.CreateTrustedNumberActivity"
+            android:name=".domain.TrustedNumbersScreen.additionalScreen.CreateTrustedNumberActivity"
             android:label="@string/title_activity_trusted_numbers"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="kz.topsecurity.client.domain.ProfileScreen.CropPhotoScreen.CropPictureActivity"
+            android:name=".domain.ProfileScreen.CropPhotoScreen.CropPictureActivity"
             android:label="@string/title_activity_crop_picture_activiry"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="kz.topsecurity.client.domain.ProfileScreen.EditEmailScreen.EditEmailActivity"
+            android:name=".domain.ProfileScreen.EditEmailScreen.EditEmailActivity"
             android:label="@string/title_activity_edit_email"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="kz.topsecurity.client.domain.RestorePasswordScreen.RestorePasswordActivity"
+            android:name=".domain.RestorePasswordScreen.RestorePasswordActivity"
             android:label="@string/title_activity_restore_password"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="kz.topsecurity.client.domain.RestorePasswordScreen.additional.ChangePasswordActivity"
+            android:name=".domain.RestorePasswordScreen.additional.ChangePasswordActivity"
             android:label="@string/title_activity_change_password"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="kz.topsecurity.client.domain.InputCodeScreen.SmsCodeActivity"
+            android:name=".domain.InputCodeScreen.SmsCodeActivity"
             android:label="@string/title_activity_sms_code"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="kz.topsecurity.client.domain.PaymentScreen.PaymentActivity"
+            android:name=".domain.PaymentScreen.PaymentActivity"
             android:label="@string/title_activity_payment"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="kz.topsecurity.client.domain.SetSecretCancelCodeScreen.SetSecretCancelCodeActivity"
+            android:name=".domain.SetSecretCancelCodeScreen.SetSecretCancelCodeActivity"
             android:label="@string/title_activity_set_secret_cancel_code"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".domain.AlertHistoryScreen.AlertHistoryActivity"
+            android:label="@string/title_activity_alert_history"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

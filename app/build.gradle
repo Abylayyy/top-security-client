@@ -102,4 +102,7 @@ dependencies {
 //    implementation 'net.hockeyapp.android:HockeySDK:5.1.1'
 
     implementation "net.gotev:uploadservice:3.4.2"
+
+    //FACE DETECTION
+    implementation 'com.google.android.gms:play-services-vision:11.8.0'
 }

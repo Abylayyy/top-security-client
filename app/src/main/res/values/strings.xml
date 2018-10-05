@@ -171,4 +171,9 @@
     <string name="payment_activity_name">Оплата</string>
     <string name="telephone_number_exist">Пользователь с данным номером уже зарегистрирован</string>
     <string name="save">Сохранить</string>
+    <string name="title_activity_alert_history">AlertHistoryActivity</string>
+    <string name="alert_time">Время тревоги</string>
+    <string name="place">Место тревоги</string>
+    <string name="charge_level">Уровень заряда</string>
+    <string name="alert_history">История вызывов</string>
 </resources>

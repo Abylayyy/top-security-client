@@ -81,6 +81,10 @@ public class Constants {
         SharedPreferencesManager.setIsServiceActive(TopSecurityClientApplication.getInstance().getApplicationContext(),status);
     }
 
+    public static String getGoogleMapKey() {
+        return "AIzaSyCEXiQiHX7V8qJDuBvFTy6RW9WaGShPAO8";
+    }
+
     public class ERROR_STATES {
         public static final int WRONG_PASSWORD_CODE = 101;
         public static final int NOT_AUTHENTICATED_CODE = 102;

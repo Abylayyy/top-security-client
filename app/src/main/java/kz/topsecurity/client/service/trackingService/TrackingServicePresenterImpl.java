@@ -306,7 +306,14 @@ public class TrackingServicePresenterImpl implements LocationListener {
                 setAlertSendError();
             }
         }).makeRequest(RetrofitClient.getClientApi()
-                .sendAlert(RetrofitClient.getRequestToken(), data.getLat(), data.getLng(), data.getTimestamp()));
+                .sendAlert(RetrofitClient.getRequestToken(),
+                        data.getLat(),
+                        data.getLng(),
+                        data.getAlt(),
+                        data.getAltBarometer(),
+                        data.getCharge(),
+                        data.getStreetAddress(),
+                        data.getTimestamp()));
 
 
         compositeDisposable.add(success);
