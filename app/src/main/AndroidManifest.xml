@@ -21,7 +21,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <meta-data android:name="com.google.android.gms.vision.DEPENDENCIES" android:value="face"/>
+        <meta-data
+            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+            android:value="face" />
+
         <service
             android:name=".service.trackingService.volumeService.VolumeService"
             android:enabled="true"
@@ -175,6 +178,10 @@
         <activity
             android:name=".domain.AlertHistoryScreen.AlertHistoryActivity"
             android:label="@string/title_activity_alert_history"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".introductionScreen.IntroductionActivity"
+            android:label="@string/title_activity_introduction"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

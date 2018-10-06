@@ -2,10 +2,13 @@ package kz.topsecurity.client.domain.ProfileScreen.CropPhotoScreen;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.RectF;
 import android.media.MediaScannerConnection;
@@ -26,7 +29,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kz.topsecurity.client.domain.ProfileScreen.ProfileActivity;
@@ -222,4 +228,6 @@ public class CropPictureActivity extends BaseActivity {
         }
         return "";
     }
+
+
 }

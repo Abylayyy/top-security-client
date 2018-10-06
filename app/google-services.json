@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1048558182419",
+    "firebase_url": "https://top-security-kz-client.firebaseio.com",
+    "project_id": "top-security-kz-client",
+    "storage_bucket": "top-security-kz-client.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1048558182419:android:849bb57b27e76c74",
+        "android_client_info": {
+          "package_name": "kz.topsecurity.client"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1048558182419-jg2f6jff3i20648h0mvakvucjghefiui.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kz.topsecurity.client",
+            "certificate_hash": "620cd73f798d1eae2c8b66eab313d4597b758197"
+          }
+        },
+        {
+          "client_id": "1048558182419-rd74tfq4ii8770g8t3o91e3aqpa6ca6d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_lkBxXYZaedrRs71WzYtvOEOXThFIVNA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1048558182419-rd74tfq4ii8770g8t3o91e3aqpa6ca6d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

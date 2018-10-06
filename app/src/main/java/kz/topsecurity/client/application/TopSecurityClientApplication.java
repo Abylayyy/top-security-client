@@ -3,6 +3,8 @@ package kz.topsecurity.client.application;
 import android.app.Application;
 import android.content.res.Configuration;
 
+import com.google.firebase.FirebaseApp;
+
 import net.gotev.uploadservice.UploadService;
 
 import kz.topsecurity.client.BuildConfig;

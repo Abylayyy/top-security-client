@@ -1,8 +1,10 @@
 package kz.topsecurity.client.domain.ProfileScreen;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +15,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -30,9 +33,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.ml.vision.FirebaseVision;
+import com.google.firebase.ml.vision.common.FirebaseVisionImage;
+import com.google.firebase.ml.vision.face.FirebaseVisionFace;
+import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetector;
+import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetectorOptions;
 
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.UploadNotificationConfig;
@@ -47,7 +59,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,6 +88,10 @@ import kz.topsecurity.client.service.api.RetrofitClient;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+
+import static com.google.firebase.ml.vision.face.FirebaseVisionFaceDetectorOptions.ACCURATE_MODE;
+import static com.google.firebase.ml.vision.face.FirebaseVisionFaceDetectorOptions.ALL_CLASSIFICATIONS;
+import static com.google.firebase.ml.vision.face.FirebaseVisionFaceDetectorOptions.ALL_LANDMARKS;
 
 public class ProfileActivity extends BaseActivity implements View.OnClickListener{
 
@@ -144,13 +162,18 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             }
             case CROP_PHOTO:{
                 if (resultCode == RESULT_OK) {
+//                    String stringExtra = imageReturnedIntent.getStringExtra(CROPPED_IMAGE_PATH);
+//                    SharedPreferencesManager.setAvatarUriValue(this, stringExtra);
+//                    Bitmap bitmap = getBitmap(stringExtra);
+//                    setImage(bitmap, iv_user_avatar);
+//                    uploadMultipart(this,stringExtra);
+//                    checkAndUploadAvatar(stringExtra, bitmap );
+//                    detectFace(bitmap);
+//                    isMadeChanges = true;
+
                     String stringExtra = imageReturnedIntent.getStringExtra(CROPPED_IMAGE_PATH);
-                    SharedPreferencesManager.setAvatarUriValue(this, stringExtra);
                     Bitmap bitmap = getBitmap(stringExtra);
-                    setImage(bitmap, iv_user_avatar);
-                    uploadMultipart(this,stringExtra);
-                   // detectFace(bitmap);
-                    isMadeChanges = true;
+                    checkAndUploadAvatar(stringExtra, bitmap );
                 }
                 break;
             }
@@ -163,19 +186,62 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    private void detectFace(Bitmap bitmap) {
-        FaceDetector detector = new FaceDetector.Builder(this)
-                .setTrackingEnabled(false)
-                .setLandmarkType(FaceDetector.ALL_LANDMARKS)
-                .build();
-        Frame frame = new Frame.Builder().setBitmap(bitmap).build();
-        SparseArray<Face> faces = detector.detect(frame);
-        if(faces!=null){
-            showToast("FaCE found");
-        }
-        else{
-            showToast("No faces");
-        }
+    private void checkAndUploadAvatar(final String stringExtra,final Bitmap bitmap) {
+        showLoadingDialog();
+        OnSuccessListener<List<FirebaseVisionFace>> onSuccessListener = new OnSuccessListener<List<FirebaseVisionFace>>() {
+            @Override
+            public void onSuccess(List<FirebaseVisionFace> firebaseVisionFaces) {
+                hideProgressDialog();
+                if(firebaseVisionFaces.size()==0){
+                    showToast(R.string.face_not_detected);
+                }
+                else if(firebaseVisionFaces.size()==1) {
+                    showToast(R.string.success);
+                    prepareAvatarToSave(stringExtra, bitmap);
+                }
+                else {
+                    showToast(R.string.more_than_one_face_in_picture);
+                }
+            }
+        };
+        OnFailureListener onFailureListener = new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                hideProgressDialog();
+                showToast("FAILED");
+            }
+        };
+        detectFace(bitmap,onSuccessListener,onFailureListener );
+    }
+
+    private void prepareAvatarToSave(String stringExtra, Bitmap bitmap) {
+        SharedPreferencesManager.setAvatarUriValue(this, stringExtra);
+        setImage(bitmap, iv_user_avatar);
+        uploadMultipart(this,stringExtra);
+        isMadeChanges = true;
+    }
+
+    private Task<List<FirebaseVisionFace>> task;
+
+    private void detectFace(Bitmap bitmap,
+                            OnSuccessListener<List<FirebaseVisionFace>> onSuccessListener,
+                            OnFailureListener onFailureListener) {
+
+        FirebaseApp.initializeApp(this);
+        FirebaseVisionFaceDetector faceDetector =
+                FirebaseVision.getInstance().getVisionFaceDetector();
+//        FirebaseVisionFaceDetectorOptions build = new FirebaseVisionFaceDetectorOptions.Builder()
+//                .setModeType(ACCURATE_MODE)
+//                .setLandmarkType(ALL_LANDMARKS)
+//                .setClassificationType(ALL_CLASSIFICATIONS)
+//                .setMinFaceSize(0.15f)
+//                .setTrackingEnabled(true)
+//                .build();
+        FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bitmap);
+        task = faceDetector.detectInImage(image);
+        task.addOnSuccessListener(onSuccessListener)
+                .addOnFailureListener(onFailureListener);
+
     }
 
     public String saveImage(Bitmap myBitmap) {
@@ -383,4 +449,12 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             setResult(RESULT_OK);
         super.finish();
     }
+
+    @Override
+    protected void onDestroy() {
+//        if(task!=null)
+        super.onDestroy();
+    }
+
+
 }
