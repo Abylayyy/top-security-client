@@ -161,7 +161,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 break;
             }
         }
-
     }
 
     private void detectFace(Bitmap bitmap) {
