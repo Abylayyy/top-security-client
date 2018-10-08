@@ -183,4 +183,13 @@
     <string name="skip">Пропустить</string>
     <string name="finish">Готово</string>
     <string name="title_activity_about">AboutActivity</string>
+    <string name="technical_issues_label">По техническим вопросам</string>
+    <string name="contacts_email_for_technical_issues">adsdevm@gmail.com</string>
+    <string name="to_phone_number">По номеру</string>
+    <string name="internal_number">Внутренний номер</string>
+    <string name="contacts_phone_for_other_issues">+7(727)277-76-00</string>
+    <string name="contacts_internal_number_for_other_issues">812</string>
+    <string name="company_name">ТОО «Top Security KZ»</string>
+    <string name="main_address">Адрес Казахстан, г .Алматы, мкр. Алатау, ул. Асемтау 58</string>
+    <string name="about_and_feedback">Обратная связь</string>
 </resources>

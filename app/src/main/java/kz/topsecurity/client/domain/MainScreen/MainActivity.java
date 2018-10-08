@@ -22,6 +22,7 @@ import com.skyfishjy.library.RippleBackground;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
+import kz.topsecurity.client.domain.FeedbackScreen.FeedbackActivity;
 import kz.topsecurity.client.domain.AlertHistoryScreen.AlertHistoryActivity;
 import kz.topsecurity.client.domain.PaymentScreen.PaymentActivity;
 import kz.topsecurity.client.domain.PlaceScreen.PlaceActivity;
@@ -56,6 +57,7 @@ public class MainActivity extends ServiceControlActivity
     @BindView(R.id.tv_contacts) TextView tv_contacts;
     @BindView(R.id.tv_settings) TextView tv_settings;
     @BindView(R.id.tv_payment) TextView tv_payment;
+    @BindView(R.id.tv_feedback) TextView tv_feedback;
     @BindView(R.id.tv_alert_history) TextView tv_alert_history;
     @BindView(R.id.btn_alert) Button btn_alert;
     @BindView(R.id.btn_cancel_alert) Button btn_cancel_alert;
@@ -74,6 +76,7 @@ public class MainActivity extends ServiceControlActivity
     private static final int SETTINGS_REQUEST_CODE = 486;
     private static final int PAYMENT_REQUEST_CODE = 236;
     private static final int ALERT_HISTORY_CODE = 175;
+    private static final int ABOUT_CODe = 818;
 
 
     DataBaseManager dataBaseManager = new DataBaseManagerImpl(this);
@@ -179,6 +182,7 @@ public class MainActivity extends ServiceControlActivity
         tv_contacts.setOnClickListener(this);
         tv_settings.setOnClickListener(this);
         tv_payment.setOnClickListener(this);
+        tv_feedback.setOnClickListener(this);
         tv_alert_history.setOnClickListener(this);
         btn_alert.setOnClickListener(this);
         btn_cancel_alert.setOnClickListener(this);
@@ -392,6 +396,14 @@ public class MainActivity extends ServiceControlActivity
                 ifNavButtons = true;
                 if(!Constants.is_service_sending_alert())
                     startActivityForResult(new Intent(MainActivity.this, AlertHistoryActivity.class),ALERT_HISTORY_CODE);
+                else
+                    onShowToast(R.string.you_cant_when_alert_active);
+                break;
+            }
+            case R.id.tv_feedback:{
+                ifNavButtons = true;
+                if(!Constants.is_service_sending_alert())
+                    startActivityForResult(new Intent(MainActivity.this, FeedbackActivity.class),ABOUT_CODe);
                 else
                     onShowToast(R.string.you_cant_when_alert_active);
                 break;

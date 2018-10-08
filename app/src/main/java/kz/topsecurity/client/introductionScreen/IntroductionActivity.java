@@ -52,7 +52,7 @@ public class IntroductionActivity extends AppCompatActivity {
 
         final ArgbEvaluator argbEvaluator = new ArgbEvaluator();  //used to update the page color
 
-        tv_brightness = (TextView) findViewById(R.id.tv_brightness);
+        //tv_brightness = (TextView) findViewById(R.id.tv_brightness);
 
         viewPager = (ViewPager) findViewById(R.id.onboarding_viewpager);
 

@@ -60,7 +60,7 @@ public class AlertListAdapter extends RecyclerView.Adapter<AlertListAdapter.MyVi
         public TextView tv_charge_level;
         public MyViewHolder(View v) {
             super(v);
-            iv_map = v.findViewById(R.id.iv_map);
+            iv_map = (ImageView) v.findViewById(R.id.iv_map);
             tv_alert_time = v.findViewById(R.id.tv_alert_time);
             tv_address = v.findViewById(R.id.tv_address);
             tv_charge_level = v.findViewById(R.id.tv_charge_level);

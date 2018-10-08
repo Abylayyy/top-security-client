@@ -15,11 +15,6 @@
 
     <color name="transparentBlack">#48000000</color>
     <!-- ONBOARDING -->
-
-    <color name="lightBlue">#03A9F4</color>
-    <color name="cyan">#00BCD4</color>
-    <color name="teal">#009688</color>
-
     <color name="dividerColor">#B6B6B6</color>
     <color name="dividerColorLight">#48B6B6B6</color>
 </resources>
