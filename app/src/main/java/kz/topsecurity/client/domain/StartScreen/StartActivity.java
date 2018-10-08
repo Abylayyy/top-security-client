@@ -24,6 +24,7 @@ import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
 import kz.topsecurity.client.helper.dataBase.DataBaseManager;
 import kz.topsecurity.client.helper.dataBase.DataBaseManagerImpl;
+import kz.topsecurity.client.introductionScreen.IntroductionActivity;
 import kz.topsecurity.client.model.auth.GetClientResponse;
 import kz.topsecurity.client.model.other.BasicResponse;
 import kz.topsecurity.client.model.other.Client;
@@ -57,7 +58,8 @@ public class StartActivity extends BaseActivity implements View.OnClickListener 
         boolean startMainScreen = getIntent().getBooleanExtra(START_MAIN_SCREEN_KEY , false) ;
         boolean skipLoading= getIntent().getBooleanExtra(SKIP_LOADING_KEY, false);
         boolean isUserLoggedIn = SharedPreferencesManager.getUserData(this) && SharedPreferencesManager.getUserAuthToken(this)!=null;
-        String userPhone = SharedPreferencesManager.getUserPhone(this);
+
+
         if(skipLoading){
             showStartView();
         }
@@ -143,6 +145,14 @@ public class StartActivity extends BaseActivity implements View.OnClickListener 
     void showStartView(){
         cl_loading_view.setVisibility(View.GONE);
         cl_start_view.setVisibility(View.VISIBLE);
+        checkFirstStart();
+    }
+
+    private void checkFirstStart() {
+        boolean firstStart = SharedPreferencesManager.getIsFirstStart(this);
+        if(firstStart){
+            startActivity(new Intent(this, IntroductionActivity.class));
+        }
     }
 
     @Override

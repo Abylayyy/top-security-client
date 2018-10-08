@@ -111,6 +111,7 @@ public class LoginActivity extends BaseActivity<LoginView, LoginPresenter, Login
         initPresenter(new LoginPresenterImpl(this));
         setIMEI();
         String phone = getIntent().getStringExtra(PHONE_EXTRA);
+        phone = phone!=null && !phone.isEmpty() ? phone :  SharedPreferencesManager.getUserPhone(this);
         if(phone!=null && !phone.isEmpty()){
             ed_tel_number.setText(phone);
         }

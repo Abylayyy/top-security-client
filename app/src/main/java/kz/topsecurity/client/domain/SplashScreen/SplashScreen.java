@@ -23,14 +23,10 @@ public class SplashScreen extends AppCompatActivity {
         setTheme(R.style.SplashScreenTheme);
         super.onCreate(savedInstanceState);
 
-        if(Constants.DEVELOP_MODE)
-            startActivity(new Intent(this,IntroductionActivity.class));
-
         Intent intent = new Intent(this, StartActivity.class);
         boolean startMainScreen = getIntent().getBooleanExtra(START_MAIN_SCREEN_KEY, false);
         if(startMainScreen){
             intent.putExtra(StartActivity.START_MAIN_SCREEN_KEY,true);
-            return;
         }
         startActivity(intent);
         finish();

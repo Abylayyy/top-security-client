@@ -182,4 +182,5 @@
     <string name="title_activity_introduction">IntroductionActivity</string>
     <string name="skip">Пропустить</string>
     <string name="finish">Готово</string>
+    <string name="title_activity_about">AboutActivity</string>
 </resources>

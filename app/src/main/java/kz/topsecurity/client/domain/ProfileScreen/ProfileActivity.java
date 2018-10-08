@@ -346,6 +346,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         iv_edit_user_password.setOnClickListener(this);
         tv_add_secret_code.setOnClickListener(this);
         setUserData();
+
+        if(!Constants.BlockedFunctions.isTwoCodeEnabled)
+            tv_add_secret_code.setVisibility(View.GONE);
     }
 
     DataBaseManager dataBaseManager = new DataBaseManagerImpl(this);

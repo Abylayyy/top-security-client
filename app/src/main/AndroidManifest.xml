@@ -182,6 +182,10 @@
         <activity
             android:name=".introductionScreen.IntroductionActivity"
             android:label="@string/title_activity_introduction"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".domain.AboutScreen.AboutActivity"
+            android:label="@string/title_activity_about"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

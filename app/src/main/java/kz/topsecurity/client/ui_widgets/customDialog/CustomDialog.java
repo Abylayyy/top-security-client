@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import kz.topsecurity.client.R;
+import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditText;
 
 public class CustomDialog extends DialogFragment {
@@ -31,7 +32,7 @@ public class CustomDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.custom_dialog, container, false);
-        ed_user_password = v.findViewById(R.id.ed_edit_user_password);
+        ed_user_password = v.findViewById(R.id.ed_user_password);
         btn_ok = v.findViewById(R.id.btn_ok);
         btn_cancel = v.findViewById(R.id.btn_cancel);
         btn_cancel.setOnClickListener(new View.OnClickListener() {
@@ -48,6 +49,9 @@ public class CustomDialog extends DialogFragment {
         });
 
         getDialog().getWindow().setBackgroundDrawableResource(R.drawable.custom_dialog_bg);
+
+        if(ed_user_password!=null && !Constants.BlockedFunctions.isTwoCodeEnabled)
+            ed_user_password.setVisibility(View.GONE);
         return v;
     }
 

@@ -85,6 +85,10 @@ public class Constants {
         return "AIzaSyCEXiQiHX7V8qJDuBvFTy6RW9WaGShPAO8";
     }
 
+    public class BlockedFunctions{
+        public static final boolean isTwoCodeEnabled = false;
+    }
+
     public class ERROR_STATES {
         public static final int WRONG_PASSWORD_CODE = 101;
         public static final int NOT_AUTHENTICATED_CODE = 102;

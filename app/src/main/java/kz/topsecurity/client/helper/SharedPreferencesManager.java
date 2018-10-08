@@ -23,7 +23,8 @@ public class SharedPreferencesManager {
     private static final String IS_SERVICE_SENDING_ALERT = "IS_SERVICE_SENDING_ALERT";
     private static final String IS_SERVICE_ACTIVE_KEY = "IS_SERVICE_ACTIVE_KEY";
     private static final String IS_ALERT_ACTIVE_KEY = "IS_ALERT_ACTIVE_KEY";
-    private static final String SERVICE_STATE_KEY = "SERVIce_STATE_KEY";
+    private static final String SERVICE_STATE_KEY = "SERVICE_STATE_KEY";
+    private static final String IS_FIRST_START_KEY = "IS_FIRST_START_KEY";
     // other properties...
 
 
@@ -214,6 +215,21 @@ public class SharedPreferencesManager {
     public static void setBackgroundServiceState(Context context , int state){
         final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
         editor.putInt(SERVICE_STATE_KEY, state);
+        //editor.apply();
+        boolean isSuccessful = editor.commit();
+        if(!isSuccessful){
+            Log.e(TAG,"Put value failed");
+        }
+    }
+
+
+    public static boolean getIsFirstStart(Context context) {
+        return getSharedPreferences(context).getBoolean(IS_FIRST_START_KEY, true);
+    }
+
+    public static void setIsFirstStart(Context context, boolean newValue) {
+        final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putBoolean(IS_FIRST_START_KEY, newValue);
         //editor.apply();
         boolean isSuccessful = editor.commit();
         if(!isSuccessful){

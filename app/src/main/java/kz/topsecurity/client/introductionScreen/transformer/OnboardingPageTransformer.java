@@ -92,23 +92,30 @@ public class OnboardingPageTransformer implements ViewPager.PageTransformer {
             final View tv_security_title = page.findViewById(R.id.tv_security_title);
             if (tv_security_title != null) tv_security_title.setAlpha(1.0f - absPosition * 2);
 
+            final View tv_security_desc = page.findViewById(R.id.tv_security_desc);
+            if (tv_security_desc != null) tv_security_desc.setAlpha(1.0f - absPosition * 2);
+
             final View iv_security = page.findViewById(R.id.iv_security);
             if (iv_security != null) {
                 iv_security.setScaleX(1.0f - absPosition * 2);
                 iv_security.setScaleY(1.0f - absPosition * 2);
                 iv_security.setAlpha(1.0f - absPosition * 2);
             }
-
-            final View iv_security_shadow = page.findViewById(R.id.iv_security_shadow);
-            if (iv_security_shadow != null) {
-                iv_security_shadow.setScaleX(1.0f - absPosition * 2);
-                iv_security_shadow.setScaleY(1.0f - absPosition * 2);
-                iv_security_shadow.setAlpha(1.0f - absPosition * 2);
-            }
+//
+//            final View iv_security_shadow = page.findViewById(R.id.iv_security_shadow);
+//            if (iv_security_shadow != null) {
+//                iv_security_shadow.setScaleX(1.0f - absPosition * 2);
+//                iv_security_shadow.setScaleY(1.0f - absPosition * 2);
+//                iv_security_shadow.setAlpha(1.0f - absPosition * 2);
+//            }
 
             //2--------------
             final View tv_alert_title = page.findViewById(R.id.tv_alert_title);
             if (tv_alert_title != null) tv_alert_title.setAlpha(1.0f - absPosition * 2);
+
+
+            final View tv_alert_desc = page.findViewById(R.id.tv_alert_desc);
+            if (tv_alert_desc != null) tv_alert_desc.setAlpha(1.0f - absPosition * 2);
 
             final View iv_alert = page.findViewById(R.id.iv_alert);
             if (iv_alert != null) {
@@ -117,17 +124,20 @@ public class OnboardingPageTransformer implements ViewPager.PageTransformer {
                 iv_alert.setAlpha(1.0f - absPosition * 2);
             }
 
-            final View iv_alert_shadow = page.findViewById(R.id.iv_alert_shadow);
-            if (iv_alert_shadow != null) {
-                iv_alert_shadow.setScaleX(1.0f - absPosition * 2);
-                iv_alert_shadow.setScaleY(1.0f - absPosition * 2);
-                iv_alert_shadow.setAlpha(1.0f - absPosition * 2);
-            }
+//            final View iv_alert_shadow = page.findViewById(R.id.iv_alert_shadow);
+//            if (iv_alert_shadow != null) {
+//                iv_alert_shadow.setScaleX(1.0f - absPosition * 2);
+//                iv_alert_shadow.setScaleY(1.0f - absPosition * 2);
+//                iv_alert_shadow.setAlpha(1.0f - absPosition * 2);
+//            }
 
 
             //3-------------------
             final View tv_help_title = page.findViewById(R.id.tv_help_title);
             if (tv_help_title != null) tv_help_title.setAlpha(1.0f - absPosition * 2);
+
+            final View tv_help_desc = page.findViewById(R.id.tv_help_desc);
+            if (tv_help_desc != null) tv_help_desc.setAlpha(1.0f - absPosition * 2);
 
             final View iv_help = page.findViewById(R.id.iv_help);
             if (iv_help != null) {
@@ -136,12 +146,12 @@ public class OnboardingPageTransformer implements ViewPager.PageTransformer {
                 iv_help.setAlpha(1.0f - absPosition * 2);
             }
 
-            final View iv_help_shadow = page.findViewById(R.id.iv_help_shadow);
-            if (iv_help_shadow != null) {
-                iv_help_shadow.setScaleX(1.0f - absPosition * 2);
-                iv_help_shadow.setScaleY(1.0f - absPosition * 2);
-                iv_help_shadow.setAlpha(1.0f - absPosition * 2);
-            }
+//            final View iv_help_shadow = page.findViewById(R.id.iv_help_shadow);
+//            if (iv_help_shadow != null) {
+//                iv_help_shadow.setScaleX(1.0f - absPosition * 2);
+//                iv_help_shadow.setScaleY(1.0f - absPosition * 2);
+//                iv_help_shadow.setAlpha(1.0f - absPosition * 2);
+//            }
         }
     }
 }

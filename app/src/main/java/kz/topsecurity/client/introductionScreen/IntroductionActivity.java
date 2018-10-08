@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import kz.topsecurity.client.R;
+import kz.topsecurity.client.helper.SharedPreferencesManager;
 import kz.topsecurity.client.introductionScreen.adapter.OnboardingAdapter;
 import kz.topsecurity.client.introductionScreen.transformer.OnboardingPageTransformer;
 
@@ -33,6 +34,7 @@ public class IntroductionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_introduction);
+        SharedPreferencesManager.setIsFirstStart(this,false);
         nextBtn = (ImageButton) findViewById(R.id.btn_next);
         finishBtn = (Button) findViewById(R.id.btn_finish);
 
@@ -43,10 +45,10 @@ public class IntroductionActivity extends AppCompatActivity {
 
         updateIndicator(pagePosition);
 
-        final int pageColor01 = ContextCompat.getColor(this, R.color.lightBlue);
-        final int pageColor02 = ContextCompat.getColor(this, R.color.cyan);
-        final int pageColor03 = ContextCompat.getColor(this, R.color.teal);
-        final int[] pageColorList = new int[] {pageColor01, pageColor02, pageColor03};
+//        final int pageColor01 = ContextCompat.getColor(this, R.color.lightBlue);
+//        final int pageColor02 = ContextCompat.getColor(this, R.color.cyan);
+//        final int pageColor03 = ContextCompat.getColor(this, R.color.teal);
+//        final int[] pageColorList = new int[] {pageColor01, pageColor02, pageColor03};
 
         final ArgbEvaluator argbEvaluator = new ArgbEvaluator();  //used to update the page color
 
@@ -65,12 +67,12 @@ public class IntroductionActivity extends AppCompatActivity {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
                 // Update Page Background Color
-                int pageColorUpdate = (Integer) argbEvaluator.evaluate(
-                        positionOffset,
-                        pageColorList[position],
-                        pageColorList[position == 2 ? position : position + 1]  //If there's no last page, do not increment
-                );
-                viewPager.setBackgroundColor(pageColorUpdate);
+//                int pageColorUpdate = (Integer) argbEvaluator.evaluate(
+//                        positionOffset,
+//                        pageColorList[position],
+//                        pageColorList[position == 2 ? position : position + 1]  //If there's no last page, do not increment
+//                );
+//                viewPager.setBackgroundColor(pageColorUpdate);
 
             }
 
@@ -82,13 +84,13 @@ public class IntroductionActivity extends AppCompatActivity {
                 //set the page color when selected
                 switch (position) {
                     case 0:
-                        viewPager.setBackgroundColor(pageColor01);
+                     //   viewPager.setBackgroundColor(pageColor01);
                         break;
                     case 1:
-                        viewPager.setBackgroundColor(pageColor02);
+                       // viewPager.setBackgroundColor(pageColor02);
                         break;
                     case 2:
-                        viewPager.setBackgroundColor(pageColor03);
+                       // viewPager.setBackgroundColor(pageColor03);
                         break;
                 }
 

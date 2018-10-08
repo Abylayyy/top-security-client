@@ -73,7 +73,7 @@ public class OnboardingFragment extends Fragment {
 
         // Set the background color of the root view to the color specified in newInstance()
         View background = view.findViewById(R.id.onboarding_fragment_bg);
-        background.setBackgroundColor(backgroundColor);
+        //background.setBackgroundColor(backgroundColor);
     }
 
 
