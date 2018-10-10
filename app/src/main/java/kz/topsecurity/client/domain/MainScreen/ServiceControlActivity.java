@@ -48,10 +48,11 @@ public abstract class ServiceControlActivity extends BaseActivity<MainView,MainP
     boolean networkCheckedOnce = false;
     boolean gpsCheckedOnce = false;
 
+    private long last_gps_check_time = 0;
+    private static final long GPS_CHECK_TIME = 5*1000*60;
     AlertDialog networkDialog;
     AlertDialog gpsDialog;
-
-
+    protected boolean isGpsAlertShown = false;
 
     @Override
     protected void onResume() {
@@ -61,7 +62,13 @@ public abstract class ServiceControlActivity extends BaseActivity<MainView,MainP
         else {
             startStep1();
         }
+        long l = System.currentTimeMillis();
+        if(l-last_gps_check_time > GPS_CHECK_TIME){
+            last_gps_check_time = l;
+            isGpsAlertShown = false;
+        }
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
@@ -195,7 +202,10 @@ public abstract class ServiceControlActivity extends BaseActivity<MainView,MainP
         else if(Constants.is_service_sending_alert() ){
             setAlertActiveView();
         }
-        createAndCheckLocationProvider();
+        if(!isGpsAlertShown) {
+            isGpsAlertShown = true;
+            createAndCheckLocationProvider();
+        }
         checkServices();
     }
 
@@ -392,7 +402,9 @@ public abstract class ServiceControlActivity extends BaseActivity<MainView,MainP
                 try {
                     // Show the dialog by calling startResolutionForResult(),
                     // and check the result in onActivityResult().
-                    ((ResolvableApiException) error).startResolutionForResult(this,REQUEST_CHECK_SETTINGS);
+
+                    if(!isGpsAlertShown)
+                        ((ResolvableApiException) error).startResolutionForResult(this,REQUEST_CHECK_SETTINGS);
                 } catch (IntentSender.SendIntentException sendEx) {
                     // Ignore the error.
                 }

@@ -186,6 +186,10 @@
         <activity
             android:name=".domain.FeedbackScreen.FeedbackActivity"
             android:label="@string/title_activity_about"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".domain.TutorialSliderScreen.TutorialSliderActivity"
+            android:label="@string/title_activity_tutorial_slider"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

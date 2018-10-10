@@ -32,6 +32,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import kz.topsecurity.client.R;
+import kz.topsecurity.client.fragments.TutorialFragment;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
 import kz.topsecurity.client.presenter.base.BasePresenter;
 import kz.topsecurity.client.service.trackingService.TrackingService;
@@ -44,7 +45,8 @@ public abstract class BaseActivity
         S extends BasePresenter ,
         U extends  S >
         extends AppCompatActivity
-        implements BaseView{
+        implements BaseView,
+        TutorialFragment.OnFragmentInteractionListener{
 
     private static final String TAG = BaseActivity.class.getSimpleName();
     private Intent mTrackingService;
@@ -63,6 +65,31 @@ public abstract class BaseActivity
     protected void initPresenter(U presenterImpl){
         presenter = presenterImpl;
         presenterImpl.attach();
+    }
+
+    public void showTutorials(int type) {
+        if(findViewById(R.id.fl_tuts_fragment_container) == null)
+            return;
+
+        // Create a new Fragment to be placed in the activity layout
+        findViewById(R.id.fl_tuts_fragment_container).setVisibility(View.VISIBLE);
+        TutorialFragment firstFragment = TutorialFragment.newInstance( type );
+        // Add the fragment to the 'fragment_container' FrameLayout
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fl_tuts_fragment_container, firstFragment, TutorialFragment.class.getSimpleName()).commit();
+    }
+
+    public void removeTutorial() {
+        try {
+            Fragment fragment = getSupportFragmentManager().findFragmentByTag(TutorialFragment.class.getSimpleName());
+            if(fragment != null)
+                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+            if(findViewById(R.id.fl_tuts_fragment_container)!=null)
+                findViewById(R.id.fl_tuts_fragment_container).setVisibility(View.GONE);
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 
     @Override
@@ -397,5 +424,11 @@ public abstract class BaseActivity
 
     public void dissmissAreYouSureDialog(){
         customSimpleDialog.dismiss();
+    }
+
+
+    @Override
+    public void onOkButtonClick() {
+        removeTutorial();
     }
 }

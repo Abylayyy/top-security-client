@@ -5,8 +5,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.IntentSender;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -19,13 +20,6 @@ import android.widget.TextView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
-import com.google.android.gms.common.api.ResolvableApiException;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResponse;
-import com.google.android.gms.location.SettingsClient;
-import com.google.android.gms.tasks.Task;
 import com.skyfishjy.library.RippleBackground;
 
 import butterknife.BindView;
@@ -40,6 +34,7 @@ import kz.topsecurity.client.R;
 import kz.topsecurity.client.domain.SettingsScreen.SettingsActivity;
 import kz.topsecurity.client.domain.SplashScreen.SplashScreen;
 import kz.topsecurity.client.domain.TrustedNumbersScreen.TrustedNumbersActivity;
+import kz.topsecurity.client.fragments.TutorialFragment;
 import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
 import kz.topsecurity.client.helper.dataBase.DataBaseManager;
@@ -55,7 +50,10 @@ import kz.topsecurity.client.ui_widgets.customDialog.CustomDialog;
 import kz.topsecurity.client.view.mainView.MainView;
 
 public class MainActivity extends ServiceControlActivity
-        implements NavigationView.OnNavigationItemSelectedListener , View.OnClickListener , MainView , TrackingServiceBroadcastReceiverListener {
+        implements NavigationView.OnNavigationItemSelectedListener ,
+        View.OnClickListener ,
+        MainView ,
+        TrackingServiceBroadcastReceiverListener  {
 
     public static final String CANCEL_ALERT_EXTRA = "CANCEL_ALERT_EXTRA";
     public static final String TRACKING_SERVICE_STATUS_RESULT = "IS_MADE_CHANGES";
@@ -76,7 +74,6 @@ public class MainActivity extends ServiceControlActivity
     @BindView(R.id.tv_user_name) TextView tv_user_name;
     @BindView(R.id.tv_user_phone) TextView tv_user_phone;
     @BindView(R.id.tv_user_email) TextView tv_user_email;
-
     private static final String TAG = MainActivity.class.getSimpleName();
 
 //    boolean isAlertViewActive = false;
@@ -86,7 +83,6 @@ public class MainActivity extends ServiceControlActivity
     private static final int PAYMENT_REQUEST_CODE = 236;
     private static final int ALERT_HISTORY_CODE = 175;
     private static final int ABOUT_CODe = 818;
-
 
     DataBaseManager dataBaseManager = new DataBaseManagerImpl(this);
 
@@ -108,7 +104,10 @@ public class MainActivity extends ServiceControlActivity
             }
             case  REQUEST_CHECK_SETTINGS :{
                 if (resultCode == Activity.RESULT_OK) {
-                    restartService();
+                    if(!isGpsAlertShown) {
+                        isGpsAlertShown = true;
+                        restartService();
+                    }
                 }
                 break;
             }
@@ -217,6 +216,19 @@ public class MainActivity extends ServiceControlActivity
         setDrawerData();
         btn_alert.setEnabled(false);
         presenter.checkStatus();
+        checkTutsStatus(savedInstanceState);
+    }
+
+    private void checkTutsStatus(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            return;
+        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showTutorials(TutorialFragment.MAIN_ACTIVITY);
+            }
+        },100);
     }
 
     @Override
@@ -233,7 +245,7 @@ public class MainActivity extends ServiceControlActivity
 
     @Override
     public void onCallingAlert() {
-        if(!checkGPS()) {
+        if(!checkGPS() && !isGpsAlertShown) {
             createAndCheckLocationProvider();
             return;
         }
@@ -574,5 +586,8 @@ public class MainActivity extends ServiceControlActivity
     public void onDestroy() {
         super.onDestroy();
     }
+
+
+
 
 }

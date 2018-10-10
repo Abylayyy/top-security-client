@@ -3,6 +3,7 @@ package kz.topsecurity.client.domain.SettingsScreen;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -27,6 +28,7 @@ import io.reactivex.disposables.Disposable;
 import kz.topsecurity.client.R;
 import kz.topsecurity.client.domain.MainScreen.MainActivity;
 import kz.topsecurity.client.domain.base.BaseActivity;
+import kz.topsecurity.client.fragments.TutorialFragment;
 import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
 import kz.topsecurity.client.helper.dataBase.DataBaseManager;
@@ -65,7 +67,21 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         initView();
+        checkTutsStatus(savedInstanceState);
     }
+
+    private void checkTutsStatus(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            return;
+        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showTutorials(TutorialFragment.SETTINGS_ACTIVITY);
+            }
+        },100);
+    }
+
     private void initView() {
         rl_tracking_service.setOnClickListener(this);
         rl_volume_tracking_service.setOnClickListener(this);

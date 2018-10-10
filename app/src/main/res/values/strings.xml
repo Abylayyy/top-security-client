@@ -192,4 +192,19 @@
     <string name="company_name">ТОО «Top Security KZ»</string>
     <string name="main_address">Адрес Казахстан, г .Алматы, мкр. Алатау, ул. Асемтау 58</string>
     <string name="about_and_feedback">Обратная связь</string>
+
+    <string name="tuts_alert_title">Кнопка вызова помощи</string>
+    <string name="tuts_cancel_alert_title">Кнопка отмены вызова</string>
+    <string name="tuts_volume_btn_to_alert_title">Быстрый вызов</string>
+    <string name="tuts_places_title">Места</string>
+    <string name="tuts_contacts_title">Доверенные номера</string>
+    <string name="tuts_settings_title">Настройки</string>
+
+    <string name="tuts_alert_desc">при нажатии на кнопку вызова,оператор получит сигнал от тревоге, который будет передан группе быстрого реагирования</string>
+    <string name="tuts_cancel_alert_desc">вы всегда можете отменить вызов, если он не требуется, или был сделан случайно</string>
+    <string name="tuts_volume_btn_to_alert_desc">Так же кнопку тревоги можно активировать зажав качельку громкости</string>
+    <string name="tuts_places_desc">С помощью вкладки места, вы можете добавлять места в которых вы часто бываете</string>
+    <string name="tuts_contacts_desc">Во вкладке доверенные номера, вы можете добавить номера близких вам людей</string>
+    <string name="tuts_settings_desc">В настройках вы сможете управлять отслеживанием место положения и настроить кнопку вызова на качельку громкости.</string>
+    <string name="title_activity_tutorial_slider">TutorialSliderActivity</string>
 </resources>

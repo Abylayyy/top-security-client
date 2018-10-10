@@ -3,6 +3,7 @@ package kz.topsecurity.client.domain.TrustedNumbersScreen;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +25,7 @@ import kz.topsecurity.client.domain.TrustedNumbersScreen.adapter.ItemDecoratorWi
 import kz.topsecurity.client.domain.TrustedNumbersScreen.adapter.TrustedContactsAdapter;
 import kz.topsecurity.client.domain.TrustedNumbersScreen.additionalScreen.CreateTrustedNumberActivity;
 import kz.topsecurity.client.domain.base.BaseActivity;
+import kz.topsecurity.client.fragments.TutorialFragment;
 import kz.topsecurity.client.model.contact.Contact;
 import kz.topsecurity.client.presenter.trustedNumberPresenter.TrustedNumberPresenter;
 import kz.topsecurity.client.presenter.trustedNumberPresenter.TrustedNumberPresenterImpl;
@@ -90,8 +92,20 @@ public class TrustedNumbersActivity extends BaseActivity<TrustedNumbersView,Trus
         });
         setupRV();
         presenter.getTrustedContacts();
+        checkTutsStatus(savedInstanceState);
     }
 
+    private void checkTutsStatus(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            return;
+        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showTutorials(TutorialFragment.CONTACTS_ACTIVITY);
+            }
+        },100);
+    }
     private void setupRV() {
         rv_trusted_numbers.setHasFixedSize(true);
 //        rv_trusted_numbers.addItemDecoration(

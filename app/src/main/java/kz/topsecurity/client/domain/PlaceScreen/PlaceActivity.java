@@ -45,6 +45,7 @@ import kz.topsecurity.client.R;
 import kz.topsecurity.client.domain.PlaceScreen.adapter.PlaceListAdapter;
 import kz.topsecurity.client.domain.PlaceScreen.adapter.PlaceListDecorator;
 import kz.topsecurity.client.domain.base.BaseActivity;
+import kz.topsecurity.client.fragments.TutorialFragment;
 import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.helper.MapHelper;
 import kz.topsecurity.client.model.place.Place;
@@ -105,6 +106,19 @@ public class PlaceActivity
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         setupRV();
+        checkTutsStatus(savedInstanceState);
+    }
+
+    private void checkTutsStatus(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            return;
+        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showTutorials(TutorialFragment.PLACES_ACTIVITY);
+            }
+        },100);
     }
 
     @Override
