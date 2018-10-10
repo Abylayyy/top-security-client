@@ -55,12 +55,11 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
                 break;
             }
             case R.id.tv_technical_issues:{
-                Intent intent = new Intent(Intent.ACTION_SENDTO);
-                intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_EMAIL, content);
+                Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + content));
+//                intent.putExtra(Intent.EXTRA_EMAIL, content);
                 intent.putExtra(Intent.EXTRA_SUBJECT, "Технический вопрос");
                 intent.putExtra(Intent.EXTRA_TEXT, "Здесь напишите свою проблему");
-                startActivity(Intent.createChooser(intent, "Send Email"));
+                startActivity(Intent.createChooser(intent, "Отправить Email"));
                 break;
             }
         }

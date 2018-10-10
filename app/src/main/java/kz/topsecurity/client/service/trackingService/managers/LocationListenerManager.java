@@ -9,10 +9,18 @@ import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
 
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStates;
+import com.google.android.gms.location.SettingsClient;
 
 import java.io.IOException;
 import java.util.List;
@@ -79,13 +87,17 @@ public class LocationListenerManager {
         //other values are PRIORITY_BALANCED_POWER_ACCURACY, PRIORITY_LOW_POWER, PRIORITY_NO_POWER
         mLocationRequest.setPriority(priority);
         Log.d(TAG, "LOCATION TRACKER CONNECTING");
-        connectToFusedLocation(client);
+        mFusedLocationProviderClient= client;
+        checkSettings();
         mIsActive = true;
+    }
+
+    private void checkSettings() {
+        mLocationListener.onLocationRequestCheck(mLocationRequest);
     }
 
     @SuppressLint("MissingPermission")
     private void connectToFusedLocation(FusedLocationProviderClient client) {
-        mFusedLocationProviderClient = client;
         mFusedLocationProviderClient.requestLocationUpdates(mLocationRequest, locationCallback, Looper.myLooper());
         getLastLocation();
         Log.d(TAG, "Connected to Google API");
@@ -181,5 +193,9 @@ public class LocationListenerManager {
 
     public boolean isActive(){
         return mIsActive;
+    }
+
+    public void startLocationUpdates() {
+        connectToFusedLocation(mFusedLocationProviderClient);
     }
 }

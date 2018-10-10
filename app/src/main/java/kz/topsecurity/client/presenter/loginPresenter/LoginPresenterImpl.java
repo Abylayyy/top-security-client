@@ -65,7 +65,7 @@ public class LoginPresenterImpl extends BasePresenterImpl<LoginView> implements 
                 setError(error_message);
             }
             }).makeRequest(RetrofitClient.getClientApi()
-                .authorize(phone, password, Constants.CLIENT_DEVICE_TYPE, imei));
+                .authorize(phone, password, Constants.CLIENT_DEVICE_TYPE,Constants.CLIENT_DEVICE_PLATFORM_TYPE, imei));
 
         compositeDisposable.add(success);
     }

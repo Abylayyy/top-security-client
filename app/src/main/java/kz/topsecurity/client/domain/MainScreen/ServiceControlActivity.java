@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -16,6 +17,13 @@ import android.view.View;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.SettingsClient;
+import com.google.android.gms.tasks.Task;
 
 import kz.topsecurity.client.BuildConfig;
 import kz.topsecurity.client.R;
@@ -30,6 +38,7 @@ import kz.topsecurity.client.view.mainView.MainView;
 public abstract class ServiceControlActivity extends BaseActivity<MainView,MainPresenter,MainPresenterImpl> {
 
     private static final String TAG = ServiceControlActivity.class.getSimpleName();
+    public static final int REQUEST_CHECK_SETTINGS = 717;
     boolean mAlreadyStartedService = false;
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
     private static final int REQUEST_PHONE_STATE_PERMISSION_REQUEST_CODE = 35;
@@ -41,6 +50,8 @@ public abstract class ServiceControlActivity extends BaseActivity<MainView,MainP
 
     AlertDialog networkDialog;
     AlertDialog gpsDialog;
+
+
 
     @Override
     protected void onResume() {
@@ -171,7 +182,7 @@ public abstract class ServiceControlActivity extends BaseActivity<MainView,MainP
         dialog.show();
     }
 
-    private void startStep3() {
+    protected void startStep3() {
         if (!mAlreadyStartedService ||  !Constants.is_service_active()) {
             Intent intent = new Intent(this, TrackingService.class);
             intent.setAction(Constants.START_FOREGROUND_ACTION);
@@ -184,7 +195,15 @@ public abstract class ServiceControlActivity extends BaseActivity<MainView,MainP
         else if(Constants.is_service_sending_alert() ){
             setAlertActiveView();
         }
+        createAndCheckLocationProvider();
         checkServices();
+    }
+
+    protected void forceStartService(){
+        Intent intent = new Intent(this, TrackingService.class);
+        intent.setAction(Constants.START_FOREGROUND_ACTION);
+        checkAndStartService(intent,TrackingService.class);
+        mAlreadyStartedService = true;
     }
 
     protected abstract void setAlertActiveView();
@@ -347,5 +366,45 @@ public abstract class ServiceControlActivity extends BaseActivity<MainView,MainP
         }
     }
 
+    void createAndCheckLocationProvider(){
+        LocationRequest locationRequest = new LocationRequest();
+        // 2
+        locationRequest.setInterval(10000);
+        // 3
+        locationRequest.setFastestInterval(5000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(locationRequest);
+
+        // 4
+        SettingsClient settingsClient = LocationServices.getSettingsClient(this);
+        Task<LocationSettingsResponse> locationSettingsResponseTask = settingsClient.checkLocationSettings(builder.build());
+
+        // 5
+        locationSettingsResponseTask.addOnSuccessListener (r->{
+            restartService();
+        });
+        locationSettingsResponseTask.addOnFailureListener ( error ->{
+            if (error instanceof ResolvableApiException) {
+                // Location settings are not satisfied, but this can be fixed
+                // by showing the user a dialog.
+                try {
+                    // Show the dialog by calling startResolutionForResult(),
+                    // and check the result in onActivityResult().
+                    ((ResolvableApiException) error).startResolutionForResult(this,REQUEST_CHECK_SETTINGS);
+                } catch (IntentSender.SendIntentException sendEx) {
+                    // Ignore the error.
+                }
+            }
+        });
+    }
+
+    protected void restartService() {
+//        fusedLocationClient.removeLocationUpdates(locationCallback);
+        Intent newIntent = new Intent(this, TrackingService.class);
+        stopService(newIntent);
+        forceStartService();
+    }
 
 }

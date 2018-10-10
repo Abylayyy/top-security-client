@@ -79,4 +79,24 @@ public class MapHelper {
        LatLng p2 = convertStringLatLng(position2_lat, position2_lng);
        return getDistance(p1,p2);
     };
+
+    private static LatLng computeCentroid(List<LatLng> points) {
+        double latitude = 0;
+        double longitude = 0;
+        int n = points.size();
+
+        for (LatLng point : points) {
+            latitude += point.latitude;
+            longitude += point.longitude;
+        }
+
+        return new LatLng(latitude/n, longitude/n);
+    }
+
+    public static LatLng centerBetweenTwoPoints(LatLng point1 , LatLng point2 ){
+        ArrayList<LatLng> latLngs = new ArrayList<LatLng>();
+        latLngs.add(point1);
+        latLngs.add(point2);
+        return computeCentroid(latLngs);
+    }
 }

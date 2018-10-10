@@ -9,6 +9,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -21,6 +22,14 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
+
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.SettingsClient;
+import com.google.android.gms.tasks.Task;
 
 import io.reactivex.annotations.Nullable;
 import io.reactivex.disposables.Disposable;
@@ -56,10 +65,12 @@ public class TrackingService extends Service implements TrackingServiceView {
     public static final int ACTION_STATUS_ALERT_CANCEL = 254;
     public static final int ACTION_STATUS_ALERT_CANCEL_FAILED = 421;
     public static final int ACTION_STATUS_ALERT_CANCEL_SEND = 852;
+    public static final int ACTION_GPS_NOT_AVAILABLE = 470;
 
     NotificationCompat.Builder notificationBuilder;
     NotificationManager mNotifyManager;
     boolean isAlertActive = false;
+    public static final int locationNotAvailable =197;
 
     public TrackingService() {
 
@@ -225,6 +236,20 @@ public class TrackingService extends Service implements TrackingServiceView {
     public void setAlertCanceledStatus(){
         sendNotification("Click to call alert", ACTION_NEW_SERVICE);
         broadcastMessage(ACTION_STATUS_ALERT_CANCEL_SEND);
+    }
+
+    @Override
+    public void onLocationNotAvailable() {
+        broadcastMessage(ACTION_GPS_NOT_AVAILABLE);
+    }
+
+    @Override
+    public void checkLocationRequest(LocationRequest locationRequest) {
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(locationRequest);
+
+        SettingsClient settingsClient = LocationServices.getSettingsClient(this);
+        presenter.checkLocationRequest(builder,settingsClient);
     }
 
     private void setGPSnotActiveStatus(){

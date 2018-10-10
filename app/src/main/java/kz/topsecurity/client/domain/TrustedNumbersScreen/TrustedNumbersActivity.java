@@ -1,11 +1,15 @@
 package kz.topsecurity.client.domain.TrustedNumbersScreen;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.Toolbar;
+import android.transition.ChangeBounds;
+import android.transition.TransitionManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -90,8 +94,9 @@ public class TrustedNumbersActivity extends BaseActivity<TrustedNumbersView,Trus
 
     private void setupRV() {
         rv_trusted_numbers.setHasFixedSize(true);
-        rv_trusted_numbers.addItemDecoration(
-                new ItemDecoratorWithDivider(this, R.drawable.item_divider));
+//        rv_trusted_numbers.addItemDecoration(
+//                new ItemDecoratorWithDivider(this, R.drawable.item_divider));
+        ((SimpleItemAnimator) rv_trusted_numbers.getItemAnimator()).setSupportsChangeAnimations(false);
         mLayoutManager = new LinearLayoutManager(this);
         rv_trusted_numbers.setLayoutManager(mLayoutManager);
         rv_trusted_numbers.setAdapter(mAdapter);
@@ -125,6 +130,16 @@ public class TrustedNumbersActivity extends BaseActivity<TrustedNumbersView,Trus
         intent.putExtra(CreateTrustedNumberActivity.CONTACT_NAME_TO_EDIT,contact.getName());
         intent.putExtra(CreateTrustedNumberActivity.CONTACT_PHONE_TO_EDIT,contact.getPhone());
         startActivityForResult(intent,EDIT_CONTACT);
+    }
+
+    @Override
+    public void onOptionsItem(Contact contact) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            TransitionManager.beginDelayedTransition(rv_trusted_numbers);
+        }
+        else{
+            //TODO: logic for older phones
+        }
     }
 
     @Override

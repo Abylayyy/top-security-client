@@ -6,27 +6,34 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="1dp"
-    android:background="@drawable/round_cornered_red_bg">
+    android:background="@drawable/round_cornered_white_card_bg">
     <ImageView
         android:id="@+id/iv_map"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/item_gray_divider"/>
     <LinearLayout
         android:orientation="vertical"
         android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <RelativeLayout
-            android:padding="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
                 android:layout_centerVertical="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:layout_toLeftOf="@id/center_view1"
                 android:layout_toStartOf="@id/center_view1"
                 android:gravity="left"
@@ -42,7 +49,7 @@
                 android:layout_centerVertical="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:layout_toRightOf="@id/center_view1"
                 android:layout_toEndOf="@id/center_view1"
                 android:gravity="right" />
@@ -50,14 +57,17 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:padding="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
                 android:layout_centerVertical="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:layout_toLeftOf="@id/center_view2"
                 android:layout_toStartOf="@id/center_view2"
                 android:gravity="left"
@@ -73,21 +83,24 @@
                 android:layout_centerVertical="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:layout_toRightOf="@id/center_view2"
                 android:layout_toEndOf="@id/center_view2"
                 android:gravity="right" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:padding="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
                 android:layout_centerVertical="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:layout_toLeftOf="@id/center_view4"
                 android:layout_toStartOf="@id/center_view4"
                 android:gravity="left"
@@ -103,7 +116,7 @@
                 android:layout_centerVertical="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:layout_toRightOf="@id/center_view4"
                 android:layout_toEndOf="@id/center_view4"
                 android:gravity="right" />

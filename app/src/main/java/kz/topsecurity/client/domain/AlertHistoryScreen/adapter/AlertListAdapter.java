@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CenterInside;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
@@ -101,6 +102,8 @@ public class AlertListAdapter extends RecyclerView.Adapter<AlertListAdapter.MyVi
                             "&maptype=roadmap" +
                             "&markers=color:blue%7Tlabel:S%7C"+lat+","+lng +
                             "&key="+Constants.getGoogleMapKey())
+                    .placeholder(R.drawable.placeholder_map)
+                    .transition(DrawableTransitionOptions.withCrossFade())
                     .apply(requestOptions)
                     .into(holder.iv_map);
         }

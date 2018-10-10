@@ -45,6 +45,7 @@ public class Constants {
     public static final String ASK_TO_TURN_ON_NETWORK_ACTION = PACKAGE_NAME+".action.ask_network";
 
     public static final String CLIENT_DEVICE_TYPE = "mobile";
+    public static final String CLIENT_DEVICE_PLATFORM_TYPE = "android";
    // public static User userData = new User();
 
     //TODO: DEVELOP MODE

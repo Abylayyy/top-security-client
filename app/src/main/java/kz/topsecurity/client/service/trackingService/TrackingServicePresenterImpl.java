@@ -2,12 +2,20 @@ package kz.topsecurity.client.service.trackingService;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Handler;
 import android.util.Log;
 
+import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.SettingsClient;
+import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -33,6 +41,7 @@ import kz.topsecurity.client.service.trackingService.managers.VolumeServiceManag
 import kz.topsecurity.client.service.trackingService.model.DeviceData;
 
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
+import static kz.topsecurity.client.service.trackingService.TrackingService.locationNotAvailable;
 
 public class TrackingServicePresenterImpl implements LocationListener {
 
@@ -253,6 +262,11 @@ public class TrackingServicePresenterImpl implements LocationListener {
         onTimerFired(false);
     }
 
+    @Override
+    public void onLocationRequestCheck(LocationRequest locationRequest) {
+        view.checkLocationRequest(locationRequest);
+    }
+
     boolean isGPSenabled(){
         if(mLocationListenerManager!=null && mLocationListenerManager.isActive())
             return mLocationListenerManager.isGpsEnabled();
@@ -372,5 +386,29 @@ public class TrackingServicePresenterImpl implements LocationListener {
         Constants.is_service_sending_alert(true);
         view.onBroadcastMessage(TrackingService.ACTION_STATUS_ALERT_CANCEL_FAILED);
         view.setAlertCancelFailedStatus();
+    }
+
+    public void checkLocationRequest(LocationSettingsRequest.Builder builder, SettingsClient settingsClient) {
+        Task<LocationSettingsResponse> locationSettingsResponseTask = settingsClient.checkLocationSettings(builder.build());
+        locationSettingsResponseTask.addOnSuccessListener(l->{
+            mLocationListenerManager.startLocationUpdates();
+        });
+        locationSettingsResponseTask.addOnFailureListener( e ->{
+            // 6
+            if (e instanceof ResolvableApiException) {
+                // Location settings are not satisfied, but this can be fixed
+                // by showing the user a dialog.
+//                try {
+//                    // Show the dialog by calling startResolutionForResult(),
+//                    // and check the result in onActivityResult().
+//                    ((ResolvableApiException) e).startResolutionForResult(TrackingService.this,
+//                            REQUEST_CHECK_SETTINGS );
+//                } catch (IntentSender.SendIntentException ex) {
+//                    // Ignore the error.
+//                }
+
+                view.onLocationNotAvailable();
+            }
+        });
     }
 }

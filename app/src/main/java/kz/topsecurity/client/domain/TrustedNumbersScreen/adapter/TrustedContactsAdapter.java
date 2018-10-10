@@ -1,6 +1,7 @@
 package kz.topsecurity.client.domain.TrustedNumbersScreen.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,12 @@ public class TrustedContactsAdapter extends  RecyclerView.Adapter<TrustedContact
         }
 
         notifyDataSetChanged();
-        removeSelection();
+        removeAllSelection();
+    }
+
+    private void removeAllSelection() {
+        activeOptionViewPosiition = -1;
+        notifyDataSetChanged();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -81,6 +87,7 @@ public class TrustedContactsAdapter extends  RecyclerView.Adapter<TrustedContact
         });
         holder.iv_more.setOnClickListener(v->{
             makeSelection(position,  holder.ll_options, holder.iv_more);
+            listener.onOptionsItem(mDataset.get(position));
         });
         holder.mContactName.setText(mDataset.get(position).getName());
         holder.mContactPhone.setText(mDataset.get(position).getPhone());
@@ -107,17 +114,19 @@ public class TrustedContactsAdapter extends  RecyclerView.Adapter<TrustedContact
             button.setImageResource(R.drawable.ic_arrow_up_in_circle);
         }
         else if(activeOptionViewPosiition == position){
-            removeSelection();
+            removeSelection(button,optionsView);
         }
         else {
-            removeSelection();
+            removeAllSelection();
             makeSelection(position,optionsView,button);
         }
     }
 
-    public void removeSelection(){
+    public void removeSelection(ImageView iv_more , LinearLayout ll_options){
         if(activeOptionViewPosiition!=-1){
-            notifyItemChanged(activeOptionViewPosiition);
+            iv_more.setImageResource(R.drawable.ic_arrow_down_in_circle);
+            ll_options.setVisibility(View.GONE);
+//            notifyItemChanged(activeOptionViewPosiition);
             activeOptionViewPosiition = -1;
         }
     }
@@ -133,5 +142,6 @@ public class TrustedContactsAdapter extends  RecyclerView.Adapter<TrustedContact
         void onDeleteItem(Contact contact);
         void onEditItem(Contact contact);
 
+        void onOptionsItem(Contact contact);
     }
 }

@@ -18,9 +18,11 @@ public class AlertHistoryPresenterImpl extends BasePresenterImpl<AlertHistoryVie
 
     @Override
     public void getAlertHistory(int offset) {
+        view.showLoadingDialog();
         Disposable disposable = new RequestService<AlertsListResponse>(new RequestService.RequestResponse<AlertsListResponse>() {
             @Override
             public void onSuccess(AlertsListResponse data) {
+                view.hideLoadingDialog();
                 if(data!=null && data.getAlerts()!=null && !data.getAlerts().isEmpty())
                     view.onHistoryLoaded(data.getAlerts());
                 else
@@ -29,11 +31,13 @@ public class AlertHistoryPresenterImpl extends BasePresenterImpl<AlertHistoryVie
 
             @Override
             public void onFailed(AlertsListResponse data, int error_message) {
+                view.hideLoadingDialog();
                 view.onHistoryLoadFailed(error_message);
             }
 
             @Override
             public void onError(Throwable e, int error_message) {
+                view.hideLoadingDialog();
                 view.onHistoryLoadFailed(error_message);
             }
         }).makeRequest(RetrofitClient.getClientApi().getAlertList(RetrofitClient.getRequestToken(), 10, offset));

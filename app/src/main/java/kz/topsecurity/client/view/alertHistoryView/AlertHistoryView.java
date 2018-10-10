@@ -9,5 +9,7 @@ public interface AlertHistoryView extends BaseView {
     void onHistoryLoaded(List<Alert> history );
     void onHistoryEmpty();
     void onHistoryLoadFailed(int error_msg);
+    void hideLoadingDialog() ;
+    void showLoadingDialog();
 
 }

@@ -3,24 +3,33 @@ package kz.topsecurity.client.domain.PlaceScreen;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.resource.bitmap.CenterInside;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -36,10 +45,12 @@ import kz.topsecurity.client.R;
 import kz.topsecurity.client.domain.PlaceScreen.adapter.PlaceListAdapter;
 import kz.topsecurity.client.domain.PlaceScreen.adapter.PlaceListDecorator;
 import kz.topsecurity.client.domain.base.BaseActivity;
+import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.helper.MapHelper;
 import kz.topsecurity.client.model.place.Place;
 import kz.topsecurity.client.presenter.placesPresenter.PlacesPresenter;
 import kz.topsecurity.client.presenter.placesPresenter.PlacesPresenterImpl;
+import kz.topsecurity.client.utils.GlideApp;
 import kz.topsecurity.client.view.placesView.PlacesView;
 
 public class PlaceActivity
@@ -112,6 +123,7 @@ public class PlaceActivity
         rv_places.setHasFixedSize(true);
         rv_places.addItemDecoration(new PlaceListDecorator(this));
         mLayoutManager = new LinearLayoutManager(this);
+        ((SimpleItemAnimator) rv_places.getItemAnimator()).setSupportsChangeAnimations(false);
         rv_places.setLayoutManager(mLayoutManager);
         rv_places.setAdapter(mPlaceListAdapter);
     }
@@ -124,6 +136,7 @@ public class PlaceActivity
 
     void setPlaceRadiusView(){
         clearMapElements();
+        findViewById(R.id.map).setVisibility(View.VISIBLE);
         ll_place_text_values_input_view.setVisibility(View.GONE);
         ll_place_list_view.setVisibility(View.GONE);
         currentViewState = RADIUS_VIEW;
@@ -158,6 +171,7 @@ public class PlaceActivity
 
     void setPlaceListView(){
         clearMapElements();
+        findViewById(R.id.map).setVisibility(View.VISIBLE);
         ll_place_text_values_input_view.setVisibility(View.GONE);
         ll_radius_picker.setVisibility(View.GONE);
         currentViewState = LIST_VIEW;
@@ -172,11 +186,26 @@ public class PlaceActivity
         }
     };
 
+    RequestOptions transforms = new RequestOptions().transforms(new CenterInside(), new RoundedCorners(10));
+
     void setPlaceTextValuesView(){
         ll_place_list_view.setVisibility(View.GONE);
         ll_radius_picker.setVisibility(View.GONE);
         currentViewState = TEXT_INFO_VIEW;
         ll_place_text_values_input_view.setVisibility(View.VISIBLE);
+        findViewById(R.id.map).setVisibility(View.GONE);
+        GlideApp.with(this)
+                .load("https://maps.googleapis.com/maps/api/staticmap" +
+                        "?center="+ markerLocation.latitude +","+ markerLocation.longitude +
+                        "&zoom=16" +
+                        "&size=600x300" +
+                        "&maptype=roadmap" +
+                        "&markers=color:blue%7Tlabel:S%7C"+markerLocation.latitude+","+markerLocation.longitude+
+                        "&key="+Constants.getGoogleMapKey())
+                .apply(transforms)
+                .placeholder(R.drawable.placeholder_map)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into((ImageView)findViewById(R.id.iv_map));
         configureFabButton(R.drawable.ic_done, textValuesViewButtonClick);
     }
 
@@ -225,7 +254,11 @@ public class PlaceActivity
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+              //  mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+                CameraUpdate location = CameraUpdateFactory.newLatLngZoom(
+                        latLng, 15);
+//                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(latLng);
+                mMap.animateCamera(location, 1000, null);
                 if(currentViewState == RADIUS_VIEW) {
                     markerLocation = latLng;
                     drawMarker(latLng);
@@ -236,6 +269,37 @@ public class PlaceActivity
         presenter.getPlaces();
       //  mMap.animateCamera(CameraUpdateFactory.zoomTo(14));//
     }
+
+    private void movaCamera(LatLng latLng , int min_zoom , int final_zoom){
+        LatLng cameraPosition = mMap.getCameraPosition().target;
+        int animationTime = 2000;
+        double distance = MapHelper.getDistance(cameraPosition, latLng);
+        if(distance>2000) {
+            LatLng center = MapHelper.centerBetweenTwoPoints(cameraPosition, latLng);
+            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(
+                    center, min_zoom);
+//                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(latLng);
+            mMap.animateCamera(location, animationTime / 2, null);
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    runOnUiThread(()->{
+                        CameraUpdate location = CameraUpdateFactory.newLatLngZoom(
+                                latLng, final_zoom);
+                        mMap.animateCamera(location, (animationTime) /2, null);
+                    });
+                }
+            }, animationTime / 2);
+        }
+        else{
+            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(
+                    latLng, final_zoom);
+//                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(latLng);
+            mMap.animateCamera(location, animationTime, null);
+        }
+    }
+
 
     private void drawMarker(LatLng latLng) {
         if(mPlaceMarker==null) {
@@ -343,8 +407,8 @@ public class PlaceActivity
     }
 
     private void clearEditTextViews() {
-        ed_place_name.setText(null);
-        ed_place_description.setText(null);
+        ed_place_name.setText("");
+        ed_place_description.setText("");
     }
 
     @Override
@@ -359,8 +423,13 @@ public class PlaceActivity
             markerLocation =latLng;
             drawMarker(latLng);
 //                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                mMap.animateCamera(CameraUpdateFactory.zoomTo(16));
+//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+              //  mMap.animateCamera(CameraUpdateFactory.zoomTo(16));
+//            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(
+//                    latLng, 15);
+//            mMap.animateCamera(location, 1000, null);
+            movaCamera(latLng,12,15);
+//                mMap.animateCamera(CameraUpdateFactory.zoomTo(16), 2000, null);
             mRadius = data.getRadius();
             drawCircle(data.getRadius());
         }

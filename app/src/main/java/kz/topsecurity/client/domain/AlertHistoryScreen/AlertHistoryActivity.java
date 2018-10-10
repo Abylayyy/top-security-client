@@ -62,6 +62,17 @@ public class AlertHistoryActivity extends BaseActivity<AlertHistoryView,AlertHis
             mAdapter.updateData(history);
     }
 
+
+    @Override
+    public void hideLoadingDialog() {
+        super.hideProgressDialog();
+    }
+
+    @Override
+    public void showLoadingDialog() {
+        super.showLoadingDialog();
+    }
+
     @Override
     public void onHistoryEmpty() {
         showToast(R.string.list_is_empty);

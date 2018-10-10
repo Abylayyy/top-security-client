@@ -1,9 +1,11 @@
 package kz.topsecurity.client.domain.MainScreen;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.IntentSender;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,6 +19,13 @@ import android.widget.TextView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.SettingsClient;
+import com.google.android.gms.tasks.Task;
 import com.skyfishjy.library.RippleBackground;
 
 import butterknife.BindView;
@@ -94,6 +103,12 @@ public class MainActivity extends ServiceControlActivity
                     Constants.clearData(this);
                     startActivity(new Intent(MainActivity.this, SplashScreen.class));
                     finish();
+                }
+                break;
+            }
+            case  REQUEST_CHECK_SETTINGS :{
+                if (resultCode == Activity.RESULT_OK) {
+                    restartService();
                 }
                 break;
             }
@@ -187,7 +202,7 @@ public class MainActivity extends ServiceControlActivity
         btn_alert.setOnClickListener(this);
         btn_cancel_alert.setOnClickListener(this);
         btn_minimize_app.setOnClickListener(this);
-
+        iv_user_avatar.setOnClickListener(this);
         initPresenter(new MainPresenterImpl(this));
 
         setupBroadcastReceiver();
@@ -218,8 +233,10 @@ public class MainActivity extends ServiceControlActivity
 
     @Override
     public void onCallingAlert() {
-        if(!checkGPS())
+        if(!checkGPS()) {
+            createAndCheckLocationProvider();
             return;
+        }
         presenter.callAlert();
     }
 
@@ -301,6 +318,10 @@ public class MainActivity extends ServiceControlActivity
                         showToast(R.string.failed_to_cancel_alert);
                         break;
                     }
+                    case TrackingService.ACTION_GPS_NOT_AVAILABLE:{
+                        createAndCheckLocationProvider();
+                        break;
+                    }
                 }
             }
         }, new IntentFilter(TrackingService.FILTER_ACTION_SERVICE_BROADCAST));
@@ -352,6 +373,14 @@ public class MainActivity extends ServiceControlActivity
         int id = view.getId();
         boolean ifNavButtons = false;
         switch(id){
+            case R.id.iv_user_avatar:{
+                ifNavButtons = true;
+                if(!Constants.is_service_sending_alert())
+                    startActivityForResult(new Intent(this,ProfileActivity.class),PROFILE_REQUEST_CODE);
+                else
+                    onShowToast(R.string.you_cant_when_alert_active);
+                break;
+            }
             case R.id.tv_profile:{
                 ifNavButtons = true;
                 if(!Constants.is_service_sending_alert())

@@ -35,6 +35,7 @@ public interface ApiService {
     Observable<AuthResponse> authorize(@Field("phone") String phone,
                                  @Field("password") String password,
                                  @Field("type") String type,
+                                 @Field("platform") String platform,
                                  @Field("udid") String udid );
 
     @FormUrlEncoded

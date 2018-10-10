@@ -3,6 +3,9 @@ package kz.topsecurity.client.service.trackingService;
 import android.content.Intent;
 
 
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.LocationRequest;
+
 import kz.topsecurity.client.service.trackingService.model.DeviceData;
 
 public interface TrackingServiceView {
@@ -15,4 +18,8 @@ public interface TrackingServiceView {
     void setAlertFailedStatus();
     void setAlertCancelFailedStatus();
     void setAlertCanceledStatus();
+
+    void onLocationNotAvailable();
+
+    void checkLocationRequest(LocationRequest locationRequest);
 }
