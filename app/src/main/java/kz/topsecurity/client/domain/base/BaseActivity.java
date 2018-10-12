@@ -68,6 +68,8 @@ public abstract class BaseActivity
     }
 
     public void showTutorials(int type) {
+        if(SharedPreferencesManager.getIsTutsShown(this))
+            return;
         if(findViewById(R.id.fl_tuts_fragment_container) == null)
             return;
 

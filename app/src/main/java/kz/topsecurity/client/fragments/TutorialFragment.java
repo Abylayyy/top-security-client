@@ -16,11 +16,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import kz.topsecurity.client.R;
+import kz.topsecurity.client.helper.SharedPreferencesManager;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,7 +39,7 @@ public class TutorialFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "type";
-
+    ArrayList<String> shownTutsList ;
     // TODO: Rename and change types of parameters
     private int mParam1;
 
@@ -51,45 +56,67 @@ public class TutorialFragment extends Fragment {
     public static final int CONTACTS_ACTIVITY = 13;
     public static final int SETTINGS_ACTIVITY = 14;
 
-    void setTutsLogic(int type){
+    boolean setTutsLogic(int type){
+        String[] prepare_pages_pack ;
         switch (type){
             case MAIN_ACTIVITY:{
-                current_pages_pack = new int[2];
-                current_pages_pack[0] = ALERT_PAGE;
-                current_pages_pack[1] = CANCEL_ALERT_PAGE;
+                prepare_pages_pack = new String[2];
+                prepare_pages_pack[0] = ALERT_PAGE;
+                prepare_pages_pack[1] = CANCEL_ALERT_PAGE;
                 break;
             }
             case PLACES_ACTIVITY:{
-                current_pages_pack = new int[1];
-                current_pages_pack[0] = PLACES_PAGE;
+                prepare_pages_pack = new String[1];
+                prepare_pages_pack[0] = PLACES_PAGE;
                 break;
             }
             case CONTACTS_ACTIVITY:{
-                current_pages_pack = new int[1];
-                current_pages_pack[0] = CONTACTS_PAGE;
+                prepare_pages_pack = new String[1];
+                prepare_pages_pack[0] = CONTACTS_PAGE;
                 break;
             }
             case SETTINGS_ACTIVITY:{
-                current_pages_pack = new int[2];
-                current_pages_pack[0] = SETTINGS_PAGE;
-                current_pages_pack[1] = VOLUME_BUTTON_PAGE;
+                prepare_pages_pack = new String[2];
+                prepare_pages_pack[0] = SETTINGS_PAGE;
+                prepare_pages_pack[1] = VOLUME_BUTTON_PAGE;
                 break;
             }
             default:{
-
-                break;
+                finishFragment();
+                return false;
             }
         }
+
+        List<String> setValuesToPack = new ArrayList<>();
+        shownTutsList = SharedPreferencesManager.getShownTutsList(getContext());
+        for (String current_page :
+                prepare_pages_pack) {
+            if(!shownTutsList.contains(current_page)){
+                setValuesToPack.add(current_page);
+            }
+        }
+        if(setValuesToPack.isEmpty()){
+            checkTutsStatus();
+            finishFragment();
+            return false;
+        }
+        else{
+            current_pages_pack = new String[setValuesToPack.size()];
+            for(int i=0; i<setValuesToPack.size(); i++){
+                current_pages_pack[i] = setValuesToPack.get(i);
+            }
+        }
+        return true;
     }
 
-    private static final int ALERT_PAGE = 937;
-    private static final int CANCEL_ALERT_PAGE = 901;
-    private static final int PLACES_PAGE = 715;
-    private static final int CONTACTS_PAGE = 285;
-    private static final int SETTINGS_PAGE = 145;
-    private static final int VOLUME_BUTTON_PAGE = 527;
+    private static final String ALERT_PAGE = "ALERT_PAGE";
+    private static final String CANCEL_ALERT_PAGE = "CANCEL_ALERT_PAGE";
+    private static final String PLACES_PAGE = "PLACES_PAGE";
+    private static final String CONTACTS_PAGE = "CONTACTS_PAGE";
+    private static final String SETTINGS_PAGE = "SETTINGS_PAGE";
+    private static final String VOLUME_BUTTON_PAGE = "VOLUME_BUTTON_PAGE";
 
-    int[] current_pages_pack;
+    String[] current_pages_pack;
     int currentPage = -1;
     boolean isAnimationActive = false;
 
@@ -145,20 +172,8 @@ public class TutorialFragment extends Fragment {
         cl_main_container.startAnimation(animation);
         isAnimationActive = true;
 
-        switch (mParam1){
-            case MAIN_ACTIVITY:{
-                iv_tuts.setImageResource(R.drawable.tuts_main_page_alert_btn);
-                iv_tuts.setOnClickListener(r->{
-                    btn_ok.setVisibility(View.INVISIBLE);
-                    iv_tuts.setVisibility(View.INVISIBLE);
-                    tv_tuts_title.setVisibility(View.INVISIBLE);
-                    tv_tuts_desc.setVisibility(View.INVISIBLE);
-                    currentPage = 0;
-                    setupPage();
-                });
-                break;
-            }
-        }
+
+
     }
 
     void setDataToViews(){
@@ -166,7 +181,7 @@ public class TutorialFragment extends Fragment {
         int titleText = -1;
         int descText = -1;
 
-        int pageIndex = current_pages_pack[currentPage];
+        String pageIndex = current_pages_pack[currentPage];
         switch(pageIndex){
             case ALERT_PAGE:{
                 titleText = R.string.tuts_alert_title;
@@ -215,11 +230,16 @@ public class TutorialFragment extends Fragment {
     void nextPage(){
         if(isAnimationActive)
             return;
+        if(currentPage < current_pages_pack.length)
+        {
+            shownTutsList.add(current_pages_pack[currentPage]);
+        }
         currentPage++;
         if(currentPage >= current_pages_pack.length){
             afterHideAnimation = new Runnable() {
                 @Override
                 public void run() {
+                    checkTutsStatus();
                     finishFragment();
                 }
             };
@@ -235,6 +255,13 @@ public class TutorialFragment extends Fragment {
         }
         hideCurrentPage();
         return ;
+    }
+
+    void checkTutsStatus(){
+        SharedPreferencesManager.setShownTutsList(getContext(),shownTutsList);
+        if(shownTutsList.size() >= 6){
+            SharedPreferencesManager.setIsTutsShown(getContext(), true);
+        }
     }
 
     private void finishFragment() {
@@ -437,9 +464,12 @@ public class TutorialFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        if(mParam1!=-1){
-            setTutsLogic(mParam1);
+        if(SharedPreferencesManager.getIsTutsShown(getContext()))
+        {
+            finishFragment();
+            return;
+        }
+        if(mParam1!=-1 && setTutsLogic(mParam1) ){
             currentPage = 0;
             setupPage();
         }

@@ -523,10 +523,11 @@ public class TrackingService extends Service implements TrackingServiceView {
     private void createChannel(NotificationManager notificationManager, String CHANNEL_ID) {
         String channel_name = "Tracker";
         String channel_description = "Notifications for tracker";
-        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        int importance = NotificationManager.IMPORTANCE_LOW;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, channel_name, importance);
+            channel.setSound(null,null);
             channel.setDescription(channel_description);
             notificationManager.createNotificationChannel(channel);
         }

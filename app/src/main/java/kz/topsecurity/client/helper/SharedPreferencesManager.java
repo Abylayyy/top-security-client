@@ -2,7 +2,16 @@ package kz.topsecurity.client.helper;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class SharedPreferencesManager {
     private static final String TAG = SharedPreferencesManager.class.getSimpleName();
@@ -25,6 +34,8 @@ public class SharedPreferencesManager {
     private static final String IS_ALERT_ACTIVE_KEY = "IS_ALERT_ACTIVE_KEY";
     private static final String SERVICE_STATE_KEY = "SERVICE_STATE_KEY";
     private static final String IS_FIRST_START_KEY = "IS_FIRST_START_KEY";
+    private static final String IS_TUTS_SHOWN_KEY = "IS_TUTS_SHOWN_KEY";
+    private static final String SHOWN_TUTS_ARRAY_KEY = "SHOWN_TUTS_ARRAY_KEY";
     // other properties...
 
 
@@ -237,4 +248,50 @@ public class SharedPreferencesManager {
         }
     }
 
+    public static boolean getIsTutsShown(Context context) {
+        return getSharedPreferences(context).getBoolean(IS_TUTS_SHOWN_KEY, false);
+    }
+
+    public static void setIsTutsShown(Context context, boolean newValue) {
+        final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putBoolean(IS_TUTS_SHOWN_KEY, newValue);
+        //editor.apply();
+        boolean isSuccessful = editor.commit();
+        if(!isSuccessful){
+            Log.e(TAG,"Put value failed");
+        }
+    }
+
+
+    public static void setShownTutsList(Context context, ArrayList<String> values) {
+        final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        JSONArray a = new JSONArray();
+        for (int i = 0; i < values.size(); i++) {
+            a.put(values.get(i));
+        }
+        if (!values.isEmpty()) {
+            editor.putString(SHOWN_TUTS_ARRAY_KEY, a.toString());
+        } else {
+            editor.putString(SHOWN_TUTS_ARRAY_KEY, null);
+        }
+        boolean commit = editor.commit();
+    }
+
+    public static ArrayList<String> getShownTutsList(Context context) {
+        SharedPreferences prefs = getSharedPreferences(context);
+        String json = prefs.getString(SHOWN_TUTS_ARRAY_KEY, null);
+        ArrayList<String> urls = new ArrayList<String>();
+        if (json != null) {
+            try {
+                JSONArray a = new JSONArray(json);
+                for (int i = 0; i < a.length(); i++) {
+                    String url = a.optString(i);
+                    urls.add(url);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return urls;
+    }
 }

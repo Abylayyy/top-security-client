@@ -18,4 +18,5 @@ public class CheckAlertResponse extends BasicResponseTemplate {
         this.alert = alert;
     }
 
+
 }

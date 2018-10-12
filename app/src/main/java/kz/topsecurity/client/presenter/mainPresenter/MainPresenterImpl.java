@@ -4,6 +4,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.model.alert.CheckAlertResponse;
 import kz.topsecurity.client.presenter.base.BasePresenterImpl;
 import kz.topsecurity.client.service.api.RequestService;
@@ -79,6 +80,11 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
             public void onSuccess(CheckAlertResponse r) {
                 if(r.getAlert()!=null && !r.getAlert().getStatus().equals("cancelled"))
                     processCheckStatus(true);
+                else {
+                    processCheckStatus(false);
+//                    Constants.is_service_sending_alert(false);/
+//                    view.onCheckAlertServiceIsNotActive();//
+                }
             }
 
             @Override
