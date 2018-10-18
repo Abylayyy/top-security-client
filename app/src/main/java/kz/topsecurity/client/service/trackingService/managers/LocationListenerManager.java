@@ -83,6 +83,7 @@ public class LocationListenerManager {
         mLocationRequest.setInterval(Constants.LOCATION_INTERVAL);
         mLocationRequest.setFastestInterval(Constants.FASTEST_LOCATION_INTERVAL);
 
+//        int priority = LocationRequest.PRIORITY_HIGH_ACCURACY;
         int priority = LocationRequest.PRIORITY_HIGH_ACCURACY;
         //other values are PRIORITY_BALANCED_POWER_ACCURACY, PRIORITY_LOW_POWER, PRIORITY_NO_POWER
         mLocationRequest.setPriority(priority);
@@ -121,7 +122,9 @@ public class LocationListenerManager {
 
     public void onLocationChanged(Location location, int type) {
         if (location != null) {
+            Log.d(TAG,"PROVIDER " +  location.getProvider());
             Log.d(TAG, "== location != null");
+            Log.d(TAG, "ACCURACY " + location.getAccuracy());
             onLocationChanged(location.getLatitude(),location.getLongitude(), location.getAltitude(), type , location.getAccuracy());
         }
     }
@@ -141,6 +144,7 @@ public class LocationListenerManager {
         if(acc<50) {
             mLatitude = lat;
             mLongitude = lng;
+            Log.d(TAG, " ACCURACY lower 50");
             getAddressFromLocation(mLatitude, mLongitude);
         }
         mLocationListener.onLocationChanged(mLatitude,mLongitude,mAltitude,mCurrentLocationStreet);

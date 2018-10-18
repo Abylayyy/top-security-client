@@ -36,6 +36,7 @@ public class SharedPreferencesManager {
     private static final String IS_FIRST_START_KEY = "IS_FIRST_START_KEY";
     private static final String IS_TUTS_SHOWN_KEY = "IS_TUTS_SHOWN_KEY";
     private static final String SHOWN_TUTS_ARRAY_KEY = "SHOWN_TUTS_ARRAY_KEY";
+    private static final String FCM_TOKEN_KEY = "FCM_TOKEN_KEY";
     // other properties...
 
 
@@ -293,5 +294,19 @@ public class SharedPreferencesManager {
             }
         }
         return urls;
+    }
+
+    public static String getFcmToken(Context context){
+        return getSharedPreferences(context).getString(FCM_TOKEN_KEY, null);
+    }
+
+    public static void setFcmToken(Context context,String fcmToken) {
+        final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putString(FCM_TOKEN_KEY, fcmToken);
+        //editor.apply();
+        boolean isSuccessful = editor.commit();
+        if(!isSuccessful){
+            Log.e(TAG,"Put value failed");
+        }
     }
 }

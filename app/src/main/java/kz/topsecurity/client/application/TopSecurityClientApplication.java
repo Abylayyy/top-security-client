@@ -2,6 +2,7 @@ package kz.topsecurity.client.application;
 
 import android.app.Application;
 import android.content.res.Configuration;
+import android.support.multidex.MultiDexApplication;
 
 import com.google.firebase.FirebaseApp;
 
@@ -10,7 +11,7 @@ import net.gotev.uploadservice.UploadService;
 import kz.topsecurity.client.BuildConfig;
 
 
-public class TopSecurityClientApplication extends Application {
+public class TopSecurityClientApplication extends MultiDexApplication {
 
     @Override
     public void onCreate() {

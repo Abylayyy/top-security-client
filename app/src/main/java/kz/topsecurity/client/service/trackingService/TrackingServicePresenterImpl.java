@@ -25,14 +25,18 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import kz.topsecurity.client.helper.Constants;
+import kz.topsecurity.client.model.alert.Alert;
 import kz.topsecurity.client.model.alert.AlertResponse;
 import kz.topsecurity.client.model.alert.CancelAlertResponse;
 import kz.topsecurity.client.model.device.SaveDeviceDataResponse;
+import kz.topsecurity.client.model.order.Order;
 import kz.topsecurity.client.service.api.RequestService;
 import kz.topsecurity.client.service.api.RetrofitClient;
 import kz.topsecurity.client.service.trackingService.managers.BarometricAltitudeListenerManager;
 import kz.topsecurity.client.service.trackingService.managers.BatteryListenerManager;
 import kz.topsecurity.client.service.trackingService.managers.DataProvider;
+import kz.topsecurity.client.service.trackingService.managers.FirebaseMessageListener;
+import kz.topsecurity.client.service.trackingService.managers.FirebaseMessagesListenerManager;
 import kz.topsecurity.client.service.trackingService.managers.LocationListener;
 import kz.topsecurity.client.service.trackingService.managers.LocationListenerManager;
 import kz.topsecurity.client.service.trackingService.managers.TelephonyListenerManager;
@@ -43,7 +47,7 @@ import kz.topsecurity.client.service.trackingService.model.DeviceData;
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
 import static kz.topsecurity.client.service.trackingService.TrackingService.locationNotAvailable;
 
-public class TrackingServicePresenterImpl implements LocationListener {
+public class TrackingServicePresenterImpl implements LocationListener , FirebaseMessageListener {
 
     private TrackingServiceView view;
     private Handler handler;
@@ -65,6 +69,7 @@ public class TrackingServicePresenterImpl implements LocationListener {
     private BarometricAltitudeListenerManager mBarometricAltitudeListenerManager = new BarometricAltitudeListenerManager();
     private VolumeListenerManager mVolumeListenerManager = new VolumeListenerManager();
     private VolumeServiceManager mVolumeServiceManager = new VolumeServiceManager() ;
+    private FirebaseMessagesListenerManager mFirebaseMessagesListenerManager = new FirebaseMessagesListenerManager(this);
 
     public void setupLocationReceiver(Context context) {
         setupLocationReceiver(
@@ -410,5 +415,26 @@ public class TrackingServicePresenterImpl implements LocationListener {
                 view.onLocationNotAvailable();
             }
         });
+    }
+
+    public void setupFirebaseMessagesReceiver(Context context) {
+        if(!mFirebaseMessagesListenerManager.isActive())
+            mFirebaseMessagesListenerManager.setupFirebaseMessagesListenerManager(context);
+    }
+
+    @Override
+    public void onOrderChanged(int type, Order order) {
+        if(type == 1)
+            view.onBroadcastMessage(TrackingService.ACTION_OPERATOR_ACCEPTED);
+        else{
+            String status = order.getStatus();
+            if(status.equals("in_process"))
+                view.onBroadcastMessage(TrackingService.ACTION_MRRT_ACCEPTED);
+            else if(status.equals("cancelled"))
+                view.onBroadcastMessage(TrackingService.ACTION_OPERATOR_CANCELLED);
+
+
+
+        }
     }
 }

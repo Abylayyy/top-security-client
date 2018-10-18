@@ -1,5 +1,8 @@
 package kz.topsecurity.client.domain.MainScreen;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,22 +12,30 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
 import com.skyfishjy.library.RippleBackground;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
+import kz.topsecurity.client.domain.AnimationTest.AnimationActivity;
 import kz.topsecurity.client.domain.FeedbackScreen.FeedbackActivity;
 import kz.topsecurity.client.domain.AlertHistoryScreen.AlertHistoryActivity;
 import kz.topsecurity.client.domain.PaymentScreen.PaymentActivity;
@@ -46,6 +57,7 @@ import kz.topsecurity.client.service.trackingService.interfaces.TrackingServiceB
 import kz.topsecurity.client.service.trackingService.listenerImpl.TrackingServiceBroadcastReceiver;
 import kz.topsecurity.client.service.trackingService.managers.DataProvider;
 import kz.topsecurity.client.service.trackingService.model.DeviceData;
+import kz.topsecurity.client.ui_widgets.CustomRippleBackground;
 import kz.topsecurity.client.ui_widgets.customDialog.CustomDialog;
 import kz.topsecurity.client.view.mainView.MainView;
 
@@ -69,11 +81,14 @@ public class MainActivity extends ServiceControlActivity
     @BindView(R.id.btn_alert) Button btn_alert;
     @BindView(R.id.btn_cancel_alert) Button btn_cancel_alert;
     @BindView(R.id.btn_minimize_app) Button btn_minimize_app;
-    @BindView(R.id.rippleBackground) RippleBackground rippleBackground;
     @BindView(R.id.iv_user_avatar) CircleImageView iv_user_avatar;
     @BindView(R.id.tv_user_name) TextView tv_user_name;
     @BindView(R.id.tv_user_phone) TextView tv_user_phone;
     @BindView(R.id.tv_user_email) TextView tv_user_email;
+    @BindView(R.id.iv_circle) ImageView iv_circle;
+    @BindView(R.id.iv_circle2) ImageView iv_circle2;
+    @BindView(R.id.iv_dash_circle) ImageView iv_dash_circle;
+    @BindView(R.id.iv_icon) ImageView iv_icon;
     private static final String TAG = MainActivity.class.getSimpleName();
 
 //    boolean isAlertViewActive = false;
@@ -85,6 +100,9 @@ public class MainActivity extends ServiceControlActivity
     private static final int ABOUT_CODe = 818;
 
     DataBaseManager dataBaseManager = new DataBaseManagerImpl(this);
+    AnimatorSet rippleAnimatorSet;
+    AnimatorSet circleAnimatorSet;
+    RotateAnimation carAnimation  ;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -175,11 +193,11 @@ public class MainActivity extends ServiceControlActivity
                 if (newState == DrawerLayout.STATE_SETTLING) {
                     if (!drawer.isDrawerOpen(GravityCompat.START)) {
                         // starts opening
-                        if(rippleBackground!=null && isAlertViewVisible)
-                            rippleBackground.stopRippleAnimation();
+                        if(isAlertViewVisible)
+                            stopRippleAnimation();
                     } else {
-                        if(rippleBackground!=null && isAlertViewVisible)
-                            rippleBackground.startRippleAnimation();
+                        if( isAlertViewVisible)
+                            startRippleAnimation(0);
                     }
                     invalidateOptionsMenu();
                 }
@@ -203,6 +221,7 @@ public class MainActivity extends ServiceControlActivity
         btn_minimize_app.setOnClickListener(this);
         iv_user_avatar.setOnClickListener(this);
         initPresenter(new MainPresenterImpl(this));
+        presenter.logToken();
 
         setupBroadcastReceiver();
         if(Constants.is_service_sending_alert()){
@@ -217,6 +236,120 @@ public class MainActivity extends ServiceControlActivity
         btn_alert.setEnabled(false);
         presenter.checkStatus();
         checkTutsStatus(savedInstanceState);
+    }
+
+    int waitingColor = R.color.colorPrimary;
+    int alertColor = R.color.colorAccent;
+    int troubleColor = R.color.colorSecondaryRed;
+
+    ArrayList<Animator> animatorList = new ArrayList<>();
+
+    private void startRippleAnimation(int type) {
+        iv_circle.setVisibility(View.VISIBLE);
+        iv_circle2.setVisibility(View.VISIBLE);
+        iv_icon.setVisibility(View.VISIBLE);
+        iv_dash_circle.setVisibility(View.VISIBLE);
+        animatorList = new ArrayList<>();
+        changeRippleType(type);
+        int rippleDurationTime = 1800;
+        rippleAnimatorSet = new AnimatorSet();
+        rippleAnimatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
+        rippleAnimatorSet.setDuration(rippleDurationTime);
+        setAnimator(iv_circle,rippleDurationTime/2,0);
+        setAnimator(iv_circle2,rippleDurationTime/2,rippleDurationTime/2);
+        rippleAnimatorSet.playTogether(animatorList);
+        rippleAnimatorSet.start();
+        startCircleAnimation();
+    }
+
+    private void changeRippleType(int type) {
+        stopCarAnimation();
+        if (type == 0) {
+            setColorToImageView(waitingColor);
+            iv_icon.setImageResource(R.drawable.ic_operator);
+        }
+        if (type == 1) {
+            setColorToImageView(alertColor);
+            iv_icon.setImageResource(R.drawable.ic_mrrt_car);
+            startCarAnimation();
+        }
+        if (type == 2) {
+            setColorToImageView(troubleColor);
+            iv_icon.setImageResource(R.drawable.ic_error);
+        }
+    }
+
+    private void setColorToImageView(int color) {
+        iv_circle.setColorFilter(ContextCompat.getColor(this, color), android.graphics.PorterDuff.Mode.MULTIPLY);
+        iv_circle2.setColorFilter(ContextCompat.getColor(this, color), android.graphics.PorterDuff.Mode.MULTIPLY);
+    }
+
+    private void setAnimator(ImageView imageView, int anim_time, int delay) {
+        final ObjectAnimator alphaAnimator1= ObjectAnimator.ofFloat(imageView, "ScaleX", 1.0f, 6.0f);
+        alphaAnimator1.setRepeatCount(ObjectAnimator.INFINITE);
+        alphaAnimator1.setRepeatMode(ObjectAnimator.RESTART);
+        alphaAnimator1.setStartDelay(delay);
+        alphaAnimator1.setDuration(anim_time);
+        animatorList.add(alphaAnimator1);
+        final ObjectAnimator alphaAnimator2= ObjectAnimator.ofFloat(imageView, "ScaleY", 1.0f, 6.0f);
+        alphaAnimator2.setRepeatCount(ObjectAnimator.INFINITE);
+        alphaAnimator2.setRepeatMode(ObjectAnimator.RESTART);
+        alphaAnimator2.setStartDelay(delay);
+        alphaAnimator2.setDuration(anim_time);
+        animatorList.add(alphaAnimator2);
+        final ObjectAnimator alphaAnimator3= ObjectAnimator.ofFloat(imageView, "Alpha", 1.0f, 0.0f);
+        alphaAnimator3.setRepeatCount(ObjectAnimator.INFINITE);
+        alphaAnimator3.setRepeatMode(ObjectAnimator.RESTART);
+        alphaAnimator3.setStartDelay(delay);
+        alphaAnimator3.setDuration(anim_time);
+        animatorList.add(alphaAnimator3);
+    }
+
+    private void stopRippleAnimation() {
+        if(rippleAnimatorSet!=null)
+            rippleAnimatorSet.cancel();
+        iv_circle.setVisibility(View.GONE);
+        iv_circle2.setVisibility(View.GONE);
+        iv_icon.setVisibility(View.GONE);
+        iv_dash_circle.setVisibility(View.GONE);
+        stopCircleAnimation();
+        stopCarAnimation();
+    }
+
+    private void stopCircleAnimation() {
+        if(circleAnimatorSet!=null)
+            circleAnimatorSet.cancel();
+    }
+
+    private void startCircleAnimation(){
+        circleAnimatorSet = new AnimatorSet();
+        final ObjectAnimator alphaAnimator2= ObjectAnimator.ofFloat(iv_dash_circle, "rotation", 0f, 360f);
+        alphaAnimator2.setRepeatCount(ObjectAnimator.INFINITE);
+        alphaAnimator2.setRepeatMode(ObjectAnimator.RESTART);
+        alphaAnimator2.setDuration(15*1000);
+        circleAnimatorSet.play(alphaAnimator2);
+        circleAnimatorSet.start();
+    }
+
+    private void startCarAnimation() {//iv_dash_circle
+        int width = iv_icon.getWidth();
+        int width2 = iv_dash_circle.getWidth();
+//        carAnimation = new RotateAnimation(0.0f, 360.0f,
+//                Animation.ABSOLUTE, x/2, Animation.ABSOLUTE,
+//                y/2);
+        carAnimation = new RotateAnimation(0.0f, 360.0f,
+                Animation.ABSOLUTE, width/2, Animation.ABSOLUTE,
+                (width+width2/2));
+        carAnimation.setRepeatCount(ObjectAnimator.INFINITE);
+        carAnimation.setRepeatMode(ObjectAnimator.RESTART);
+        carAnimation.setDuration(15*1000);
+        iv_icon.startAnimation(carAnimation);
+//        carAnimation.start();
+    }
+
+    private void stopCarAnimation() {
+        if(carAnimation!=null)
+            carAnimation.cancel();
     }
 
     private void checkTutsStatus(Bundle savedInstanceState) {
@@ -245,7 +378,8 @@ public class MainActivity extends ServiceControlActivity
 
     @Override
     public void onCallingAlert() {
-        if(!checkGPS() && !isGpsAlertShown) {
+        if(!checkGPS() ) {
+            isGpsAlertShown = false;
             createAndCheckLocationProvider();
             return;
         }
@@ -301,6 +435,7 @@ public class MainActivity extends ServiceControlActivity
                     }
                     case TrackingService.ACTION_STATUS_ALERT_SEND:{
                         btn_cancel_alert.setEnabled(true);
+//                        rippleBackground./setRippleColor(getResources().getColor(R.color.colorAccent));
                         break;
                     }
                     case TrackingService.ACTION_STATUS_ALERT_FAILED:{
@@ -332,6 +467,19 @@ public class MainActivity extends ServiceControlActivity
                     }
                     case TrackingService.ACTION_GPS_NOT_AVAILABLE:{
                         createAndCheckLocationProvider();
+                        break;
+                    }
+                    case TrackingService.ACTION_OPERATOR_ACCEPTED:{
+                        startRippleAnimation(0);
+                        break;
+                    }
+                    case TrackingService.ACTION_MRRT_ACCEPTED:{
+                        startRippleAnimation(1);
+
+                        break;
+                    }
+                    case TrackingService.ACTION_OPERATOR_CANCELLED:{
+                        presenter.cancelAlert();
                         break;
                     }
                 }
@@ -518,9 +666,7 @@ public class MainActivity extends ServiceControlActivity
     void showCallAlertView(){
         isAlertViewVisible = false;
         runOnUiThread(()->{
-                rippleBackground.stopRippleAnimation();
-                rippleBackground.clearAnimation();
-                rippleBackground.setVisibility(View.GONE);
+                stopRippleAnimation();
                 btn_alert.setVisibility(View.VISIBLE);
                 btn_cancel_alert.setVisibility(View.GONE);
         });
@@ -530,9 +676,10 @@ public class MainActivity extends ServiceControlActivity
     void showCancelAlertView(){
         isAlertViewVisible = true;
         runOnUiThread(()->{
-            rippleBackground.setVisibility(View.VISIBLE);
-            rippleBackground.startRippleAnimation();
+//            rippleBackground.setRippleColor(getResources().getColor(R.color.colorPrimary));
+            startRippleAnimation(0);
             btn_alert.setVisibility(View.GONE);
+            //TODO; erewrwe
             btn_cancel_alert.setVisibility(View.VISIBLE);
         });
 
@@ -552,7 +699,7 @@ public class MainActivity extends ServiceControlActivity
             @Override
             public void onCancelBtnClicked() {
                 dialogFragment.dismiss();
-                rippleBackground.startRippleAnimation();
+                startRippleAnimation(0);
             }
 
             @Override
@@ -562,7 +709,7 @@ public class MainActivity extends ServiceControlActivity
             }
         });
         dialogFragment.show(ft, "dialog");
-        rippleBackground.stopRippleAnimation();
+        stopRippleAnimation();
     }
 
     @Override

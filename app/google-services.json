@@ -42,6 +42,13 @@
             {
               "client_id": "1048558182419-rd74tfq4ii8770g8t3o91e3aqpa6ca6d.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1048558182419-ejbj87j4i5581p1bot9d0u1joglnv208.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "kz.muratov.top"
+              }
             }
           ]
         },

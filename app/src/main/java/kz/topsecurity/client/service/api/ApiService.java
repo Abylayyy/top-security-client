@@ -12,6 +12,7 @@ import kz.topsecurity.client.model.contact.GetContactsResponse;
 import kz.topsecurity.client.model.contact.SaveContactsResponse;
 import kz.topsecurity.client.model.device.SaveDeviceDataResponse;
 import kz.topsecurity.client.model.other.BasicResponse;
+import kz.topsecurity.client.model.other.SampleRequest;
 import kz.topsecurity.client.model.photo.PhotoResponse;
 import kz.topsecurity.client.model.place.GetPlaceResponse;
 import kz.topsecurity.client.model.place.SavePlaceResponse;
@@ -164,4 +165,8 @@ public interface ApiService {
     Observable<AlertsListResponse> getAlertList(@Header("Authorization") String token,
                                                 @Query("limit") int limit,
                                                 @Query("offset") int offset);
+
+    @FormUrlEncoded
+    @POST("fcm/create")
+    Observable<SampleRequest> setFcmToken(@Header("Authorization") String access_token, @Field("token") String token);
 }

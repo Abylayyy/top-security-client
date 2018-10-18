@@ -32,12 +32,6 @@
         <attr name="libIZO_clearIconTint" format="color" />
         <attr name="libIZO_hideShowPasswordIconTint" format="color" />
     </declare-styleable>
-    <declare-styleable name="ComplexCustomEditText">
-        <attr name="ed_hint" format="string"/>
-        <attr name="label_text" format="string"/>
-        <attr name="error_text" format="string"/>
-        <attr name="is_mandatory" format="boolean"/>
-    </declare-styleable>
     <declare-styleable name="RoundCorneredEditTextWithMask">
         <attr name="mask" format="string" />
         <attr name="allowed_chars" format="string" />

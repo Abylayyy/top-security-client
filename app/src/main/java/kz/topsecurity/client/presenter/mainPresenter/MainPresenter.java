@@ -12,4 +12,5 @@ public interface MainPresenter extends BasePresenter {
     void actionAlert();
 
     void actionCancel();
+    void logToken();
 }

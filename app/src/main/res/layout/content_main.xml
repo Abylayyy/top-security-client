@@ -10,25 +10,10 @@
         android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.skyfishjy.library.RippleBackground
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/rippleBackground"
-            app:rb_color="@color/colorAccent"
-            app:rb_radius="100dp"
-            app:rb_rippleAmount="1"
-            app:rb_duration="1300"
-            app:rb_scale="6"/>
         <Button
             android:id="@+id/btn_alert"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="220dp"
+            android:layout_height="220dp"
             android:textColor="@color/white"
             android:background="@drawable/alert_btn_bg"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -38,15 +23,51 @@
 
         <Button
             android:id="@+id/btn_cancel_alert"
+            android:visibility="gone"
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            android:textColor="@color/white"
+            android:background="@drawable/cancel_alert_btn_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/iv_circle"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/cancel_alert_btn_bg"
-            android:textColor="@color/white"
-            android:visibility="gone"
+            android:adjustViewBounds="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/circle_icon" />
+        <ImageView
+            android:id="@+id/iv_circle2"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:adjustViewBounds="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/circle_icon" />
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:transformPivotX="40dp"
+            android:transformPivotY="40dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:layout_constraintBottom_toTopOf="@+id/iv_dash_circle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/ic_operator" />
+        <ImageView
+            android:id="@+id/iv_dash_circle"
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            app:srcCompat="@drawable/ic_dashed_circle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

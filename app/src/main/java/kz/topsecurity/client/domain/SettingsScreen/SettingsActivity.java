@@ -242,6 +242,15 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
             Intent newIntent = new Intent(this, TrackingService.class);
             stopService(newIntent);
         }
+        else {
+            startTrackingService();
+        }
+    }
+
+    private void startTrackingService() {
+        Intent intent = new Intent(this, TrackingService.class);
+        intent.setAction(Constants.START_FOREGROUND_ACTION);
+        checkAndStartService(intent,TrackingService.class);
     }
 
     private void processVolumeTrackingService(boolean state){

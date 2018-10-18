@@ -1,10 +1,13 @@
 package kz.topsecurity.client.presenter.mainPresenter;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import kz.topsecurity.client.helper.Constants;
+import kz.topsecurity.client.helper.SharedPreferencesManager;
 import kz.topsecurity.client.model.alert.CheckAlertResponse;
 import kz.topsecurity.client.presenter.base.BasePresenterImpl;
 import kz.topsecurity.client.service.api.RequestService;
@@ -113,5 +116,24 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
     @Override
     public void detach() {
         super.detach();
+    }
+
+    @Override
+    public void logToken(){
+        String token = FirebaseInstanceId.getInstance().getToken();
+        // Log and toast
+        if(token == null || token.isEmpty())
+            return;
+
+        Disposable subscribe = RetrofitClient.getClientApi()
+                .setFcmToken(RetrofitClient.getRequestToken(), token)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(r -> {
+
+                }, e -> {
+
+                });
+        compositeDisposable.add(subscribe);
     }
 }

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import kz.topsecurity.client.R;
+import kz.topsecurity.client.domain.AnimationTest.AnimationActivity;
 import kz.topsecurity.client.domain.StartScreen.StartActivity;
 import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.introductionScreen.IntroductionActivity;
@@ -29,6 +30,8 @@ public class SplashScreen extends AppCompatActivity {
             intent.putExtra(StartActivity.START_MAIN_SCREEN_KEY,true);
         }
         startActivity(intent);
+//        startActivity(new Intent(this,AnimationActivity.class));
+
         finish();
     }
 }

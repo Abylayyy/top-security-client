@@ -10,6 +10,7 @@ android {
         versionName "3.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -59,8 +60,9 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     //FIREBASE
-//    implementation 'com.google.firebase:firebase-messaging:17.0.0'
-//    implementation 'com.google.firebase:firebase-core:16.0.0'
+//    implementation 'com.google.firebase:firebase-messaging:17.3.3'
+    implementation 'com.google.firebase:firebase-core:16.0.4'
+
 //    apply plugin: 'com.google.gms.google-services'
     //JOB Services
     implementation 'com.firebase:firebase-jobdispatcher:0.8.5'
@@ -106,5 +108,6 @@ dependencies {
     //FACE DETECTION
     implementation "com.google.firebase:firebase-ml-vision:17.0.1"
     implementation 'com.google.firebase:firebase-messaging:17.3.3'
+    implementation 'com.android.support:multidex:1.0.3'
 }
 apply plugin: 'com.google.gms.google-services'

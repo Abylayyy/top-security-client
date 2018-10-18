@@ -11,8 +11,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.ActivityCompat;
@@ -66,6 +68,9 @@ public class TrackingService extends Service implements TrackingServiceView {
     public static final int ACTION_STATUS_ALERT_CANCEL_FAILED = 421;
     public static final int ACTION_STATUS_ALERT_CANCEL_SEND = 852;
     public static final int ACTION_GPS_NOT_AVAILABLE = 470;
+    public static final int ACTION_OPERATOR_ACCEPTED =342 ;
+    public static final int ACTION_MRRT_ACCEPTED = 534;
+    public static final int ACTION_OPERATOR_CANCELLED = 563;
 
     NotificationCompat.Builder notificationBuilder;
     NotificationManager mNotifyManager;
@@ -123,6 +128,7 @@ public class TrackingService extends Service implements TrackingServiceView {
         presenter.setupBarometricAltitudeTracker(this);
         presenter.setupVolumeServiceReceiver( this);
         presenter.setupTimer();
+        presenter.setupFirebaseMessagesReceiver(this);
     }
 
     private void setupIntent(Intent intent){
@@ -316,6 +322,9 @@ public class TrackingService extends Service implements TrackingServiceView {
                 .setColor(ContextCompat.getColor(this, R.color.white))
                 .setChannelId(channelId)
                 .setDefaults(Notification.DEFAULT_VIBRATE)
+                .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
+                .setLights(Color.RED, 3000, 3000)
+                .setSound(null)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setOngoing(true);
 
@@ -523,12 +532,13 @@ public class TrackingService extends Service implements TrackingServiceView {
     private void createChannel(NotificationManager notificationManager, String CHANNEL_ID) {
         String channel_name = "Tracker";
         String channel_description = "Notifications for tracker";
-        int importance = NotificationManager.IMPORTANCE_LOW;
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, channel_name, importance);
             channel.setSound(null,null);
             channel.setDescription(channel_description);
+
             notificationManager.createNotificationChannel(channel);
         }
     }
