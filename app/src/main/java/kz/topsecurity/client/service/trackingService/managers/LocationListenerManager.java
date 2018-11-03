@@ -1,6 +1,7 @@
 package kz.topsecurity.client.service.trackingService.managers;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -9,24 +10,18 @@ import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
 
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResult;
-import com.google.android.gms.location.LocationSettingsStates;
-import com.google.android.gms.location.SettingsClient;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import kz.topsecurity.client.application.TopSecurityClientApplication;
 import kz.topsecurity.client.helper.Constants;
+import kz.topsecurity.client.helper.SharedPreferencesManager;
 
 public class LocationListenerManager {
 
@@ -34,34 +29,55 @@ public class LocationListenerManager {
 
     private static final int FROM_GPS = 428;
     private static final int FROM_NETWORK = 146;
+    private static final int FROM_KALMAN = 417;
 
-    private Double mAltitude = 0.0;
-    private Double mLatitude  = 0.0;
-    private Double mLongitude  = 0.0;
-    private String mCurrentLocationStreet = "";
+    List<Location> storedLocationData;
+    /**
+     * Request location updates with the highest possible frequency on gps.
+     * Typically, this means one update per second for gps.
+     */
+
+    private static final long GPS_TIME = 5000;
+
+    /**
+     * For the network provider, which gives locations with less accuracy (less reliable),
+     * request updates every 5 seconds.
+     */
+    private static final long NET_TIME = 5000;
+
+    /**
+     * For the filter-time argument we use a "real" value: the predictions are triggered by a timer.
+     * Lets say we want 5 updates (estimates) per second = update each 200 millis.
+     */
+    private static final long FILTER_TIME = 1000;
+
+    private Double mLastAltitude = 0.0;
+    private Double mLastLatitude = 0.0;
+    private Double mLastLongitude = 0.0;
+    private String mLastLocationStreet = "";
 
     public Double getAltitude() {
-        return mAltitude;
+        return mLastAltitude;
     }
 
     public Double getLatitude() {
-        return mLatitude;
+        return mLastLatitude;
     }
 
     public Double getLongitude() {
-        return mLongitude;
+        return mLastLongitude;
     }
 
     public String getCurrentLocationStreet() {
-        return mCurrentLocationStreet;
+        return mLastLocationStreet;
     }
 
     LocationListener mLocationListener;
-
     Geocoder geocoder ;
     LocationManager mLocationManager;
     LocationRequest mLocationRequest = new LocationRequest();
     FusedLocationProviderClient mFusedLocationProviderClient;
+   // private KalmanLocationManager mKalmanLocationManager;
 
     boolean mIsActive = false;
 
@@ -72,13 +88,37 @@ public class LocationListenerManager {
         }
     };
 
-    public LocationListenerManager(LocationListener locationListener){
+    public LocationListenerManager( LocationListener locationListener){
         this.mLocationListener = locationListener;
     }
 
-    public void setupLocationReceiver(LocationManager locationManager, FusedLocationProviderClient client, Geocoder geocoder) {
+    public void setupLocationReceiver(Context context,LocationManager locationManager, FusedLocationProviderClient client, Geocoder geocoder) {
+        //mKalmanLocationManager = new KalmanLocationManager(context);
         this.geocoder = geocoder;
         mLocationManager = locationManager;
+//        //mKalmanLocationManager.requestLocationUpdates(
+//                KalmanLocationManager.UseProvider.GPS_AND_NET, FILTER_TIME, GPS_TIME, NET_TIME, new android.location.LocationListener() {
+//                    @Override
+//                    public void onLocationChanged(Location location) {
+//                        if(location!=null)
+//                            LocationListenerManager.this.onLocationChanged(location.getLatitude(),location.getLongitude(), location.getAltitude(), FROM_KALMAN , location.getAccuracy());
+//                    }
+//
+//                    @Override
+//                    public void onStatusChanged(String s, int i, Bundle bundle) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onProviderEnabled(String s) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onProviderDisabled(String s) {
+//
+//                    }
+//                }, true);
 
         mLocationRequest.setInterval(Constants.LOCATION_INTERVAL);
         mLocationRequest.setFastestInterval(Constants.FASTEST_LOCATION_INTERVAL);
@@ -120,37 +160,78 @@ public class LocationListenerManager {
     }
 
 
-    public void onLocationChanged(Location location, int type) {
-        if (location != null) {
-            Log.d(TAG,"PROVIDER " +  location.getProvider());
-            Log.d(TAG, "== location != null");
-            Log.d(TAG, "ACCURACY " + location.getAccuracy());
-            onLocationChanged(location.getLatitude(),location.getLongitude(), location.getAltitude(), type , location.getAccuracy());
-        }
-    }
 
-    public void onLocationChanged(double lat , double lng, double alt, int type , double acc){
-        String from = "";
-        if(type == FROM_GPS)
-            from = "GPS";
-        else if(type == FROM_NETWORK)
-            from = "NETWORK";
-        Log.d(TAG,"FROM: "+from);
+    public void onLocationChanged(Location location, int type ){
+        if (location == null)
+            return;
+
+        Double lat,lng,alt;
+        float acc;
+//            Log.d(TAG, "== location != null");
+//            if(hcKalmanFilter == null){
+//                if(location.getAccuracy()<50)
+//                    hcKalmanFilter = new HCKalmanAlgorithm( location);
+//            }
+//            else{
+//                CLLocation clLocation = hcKalmanFilter.processState(location);
+//                if(clLocation.getLongitude()!=null && clLocation.getLongitude()!=null && clLocation.getAltitude()!=null &&  clLocation.getAccuracy()!=null )
+//                    onLocationChanged(clLocation.getLatitude(),clLocation.getLongitude(), clLocation.getAltitude(), 400 , clLocation.getAccuracy());
+//            }
+        if(storedLocationData == null){
+            storedLocationData = new ArrayList<>();
+        }
+        storedLocationData.add(location);
+        lat = location.getLatitude();
+        lng = location.getLongitude();
+        alt = location.getAltitude();
+        acc = location.getAccuracy();
+
+        if(storedLocationData == null){
+            storedLocationData = new ArrayList<>();
+        }
+        storedLocationData.add(location);
         Log.d(TAG, "Location changed");
 
         if(alt >0.0){
-            mAltitude = alt;
+            mLastAltitude = alt;
+        }
+        if((mLastLongitude == 0 || mLastLatitude == 0) && acc<120 ){
+            mLastLatitude = lat;
+            mLastLongitude = lng;
+//            getAddressFromLocation(mLastLatitude,mLastLongitude);
         }
         if(acc<50) {
-            mLatitude = lat;
-            mLongitude = lng;
+            mLastLatitude = lat;
+            mLastLongitude = lng;
             Log.d(TAG, " ACCURACY lower 50");
-            getAddressFromLocation(mLatitude, mLongitude);
+            getAddressFromLocation(mLastLatitude, mLastLongitude);
         }
-        mLocationListener.onLocationChanged(mLatitude,mLongitude,mAltitude,mCurrentLocationStreet);
+        else {
+            Location loc = getMostAccurateLocation(storedLocationData);
+            mLastLatitude = loc.getLatitude();
+            mLastLongitude = loc.getLongitude();
+        }
+        mLocationListener.onLocationChanged(mLastLatitude, mLastLongitude, mLastAltitude, mLastLocationStreet);
     }
 
+    private Location getMostAccurateLocation(List<Location> storedLocationData) {
+        Location mostAccurate = storedLocationData.get(0);
+        for (Location loc: storedLocationData) {
+            if(loc.getAccuracy()<mostAccurate.getAccuracy() ){
+                mostAccurate = loc;
+            }
+        }
+        return mostAccurate;
+    }
+
+    long lastAddressRequestInMilis = 0;
+
     private void getAddressFromLocation(double latitude, double longitude) {
+        if(lastAddressRequestInMilis == 0)
+            lastAddressRequestInMilis = System.currentTimeMillis();
+        else if(System.currentTimeMillis() - lastAddressRequestInMilis<30*1000)
+            return;
+        lastAddressRequestInMilis = System.currentTimeMillis();
         //TODO: LANG dynamic
         if(geocoder==null)
             return;
@@ -168,7 +249,7 @@ public class LocationListenerManager {
                 else{
                     strAddress.append(fetchedAddress.getAddressLine(0));
                 }
-                mCurrentLocationStreet = strAddress.toString();
+                mLastLocationStreet = strAddress.toString();
                 String street = fetchedAddress.getThoroughfare();
                 Log.e(TAG,String.format("Current address is %s",street));
             } else {
@@ -185,7 +266,7 @@ public class LocationListenerManager {
     public boolean isGpsEnabled() {
         String provider = Settings.Secure.getString(TopSecurityClientApplication.getInstance().getApplicationContext().getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
         boolean isGpsEnabled = provider.contains("gps");
-
+        SharedPreferencesManager.setGpsStatus(TopSecurityClientApplication.getInstance(),isGpsEnabled);
         return isGpsEnabled || mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
@@ -201,5 +282,10 @@ public class LocationListenerManager {
 
     public void startLocationUpdates() {
         connectToFusedLocation(mFusedLocationProviderClient);
+    }
+
+
+    public void clearStoredData() {
+        storedLocationData.clear();
     }
 }

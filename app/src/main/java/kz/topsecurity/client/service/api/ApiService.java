@@ -111,18 +111,21 @@ public interface ApiService {
     @GET("client/contacts")
     Observable<GetContactsResponse> getContacts(@Header("Authorization") String token);
 
+    //TODO: LOGiC add description
     @FormUrlEncoded
     @POST("client/contacts")
     Observable<SaveContactsResponse> saveContact(@Header("Authorization") String token,
-                                               @Field("name") String name,
-                                               @Field("phone") String phone);
+                                                 @Field("name") String name,
+                                                 @Field("phone") String phone,
+                                                 @Field("description")  String description);
 
     @FormUrlEncoded
     @PATCH("client/contacts/{contact_id}")
     Observable<SaveContactsResponse> editContact(@Header("Authorization") String requestToken,
                                                  @Path("contact_id") int id,
                                                  @Field("name") String name,
-                                                 @Field("phone") String phone);
+                                                 @Field("phone") String phone,
+                                                 @Field("description")  String description);
 
 
     @DELETE("client/contacts/{contact_id}")
@@ -150,8 +153,14 @@ public interface ApiService {
     Observable<BasicResponse> forgetPassword(@Field("phone") String phone);
 
     @FormUrlEncoded
+    @POST("client/verificate/create")
+    Observable<BasicResponse> requesteCode(@Field("action_type") String action_type ,
+                                             @Field("phone") String phone) ;
+
+    @FormUrlEncoded
     @POST("client/verificate")
     Observable<BasicResponse> verificateCode(@Field("action_type") String action_type ,
+                                             @Field("phone") String phone,
                                              @Field("action_code") String action_code) ;
 
     @FormUrlEncoded

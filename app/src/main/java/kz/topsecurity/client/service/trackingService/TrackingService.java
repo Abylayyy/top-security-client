@@ -9,12 +9,10 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.ActivityCompat;
@@ -25,13 +23,10 @@ import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.SettingsClient;
-import com.google.android.gms.tasks.Task;
 
 import io.reactivex.annotations.Nullable;
 import io.reactivex.disposables.Disposable;
@@ -68,9 +63,10 @@ public class TrackingService extends Service implements TrackingServiceView {
     public static final int ACTION_STATUS_ALERT_CANCEL_FAILED = 421;
     public static final int ACTION_STATUS_ALERT_CANCEL_SEND = 852;
     public static final int ACTION_GPS_NOT_AVAILABLE = 470;
-    public static final int ACTION_OPERATOR_ACCEPTED =342 ;
     public static final int ACTION_MRRT_ACCEPTED = 534;
     public static final int ACTION_OPERATOR_CANCELLED = 563;
+    public static final int ACTION_MRRT_CHANGED_POSITION = 643;
+    public static final int ACTION_OPERATOR_CREATED = 908;
 
     NotificationCompat.Builder notificationBuilder;
     NotificationManager mNotifyManager;
@@ -107,7 +103,6 @@ public class TrackingService extends Service implements TrackingServiceView {
 
     void setupData(){
         //Restore last data service recreated
-        //TODO: TEST this method
         if(dataBaseManager==null)
             return;
 
@@ -119,6 +114,7 @@ public class TrackingService extends Service implements TrackingServiceView {
                 data = dataBaseManager.getDeviceData();
             }
         }
+
     }
 
     void setupReceivers(){
@@ -299,7 +295,6 @@ public class TrackingService extends Service implements TrackingServiceView {
     }
 
     private void sendNotification(String msg, int action_type) {
-//        //TODO: NavigationLogic
         Intent notificationIntent = new Intent(this, MainActivity.class);
 //        notificationIntent.putExtra(SplashScreen.START_MAIN_SCREEN_KEY,true);
         notificationIntent.addFlags(FLAG_ACTIVITY_NEW_TASK);
@@ -308,7 +303,6 @@ public class TrackingService extends Service implements TrackingServiceView {
         //notificationIntent.setAction(Constants.MAIN_ACTION);// ??
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
                 notificationIntent, 0);
-        //TODO: notification view
         RemoteViews views = new RemoteViews(getPackageName(),
                 R.layout.notification_alert);
 
@@ -574,7 +568,7 @@ public class TrackingService extends Service implements TrackingServiceView {
 
     Disposable subscribe;
 
-    //TODO: MAKE THIS METHOD WORK
+    //TODO: MAKE THIS METHOD WORK PROPERLY
     public void checkServiceStatus(DeviceData data) {
         if(currentState == ACTION_NETWORK && !isNetworkOnline())
             return;

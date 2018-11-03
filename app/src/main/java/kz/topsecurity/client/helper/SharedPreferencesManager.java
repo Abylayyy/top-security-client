@@ -13,11 +13,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import kz.topsecurity.client.domain.InputCodeScreen.SmsCodeActivity;
+import kz.topsecurity.client.domain.LoginScreen.LoginActivity;
+
 public class SharedPreferencesManager {
     private static final String TAG = SharedPreferencesManager.class.getSimpleName();
 
     private static final String APP_SETTINGS = "APP_SETTINGS";
-
 
     // properties
     private static final String AVATAR_URI_PATH = "AVATAR_URI_PATH";
@@ -37,6 +39,10 @@ public class SharedPreferencesManager {
     private static final String IS_TUTS_SHOWN_KEY = "IS_TUTS_SHOWN_KEY";
     private static final String SHOWN_TUTS_ARRAY_KEY = "SHOWN_TUTS_ARRAY_KEY";
     private static final String FCM_TOKEN_KEY = "FCM_TOKEN_KEY";
+    private static final String IS_ALERT_ON_HOLD_KEY = "IS_ALERT_ON_HOLD_KEY";
+    private static final String IS_GPS_ACTIVE_KEY = "IS_GPS_ACTIVE_KEY";
+    private static final String IS_PAYMENT_ACTIVE_KEY = "IS_PAYMENT_ACTIVE_KEY";
+    private static final String TMP_SENDED_PHONE = "TMP_SENDED_PHONE";
     // other properties...
 
 
@@ -303,6 +309,64 @@ public class SharedPreferencesManager {
     public static void setFcmToken(Context context,String fcmToken) {
         final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
         editor.putString(FCM_TOKEN_KEY, fcmToken);
+        //editor.apply();
+        boolean isSuccessful = editor.commit();
+        if(!isSuccessful){
+            Log.e(TAG,"Put value failed");
+        }
+    }
+
+    public static boolean getIsAlertOnHold(Context context){
+        return getSharedPreferences(context).getBoolean(IS_ALERT_ON_HOLD_KEY,false);
+    }
+
+    public static void setIsAlertOnHold(Context context,Boolean isAlertOnHold) {
+        final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putBoolean(IS_ALERT_ON_HOLD_KEY, isAlertOnHold);
+        //editor.apply();
+        boolean isSuccessful = editor.commit();
+        if(!isSuccessful){
+            Log.e(TAG,"Put value failed");
+        }
+    }
+
+
+    public static boolean getGpsStatus(Context context){
+        return getSharedPreferences(context).getBoolean(IS_GPS_ACTIVE_KEY,false);
+    }
+
+    public static void setGpsStatus(Context context , boolean state){
+        final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putBoolean(IS_GPS_ACTIVE_KEY, state);
+        //editor.apply();
+        boolean isSuccessful = editor.commit();
+        if(!isSuccessful){
+            Log.e(TAG,"Put value failed");
+        }
+    }
+
+    public static boolean getUserPaymentIsActive(Context context){
+        return getSharedPreferences(context).getBoolean(IS_PAYMENT_ACTIVE_KEY,false);
+    }
+
+    public static void setUserPaymentIsActive(Context context , boolean state){
+        final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putBoolean(IS_PAYMENT_ACTIVE_KEY, state);
+        //editor.apply();
+        boolean isSuccessful = editor.commit();
+        if(!isSuccessful){
+            Log.e(TAG,"Put value failed");
+        }
+    }
+
+    public static String getTmpSendedCode(Context context){
+        return getSharedPreferences(context).getString(TMP_SENDED_PHONE,null);
+    }
+
+
+    public static void setTmpSendedCode(Context context, String userPhone) {
+        final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putString(TMP_SENDED_PHONE, userPhone);
         //editor.apply();
         boolean isSuccessful = editor.commit();
         if(!isSuccessful){

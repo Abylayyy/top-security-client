@@ -119,7 +119,6 @@ public class IntroductionActivity extends AppCompatActivity {
     }
 
     public void onFinishButton(View view) {
-        //TODO: Send info to data layer
         finish();
     }
 

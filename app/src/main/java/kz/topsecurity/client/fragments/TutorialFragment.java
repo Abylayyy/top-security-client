@@ -36,11 +36,8 @@ import kz.topsecurity.client.helper.SharedPreferencesManager;
  * create an instance of this fragment.
  */
 public class TutorialFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "type";
     ArrayList<String> shownTutsList ;
-    // TODO: Rename and change types of parameters
     private int mParam1;
 
     private OnFragmentInteractionListener mListener;
@@ -131,7 +128,6 @@ public class TutorialFragment extends Fragment {
      * @param param1 Parameter 1.
      * @return A new instance of fragment TutorialFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static TutorialFragment newInstance(int param1) {
         TutorialFragment fragment = new TutorialFragment();
         Bundle args = new Bundle();
@@ -475,7 +471,6 @@ public class TutorialFragment extends Fragment {
         }
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     @OnClick(R.id.btn_ok)
     public void onOkButtonPressed() {
         nextPage();
@@ -509,7 +504,6 @@ public class TutorialFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onOkButtonClick();
     }
 

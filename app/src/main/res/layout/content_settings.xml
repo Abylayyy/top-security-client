@@ -15,14 +15,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
-            android:padding="10dp"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tracking_service"
+            android:fontFamily="@font/roboto_regular"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:padding="10dp" />
         <Switch
             android:id="@+id/s_tracking_service"
             android:clickable="false"
@@ -32,6 +33,10 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"/>
     </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#808080"/>
     <RelativeLayout
         android:id="@+id/rl_volume_tracking_service"
         android:padding="10dp"
@@ -43,6 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/volume_btn"
+            android:fontFamily="@font/roboto_regular"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"/>
@@ -56,54 +62,102 @@
             android:layout_centerVertical="true"/>
     </RelativeLayout>
     <LinearLayout
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/ll_volume_button_options"
         android:orientation="vertical"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <RelativeLayout
-            android:id="@+id/rl_volume_direction"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
+            android:fontFamily="@font/roboto_light"
+            android:text="@string/fast_alert_by_volume_btn_desc"/>
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_volume_direction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
-                android:padding="10dp"
-                android:textColor="@color/black"
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_volume_button_direction_up"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/volume_button_direction"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"/>
+                android:layout_below="@+id/v_center"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:padding="10dp"
+                android:text="@string/volume_button_direction_down"
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_light"
+                app:layout_constraintEnd_toStartOf="@+id/iv_volume_btn_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <FrameLayout
+                android:id="@+id/v_center"
+                android:layout_centerVertical="true"
+                android:layout_width="20dp"
+                android:layout_height="20dp"/>
+
             <TextView
-                android:padding="10dp"
-                android:textColor="@color/black"
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_volume_button_direction_down"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/direction_down"
-                android:layout_toLeftOf="@id/s_volume_direction"
-                android:layout_centerVertical="true"/>
-            <Switch
+                android:layout_above="@+id/v_center"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:padding="10dp"
+                android:text="@string/volume_button_direction_up"
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_light"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/iv_volume_btn_image"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <kz.topsecurity.client.ui_widgets.CustomSwitch
+                android:id="@+id/iv_volume_btn_image"
+                android:layout_width="wrap_content"
+                android:layout_height="120dp"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_toStartOf="@+id/s_volume_direction"
+                android:layout_toLeftOf="@+id/s_volume_direction"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_volume_btn_down_active"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/s_volume_direction"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <kz.topsecurity.client.ui_widgets.CustomSwitch
                 android:id="@+id/s_volume_direction"
-                android:clickable="false"
-                android:layout_toLeftOf="@id/tv_volume_up_direction"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"/>
-            <TextView
-                android:id="@+id/tv_volume_up_direction"
-                android:padding="10dp"
-                android:textColor="@color/black"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/direction_up"
-                android:layout_alignParentRight="true"
+                android:adjustViewBounds="true"
+                android:layout_height="120dp"
                 android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"/>
-        </RelativeLayout>
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:clickable="false"
+                android:src="@drawable/btn_vertical_toggle_bottom"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
         <RelativeLayout
             android:paddingTop="10dp"
             android:visibility="gone"
@@ -128,12 +182,17 @@
                 android:layout_centerVertical="true"/>
         </RelativeLayout>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#808080"/>
     <RelativeLayout
         android:id="@+id/rl_exit"
         android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:fontFamily="@font/roboto_regular"
             android:padding="10dp"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
@@ -143,4 +202,8 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"/>
     </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#808080"/>
 </LinearLayout>

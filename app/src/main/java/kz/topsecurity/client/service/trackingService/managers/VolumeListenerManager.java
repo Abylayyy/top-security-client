@@ -6,7 +6,6 @@ import android.content.IntentFilter;
 
 
 import kz.topsecurity.client.service.trackingService.listenerImpl.NewVolumeReceiver;
-import kz.topsecurity.client.service.trackingService.listenerImpl.VolumeReceiver;
 
 public class VolumeListenerManager {
 

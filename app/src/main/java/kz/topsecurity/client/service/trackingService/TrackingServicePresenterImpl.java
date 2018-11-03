@@ -2,7 +2,6 @@ package kz.topsecurity.client.service.trackingService;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Handler;
@@ -11,7 +10,6 @@ import android.util.Log;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.SettingsClient;
@@ -20,16 +18,14 @@ import com.google.android.gms.tasks.Task;
 import java.io.IOException;
 import java.util.Locale;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
+import kz.topsecurity.client.application.TopSecurityClientApplication;
 import kz.topsecurity.client.helper.Constants;
-import kz.topsecurity.client.model.alert.Alert;
+import kz.topsecurity.client.helper.SharedPreferencesManager;
 import kz.topsecurity.client.model.alert.AlertResponse;
 import kz.topsecurity.client.model.alert.CancelAlertResponse;
 import kz.topsecurity.client.model.device.SaveDeviceDataResponse;
-import kz.topsecurity.client.model.order.Order;
 import kz.topsecurity.client.service.api.RequestService;
 import kz.topsecurity.client.service.api.RetrofitClient;
 import kz.topsecurity.client.service.trackingService.managers.BarometricAltitudeListenerManager;
@@ -45,7 +41,11 @@ import kz.topsecurity.client.service.trackingService.managers.VolumeServiceManag
 import kz.topsecurity.client.service.trackingService.model.DeviceData;
 
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
-import static kz.topsecurity.client.service.trackingService.TrackingService.locationNotAvailable;
+import static kz.topsecurity.client.service.trackingService.managers.FirebaseMessagesListenerManager.alert_cancelled;
+import static kz.topsecurity.client.service.trackingService.managers.FirebaseMessagesListenerManager.order_accepted;
+import static kz.topsecurity.client.service.trackingService.managers.FirebaseMessagesListenerManager.order_closed;
+import static kz.topsecurity.client.service.trackingService.managers.FirebaseMessagesListenerManager.order_created;
+import static kz.topsecurity.client.service.trackingService.managers.FirebaseMessagesListenerManager.tracking_changed;
 
 public class TrackingServicePresenterImpl implements LocationListener , FirebaseMessageListener {
 
@@ -63,6 +63,7 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
         this.view = view;
     }
 
+    //   private KalmanLocationManager mKalmanLocationManager = new KalmanLocationManager(this);
     private LocationListenerManager mLocationListenerManager = new LocationListenerManager(this);
     private BatteryListenerManager mBatteryListenerManager = new BatteryListenerManager();
     private TelephonyListenerManager mTelephonyListenerManager = new TelephonyListenerManager();
@@ -72,7 +73,7 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
     private FirebaseMessagesListenerManager mFirebaseMessagesListenerManager = new FirebaseMessagesListenerManager(this);
 
     public void setupLocationReceiver(Context context) {
-        setupLocationReceiver(
+        setupLocationReceiver(context,
                 (LocationManager)(context).getSystemService( Context.LOCATION_SERVICE ),
                 getFusedLocationProviderClient(context),
                 new Geocoder(context, Locale.ENGLISH)
@@ -179,7 +180,7 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
         longitude = mLocationListenerManager.getLongitude();
         altitude = mLocationListenerManager.getAltitude();
         currentLocationStreet = mLocationListenerManager.getCurrentLocationStreet();
-
+        mLocationListenerManager.clearStoredData();
         //********************************************
 
         double pressureAltitudeValue = mBarometricAltitudeListenerManager.getPressureAltitudeValue();
@@ -206,6 +207,9 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
         view.onDataPrepared(data);
         if(sendToServer)
             sendDataToServer(data);
+        boolean isAlertOnHold = SharedPreferencesManager.getIsAlertOnHold(TopSecurityClientApplication.getInstance());
+        if(isAlertOnHold)
+            callAlert(data);
     }
 
     private void sendDataToServer(DeviceData data) {
@@ -257,14 +261,38 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
         isIdleTimerActive = false;
     }
 
-    private void setupLocationReceiver(LocationManager locationManager, FusedLocationProviderClient client, Geocoder geocoder) {
+    private void setupLocationReceiver(Context context, LocationManager locationManager, FusedLocationProviderClient client, Geocoder geocoder) {
         if(!mLocationListenerManager.isActive())
-            mLocationListenerManager.setupLocationReceiver(locationManager,client, geocoder);
+            mLocationListenerManager.setupLocationReceiver(context , locationManager,client, geocoder);
+//        if(!mLocationListenerManager.isActive())
+//            mLocationListenerManager.setupLocationReceiver(context );
+//        new LocationServiceWithFilter();
     }
+
+    long lastAddressRequestInMilis = 0;
 
     @Override
     public void onLocationChanged(Double lat, Double lng, Double alt, String street) {
+        if(lastAddressRequestInMilis == 0)
+            lastAddressRequestInMilis = System.currentTimeMillis();
+        else if(System.currentTimeMillis() - lastAddressRequestInMilis<5*1000)
+            return;
+        lastAddressRequestInMilis = System.currentTimeMillis();
         onTimerFired(false);
+        checkTimer();
+    }
+
+    private void checkTimer() {
+        if(!isTimerActive){
+            setupTimer();
+        }
+        else{
+            handler.sendEmptyMessage(1);
+            if(!handler.hasMessages(1)) {
+                isTimerActive = false;
+                setupTimer();
+            }
+        }
     }
 
     @Override
@@ -273,15 +301,18 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
     }
 
     boolean isGPSenabled(){
-        if(mLocationListenerManager!=null && mLocationListenerManager.isActive())
-            return mLocationListenerManager.isGpsEnabled();
-        return false;
+        if(  mLocationListenerManager!= null && mLocationListenerManager.isActive())
+            mLocationListenerManager.isGpsEnabled();
+        return SharedPreferencesManager.getGpsStatus(TopSecurityClientApplication.getInstance());
+//        if(mLocationListenerManager!=null && mLocationListenerManager.isActive())
+//            return mLocationListenerManager.isGpsEnabled();
+//        return false;
     }
 
-    //TODO: STOP SERVICE MEMORY LEAKS
     void stop(Context context){
         stopTimer();
         compositeDisposable.clear();
+
         if(mLocationListenerManager!=null)
             mLocationListenerManager.stop();
         if(mBatteryListenerManager!=null)
@@ -299,30 +330,38 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
     CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     void callAlert(DeviceData data){
-        if(data==null)
+//        if(data==null)
+//        {
+//            setAlertSendError();
+//            return;
+//        }
+        if(data==null || data.getLat()==0.0 || data.getLng()==0.0)
         {
-            setAlertSendError();
+            setAlertOnHold();
             return;
         }
-
         Disposable success = new RequestService<>(new RequestService.RequestResponse<AlertResponse>() {
             @Override
             public void onSuccess(AlertResponse data) {
                 setAlertIsActiveStatus();
+                removeAlertFromHold();
             }
 
             @Override
             public void onFailed(AlertResponse data, int error_message) {
-                if(data.getStatusCode()==4102){
+                if (data.getStatusCode() == 4102) {
                     setAlertIsActiveStatus();
-                }
-                else
+                    removeAlertFromHold();
+                } else {
                     setAlertSendError();
+                    removeAlertFromHold();
+                }
             }
 
             @Override
             public void onError(Throwable e, int error_message) {
                 setAlertSendError();
+                removeAlertFromHold();
             }
         }).makeRequest(RetrofitClient.getClientApi()
                 .sendAlert(RetrofitClient.getRequestToken(),
@@ -336,6 +375,15 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
 
 
         compositeDisposable.add(success);
+    }
+
+    private void removeAlertFromHold() {
+        SharedPreferencesManager.setIsAlertOnHold(TopSecurityClientApplication.getInstance(),false);
+    }
+
+    private void setAlertOnHold() {
+        SharedPreferencesManager.setIsAlertOnHold(TopSecurityClientApplication.getInstance(),true);
+        setAlertIsActiveStatus();
     }
 
     private void setAlertIsActiveStatus() {
@@ -423,18 +471,28 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
     }
 
     @Override
-    public void onOrderChanged(int type, Order order) {
-        if(type == 1)
-            view.onBroadcastMessage(TrackingService.ACTION_OPERATOR_ACCEPTED);
-        else{
-            String status = order.getStatus();
-            if(status.equals("in_process"))
+    public void onOrderChanged(String type) {
+        switch (type){
+            case order_accepted:{
                 view.onBroadcastMessage(TrackingService.ACTION_MRRT_ACCEPTED);
-            else if(status.equals("cancelled"))
+                break;
+            }
+            case order_closed:{
                 view.onBroadcastMessage(TrackingService.ACTION_OPERATOR_CANCELLED);
-
-
-
+                break;
+            }
+            case alert_cancelled:{
+                view.onBroadcastMessage(TrackingService.ACTION_OPERATOR_CANCELLED);
+                break;
+            }
+            case order_created:{
+                view.onBroadcastMessage(TrackingService.ACTION_OPERATOR_CREATED);
+                break;
+            }
+            case tracking_changed:{
+                view.onBroadcastMessage(TrackingService.ACTION_MRRT_CHANGED_POSITION);
+                break;
+            }
         }
     }
 }

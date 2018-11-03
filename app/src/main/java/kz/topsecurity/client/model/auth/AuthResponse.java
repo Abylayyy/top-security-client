@@ -42,5 +42,4 @@ public class AuthResponse extends BasicResponseTemplate {
     public void setToken(Token token) {
         this.token = token;
     }
-
 }

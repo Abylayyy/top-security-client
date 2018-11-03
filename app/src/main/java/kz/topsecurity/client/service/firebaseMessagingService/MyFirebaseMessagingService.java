@@ -24,7 +24,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = MyFirebaseMessagingService.class.getSimpleName();
     public static final String FILTER_FCM_MESSAGES_SERVICE_BROADCAST = MyFirebaseMessagingService.class.getName() + "FcmMessageBroadcast";;
-    public static final String EXTRA_MESSAGE_KEY = "EXTRA_MESSAGE_KEY";
+//    public static final String EXTRA_MESSAGE_KEY = "EXTRA_MESSAGE_KEY";
     public static final String EXTRA_TYPE_MESSAGE_KEY = "EXTRA_TYPE_MESSAGE_KEY";
 
     /**
@@ -45,7 +45,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // messages. For more see: https://firebase.google.com/docs/cloud-messaging/concept-options
         // [END_EXCLUDE]
 
-        // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 
@@ -53,18 +52,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Map<String, String> data = remoteMessage.getData();
         if (data.size() > 0) {
             Log.d(TAG, "Message data payload: " + data);
-            String type = data.get("type");
+            String type = data.get("event");
             if(type!=null && !type.isEmpty())
-            if (/* Check if data needs to be processed by long running job */ false) {
-                // For long-running tasks (10 seconds or more) use Firebase Job Dispatcher.
-                scheduleJob();
-            } else {
-                // Handle message within 10 seconds
-                if (type.equals("order"))
-                    handleNow( remoteMessage.getData().get("order"));
-                else if(type.equals("alert"))
-                    handleNow( remoteMessage.getData().get("alert"));
-            }
+                if (/* Check if data needs to be processed by long running job */ false) {
+                    // For long-running tasks (10 seconds or more) use Firebase Job Dispatcher.
+                    scheduleJob();
+                } else {
+                    // Handle message within 10 seconds
+                        handleNow(type, remoteMessage.getData().get("order"));
+                }
 
         }
 
@@ -94,10 +90,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     /**
      * Handle time allotted to BroadcastReceivers.
      */
-    private void handleNow(String data) {
+    private void handleNow(String type , String data) {
         Intent intent = new Intent(FILTER_FCM_MESSAGES_SERVICE_BROADCAST);
-        intent.putExtra(EXTRA_MESSAGE_KEY, data);
-        intent.putExtra(EXTRA_TYPE_MESSAGE_KEY, data);
+//        intent.putExtra(EXTRA_MESSAGE_KEY, data);
+        intent.putExtra(EXTRA_TYPE_MESSAGE_KEY, type);
 
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         Log.d(TAG, "Short lived task is done.");

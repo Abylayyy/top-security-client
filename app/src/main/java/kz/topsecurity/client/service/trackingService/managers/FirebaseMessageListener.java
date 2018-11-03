@@ -5,5 +5,5 @@ import kz.topsecurity.client.model.alert.Alert;
 import kz.topsecurity.client.model.order.Order;
 
 public interface FirebaseMessageListener {
-    void onOrderChanged(int type,Order order    );
+    void onOrderChanged(String type );
 }

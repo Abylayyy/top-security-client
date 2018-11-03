@@ -40,6 +40,8 @@ import kz.topsecurity.client.ui_widgets.customDialog.CustomSimpleDialog;
 import kz.topsecurity.client.utils.GlideApp;
 import kz.topsecurity.client.view.base.BaseView;
 
+import static kz.topsecurity.client.helper.Constants.ACTIVE_DOMAIN;
+
 public abstract class BaseActivity
         <V extends  BaseView,
         S extends BasePresenter ,
@@ -72,13 +74,17 @@ public abstract class BaseActivity
             return;
         if(findViewById(R.id.fl_tuts_fragment_container) == null)
             return;
+        try {
+            // Create a new Fragment to be placed in the activity layout
+            findViewById(R.id.fl_tuts_fragment_container).setVisibility(View.VISIBLE);
+            TutorialFragment firstFragment = TutorialFragment.newInstance( type );
+            // Add the fragment to the 'fragment_container' FrameLayout
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fl_tuts_fragment_container, firstFragment, TutorialFragment.class.getSimpleName()).commit();
+        }
+        catch (Exception ex){
 
-        // Create a new Fragment to be placed in the activity layout
-        findViewById(R.id.fl_tuts_fragment_container).setVisibility(View.VISIBLE);
-        TutorialFragment firstFragment = TutorialFragment.newInstance( type );
-        // Add the fragment to the 'fragment_container' FrameLayout
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fl_tuts_fragment_container, firstFragment, TutorialFragment.class.getSimpleName()).commit();
+        }
     }
 
     public void removeTutorial() {
@@ -296,7 +302,7 @@ public abstract class BaseActivity
         else if(userAvatar!=null){
 
             GlideApp.with(this)
-                    .load("http://gpstracking.muratov.kz"+userAvatar)
+                    .load(ACTIVE_DOMAIN+userAvatar)
                     .placeholder(R.drawable.placeholder_avatar)
                     .into(iv_user_avatar);
         }

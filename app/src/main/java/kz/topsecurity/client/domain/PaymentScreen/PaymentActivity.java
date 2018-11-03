@@ -19,6 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import kz.topsecurity.client.R;
 import kz.topsecurity.client.domain.base.BaseActivity;
+import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.service.api.RequestService;
 import kz.topsecurity.client.service.api.RetrofitClient;
 
@@ -52,7 +53,7 @@ public class PaymentActivity extends BaseActivity {
     }
 
     private String getUrlPath() {
-        return "http://gpstracking.muratov.kz/client/plans?access_token="+RetrofitClient.getRawToken();
+        return Constants.ACTIVE_DOMAIN+ "/client/plans?access_token="+RetrofitClient.getRawToken();
     }
 
     class PaymentWebViewClient extends WebViewClient{

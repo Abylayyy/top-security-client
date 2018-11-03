@@ -15,8 +15,9 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import kz.topsecurity.client.R;
 import kz.topsecurity.client.domain.LoginScreen.LoginActivity;
-import kz.topsecurity.client.domain.RegisterScreen.RegisterActivity;
+import kz.topsecurity.client.domain.MainScreen.MainActivity;
 import kz.topsecurity.client.domain.base.BaseActivity;
+import kz.topsecurity.client.helper.SharedPreferencesManager;
 import kz.topsecurity.client.model.other.BasicResponse;
 import kz.topsecurity.client.service.api.RequestService;
 import kz.topsecurity.client.service.api.RetrofitClient;
@@ -37,14 +38,16 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
     boolean isSuccess = false;
     public static final String ON_BACK_EXTRA = "on_back_extra";
     public static final String ON_FORWARD_EXTRA = "on_forward_extra";
-    public static final String PHONE_EXTRA= "phone_extra";
+    public static final String GET_PHONE_NUMB = "get_phone_numb";
 
-    private static final int TO_LOGIN = 681;
-    private static final int TO_REGISTER = 156;
+    public static final int TO_LOGIN = 681;
+    public static final int TO_MAIN = 694;
+
 
     int onBackAction = -1;
     int onForwardAction = -1;
     String userPhone= "";
+    private String sendedPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +60,37 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
         setupView();
         onBackAction = getIntent().getIntExtra(ON_BACK_EXTRA,-1);
         onForwardAction = getIntent().getIntExtra(ON_FORWARD_EXTRA , -1);
-        userPhone = getIntent().getStringExtra(PHONE_EXTRA);
+        userPhone = getIntent().getStringExtra(GET_PHONE_NUMB);
+        if(userPhone!=null){
+            SharedPreferencesManager.setTmpSendedCode(this,userPhone);
+            requestVerificationCode(userPhone);
+        }
+    }
+
+    private void requestVerificationCode(String phone) {
+        showLoadingDialog();
+
+        Disposable disposable = new RequestService<>(new RequestService.RequestResponse<BasicResponse>() {
+            @Override
+            public void onSuccess(BasicResponse data) {
+                sendedPhone = phone;
+                hideProgressDialog();
+                showToast(R.string.success);
+            }
+
+            @Override
+            public void onFailed(BasicResponse data, int error_message) {
+                hideProgressDialog();
+                showToast(error_message);
+            }
+
+            @Override
+            public void onError(Throwable e, int error_message) {
+                hideProgressDialog();
+                showToast(error_message);
+            }
+        }).makeRequest(RetrofitClient.getClientApi().requesteCode("register",phone));
+        compositeDisposable.add(disposable);
     }
 
     CountDownTimer countDownTimer =  new CountDownTimer(60000, 1000) {
@@ -89,7 +122,9 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
                 break;
             }
             case R.id.tv_send_again:{
-                showToast(R.string.not_implemented);
+                if(sendedPhone==null)
+                    sendedPhone = SharedPreferencesManager.getTmpSendedCode(this);
+                requestVerificationCode(sendedPhone);
                 break;
             }
             case R.id.iv_back:{
@@ -111,6 +146,8 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void sendRequest(String code) {
+        if(sendedPhone==null)
+            sendedPhone = SharedPreferencesManager.getTmpSendedCode(this);
         showLoadingDialog();
         Disposable disposable = new RequestService<BasicResponse>(new RequestService.RequestResponse<BasicResponse>() {
             @Override
@@ -130,7 +167,7 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
                 hideProgressDialog();
                 showToast(error_message);
             }
-        }).makeRequest(RetrofitClient.getClientApi().verificateCode("register",code));
+        }).makeRequest(RetrofitClient.getClientApi().verificateCode("register",sendedPhone, code));
 
         compositeDisposable.add(disposable);
     }
@@ -138,8 +175,8 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
     private void onCodeCorrect() {
         isSuccess = true;
         Class activityToClass = LoginActivity.class;
-        if(onForwardAction == TO_REGISTER)
-            activityToClass = RegisterActivity.class;
+        if(onForwardAction==TO_MAIN)
+            activityToClass = MainActivity.class;
         startActivity(new Intent(this,activityToClass));
         finish();
     }
@@ -149,7 +186,7 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
         if(isSuccess)
             super.finish();
         else {
-            showAreYouSureDialog(getString(R.string.are_you_sure_what_exit), new CustomSimpleDialog.Callback() {
+            showAreYouSureDialog(getString(R.string.are_you_sure_what_exit_from_activation), new CustomSimpleDialog.Callback() {
                 @Override
                 public void onCancelBtnClicked() {
                     dissmissAreYouSureDialog();
@@ -158,23 +195,12 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
                 @Override
                 public void onPositiveBtnClicked() {
                     dissmissAreYouSureDialog();
-                    goToPreviousActivity();
+                    startActivity(new Intent(SmsCodeActivity.this, LoginActivity.class));
                     SmsCodeActivity.super.finish();
                 }
             });
         }
     }
 
-    private void goToPreviousActivity() {
-        switch (onBackAction){
-            case TO_LOGIN:{
-                startActivity(new Intent(SmsCodeActivity.this, LoginActivity.class));
-                break;
-            }
-            case TO_REGISTER:{
-                startActivity(new Intent(SmsCodeActivity.this, RegisterActivity.class));
-                break;
-            }
-        }
-    }
+
 }

@@ -79,13 +79,13 @@ public class StartActivity extends BaseActivity implements View.OnClickListener 
         Disposable success = new RequestService<>(new RequestService.RequestResponse<GetClientResponse>() {
             @Override
             public void onSuccess(GetClientResponse r) {
-               if( r.getClient() == null)
-                   onLoginFailed();
-
-               else
-                   onSuccessLogin(r.getClient());
+                if (r.getClient() == null)
+                    onLoginFailed();
+                else {
+                    //TODO : CHECK IF USER ACC NOT ACTIVATED
+                    onSuccessLogin(r.getClient());
+                }
             }
-
             @Override
             public void onFailed(GetClientResponse data, int error_message) {
                 onLoginFailed();

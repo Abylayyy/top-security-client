@@ -13,7 +13,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kz.topsecurity.client.R;
-import kz.topsecurity.client.domain.LoginScreen.LoginActivity;
+import kz.topsecurity.client.domain.InputCodeScreen.SmsCodeActivity;
 import kz.topsecurity.client.domain.MainScreen.MainActivity;
 import kz.topsecurity.client.domain.StartScreen.StartActivity;
 import kz.topsecurity.client.domain.base.BaseActivity;
@@ -169,8 +169,11 @@ public class RegisterActivity extends BaseActivity<RegisterView,RegisterPresente
     public void onRegisterSuccess(Client client) {
         dataBaseManager.saveClientData(client);
         SharedPreferencesManager.setUserData(this,true);
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.putExtra(LoginActivity.PHONE_EXTRA , ed_tel_number.getRawText());
+//        Intent intent = new Intent(this, LoginActivity.class);
+//        intent.putExtra(LoginActivity.GET_PHONE_NUMB , ed_tel_number.getRawText());
+        Intent intent = new Intent(this, SmsCodeActivity.class);
+        intent.putExtra(SmsCodeActivity.GET_PHONE_NUMB, ed_tel_number.getText().toString());
+        intent.putExtra(SmsCodeActivity.ON_FORWARD_EXTRA,SmsCodeActivity.TO_LOGIN);
         startActivity(intent);
         finish();
     }

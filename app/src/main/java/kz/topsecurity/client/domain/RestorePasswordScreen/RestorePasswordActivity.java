@@ -244,7 +244,7 @@ public class RestorePasswordActivity extends BaseActivity<RestorePasswordView,
         if(isSuccess)
             super.finish();
         else {
-            showAreYouSureDialog(getString(R.string.are_you_sure_what_exit), new CustomSimpleDialog.Callback() {
+            showAreYouSureDialog(getString(R.string.are_you_sure_what_exit_restore_pass), new CustomSimpleDialog.Callback() {
                 @Override
                 public void onCancelBtnClicked() {
                     dissmissAreYouSureDialog();

@@ -9,8 +9,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_contact_avatar"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
@@ -22,9 +22,11 @@
         android:id="@+id/tv_contact_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:text="@string/placeholder_username"
         android:textColor="@color/black"
         android:textSize="18sp"
@@ -33,11 +35,25 @@
         app:layout_constraintTop_toTopOf="@+id/iv_contact_avatar" />
 
     <TextView
+        android:id="@+id/tv_contact_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/placeholder_username"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        app:layout_constraintStart_toEndOf="@+id/iv_contact_avatar"
+        app:layout_constraintTop_toBottomOf="@+id/tv_contact_phone" />
+
+    <TextView
         android:id="@+id/tv_contact_phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:text="@string/placeholder_user_phone"
         android:textColor="@color/black"

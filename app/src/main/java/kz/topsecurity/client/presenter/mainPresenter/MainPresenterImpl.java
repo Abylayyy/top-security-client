@@ -6,6 +6,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import kz.topsecurity.client.application.TopSecurityClientApplication;
 import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
 import kz.topsecurity.client.model.alert.CheckAlertResponse;
@@ -44,6 +45,9 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            finally {
+                callAlert();
+            }
         }
         else{
             view.onCallingAlert();
@@ -60,6 +64,9 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
                 throw new Exception("UNABLE TO CANCEL ALERT WHEN ALERT IS NOT ACTIVE");
             } catch (Exception e) {
                 e.printStackTrace();
+            }
+            finally {
+                cancelAlert();
             }
         }
     }
@@ -109,7 +116,10 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
             view.onAlertIsActive();
         }
         else{
-            view.onAlertNotActive();
+            if(!SharedPreferencesManager.getIsAlertOnHold(TopSecurityClientApplication.getInstance()))
+                view.onAlertNotActive();
+            else
+                view.onAlertIsActive();
         }
     }
 

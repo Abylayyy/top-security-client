@@ -17,6 +17,14 @@ public class FirebaseMessagesListenerManager {
     private static final String TAG = FirebaseMessagesListenerManager.class.getSimpleName();
     private FirebaseMessageListener listener;
     private boolean blockRegister = false;
+
+    public final static String order_accepted = "rrt-order-accepted-notification";
+    public final static String order_closed = "operator-order-closed-notification";
+    public final static String alert_cancelled = "operator-alert-cancelled-notification";
+    public final static String order_created = "operator-order-created-notification";
+    public final static String tracking_changed = "rrt-tracking-changed-notification";
+
+
     public FirebaseMessagesListenerManager(FirebaseMessageListener listener){
         this.listener = listener;
     }
@@ -30,16 +38,12 @@ public class FirebaseMessagesListenerManager {
             mFirebaseMessagesReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    Log.d(TAG,"Message Received");
+                    Log.d(TAG, "Message Received");
                     String cloudMessageType = intent.getStringExtra(MyFirebaseMessagingService.EXTRA_TYPE_MESSAGE_KEY);
-                    String cloudMessage = intent.getStringExtra(MyFirebaseMessagingService.EXTRA_MESSAGE_KEY);
-                    if (cloudMessage == null) return;
-                    if(cloudMessageType.equals("alert"))
-                        listener.onOrderChanged(1,null);
-                    else {
-                        Order order = new Gson().fromJson(cloudMessage, Order.class);
-                        listener.onOrderChanged(2,order);
-                    }
+                    //String cloudMessage = intent.getStringExtra(MyFirebaseMessagingService.EXTRA_MESSAGE_KEY);
+                    if (cloudMessageType == null) return;
+                    listener.onOrderChanged(cloudMessageType);
+
                 }
             };
             LocalBroadcastManager.getInstance(context).registerReceiver(mFirebaseMessagesReceiver,

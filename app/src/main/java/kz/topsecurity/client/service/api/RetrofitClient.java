@@ -10,9 +10,12 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static kz.topsecurity.client.helper.Constants.ACTIVE_DOMAIN;
+
 public class RetrofitClient {
     private static Retrofit retrofit;
-    private static final String BASE_URL = "http://gpstracking.muratov.kz/api/";
+    private static final String API_ROUTE = "/api/";
+    private static final String BASE_URL = ACTIVE_DOMAIN+API_ROUTE;
 
     private static Retrofit getRetrofitInstance() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();

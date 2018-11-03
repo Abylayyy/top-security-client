@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.load.resource.bitmap.CenterInside;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -51,6 +52,7 @@ import kz.topsecurity.client.helper.MapHelper;
 import kz.topsecurity.client.model.place.Place;
 import kz.topsecurity.client.presenter.placesPresenter.PlacesPresenter;
 import kz.topsecurity.client.presenter.placesPresenter.PlacesPresenterImpl;
+import kz.topsecurity.client.ui_widgets.customDialog.CustomSimpleDialog;
 import kz.topsecurity.client.utils.GlideApp;
 import kz.topsecurity.client.view.placesView.PlacesView;
 
@@ -64,7 +66,7 @@ public class PlaceActivity
     private LatLng myLocation;
     private LatLng markerLocation;
     private Marker mPlaceMarker;
-    private int mRadius = 30;
+    private int mRadius = 15;
     boolean isMarkerSet =false;
 
     @BindView(R.id.sb_radius)   SeekBar sb_radius;
@@ -139,6 +141,7 @@ public class PlaceActivity
         mLayoutManager = new LinearLayoutManager(this);
         ((SimpleItemAnimator) rv_places.getItemAnimator()).setSupportsChangeAnimations(false);
         rv_places.setLayoutManager(mLayoutManager);
+        mPlaceListAdapter.setMargin(this);
         rv_places.setAdapter(mPlaceListAdapter);
     }
 
@@ -158,7 +161,7 @@ public class PlaceActivity
         sb_radius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                mRadius = i + 30;
+                mRadius = i + 1;
                 drawCircle(mRadius);
                 setTextRadius(mRadius);
             }
@@ -453,7 +456,26 @@ public class PlaceActivity
     @Override
     public void onItemDelete(Place place) {
         if(place!=null && presenter!=null){
-            presenter.deletePlace(place.getId());
+            showAreYouSureDialog(getString(R.string.are_you_sure_delete), new CustomSimpleDialog.Callback() {
+                @Override
+                public void onCancelBtnClicked() {
+                    showToast(R.string.cancelled);
+                    dissmissAreYouSureDialog();
+                }
+
+                @Override
+                public void onPositiveBtnClicked() {
+                    presenter.deletePlace(place.getId());
+                    dissmissAreYouSureDialog();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onItemEdit(Place place) {
+        if(place!=null && presenter!=null){
+            showToast("EDIT PLACE");
         }
     }
 

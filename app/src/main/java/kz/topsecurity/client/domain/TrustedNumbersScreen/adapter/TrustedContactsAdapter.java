@@ -1,7 +1,6 @@
 package kz.topsecurity.client.domain.TrustedNumbersScreen.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import java.util.List;
 
 import kz.topsecurity.client.R;
 import kz.topsecurity.client.model.contact.Contact;
-import kz.topsecurity.client.model.place.Place;
 
 public class TrustedContactsAdapter extends  RecyclerView.Adapter<TrustedContactsAdapter.MyViewHolder>  {
     private List<Contact> mDataset = new ArrayList<>() ;
@@ -56,6 +54,8 @@ public class TrustedContactsAdapter extends  RecyclerView.Adapter<TrustedContact
         public ImageView iv_more;
         public LinearLayout ll_delete_number;
         public LinearLayout ll_edit_number;
+        public TextView mContactDesc;
+
         public MyViewHolder(View v) {
             super(v);
             mContactName = v.findViewById(R.id.tv_contact_name);
@@ -64,6 +64,7 @@ public class TrustedContactsAdapter extends  RecyclerView.Adapter<TrustedContact
             iv_more = (ImageView)v.findViewById(R.id.iv_more);
             ll_delete_number = (LinearLayout)v.findViewById(R.id.ll_delete_number);
             ll_edit_number = (LinearLayout)v.findViewById(R.id.ll_edit_number);
+            mContactDesc = (TextView) v.findViewById(R.id.tv_contact_desc);
         }
     }
 
@@ -91,6 +92,7 @@ public class TrustedContactsAdapter extends  RecyclerView.Adapter<TrustedContact
         });
         holder.mContactName.setText(mDataset.get(position).getName());
         holder.mContactPhone.setText(mDataset.get(position).getPhone());
+        holder.mContactDesc.setText(mDataset.get(position).getDescription());
         if(activeOptionViewPosiition!=-1 && position == activeOptionViewPosiition){
             holder.iv_more.setImageResource(R.drawable.ic_arrow_up_in_circle);
             holder.ll_options.setVisibility(View.VISIBLE);

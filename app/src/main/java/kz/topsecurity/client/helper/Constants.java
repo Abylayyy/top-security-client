@@ -9,12 +9,16 @@ import kz.topsecurity.client.helper.dataBase.DataBaseManagerImpl;
 
 public class Constants {
 
+    private static final String PRODUCTION_DOMAIN = "http://signal.topsecurity.kz";
+    private static final String DEVELOPMENT_DOMAIN = "http://gpstracking.muratov.kz";
+    public static final String ACTIVE_DOMAIN = PRODUCTION_DOMAIN;
+
     public static final boolean IS_DEBUG = true;
 
-    public static final int LOCATION_INTERVAL = 30*1000;
+    public static final int LOCATION_INTERVAL = 5*1000;
     public static final int FASTEST_LOCATION_INTERVAL = 5*1000;
-    public static final int TIMER_WAKE_UP_INTERVAL = 15*1000;
-    public static final int TIMER_IDLE_WAKE_UP_INTERVAL = 20*60*1000;
+    public static final int TIMER_WAKE_UP_INTERVAL = 5*1000;
+    public static final int TIMER_IDLE_WAKE_UP_INTERVAL = 5*60*1000;
 
     public static final int SUCCESS_RESULT = 0;
     public static final int FAILURE_RESULT = 1;
@@ -96,6 +100,9 @@ public class Constants {
         public static final int USER_NOT_FOUND_CODE = 103;
         public static final int ALREADY_AUTHENTICATE_CODE = 104;
         public static final int PHONE_NUMBER_EXISTS_CODE = 106 ;
+        public static final int CLIENT_IS_DISABLED_CODE = 107 ;
+        public static final int CLIENT_IS_BLOCKED_CODE = 108 ;
+        public static final int CLIENT_IS_SELFKILLED_CODE = 109 ;
         public static final int SUCCESSFUL_AUTHENTICATE_CODE = 1;
         public static final int SUCCESSFUL_REGISTERED_CODE = 2;
         public static final int PASSWORD_MISSMATCH_CODE = 6101;

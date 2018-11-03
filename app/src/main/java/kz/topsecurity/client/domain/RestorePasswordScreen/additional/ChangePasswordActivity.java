@@ -168,7 +168,7 @@ public class ChangePasswordActivity extends BaseActivity implements StatusListen
         if(isSuccess)
             super.finish();
         else {
-            showAreYouSureDialog(getString(R.string.are_you_sure_what_exit), new CustomSimpleDialog.Callback() {
+            showAreYouSureDialog(getString(R.string.are_you_sure_what_exit_change_pass), new CustomSimpleDialog.Callback() {
                 @Override
                 public void onCancelBtnClicked() {
                     dissmissAreYouSureDialog();

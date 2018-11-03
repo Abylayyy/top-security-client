@@ -20,6 +20,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kz.topsecurity.client.BuildConfig;
+import kz.topsecurity.client.domain.InputCodeScreen.SmsCodeActivity;
 import kz.topsecurity.client.domain.MainScreen.MainActivity;
 import kz.topsecurity.client.R;
 import kz.topsecurity.client.domain.PaymentScreen.PaymentActivity;
@@ -94,7 +95,6 @@ public class LoginActivity extends BaseActivity<LoginView, LoginPresenter, Login
             }
         }
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -217,6 +217,8 @@ public class LoginActivity extends BaseActivity<LoginView, LoginPresenter, Login
         SharedPreferencesManager.setUserPhone(this, ed_tel_number.getRawText());
         SharedPreferencesManager.setUserData(this,true);
         SharedPreferencesManager.setUserAuthToken(this,token);
+        boolean isPaymentActive = client.getPlan()!=null && !client.getPlan().getIsExpired();
+        SharedPreferencesManager.setUserPaymentIsActive(this, isPaymentActive);
         if(Constants.IS_DEBUG || (client.getPlan()!=null && !client.getPlan().getIsExpired())){
             startMainActivity();
         }
@@ -263,6 +265,16 @@ public class LoginActivity extends BaseActivity<LoginView, LoginPresenter, Login
                 cl_loading_layer.setVisibility(View.GONE);
             }
         });
+    }
+
+    @Override
+    public void onUserNotVerificatedPhone(String phone, int error_message) {
+        showToast(error_message);
+        Intent intent = new Intent(this, SmsCodeActivity.class);
+        intent.putExtra(SmsCodeActivity.GET_PHONE_NUMB,phone);
+        intent.putExtra(SmsCodeActivity.ON_FORWARD_EXTRA,SmsCodeActivity.TO_MAIN);
+        startActivity(intent);
+        finish();
     }
 
     void startMainActivity(){

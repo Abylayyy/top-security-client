@@ -8,7 +8,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -24,18 +23,16 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-
-import com.skyfishjy.library.RippleBackground;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
-import kz.topsecurity.client.domain.AnimationTest.AnimationActivity;
 import kz.topsecurity.client.domain.FeedbackScreen.FeedbackActivity;
 import kz.topsecurity.client.domain.AlertHistoryScreen.AlertHistoryActivity;
 import kz.topsecurity.client.domain.PaymentScreen.PaymentActivity;
@@ -57,7 +54,6 @@ import kz.topsecurity.client.service.trackingService.interfaces.TrackingServiceB
 import kz.topsecurity.client.service.trackingService.listenerImpl.TrackingServiceBroadcastReceiver;
 import kz.topsecurity.client.service.trackingService.managers.DataProvider;
 import kz.topsecurity.client.service.trackingService.model.DeviceData;
-import kz.topsecurity.client.ui_widgets.CustomRippleBackground;
 import kz.topsecurity.client.ui_widgets.customDialog.CustomDialog;
 import kz.topsecurity.client.view.mainView.MainView;
 
@@ -70,14 +66,15 @@ public class MainActivity extends ServiceControlActivity
     public static final String CANCEL_ALERT_EXTRA = "CANCEL_ALERT_EXTRA";
     public static final String TRACKING_SERVICE_STATUS_RESULT = "IS_MADE_CHANGES";
     public static final String EXIT_FROM_APPLICATION = "EXIT_FROM_APPLICATION";
+    private static final String ANIMATION_STATE_KEY = "ANIMATION_STATE";
 
-    @BindView(R.id.tv_profile) TextView tv_profile;
-    @BindView(R.id.tv_places) TextView tv_places;
-    @BindView(R.id.tv_contacts) TextView tv_contacts;
-    @BindView(R.id.tv_settings) TextView tv_settings;
-    @BindView(R.id.tv_payment) TextView tv_payment;
-    @BindView(R.id.tv_feedback) TextView tv_feedback;
-    @BindView(R.id.tv_alert_history) TextView tv_alert_history;
+    @BindView(R.id.ll_profile) LinearLayout ll_profile;
+    @BindView(R.id.ll_places) LinearLayout ll_places;
+    @BindView(R.id.ll_contacts) LinearLayout ll_contacts;
+    @BindView(R.id.ll_settings) LinearLayout ll_settings;
+    @BindView(R.id.ll_payment) LinearLayout ll_payment;
+    @BindView(R.id.ll_feedback) LinearLayout ll_feedback;
+    @BindView(R.id.ll_alert_history) LinearLayout ll_alert_history;
     @BindView(R.id.btn_alert) Button btn_alert;
     @BindView(R.id.btn_cancel_alert) Button btn_cancel_alert;
     @BindView(R.id.btn_minimize_app) Button btn_minimize_app;
@@ -91,18 +88,18 @@ public class MainActivity extends ServiceControlActivity
     @BindView(R.id.iv_icon) ImageView iv_icon;
     private static final String TAG = MainActivity.class.getSimpleName();
 
-//    boolean isAlertViewActive = false;
     boolean isAlertViewVisible = false;
     private static final int PROFILE_REQUEST_CODE = 723;
     private static final int SETTINGS_REQUEST_CODE = 486;
     private static final int PAYMENT_REQUEST_CODE = 236;
     private static final int ALERT_HISTORY_CODE = 175;
-    private static final int ABOUT_CODe = 818;
+    private static final int ABOUT_CODE = 818;
 
     DataBaseManager dataBaseManager = new DataBaseManagerImpl(this);
     AnimatorSet rippleAnimatorSet;
     AnimatorSet circleAnimatorSet;
     RotateAnimation carAnimation  ;
+    int currentAnimationState = -1;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -130,6 +127,23 @@ public class MainActivity extends ServiceControlActivity
                 break;
             }
         }
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        currentAnimationState = savedInstanceState.getInt(ANIMATION_STATE_KEY);
+        if (currentAnimationState != -1) {
+            isRippleAnimationActive = false;
+            startRippleAnimation(currentAnimationState);
+        }
+        else
+            stopRippleAnimation();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(ANIMATION_STATE_KEY, currentAnimationState);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -185,6 +199,9 @@ public class MainActivity extends ServiceControlActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle("Тревога");
+        if (savedInstanceState != null) {
+           currentAnimationState = savedInstanceState.getInt(ANIMATION_STATE_KEY);
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
@@ -197,7 +214,7 @@ public class MainActivity extends ServiceControlActivity
                             stopRippleAnimation();
                     } else {
                         if( isAlertViewVisible)
-                            startRippleAnimation(0);
+                            startRippleAnimation(currentAnimationState);
                     }
                     invalidateOptionsMenu();
                 }
@@ -209,13 +226,13 @@ public class MainActivity extends ServiceControlActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        tv_profile.setOnClickListener(this);
-        tv_places.setOnClickListener(this);
-        tv_contacts.setOnClickListener(this);
-        tv_settings.setOnClickListener(this);
-        tv_payment.setOnClickListener(this);
-        tv_feedback.setOnClickListener(this);
-        tv_alert_history.setOnClickListener(this);
+        ll_profile.setOnClickListener(this);
+        ll_places.setOnClickListener(this);
+        ll_contacts.setOnClickListener(this);
+        ll_settings.setOnClickListener(this);
+        ll_payment.setOnClickListener(this);
+        ll_feedback.setOnClickListener(this);
+        ll_alert_history.setOnClickListener(this);
         btn_alert.setOnClickListener(this);
         btn_cancel_alert.setOnClickListener(this);
         btn_minimize_app.setOnClickListener(this);
@@ -243,12 +260,20 @@ public class MainActivity extends ServiceControlActivity
     int troubleColor = R.color.colorSecondaryRed;
 
     ArrayList<Animator> animatorList = new ArrayList<>();
+    boolean isRippleAnimationActive = false;
 
     private void startRippleAnimation(int type) {
+        if(type==-1) {
+            stopRippleAnimation();
+            return;
+        }
         iv_circle.setVisibility(View.VISIBLE);
         iv_circle2.setVisibility(View.VISIBLE);
         iv_icon.setVisibility(View.VISIBLE);
         iv_dash_circle.setVisibility(View.VISIBLE);
+        if(currentAnimationState==type && isRippleAnimationActive)
+            return;
+        currentAnimationState = type;
         animatorList = new ArrayList<>();
         changeRippleType(type);
         int rippleDurationTime = 1800;
@@ -259,22 +284,41 @@ public class MainActivity extends ServiceControlActivity
         setAnimator(iv_circle2,rippleDurationTime/2,rippleDurationTime/2);
         rippleAnimatorSet.playTogether(animatorList);
         rippleAnimatorSet.start();
+        isRippleAnimationActive = true;
         startCircleAnimation();
     }
 
+    private static final int ALERT_SEND = 836;
+    private static final int ORDER_CREATED = 465;
+    private static final int ORDER_ACCEPTED = 529;
+    private static final int MRRT_CHANGED_POSIITION = 651;
+    private static final int TROUBLES = 324;
+
     private void changeRippleType(int type) {
         stopCarAnimation();
-        if (type == 0) {
+        if (type == ALERT_SEND) {
             setColorToImageView(waitingColor);
+            iv_icon.setVisibility(View.GONE);
+        }
+        if (type == ORDER_CREATED) {
+            setColorToImageView(waitingColor);
+            iv_icon.setVisibility(View.VISIBLE);
             iv_icon.setImageResource(R.drawable.ic_operator);
         }
-        if (type == 1) {
+        if (type == ORDER_ACCEPTED) {
             setColorToImageView(alertColor);
+            iv_icon.setVisibility(View.VISIBLE);
+            iv_icon.setImageResource(R.drawable.ic_mrrt_car);
+        }
+        if (type == MRRT_CHANGED_POSIITION) {
+            setColorToImageView(alertColor);
+            iv_icon.setVisibility(View.VISIBLE);
             iv_icon.setImageResource(R.drawable.ic_mrrt_car);
             startCarAnimation();
         }
-        if (type == 2) {
+        if (type == TROUBLES) {
             setColorToImageView(troubleColor);
+            iv_icon.setVisibility(View.VISIBLE);
             iv_icon.setImageResource(R.drawable.ic_error);
         }
     }
@@ -312,6 +356,7 @@ public class MainActivity extends ServiceControlActivity
         iv_circle2.setVisibility(View.GONE);
         iv_icon.setVisibility(View.GONE);
         iv_dash_circle.setVisibility(View.GONE);
+        isRippleAnimationActive = false;
         stopCircleAnimation();
         stopCarAnimation();
     }
@@ -469,17 +514,20 @@ public class MainActivity extends ServiceControlActivity
                         createAndCheckLocationProvider();
                         break;
                     }
-                    case TrackingService.ACTION_OPERATOR_ACCEPTED:{
-                        startRippleAnimation(0);
+                    case TrackingService.ACTION_OPERATOR_CREATED:{
+                        startRippleAnimation(ORDER_CREATED);
                         break;
                     }
                     case TrackingService.ACTION_MRRT_ACCEPTED:{
-                        startRippleAnimation(1);
-
+                        startRippleAnimation(ORDER_ACCEPTED);
                         break;
                     }
                     case TrackingService.ACTION_OPERATOR_CANCELLED:{
                         presenter.cancelAlert();
+                        break;
+                    }
+                    case TrackingService.ACTION_MRRT_CHANGED_POSITION:{
+                        startRippleAnimation(MRRT_CHANGED_POSIITION);
                         break;
                     }
                 }
@@ -541,7 +589,7 @@ public class MainActivity extends ServiceControlActivity
                     onShowToast(R.string.you_cant_when_alert_active);
                 break;
             }
-            case R.id.tv_profile:{
+            case R.id.ll_profile:{
                 ifNavButtons = true;
                 if(!Constants.is_service_sending_alert())
                     startActivityForResult(new Intent(this,ProfileActivity.class),PROFILE_REQUEST_CODE);
@@ -549,7 +597,7 @@ public class MainActivity extends ServiceControlActivity
                     onShowToast(R.string.you_cant_when_alert_active);
                 break;
             }
-            case R.id.tv_places:{
+            case R.id.ll_places:{
                 ifNavButtons = true;
                 if(!Constants.is_service_sending_alert())
                     startActivity(new Intent(this, PlaceActivity.class));
@@ -557,7 +605,7 @@ public class MainActivity extends ServiceControlActivity
                     onShowToast(R.string.you_cant_when_alert_active);
                 break;
             }
-            case R.id.tv_contacts : {
+            case R.id.ll_contacts : {
                 ifNavButtons = true;
                 if(!Constants.is_service_sending_alert())
                     startActivity(new Intent(this, TrustedNumbersActivity.class));
@@ -565,7 +613,7 @@ public class MainActivity extends ServiceControlActivity
                     onShowToast(R.string.you_cant_when_alert_active);
                 break;
             }
-            case R.id.tv_settings:{
+            case R.id.ll_settings:{
                 ifNavButtons = true;
                 if(!Constants.is_service_sending_alert())
                     startActivityForResult(new Intent(MainActivity.this, SettingsActivity.class),SETTINGS_REQUEST_CODE);
@@ -573,7 +621,7 @@ public class MainActivity extends ServiceControlActivity
                     onShowToast(R.string.you_cant_when_alert_active);
                 break;
             }
-            case R.id.tv_payment:{
+            case R.id.ll_payment:{
                 ifNavButtons = true;
                 if(!Constants.is_service_sending_alert())
                     startActivityForResult(new Intent(MainActivity.this, PaymentActivity.class),PAYMENT_REQUEST_CODE);
@@ -581,7 +629,7 @@ public class MainActivity extends ServiceControlActivity
                     onShowToast(R.string.you_cant_when_alert_active);
                 break;
             }
-            case R.id.tv_alert_history:{
+            case R.id.ll_alert_history:{
                 ifNavButtons = true;
                 if(!Constants.is_service_sending_alert())
                     startActivityForResult(new Intent(MainActivity.this, AlertHistoryActivity.class),ALERT_HISTORY_CODE);
@@ -589,10 +637,10 @@ public class MainActivity extends ServiceControlActivity
                     onShowToast(R.string.you_cant_when_alert_active);
                 break;
             }
-            case R.id.tv_feedback:{
+            case R.id.ll_feedback:{
                 ifNavButtons = true;
                 if(!Constants.is_service_sending_alert())
-                    startActivityForResult(new Intent(MainActivity.this, FeedbackActivity.class),ABOUT_CODe);
+                    startActivityForResult(new Intent(MainActivity.this, FeedbackActivity.class), ABOUT_CODE);
                 else
                     onShowToast(R.string.you_cant_when_alert_active);
                 break;
@@ -677,9 +725,8 @@ public class MainActivity extends ServiceControlActivity
         isAlertViewVisible = true;
         runOnUiThread(()->{
 //            rippleBackground.setRippleColor(getResources().getColor(R.color.colorPrimary));
-            startRippleAnimation(0);
+            startRippleAnimation(ALERT_SEND);
             btn_alert.setVisibility(View.GONE);
-            //TODO; erewrwe
             btn_cancel_alert.setVisibility(View.VISIBLE);
         });
 
@@ -699,7 +746,7 @@ public class MainActivity extends ServiceControlActivity
             @Override
             public void onCancelBtnClicked() {
                 dialogFragment.dismiss();
-                startRippleAnimation(0);
+                startRippleAnimation(currentAnimationState);
             }
 
             @Override
@@ -721,7 +768,6 @@ public class MainActivity extends ServiceControlActivity
 
     @Override
     public void onDataReceived(DeviceData data) {
-
     }
 
     @Override
@@ -733,8 +779,4 @@ public class MainActivity extends ServiceControlActivity
     public void onDestroy() {
         super.onDestroy();
     }
-
-
-
-
 }

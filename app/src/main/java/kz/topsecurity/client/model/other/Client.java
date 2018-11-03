@@ -54,7 +54,6 @@ public class Client {
     @Expose
     private Plan plan;
 
-
     public Integer getId() {
         return id;
     }

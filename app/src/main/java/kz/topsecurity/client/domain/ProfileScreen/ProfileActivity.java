@@ -316,7 +316,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     public void uploadMultipart(final Context context,String imagePath) {
         try {
             String uploadId =
-                    new MultipartUploadRequest(context, "http://gpstracking.muratov.kz/api/client/photo")
+                    new MultipartUploadRequest(context, Constants.ACTIVE_DOMAIN+"/api/client/photo")
                             .addHeader("Authorization",RetrofitClient.getRequestToken())
                             // starting from 3.1+, you can also use content:// URI string instead of absolute file
                             .addFileToUpload(imagePath, "file")

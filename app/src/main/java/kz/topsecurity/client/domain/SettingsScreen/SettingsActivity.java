@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -15,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.concurrent.TimeUnit;
@@ -34,6 +36,7 @@ import kz.topsecurity.client.helper.SharedPreferencesManager;
 import kz.topsecurity.client.helper.dataBase.DataBaseManager;
 import kz.topsecurity.client.helper.dataBase.DataBaseManagerImpl;
 import kz.topsecurity.client.service.trackingService.TrackingService;
+import kz.topsecurity.client.ui_widgets.CustomSwitch;
 
 public class SettingsActivity extends BaseActivity implements View.OnClickListener{
 
@@ -44,8 +47,14 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     @BindView(R.id.rl_volume_tracking_service) RelativeLayout rl_volume_tracking_service;
     @BindView(R.id.s_volume_track) Switch s_volume_track;
     @BindView(R.id.ll_volume_button_options) LinearLayout ll_volume_button_options;
-    @BindView(R.id.rl_volume_direction) RelativeLayout rl_volume_direction;
-    @BindView(R.id.s_volume_direction) Switch s_volume_direction;
+    @BindView(R.id.cl_volume_direction) ConstraintLayout cl_volume_direction;
+
+    @BindView(R.id.s_volume_direction) CustomSwitch s_volume_direction;
+    @BindView(R.id.iv_volume_btn_image) CustomSwitch iv_volume_btn_image;
+    @BindView(R.id.tv_volume_button_direction_up)
+    TextView tv_volume_button_direction_up;
+    @BindView(R.id.tv_volume_button_direction_down)
+    TextView tv_volume_button_direction_down;
 
     DataBaseManager dataBaseManager = new DataBaseManagerImpl(this);
     CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -82,11 +91,20 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         },100);
     }
 
+    View.OnClickListener volumeDirectionOnTopClick = v->{
+          setVolumeIndicators(false);
+    };
+
+    View.OnClickListener volumeDirectionOnDownClick = v->{
+        setVolumeIndicators( true);
+    };
+
     private void initView() {
         rl_tracking_service.setOnClickListener(this);
         rl_volume_tracking_service.setOnClickListener(this);
-        rl_volume_direction.setOnClickListener(this);
         rl_exit.setOnClickListener(this);
+        iv_volume_btn_image.setImageResources(R.drawable.ic_volume_btn_up_active, R.drawable.ic_volume_btn_down_active);
+        s_volume_direction.setImageResources(R.drawable.btn_vertical_toggle_top,R.drawable.btn_vertical_toggle_bottom);
         setupSpinner();
         setCurrentState();
         updateVolumeOptionsView(s_volume_track.isChecked());
@@ -123,9 +141,24 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     void setCurrentState(){
         s_tracking_service.setChecked(SharedPreferencesManager.getTrackingServiceActiveState(this));
         s_volume_track.setChecked(SharedPreferencesManager.getVolumeTrackingServiceActiveState(this) && isAccessibilitySettingsOn(this));
-        s_volume_direction.setChecked(SharedPreferencesManager.getVolumeDirection(this));
+        setVolumeIndicators(SharedPreferencesManager.getVolumeDirection(this));
 //        spin_volume_click_rate.setSelection(SharedPreferencesManager.getVolumeButtonClickRate(this));
         updateVolumeOptionsView(SharedPreferencesManager.getVolumeTrackingServiceActiveState(this)&& isAccessibilitySettingsOn(this));
+    }
+
+    private void setVolumeIndicators(boolean volumeDirection) {
+        s_volume_direction.setChecked(volumeDirection);
+        iv_volume_btn_image.setChecked(volumeDirection);
+        tv_volume_button_direction_down.setOnClickListener(volumeDirection ? volumeDirectionOnTopClick  : null);
+        tv_volume_button_direction_down.setEnabled(volumeDirection);
+        tv_volume_button_direction_down.setTextColor(!volumeDirection ? getResources().getColor(R.color.black):getResources().getColor(R.color.gray) );
+        tv_volume_button_direction_up.setOnClickListener(!volumeDirection ? volumeDirectionOnDownClick : null);
+        tv_volume_button_direction_up.setEnabled(!volumeDirection);
+        tv_volume_button_direction_up.setTextColor(volumeDirection?  getResources().getColor(R.color.black):getResources().getColor(R.color.gray));
+
+        s_volume_direction.setOnClickListener(volumeDirection ? volumeDirectionOnTopClick  : volumeDirectionOnDownClick);
+        iv_volume_btn_image.setOnClickListener(volumeDirection ?volumeDirectionOnTopClick  : volumeDirectionOnDownClick);
+        processVolumeButtonDirection(volumeDirection);
     }
 
     @Override
@@ -165,15 +198,14 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                 setDelay(rl_volume_tracking_service);
                 break;
             }
-            case R.id.rl_volume_direction:{
-                s_volume_direction.setChecked(!s_volume_direction.isChecked());
-                processVolumeButtonDirection(s_volume_direction.isChecked());
+            case R.id.cl_volume_direction:{
+                setVolumeIndicators(!s_volume_direction.isChecked());
                 break;
             }
             case R.id.rl_exit:{
                 rl_tracking_service.setEnabled(false);
                 rl_volume_tracking_service.setEnabled(false);
-                rl_volume_direction.setEnabled(false);
+                cl_volume_direction.setEnabled(false);
 
                 if(SharedPreferencesManager.getTrackingServiceActiveState(this)){
                     toggleTrackingServiceState();

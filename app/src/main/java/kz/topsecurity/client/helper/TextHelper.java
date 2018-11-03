@@ -11,6 +11,12 @@ public class TextHelper {
 
             case Constants.ERROR_STATES.USER_NOT_FOUND_CODE: return R.string.user_not_found_code;
 
+            case Constants.ERROR_STATES.CLIENT_IS_DISABLED_CODE: return R.string.not_verificated;
+
+            case Constants.ERROR_STATES.CLIENT_IS_BLOCKED_CODE: return R.string.your_account_has_been_blocked;
+
+            case Constants.ERROR_STATES.CLIENT_IS_SELFKILLED_CODE: return R.string.this_account_is_deleted;
+
             case Constants.ERROR_STATES.ALREADY_AUTHENTICATE_CODE: return R.string.already_authenticate_code;
 
             case Constants.ERROR_STATES.PHONE_NUMBER_EXISTS_CODE: return R.string.telephone_number_exist;

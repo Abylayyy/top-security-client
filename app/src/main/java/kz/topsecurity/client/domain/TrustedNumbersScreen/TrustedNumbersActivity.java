@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.Toolbar;
-import android.transition.ChangeBounds;
 import android.transition.TransitionManager;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,7 +20,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kz.topsecurity.client.R;
-import kz.topsecurity.client.domain.TrustedNumbersScreen.adapter.ItemDecoratorWithDivider;
+import kz.topsecurity.client.domain.TrustedNumbersScreen.adapter.ContactItemDecorator;
 import kz.topsecurity.client.domain.TrustedNumbersScreen.adapter.TrustedContactsAdapter;
 import kz.topsecurity.client.domain.TrustedNumbersScreen.additionalScreen.CreateTrustedNumberActivity;
 import kz.topsecurity.client.domain.base.BaseActivity;
@@ -108,8 +107,7 @@ public class TrustedNumbersActivity extends BaseActivity<TrustedNumbersView,Trus
     }
     private void setupRV() {
         rv_trusted_numbers.setHasFixedSize(true);
-//        rv_trusted_numbers.addItemDecoration(
-//                new ItemDecoratorWithDivider(this, R.drawable.item_divider));
+        rv_trusted_numbers.addItemDecoration(new ContactItemDecorator(this));
         ((SimpleItemAnimator) rv_trusted_numbers.getItemAnimator()).setSupportsChangeAnimations(false);
         mLayoutManager = new LinearLayoutManager(this);
         rv_trusted_numbers.setLayoutManager(mLayoutManager);
@@ -143,6 +141,7 @@ public class TrustedNumbersActivity extends BaseActivity<TrustedNumbersView,Trus
         intent.putExtra(CreateTrustedNumberActivity.CONTACT_ID_TO_EDIT,contact.getId());
         intent.putExtra(CreateTrustedNumberActivity.CONTACT_NAME_TO_EDIT,contact.getName());
         intent.putExtra(CreateTrustedNumberActivity.CONTACT_PHONE_TO_EDIT,contact.getPhone());
+        intent.putExtra(CreateTrustedNumberActivity.CONTACT_DESC_TO_EDIT,contact.getDescription());
         startActivityForResult(intent,EDIT_CONTACT);
     }
 

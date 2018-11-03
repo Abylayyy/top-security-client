@@ -36,6 +36,7 @@ public class CreateTrustedNumberActivity extends BaseActivity implements StatusL
     public static final String CONTACT_ID_TO_EDIT = "contact_id_to_edit";
     public static final String CONTACT_NAME_TO_EDIT = "contact_name_to_edit";
     public static final String CONTACT_PHONE_TO_EDIT = "contact_phone_to_edit ";
+    public static final String CONTACT_DESC_TO_EDIT = "contact_desc_to_edit";
 
     @BindView(R.id.tv_user_name) TextView tv_user_name;
     @BindView(R.id.ed_username) RoundCorneredEditText ed_username;
@@ -45,10 +46,15 @@ public class CreateTrustedNumberActivity extends BaseActivity implements StatusL
     @BindView(R.id.ed_tel_number) RoundCorneredEditTextWithMask ed_tel_number;
     @BindView(R.id.tv_phone_number_error) TextView tv_phone_number_error;
 
+    @BindView(R.id.tv_user_desc) TextView tv_user_desc;
+    @BindView(R.id.ed_user_desc) RoundCorneredEditText ed_user_desc;
+    @BindView(R.id.tv_user_desc_error) TextView tv_user_desc_error;
+
     @BindView(R.id.btn_create_contact) Button btn_create_contact;
 
     RoundCorneredEditTextHelper telephone_helper;
     RoundCorneredEditTextHelper username_helper;
+    RoundCorneredEditTextHelper user_desc_helper;
 
     CompositeDisposable compositeDisposable = new CompositeDisposable();
 
@@ -72,6 +78,7 @@ public class CreateTrustedNumberActivity extends BaseActivity implements StatusL
             mContactId = getIntent().getIntExtra(CONTACT_ID_TO_EDIT,-1);
             ed_tel_number.setText(getIntent().getStringExtra(CONTACT_PHONE_TO_EDIT).substring(1));
             ed_username.setText(getIntent().getStringExtra(CONTACT_NAME_TO_EDIT));
+            ed_user_desc.setText(getIntent().getStringExtra(CONTACT_DESC_TO_EDIT));
             editPhoneNumber = true;
             btn_create_contact.setText(R.string.save);
         }
@@ -83,8 +90,10 @@ public class CreateTrustedNumberActivity extends BaseActivity implements StatusL
     private void setupView() {
         telephone_helper = new RoundCorneredEditTextHelper(this,ed_tel_number,tv_telephone_number_label,tv_phone_number_error);
         username_helper = new RoundCorneredEditTextHelper(this,ed_username,tv_user_name,tv_user_name_error);
+        user_desc_helper = new RoundCorneredEditTextHelper(this,ed_user_desc,tv_user_desc,tv_user_desc_error);
         telephone_helper.init(this);
         username_helper.init(this);
+        user_desc_helper.init(this);
         btn_create_contact.setOnClickListener(v->{
             createContact();
         });
@@ -95,6 +104,7 @@ public class CreateTrustedNumberActivity extends BaseActivity implements StatusL
         String rawphone = ed_tel_number.getRawText();
         String phone = ed_tel_number.getText().toString();
         String username = ed_username.getText().toString();
+        String description = ed_user_desc.getText().toString();
 
         boolean is_contain_error= false;
         if(phone.length()<16 || rawphone.length()<10)
@@ -107,19 +117,24 @@ public class CreateTrustedNumberActivity extends BaseActivity implements StatusL
             username_helper.setError(getString(R.string.field_cant_be_empty));
             is_contain_error = true;
         }
+        if(description.isEmpty())
+        {
+            user_desc_helper.setError(getString(R.string.field_cant_be_empty));
+            is_contain_error = true;
+        }
 
         if(!is_contain_error){
             if(!editPhoneNumber)
-                createContactRequest(phone,username);
+                createContactRequest(phone,username,description);
             else
-                editContactRequest(mContactId, phone,username);
+                editContactRequest(mContactId, phone,username,description);
         }
         else{
             btn_create_contact.setEnabled(false);
         }
     }
 
-    private void editContactRequest(int id, String phone, String username) {
+    private void editContactRequest(int id, String phone, String username, String desc) {
         showLoadingDialog();
         Disposable subscribe = new RequestService<>(new RequestService.RequestResponse<SaveContactsResponse>() {
             @Override
@@ -138,7 +153,7 @@ public class CreateTrustedNumberActivity extends BaseActivity implements StatusL
                 setCreateContactError();
             }
         }).makeRequest(RetrofitClient.getClientApi()
-                .editContact(RetrofitClient.getRequestToken(),id ,username,phone));
+                .editContact(RetrofitClient.getRequestToken(),id ,username,phone,desc));
 
         compositeDisposable.add(subscribe);
     }
@@ -155,7 +170,7 @@ public class CreateTrustedNumberActivity extends BaseActivity implements StatusL
         finish();
     }
 
-    private void createContactRequest(String phone , String username) {
+    private void createContactRequest(String phone , String username, String description) {
         showLoadingDialog();
         Disposable success = new RequestService<>(new RequestService.RequestResponse<SaveContactsResponse>() {
             @Override
@@ -174,7 +189,7 @@ public class CreateTrustedNumberActivity extends BaseActivity implements StatusL
                 setCreateContactError();
             }
         }).makeRequest(RetrofitClient.getClientApi()
-                .saveContact(RetrofitClient.getRequestToken(),username,phone));
+                .saveContact(RetrofitClient.getRequestToken(),username,phone,description));
 
 
         compositeDisposable.add(success);

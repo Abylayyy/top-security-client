@@ -57,7 +57,18 @@ public class LoginPresenterImpl extends BasePresenterImpl<LoginView> implements 
 
             @Override
             public void onFailed(AuthResponse data, int error_message) {
-                setError(error_message);
+                switch(data.getStatusCode())
+                {
+                    case Constants.ERROR_STATES.CLIENT_IS_DISABLED_CODE:{
+                        view.onHideLoading();
+                        view.onUserNotVerificatedPhone(phone,error_message);
+                        break;
+                    }
+                    default:{
+                        setError(error_message);
+                        break;
+                    }
+                }
             }
 
             @Override

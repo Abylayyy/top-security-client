@@ -66,6 +66,11 @@
             </intent-filter>
         </service>
 
+        <!--<service-->
+            <!--android:name="mad.location.manager.lib.Services.KalmanLocationService"-->
+            <!--android:enabled="true"-->
+            <!--android:exported="false"-->
+            <!--android:stopWithTask="false" />-->
         <!-- <meta-data android:name="net.hockeyapp.android.appIdentifier" android:value="${HOCKEYAPP_APP_ID}" /> -->
 
         <activity
@@ -120,11 +125,7 @@
             android:enabled="true" />
 
         <receiver android:name=".service.trackingService.listenerImpl.PowerConnectionReceiver" />
-        <receiver android:name=".service.trackingService.listenerImpl.VolumeReceiver">
-            <intent-filter>
-                <action android:name="android.media.VOLUME_CHANGED_ACTION" />
-            </intent-filter>
-        </receiver>
+
         <receiver
             android:name=".service.trackingService.listenerImpl.TrackingServiceRestarterBroadcastReceiver"
             android:enabled="true"

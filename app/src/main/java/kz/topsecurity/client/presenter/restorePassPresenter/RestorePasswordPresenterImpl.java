@@ -13,6 +13,7 @@ public class RestorePasswordPresenterImpl extends BasePresenterImpl<RestorePassw
     public RestorePasswordPresenterImpl(RestorePasswordView view) {
         super(view);
     }
+    private static String sendedPhone;
 
     @Override
     public void sendPhoneNumber(String raw_phone , String phone) {
@@ -31,6 +32,7 @@ public class RestorePasswordPresenterImpl extends BasePresenterImpl<RestorePassw
         Disposable disposable = new RequestService<>(new RequestService.RequestResponse<BasicResponse>() {
             @Override
             public void onSuccess(BasicResponse data) {
+                sendedPhone = phone;
                 view.onHideLoadingView();
                 view.onTelephoneNumberSendSuccessfully();
             }
@@ -51,17 +53,17 @@ public class RestorePasswordPresenterImpl extends BasePresenterImpl<RestorePassw
     }
 
     @Override
-    public void sendCode(String code) {
+    public void sendCode( String code) {
         boolean is_contain_error = false;
         if(code.length()<4){
             is_contain_error = true;
             view.onSmsCodeError(R.string.code_length_error);
         }
         if (!is_contain_error)
-            checkSmsCode(code);
+            checkSmsCode(sendedPhone, code);
     }
 
-    private void checkSmsCode(String code) {
+    private void checkSmsCode(String phone,String code) {
         view.onShowLoadingView();
         Disposable forget_password = new RequestService<BasicResponse>(new RequestService.RequestResponse<BasicResponse>() {
             @Override
@@ -81,7 +83,7 @@ public class RestorePasswordPresenterImpl extends BasePresenterImpl<RestorePassw
                 view.onHideLoadingView();
                 view.onRestorePasswordFailed(error_message);
             }
-        }).makeRequest(RetrofitClient.getClientApi().verificateCode("forget_password", code));
+        }).makeRequest(RetrofitClient.getClientApi().verificateCode("forget_password",phone, code));
         compositeDisposable.add(forget_password);
     }
 }

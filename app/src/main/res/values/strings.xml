@@ -61,13 +61,15 @@
     <string name="cancel">ОТМЕНА</string>
     <string name="alert">ТРЕВОГА</string>
     <string name="title_activity_settings">Настройки</string>
-    <string name="tracking_service">Слежка</string>
-    <string name="volume_btn">Боковая кнопка</string>
+    <string name="tracking_service">Место положения</string>
+    <string name="volume_btn">Быстрый вызов</string>
     <string name="volume_button_direction">Тип кнопки</string>
+    <string name="volume_button_direction_up">Активация по зажатию кнопки громкости в нижнем положении</string>
+    <string name="volume_button_direction_down">Активация по зажатию кнопки громкости в верхнем положении</string>
     <string name="direction_down">Вниз</string>
     <string name="direction_up">Вверх</string>
     <string name="volume_btn_click_rate">Кол-во нажатий</string>
-    <string name="exit">Выход</string>
+    <string name="exit">Выйти из аккаунта</string>
     <string name="you_cant_when_alert_active">При активной тревоге Вы не можете использовать данную функцию</string>
     <string name="title_service_not_active">Слежка неактивна</string>
     <string name="msg_service_not_active">Слежка отключена, чтобы вызвать тревогу включите слежку</string>
@@ -139,7 +141,7 @@
     <string name="successful_updated_code"> </string>
     <string name="successful_accepted_code"> </string>
     <string name="internal_error_code"> </string>
-    <string name="validation_error_code">Вводимые данные неверны</string>
+    <string name="validation_error_code">Введенные данные неверны</string>
     <string name="action_not_found_code">Неправильный код</string>
     <string name="action_is_expired_code">Время действия данного кода истекло</string>
     <string name="alert_not_exists_code">Тревога неактивна</string>
@@ -158,7 +160,9 @@
     <string name="send_again">Переотправить</string>
     <string name="code_length_error">Код должен содержать 4-е цифры</string>
     <string name="title_activity_change_password">Смена пароля</string>
-    <string name="are_you_sure_what_exit">Вы действительно хотите отменить восстановление пароля?</string>
+    <string name="are_you_sure_what_exit_change_pass">Вы действительно хотите отменить изменение пароля?</string>
+    <string name="are_you_sure_what_exit_restore_pass">Вы действительно хотите отменить восстановление пароля?</string>
+    <string name="are_you_sure_what_exit_from_activation">Вы действительно выйти из этой страницы?</string>
     <string name="title_activity_sms_code">Подтверждение</string>
     <string name="title_activity_payment">Оплата</string>
     <string name="title_activity_set_secret_cancel_code">Секретный код</string>
@@ -175,7 +179,7 @@
     <string name="alert_time">Время тревоги</string>
     <string name="place">Место тревоги</string>
     <string name="charge_level">Уровень заряда</string>
-    <string name="alert_history">История вызывов</string>
+    <string name="alert_history">История вызовов</string>
     <string name="face_not_detected">Не удалось обнаружить лицо. Выберите другую фотографию.</string>
     <string name="success">Успешно</string>
     <string name="more_than_one_face_in_picture">Фотография содержить больше одного лица. Выберите другую фотографию.</string>
@@ -207,4 +211,13 @@
     <string name="tuts_contacts_desc">Во вкладке доверенные номера, вы можете добавить номера близких вам людей</string>
     <string name="tuts_settings_desc">В настройках вы сможете управлять отслеживанием место положения и настроить кнопку вызова на качельку громкости.</string>
     <string name="title_activity_tutorial_slider">TutorialSliderActivity</string>
+    <string name="fast_alert_by_volume_btn_desc">Вы можете осуществлять вызов тревоги путем зажатия качельки громкости в выбранном положении в течении 5 секунд.</string>
+    <string name="customer_service">Служба поддержки пользователей</string>
+    <string name="user_agreement"><u>Пользовательское соглашение</u></string>
+    <string name="cancelled">Отменено</string>
+    <string name="this_account_is_deleted">Этот аккаунт удален</string>
+    <string name="your_account_has_been_blocked">Этот аккаунт быд заблокирован</string>
+    <string name="not_verificated">Ваш аккаунт не подтвержден</string>
+    <string name="contact_user_desc">Отношение</string>
+    <string name="placeholder_contact_user_desc">(Отец, Мать, Брат, Сестра и т.д.)</string>
 </resources>
