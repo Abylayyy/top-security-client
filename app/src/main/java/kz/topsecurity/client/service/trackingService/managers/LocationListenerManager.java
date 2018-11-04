@@ -286,6 +286,8 @@ public class LocationListenerManager {
 
 
     public void clearStoredData() {
-        storedLocationData.clear();
+
+        if(storedLocationData!=null)
+            storedLocationData.clear();
     }
 }
