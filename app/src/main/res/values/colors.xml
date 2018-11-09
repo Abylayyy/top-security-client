@@ -16,6 +16,6 @@
     <color name="menu_item_highlighted">#FFD0D0</color>
     <color name="transparentBlack">#48000000</color>
     <!-- ONBOARDING -->
-    <color name="dividerColor">#B6B6B6</color>
+    <color name="dividerColor">#CCB6B6B6</color>
     <color name="dividerColorLight">#48B6B6B6</color>
 </resources>

@@ -32,7 +32,8 @@ public class AlertHistoryPresenterImpl extends BasePresenterImpl<AlertHistoryVie
             @Override
             public void onFailed(AlertsListResponse data, int error_message) {
                 view.hideLoadingDialog();
-                view.onHistoryLoadFailed(error_message);
+                //view.onHistoryLoadFailed(error_message);
+                view.onHistoryEmpty();
             }
 
             @Override

@@ -61,7 +61,7 @@ public class LoginPresenterImpl extends BasePresenterImpl<LoginView> implements 
                 {
                     case Constants.ERROR_STATES.CLIENT_IS_DISABLED_CODE:{
                         view.onHideLoading();
-                        view.onUserNotVerificatedPhone(phone,error_message);
+                        view.onUserNotVerificatedPhone(phone,password , imei , error_message);
                         break;
                     }
                     default:{

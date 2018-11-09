@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,8 @@ public class AlertHistoryActivity extends BaseActivity<AlertHistoryView,AlertHis
 
     @BindView(R.id.rv_alerts)
     RecyclerView rv_alerts;
+    @BindView(R.id.tv_empty_list)
+    TextView tv_empty_list;
 
     AlertListAdapter mAdapter = new AlertListAdapter(this,new ArrayList<>(),this);
     private RecyclerView.LayoutManager mLayoutManager;
@@ -76,6 +79,7 @@ public class AlertHistoryActivity extends BaseActivity<AlertHistoryView,AlertHis
     @Override
     public void onHistoryEmpty() {
         showToast(R.string.list_is_empty);
+        tv_empty_list.setVisibility(View.VISIBLE);
     }
 
     @Override

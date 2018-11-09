@@ -2,11 +2,13 @@ package kz.topsecurity.client.domain.RegisterScreen;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +19,7 @@ import kz.topsecurity.client.domain.InputCodeScreen.SmsCodeActivity;
 import kz.topsecurity.client.domain.MainScreen.MainActivity;
 import kz.topsecurity.client.domain.StartScreen.StartActivity;
 import kz.topsecurity.client.domain.base.BaseActivity;
+import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
 import kz.topsecurity.client.helper.dataBase.DataBaseManager;
 import kz.topsecurity.client.helper.dataBase.DataBaseManagerImpl;
@@ -53,6 +56,9 @@ public class RegisterActivity extends BaseActivity<RegisterView,RegisterPresente
     @BindView(R.id.ed_password) RoundCorneredEditText ed_password;
     @BindView(R.id.tv_password_error) TextView tv_password_error;
 
+    @BindView(R.id.tv_privacy_policy) TextView tv_privacy_policy;
+    @BindView(R.id.cb_privacy_policy) CheckBox cb_privacy_policy;
+
     RoundCorneredEditTextHelper phoneNumber_helper;
     RoundCorneredEditTextHelper userName_helper;
     RoundCorneredEditTextHelper userEmail_helper;
@@ -68,6 +74,7 @@ public class RegisterActivity extends BaseActivity<RegisterView,RegisterPresente
         initPresenter(new RegisterPresenterImpl(this));
         iv_back.setOnClickListener(this);
         btn_sign_up.setOnClickListener(this);
+        tv_privacy_policy.setOnClickListener(this);
         phoneNumber_helper = new RoundCorneredEditTextHelper(this,ed_tel_number,tv_telephone_number_label,tv_phone_number_error);
         userName_helper = new RoundCorneredEditTextHelper(this , ed_username , tv_user_name, tv_user_name_error);
         userEmail_helper = new RoundCorneredEditTextHelper(this , ed_email , tv_email, tv_email_error);
@@ -94,16 +101,30 @@ public class RegisterActivity extends BaseActivity<RegisterView,RegisterPresente
                 goBack();
                 break;
             }
+            case R.id.tv_privacy_policy:{
+                openPrivacyPolicyLink();
+                break;
+            }
             default:{
                 break;
             }
         }
     }
 
+    private void openPrivacyPolicyLink() {
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(Constants.PRIVACY_POLICY_LINK));
+        startActivity(i);
+    }
+
     void register(){
         if(!isNetworkOnline())
         {
             showToast(R.string.msg_alert_no_internet);
+            return;
+        }
+        if(!cb_privacy_policy.isChecked()){
+            showToast(R.string.make_agreement_to_privacy_policy);
             return;
         }
         hideSoftKeyboard(btn_sign_up);

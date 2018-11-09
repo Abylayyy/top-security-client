@@ -9,11 +9,16 @@ import io.reactivex.schedulers.Schedulers;
 import kz.topsecurity.client.application.TopSecurityClientApplication;
 import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
+import kz.topsecurity.client.model.alert.AlertStatusResponse;
 import kz.topsecurity.client.model.alert.CheckAlertResponse;
 import kz.topsecurity.client.presenter.base.BasePresenterImpl;
 import kz.topsecurity.client.service.api.RequestService;
 import kz.topsecurity.client.service.api.RetrofitClient;
 import kz.topsecurity.client.view.mainView.MainView;
+
+import static kz.topsecurity.client.domain.MainScreen.MainActivity.MRRT_CHANGED_POSIITION;
+import static kz.topsecurity.client.domain.MainScreen.MainActivity.ORDER_ACCEPTED;
+import static kz.topsecurity.client.domain.MainScreen.MainActivity.ORDER_CREATED;
 
 public class MainPresenterImpl extends BasePresenterImpl<MainView> implements MainPresenter {
 
@@ -113,13 +118,66 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
 
     void processCheckStatus(boolean isSuccessfull){
         if(isSuccessfull){
+            isAlertActive = true;
             view.onAlertIsActive();
+            checkExactStatus();
         }
-        else{
-            if(!SharedPreferencesManager.getIsAlertOnHold(TopSecurityClientApplication.getInstance()))
+        else {
+            if (!SharedPreferencesManager.getIsAlertOnHold(TopSecurityClientApplication.getInstance())) {
+                isAlertActive = false;
+                Constants.is_service_sending_alert(false);
                 view.onAlertNotActive();
-            else
+            } else {
+                isAlertActive = true;
                 view.onAlertIsActive();
+            }
+        }
+    }
+
+    private void checkExactStatus() {
+        Disposable subscribe = new RequestService<>(new RequestService.RequestResponse<AlertStatusResponse>() {
+            @Override
+            public void onSuccess(AlertStatusResponse r) {
+                processAlertExactStatus(r.getAlertStatus());
+            }
+
+            @Override
+            public void onFailed(AlertStatusResponse data, int error_message) {
+               // processCheckStatus(false);
+            }
+
+            @Override
+            public void onError(Throwable e, int error_message) {
+            }
+        }).makeRequest(RetrofitClient
+                .getClientApi()
+                .getAlertStatus(RetrofitClient.getRequestToken()));
+        compositeDisposable.add(subscribe);
+    }
+
+    private void processAlertExactStatus(String alertStatus) {
+        switch (alertStatus){
+            case Constants.ALERT_STATUS.ENEW:{
+
+                break;
+            }
+            case Constants.ALERT_STATUS.ACCEPTED:{
+                view.setAnimationStatus(ORDER_ACCEPTED);
+                break;
+            }
+            case Constants.ALERT_STATUS.CANCELLED:{
+
+                break;
+            }
+            case Constants.ALERT_STATUS.IN_PROCESS:{
+                view.setAnimationStatus(MRRT_CHANGED_POSIITION);
+                break;
+            }
+            case Constants.ALERT_STATUS.FINISHED:{
+
+                break;
+            }
+
         }
     }
 

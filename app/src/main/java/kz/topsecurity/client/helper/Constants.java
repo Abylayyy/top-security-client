@@ -12,6 +12,8 @@ public class Constants {
     private static final String PRODUCTION_DOMAIN = "http://signal.topsecurity.kz";
     private static final String DEVELOPMENT_DOMAIN = "http://gpstracking.muratov.kz";
     public static final String ACTIVE_DOMAIN = PRODUCTION_DOMAIN;
+    public static final String PRIVACY_POLICY_LINK = "http://signal.topsecurity.kz/terms";
+    public static final String INSTRuCTION_LINK = "http://signal.topsecurity.kz/instructions";
 
     public static final boolean IS_DEBUG = true;
 
@@ -124,5 +126,13 @@ public class Constants {
         public static final int ALERT_SUCCESSFUL_CREATED_CODE = 4001;
         public static final int ALERT_SUCCESSFUL_CHECKED_CODE = 4002;
         public static final int ALERT_SUCCESSFUL_CANCELLED_CODE = 4003;
+    }
+
+    public class ALERT_STATUS{
+        public static final String ENEW = "new";
+        public static final String ACCEPTED = "accepted";
+        public static final String CANCELLED = "cancelled";
+        public static final String IN_PROCESS = "in_process";
+        public static final String FINISHED = "finished";
     }
 }

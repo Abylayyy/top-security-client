@@ -78,7 +78,7 @@ public class TrustedNumbersActivity extends BaseActivity<TrustedNumbersView,Trus
         initPresenter(new TrustedNumberPresenterImpl(this));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("Доверенный номер");
+        setTitle(R.string.contacts);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 

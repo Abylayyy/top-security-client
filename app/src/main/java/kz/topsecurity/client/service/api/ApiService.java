@@ -3,6 +3,7 @@ package kz.topsecurity.client.service.api;
 
 import io.reactivex.Observable;
 import kz.topsecurity.client.model.alert.AlertResponse;
+import kz.topsecurity.client.model.alert.AlertStatusResponse;
 import kz.topsecurity.client.model.alert.CancelAlertResponse;
 import kz.topsecurity.client.model.alert.CheckAlertResponse;
 import kz.topsecurity.client.model.alertList.AlertsListResponse;
@@ -12,6 +13,7 @@ import kz.topsecurity.client.model.contact.GetContactsResponse;
 import kz.topsecurity.client.model.contact.SaveContactsResponse;
 import kz.topsecurity.client.model.device.SaveDeviceDataResponse;
 import kz.topsecurity.client.model.other.BasicResponse;
+import kz.topsecurity.client.model.other.PlansResponse;
 import kz.topsecurity.client.model.other.SampleRequest;
 import kz.topsecurity.client.model.photo.PhotoResponse;
 import kz.topsecurity.client.model.place.GetPlaceResponse;
@@ -178,4 +180,14 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("fcm/create")
     Observable<SampleRequest> setFcmToken(@Header("Authorization") String access_token, @Field("token") String token);
+
+    @GET("client/alert/status")
+    Observable<AlertStatusResponse> getAlertStatus(@Header("Authorization") String access_token);
+
+    @GET("client/plans")
+    Observable<PlansResponse> getPlan(@Header("Authorization") String access_token);
+
+    @FormUrlEncoded
+    @POST("client/register/confirm")
+    Observable<BasicResponse> confirmCode( @Field("verification_code") String verification_code);
 }

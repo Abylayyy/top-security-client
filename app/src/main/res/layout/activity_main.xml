@@ -51,11 +51,11 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                <RelativeLayout
-                    android:paddingTop="40dp"
-                    android:paddingBottom="20dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
+                <android.support.constraint.ConstraintLayout
+                    android:paddingTop="45dp"
+                    android:paddingBottom="25dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
                     android:background="@drawable/tilted_grad_bg"
                     android:id="@+id/rl_user_profile"
                     android:layout_width="match_parent"
@@ -67,40 +67,58 @@
                             android:layout_height="100dp"
                             android:layout_marginRight="10dp"
                             android:layout_marginEnd="10dp" />
-                        <TextView
-                            android:layout_marginTop="16dp"
-                            android:id="@+id/tv_user_name"
-                            android:textColor="@color/white"
-                            android:layout_toRightOf="@id/iv_user_avatar"
-                            android:layout_toEndOf="@id/iv_user_avatar"
-                            android:text="@string/placeholder_username"
-                            android:textSize="16sp"
-                            android:fontFamily="@font/roboto_bold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                        <TextView
-                            android:id="@+id/tv_user_phone"
-                            android:textColor="@color/white"
-                            android:layout_marginTop="5dp"
-                            android:layout_toRightOf="@id/iv_user_avatar"
-                            android:layout_toEndOf="@id/iv_user_avatar"
-                            android:layout_below="@id/tv_user_name"
-                            android:text="@string/placeholder_user_phone"
-                            android:fontFamily="@font/roboto_light"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                        <TextView
-                            android:id="@+id/tv_user_email"
-                            android:textColor="@color/white"
-                            android:layout_toRightOf="@id/iv_user_avatar"
-                            android:layout_toEndOf="@id/iv_user_avatar"
-                            android:layout_below="@id/tv_user_phone"
-                            android:text="@string/placeholder_email"
-                            android:fontFamily="@font/roboto_light"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
 
-                </RelativeLayout>
+                    <TextView
+                        android:id="@+id/tv_user_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_toEndOf="@id/iv_user_avatar"
+                        android:layout_toRightOf="@id/iv_user_avatar"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="@string/placeholder_username"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/iv_user_avatar"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/iv_user_avatar"
+                        app:layout_constraintTop_toTopOf="@+id/iv_user_avatar" />
+
+                    <TextView
+                        android:id="@+id/tv_user_phone"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_user_name"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_toEndOf="@id/iv_user_avatar"
+                        android:layout_toRightOf="@id/iv_user_avatar"
+                        android:fontFamily="@font/roboto_light"
+                        android:text="@string/placeholder_user_phone"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/iv_user_avatar"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_user_name" />
+                    <TextView
+                        android:id="@+id/tv_user_email"
+                        android:textColor="@color/white"
+                        android:visibility="gone"
+                        android:layout_toRightOf="@id/iv_user_avatar"
+                        android:layout_toEndOf="@id/iv_user_avatar"
+                        android:layout_below="@id/tv_user_phone"
+                        android:text="@string/placeholder_email"
+                        android:fontFamily="@font/roboto_light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </android.support.constraint.ConstraintLayout>
                 <LinearLayout
                     android:orientation="vertical"
                     android:background="@color/white"
@@ -108,7 +126,11 @@
                     android:layout_height="match_parent">
                      <LinearLayout
                          android:id="@+id/ll_profile"
-                         android:padding="5dp"
+                         android:layout_marginTop="5dp"
+                         android:paddingTop="5dp"
+                         android:paddingLeft="5dp"
+                         android:paddingRight="5dp"
+                         android:paddingBottom="5dp"
                          android:background="@drawable/menu_item_selector"
                          android:orientation="horizontal"
                          android:gravity="center"
@@ -133,8 +155,8 @@
                              android:textSize="16sp" />
                      </LinearLayout>
                     <LinearLayout
-                        android:layout_marginTop="1dp"
-                        android:layout_marginBottom="1dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginBottom="3dp"
                         android:layout_width="match_parent"
                         android:layout_height="1px"
                         android:background="@color/dividerColor"/>
@@ -216,8 +238,8 @@
                             android:textSize="16sp" />
                     </LinearLayout>
                     <LinearLayout
-                        android:layout_marginTop="1dp"
-                        android:layout_marginBottom="1dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginBottom="3dp"
                         android:layout_width="match_parent"
                         android:layout_height="1px"
                         android:background="@color/dividerColor"/>

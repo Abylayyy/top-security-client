@@ -6,6 +6,7 @@ import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -20,6 +21,7 @@ import java.util.Locale;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import kz.topsecurity.client.R;
 import kz.topsecurity.client.application.TopSecurityClientApplication;
 import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
@@ -335,6 +337,12 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
 //            setAlertSendError();
 //            return;
 //        }
+        if(!SharedPreferencesManager.getUserPaymentIsActive(TopSecurityClientApplication.getInstance()))
+        {
+            setAlertSendError();
+            Toast.makeText(TopSecurityClientApplication.getInstance(), R.string.alert_do_not_work_without_payment,Toast.LENGTH_SHORT ).show();
+            return;
+        }
         if(data==null || data.getLat()==0.0 || data.getLng()==0.0)
         {
             setAlertOnHold();

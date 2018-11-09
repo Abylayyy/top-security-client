@@ -208,7 +208,7 @@ public class LoginActivity extends BaseActivity<LoginView, LoginPresenter, Login
 
     @Override
     public void onLoginError(int msg) {
-        showToast(R.string.unable_to_login);
+        showToast(getString(msg));
     }
 
     @Override
@@ -219,15 +219,16 @@ public class LoginActivity extends BaseActivity<LoginView, LoginPresenter, Login
         SharedPreferencesManager.setUserAuthToken(this,token);
         boolean isPaymentActive = client.getPlan()!=null && !client.getPlan().getIsExpired();
         SharedPreferencesManager.setUserPaymentIsActive(this, isPaymentActive);
-        if(Constants.IS_DEBUG || (client.getPlan()!=null && !client.getPlan().getIsExpired())){
-            startMainActivity();
-        }
-        else{
-            Intent intent = new Intent(this, PaymentActivity.class);
-            intent.putExtra(PaymentActivity.FORCED,true);
-            startActivity(intent);
-            finish();
-        }
+//        if((client.getPlan()!=null && !client.getPlan().getIsExpired())){
+//            startMainActivity();
+//        }
+        startMainActivity();
+//        else{
+//            Intent intent = new Intent(this, PaymentActivity.class);
+//            intent.putExtra(PaymentActivity.FORCED,true);
+//            startActivity(intent);
+//            finish();
+//        }
     }
 
     @Override
@@ -268,11 +269,14 @@ public class LoginActivity extends BaseActivity<LoginView, LoginPresenter, Login
     }
 
     @Override
-    public void onUserNotVerificatedPhone(String phone, int error_message) {
+    public void onUserNotVerificatedPhone(String phone, String pass , String imei,  int error_message) {
         showToast(error_message);
         Intent intent = new Intent(this, SmsCodeActivity.class);
         intent.putExtra(SmsCodeActivity.GET_PHONE_NUMB,phone);
         intent.putExtra(SmsCodeActivity.ON_FORWARD_EXTRA,SmsCodeActivity.TO_MAIN);
+        intent.putExtra(SmsCodeActivity.PASSWORD,pass);
+        intent.putExtra(SmsCodeActivity.IMEI,imei);
+        intent.putExtra(SmsCodeActivity.FOR_LOGIN,1);
         startActivity(intent);
         finish();
     }

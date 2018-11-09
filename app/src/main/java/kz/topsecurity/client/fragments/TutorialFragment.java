@@ -168,8 +168,6 @@ public class TutorialFragment extends Fragment {
         cl_main_container.startAnimation(animation);
         isAnimationActive = true;
 
-
-
     }
 
     void setDataToViews(){
@@ -228,6 +226,8 @@ public class TutorialFragment extends Fragment {
             return;
         if(currentPage < current_pages_pack.length)
         {
+            if(shownTutsList==null)
+                shownTutsList = new ArrayList<>();
             shownTutsList.add(current_pages_pack[currentPage]);
         }
         currentPage++;

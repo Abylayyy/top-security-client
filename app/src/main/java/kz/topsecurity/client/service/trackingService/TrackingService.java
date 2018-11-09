@@ -149,8 +149,8 @@ public class TrackingService extends Service implements TrackingServiceView {
             }
             case Constants.ALERT_ACTION: {
                 setAlertStatus();
-                presenter.callAlert(data);
                 Constants.is_service_sending_alert(true);
+                presenter.callAlert(data);
                 break;
             }
             case Constants.ALERT_ACTIVE_ACTION:{

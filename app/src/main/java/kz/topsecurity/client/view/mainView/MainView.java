@@ -10,4 +10,5 @@ public interface MainView extends BaseView {
     void onAlertNotActive();
     void onStoppingAlert();
     void onCallingAlert();
+    void setAnimationStatus(int status);
 }

@@ -17,17 +17,29 @@ import android.webkit.WebViewClient;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import kz.topsecurity.client.R;
 import kz.topsecurity.client.domain.base.BaseActivity;
 import kz.topsecurity.client.helper.Constants;
+import kz.topsecurity.client.helper.SharedPreferencesManager;
+import kz.topsecurity.client.model.auth.GetClientResponse;
+import kz.topsecurity.client.model.other.BasicResponseTemplate;
 import kz.topsecurity.client.service.api.RequestService;
 import kz.topsecurity.client.service.api.RetrofitClient;
 
 public class PaymentActivity extends BaseActivity {
 
     public static final String FORCED = "FORCED_PAYMENT";
+    private static final int FIRST_CHECK = 1144;
+    private static final int LAST_CHECK = 759;
     @BindView(R.id.wv_payment_site)
     WebView wv_payment_site;
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +51,33 @@ public class PaymentActivity extends BaseActivity {
         setTitle(R.string.payment_activity_name);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        checkPlan(FIRST_CHECK);
+    }
 
+    private void getPlans() {
+        showLoadingDialog();
+        Disposable success = RetrofitClient.getClientApi().getPlan(RetrofitClient.getRequestToken())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(r -> {
+                            if (!r.getStatus().equals("success")) {
+                                hideProgressDialog();
+                                finish();
+                            } else {
+                                if(r.getUrl()!=null){
+                                    initWebView(r.getUrl());
+                                }
+                                hideProgressDialog();
+                            }
+                        },
+                        e -> {
+                            hideProgressDialog();
+                            finish();
+                        });
+        compositeDisposable.add(success);
+    }
+
+    void initWebView(String url){
         WebSettings webSettings = wv_payment_site.getSettings();
         webSettings.setDomStorageEnabled(true);
         webSettings.setJavaScriptEnabled(true);
@@ -49,11 +87,7 @@ public class PaymentActivity extends BaseActivity {
 
         wv_payment_site.setWebChromeClient(new WebChromeClient());
         wv_payment_site.setWebViewClient(new PaymentWebViewClient());
-        wv_payment_site.loadUrl(getUrlPath());
-    }
-
-    private String getUrlPath() {
-        return Constants.ACTIVE_DOMAIN+ "/client/plans?access_token="+RetrofitClient.getRawToken();
+        wv_payment_site.loadUrl(url);
     }
 
     class PaymentWebViewClient extends WebViewClient{
@@ -67,13 +101,48 @@ public class PaymentActivity extends BaseActivity {
 //
             if(url.contains("success") || url.contains("failure"))
             {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                startActivity(intent);
-                return true;
+//                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//                startActivity(intent);
+                checkPlan(LAST_CHECK);
+                return false;
             }
             // Otherwise, the link is not for a page on my site, so launch another Activity that handles URLs
             return false;
         }
+    }
+
+    private void checkPlan(int type) {
+        showLoadingDialog();
+        Disposable success = RetrofitClient.getClientApi().getClientData(RetrofitClient.getRequestToken())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(r -> {
+                            boolean status = false;
+                            if (!r.getStatus().equals("success")) {
+                                hideProgressDialog();
+                            } else {
+                                if(r.getClient().getPlan()!=null && !r.getClient().getPlan().getIsExpired()){
+                                    SharedPreferencesManager.setUserPaymentIsActive(PaymentActivity.this,true);
+                                    status = true;
+                                }
+                                hideProgressDialog();
+                            }
+                            if(type==FIRST_CHECK){
+                                if(status) {
+                                    showToast(R.string.you_already_paid);
+                                    finish();
+                                }else
+                                    getPlans();
+                            }
+                            else if(type == LAST_CHECK){
+                                finish();
+                            }
+                        },
+                        e -> {
+                            hideProgressDialog();
+                            finish();
+                        });
+        compositeDisposable.add(success);
     }
 
     @Override

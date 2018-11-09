@@ -83,6 +83,9 @@ public class StartActivity extends BaseActivity implements View.OnClickListener 
                     onLoginFailed();
                 else {
                     //TODO : CHECK IF USER ACC NOT ACTIVATED
+
+                    boolean isPaymentActive = r.getClient().getPlan()!=null && !r.getClient().getPlan().getIsExpired();
+                    SharedPreferencesManager.setUserPaymentIsActive( StartActivity.this, isPaymentActive);
                     onSuccessLogin(r.getClient());
                 }
             }
@@ -109,16 +112,16 @@ public class StartActivity extends BaseActivity implements View.OnClickListener 
 
     private void onSuccessLogin(Client client) {
         dataBaseManager.saveClientData(client);
-        if(Constants.IS_DEBUG || (client.getPlan()!=null && !client.getPlan().getIsExpired())) {
+//        if(Constants.IS_DEBUG || (client.getPlan()!=null && !client.getPlan().getIsExpired())) {
             startActivity(new Intent(this, MainActivity.class));
             finish();
-        }
-        else{
-            Intent intent = new Intent(this, PaymentActivity.class);
-            intent.putExtra(PaymentActivity.FORCED,true);
-            startActivity(intent);
-            finish();
-        }
+//        }
+//        else{
+//            Intent intent = new Intent(this, PaymentActivity.class);
+//            intent.putExtra(PaymentActivity.FORCED,true);
+//            startActivity(intent);
+//            finish();
+//        }
     }
 
     void mimicLoading(){

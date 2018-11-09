@@ -17,8 +17,13 @@ import kz.topsecurity.client.R;
 import kz.topsecurity.client.domain.LoginScreen.LoginActivity;
 import kz.topsecurity.client.domain.MainScreen.MainActivity;
 import kz.topsecurity.client.domain.base.BaseActivity;
+import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
+import kz.topsecurity.client.helper.dataBase.DataBaseManager;
+import kz.topsecurity.client.helper.dataBase.DataBaseManagerImpl;
+import kz.topsecurity.client.model.auth.AuthResponse;
 import kz.topsecurity.client.model.other.BasicResponse;
+import kz.topsecurity.client.model.other.Client;
 import kz.topsecurity.client.service.api.RequestService;
 import kz.topsecurity.client.service.api.RetrofitClient;
 import kz.topsecurity.client.ui_widgets.customDialog.CustomSimpleDialog;
@@ -26,6 +31,9 @@ import kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditT
 
 public class SmsCodeActivity extends BaseActivity implements View.OnClickListener {
 
+    public static final String FOR_LOGIN = "FOR_LOGIN";
+    public static final String PASSWORD = "PASS";
+    public static final String IMEI = "IMEI";
     @BindView(R.id.iv_back) ImageView iv_back;
     @BindView(R.id.cl_code) ConstraintLayout cl_code;
     @BindView(R.id.tv_sms_code_label) TextView tv_sms_code_label;
@@ -42,12 +50,14 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
 
     public static final int TO_LOGIN = 681;
     public static final int TO_MAIN = 694;
-
+    boolean isShouldLogin = false;
 
     int onBackAction = -1;
     int onForwardAction = -1;
     String userPhone= "";
     private String sendedPhone;
+    private String password;
+    private String imei;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +72,14 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
         onForwardAction = getIntent().getIntExtra(ON_FORWARD_EXTRA , -1);
         userPhone = getIntent().getStringExtra(GET_PHONE_NUMB);
         if(userPhone!=null){
+            sendedPhone = userPhone;
             SharedPreferencesManager.setTmpSendedCode(this,userPhone);
-            requestVerificationCode(userPhone);
+            if(getIntent().getIntExtra(FOR_LOGIN,-1)!=-1) {
+                isShouldLogin = true;
+                password = getIntent().getStringExtra(PASSWORD);
+                imei = getIntent().getStringExtra(IMEI);
+                requestVerificationCode(userPhone);
+            }
         }
     }
 
@@ -75,7 +91,7 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
             public void onSuccess(BasicResponse data) {
                 sendedPhone = phone;
                 hideProgressDialog();
-                showToast(R.string.success);
+                showToast(R.string.sms_code_has_been_send);
             }
 
             @Override
@@ -153,7 +169,7 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onSuccess(BasicResponse data) {
                 hideProgressDialog();
-                onCodeCorrect();
+                onConfirmCode(code);
             }
 
             @Override
@@ -172,11 +188,82 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
         compositeDisposable.add(disposable);
     }
 
+    private void onConfirmCode(String code) {
+        showLoadingDialog();
+        Disposable disposable = new RequestService<BasicResponse>(new RequestService.RequestResponse<BasicResponse>() {
+            @Override
+            public void onSuccess(BasicResponse data) {
+                hideProgressDialog();
+                onCodeCorrect();
+            }
+
+            @Override
+            public void onFailed(BasicResponse data, int error_message) {
+                hideProgressDialog();
+                showToast(error_message);
+            }
+
+            @Override
+            public void onError(Throwable e, int error_message) {
+                hideProgressDialog();
+                showToast(error_message);
+            }
+        }).makeRequest(RetrofitClient.getClientApi().confirmCode(code));
+
+        compositeDisposable.add(disposable);
+    }
+
     private void onCodeCorrect() {
+        if(isShouldLogin)
+            loginUser();
+        else{
+            isSuccess = true;
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
+    }
+
+    private void loginUser() {
+        Disposable success = new RequestService<>(new RequestService.RequestResponse<AuthResponse>() {
+            @Override
+            public void onSuccess(AuthResponse r) {
+                onLoginSuccess(r.getClient() , r.getToken().getAccessToken());
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onFailed(AuthResponse data, int error_message) {
+                isSuccess = true;
+                finish();
+            }
+
+            @Override
+            public void onError(Throwable e, int error_message) {
+                isSuccess = true;
+                finish();
+            }
+        }).makeRequest(RetrofitClient.getClientApi()
+                .authorize(userPhone, password, Constants.CLIENT_DEVICE_TYPE,Constants.CLIENT_DEVICE_PLATFORM_TYPE, imei));
+
+        compositeDisposable.add(success);
+    }
+
+    DataBaseManager dataBaseManager = new DataBaseManagerImpl(this);
+
+    public void onLoginSuccess(Client client, String token) {
+        dataBaseManager.saveClientData(client);
+        SharedPreferencesManager.setUserData(this,true);
+        SharedPreferencesManager.setUserAuthToken(this,token);
+        boolean isPaymentActive = client.getPlan()!=null && !client.getPlan().getIsExpired();
+        SharedPreferencesManager.setUserPaymentIsActive(this, isPaymentActive);
+        onSuccessLogin();
+    }
+
+    private void onSuccessLogin(){
         isSuccess = true;
-        Class activityToClass = LoginActivity.class;
-        if(onForwardAction==TO_MAIN)
-            activityToClass = MainActivity.class;
+        Class activityToClass = MainActivity.class;
+//        if(onForwardAction==TO_MAIN)
+//            activityToClass = MainActivity.class;
         startActivity(new Intent(this,activityToClass));
         finish();
     }

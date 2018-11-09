@@ -55,6 +55,7 @@ import kz.topsecurity.client.service.trackingService.listenerImpl.TrackingServic
 import kz.topsecurity.client.service.trackingService.managers.DataProvider;
 import kz.topsecurity.client.service.trackingService.model.DeviceData;
 import kz.topsecurity.client.ui_widgets.customDialog.CustomDialog;
+import kz.topsecurity.client.ui_widgets.customDialog.CustomSimpleDialog;
 import kz.topsecurity.client.view.mainView.MainView;
 
 public class MainActivity extends ServiceControlActivity
@@ -150,6 +151,7 @@ public class MainActivity extends ServiceControlActivity
     protected void onResume() {
         super.onResume();
         checkAlertBtn();
+        presenter.checkStatus();
     }
 
     private void checkAlertBtn() {
@@ -288,11 +290,11 @@ public class MainActivity extends ServiceControlActivity
         startCircleAnimation();
     }
 
-    private static final int ALERT_SEND = 836;
-    private static final int ORDER_CREATED = 465;
-    private static final int ORDER_ACCEPTED = 529;
-    private static final int MRRT_CHANGED_POSIITION = 651;
-    private static final int TROUBLES = 324;
+    public static final int ALERT_SEND = 836;
+    public static final int ORDER_CREATED = 465;
+    public static final int ORDER_ACCEPTED = 529;
+    public static final int MRRT_CHANGED_POSIITION = 651;
+    public static final int TROUBLES = 324;
 
     private void changeRippleType(int type) {
         stopCarAnimation();
@@ -371,7 +373,7 @@ public class MainActivity extends ServiceControlActivity
         final ObjectAnimator alphaAnimator2= ObjectAnimator.ofFloat(iv_dash_circle, "rotation", 0f, 360f);
         alphaAnimator2.setRepeatCount(ObjectAnimator.INFINITE);
         alphaAnimator2.setRepeatMode(ObjectAnimator.RESTART);
-        alphaAnimator2.setDuration(15*1000);
+        alphaAnimator2.setDuration(10*1000);
         circleAnimatorSet.play(alphaAnimator2);
         circleAnimatorSet.start();
     }
@@ -411,6 +413,7 @@ public class MainActivity extends ServiceControlActivity
 
     @Override
     public void onAlertNotActive() {
+        showCallAlertView();
         hideProgressDialog();
         btn_alert.setEnabled(true);
         restoreStatus();
@@ -429,6 +432,11 @@ public class MainActivity extends ServiceControlActivity
             return;
         }
         presenter.callAlert();
+    }
+
+    @Override
+    public void setAnimationStatus(int status) {
+        startRippleAnimation(status);
     }
 
     private void restoreStatus() {
@@ -456,7 +464,14 @@ public class MainActivity extends ServiceControlActivity
         Client clientData = dataBaseManager.getClientData();
         if (clientData != null) {
             tv_user_name.setText(clientData.getUsername());
-            tv_user_phone.setText(clientData.getPhone());
+            String phone = clientData.getPhone();
+            if(phone!=null && phone.length()==11) {
+                String phoneWithFormat = phone.replaceFirst("(\\d{1})(\\d{3})(\\d{3})(\\d{2})(\\d{2})", "+$1($2)$3-$4-$5");
+                tv_user_phone.setText(phoneWithFormat);
+            }
+            else{
+                tv_user_phone.setText(phone);
+            }
             tv_user_email.setText(clientData.getEmail());
             userAvatar = clientData.getPhoto();
         }
@@ -700,6 +715,21 @@ public class MainActivity extends ServiceControlActivity
     }
 
     void sendAlert(){
+        if(!SharedPreferencesManager.getUserPaymentIsActive(this)) {
+            showAreYouSureDialog(getString(R.string.user_do_not_make_the_payment_to_call_alert), new CustomSimpleDialog.Callback() {
+                @Override
+                public void onCancelBtnClicked() {
+                    dissmissAreYouSureDialog();
+                }
+
+                @Override
+                public void onPositiveBtnClicked() {
+                    startActivity(new Intent(MainActivity.this,PaymentActivity.class));
+                    dissmissAreYouSureDialog();
+                }
+            });
+            return;
+        }
         Intent intent = new Intent(this, TrackingService.class);
         intent.setAction(Constants.ALERT_ACTION);
         broadcastToService(intent);

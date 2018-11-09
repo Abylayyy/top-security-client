@@ -300,9 +300,8 @@ public abstract class BaseActivity
             setImage(imageStringUri,iv_user_avatar);
         }
         else if(userAvatar!=null){
-
             GlideApp.with(this)
-                    .load(ACTIVE_DOMAIN+userAvatar)
+                    .load(userAvatar)
                     .placeholder(R.drawable.placeholder_avatar)
                     .into(iv_user_avatar);
         }

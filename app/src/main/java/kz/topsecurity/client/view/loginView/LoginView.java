@@ -12,5 +12,5 @@ public interface LoginView extends BaseView {
     void onShowLoading();
     void onHideLoading();
 
-    void onUserNotVerificatedPhone(String phone, int error_message);
+    void onUserNotVerificatedPhone(String phone, String pass , String imei ,int error_message);
 }
