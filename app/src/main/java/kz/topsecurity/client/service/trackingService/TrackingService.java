@@ -31,6 +31,7 @@ import com.google.android.gms.location.SettingsClient;
 import io.reactivex.annotations.Nullable;
 import io.reactivex.disposables.Disposable;
 import kz.topsecurity.client.R;
+import kz.topsecurity.client.application.TopSecurityClientApplication;
 import kz.topsecurity.client.domain.MainScreen.MainActivity;
 import kz.topsecurity.client.domain.SplashScreen.SplashScreen;
 import kz.topsecurity.client.helper.Constants;
@@ -148,8 +149,10 @@ public class TrackingService extends Service implements TrackingServiceView {
                 break;
             }
             case Constants.ALERT_ACTION: {
-                setAlertStatus();
-                Constants.is_service_sending_alert(true);
+                if(SharedPreferencesManager.getUserPaymentIsActive(TopSecurityClientApplication.getInstance())) {
+                    setAlertStatus();
+                    Constants.is_service_sending_alert(true);
+                }
                 presenter.callAlert(data);
                 break;
             }
@@ -162,8 +165,10 @@ public class TrackingService extends Service implements TrackingServiceView {
                 break;
             }
             case Constants.ALERT_CANCEL_ACTION:{
-                setAlertCancelStatus();
-                Constants.is_service_sending_alert(false);
+                if(SharedPreferencesManager.getUserPaymentIsActive(TopSecurityClientApplication.getInstance())) {
+                    setAlertCancelStatus();
+                    Constants.is_service_sending_alert(false);
+                }
                 presenter.cancelAlert(data,intent.getStringExtra("password"));
                 break;
             }
@@ -207,6 +212,8 @@ public class TrackingService extends Service implements TrackingServiceView {
     }
 
     private void setAlertStatus(){
+        if(!SharedPreferencesManager.getUserPaymentIsActive(TopSecurityClientApplication.getInstance()))
+            return;
         sendNotification("Alert is called", ACTION_STATUS_ALERT_CALLED);
         broadcastMessage(ACTION_STATUS_ALERT_CALLED);
     }
@@ -224,6 +231,8 @@ public class TrackingService extends Service implements TrackingServiceView {
     }
 
     private void setAlertCancelStatus(){
+        if(!SharedPreferencesManager.getUserPaymentIsActive(TopSecurityClientApplication.getInstance()))
+            return;
         sendNotification("Click to call alert", ACTION_NEW_SERVICE);
         broadcastMessage(ACTION_STATUS_ALERT_CANCEL);
     }
@@ -488,34 +497,37 @@ public class TrackingService extends Service implements TrackingServiceView {
         views.setImageViewResource(R.id.iv_status,bottomIcon);
 
         views.setTextViewText(R.id.tv_alert_btn,btn_text);
-        if(!set_action.equals("") && set_action.equals(Constants.ALERT_ACTION)) {
-            Intent alertIntent = new Intent(this, TrackingService.class);
-            alertIntent.setAction(set_action);
-            alertIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            PendingIntent pAlertIntent = PendingIntent.getService(this, 0,
-                    alertIntent, 0);
+//        if(SharedPreferencesManager.getUserPaymentIsActive(TopSecurityClientApplication.getInstance())) {
+            if (!set_action.equals("") && set_action.equals(Constants.ALERT_ACTION)) {
+                Intent alertIntent = new Intent(this, TrackingService.class);
+                alertIntent.setAction(set_action);
+                alertIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                PendingIntent pAlertIntent = PendingIntent.getService(this, 0,
+                        alertIntent, 0);
 
 
-            views.setOnClickPendingIntent(R.id.rl_alert, pAlertIntent);
-        }
-        else if(!set_action.equals("")){
-            Intent cancelAlertIntent = new Intent(this, MainActivity.class);
-            cancelAlertIntent.putExtra(MainActivity.CANCEL_ALERT_EXTRA,true);
-            cancelAlertIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                    Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            PendingIntent pAlertIntent = PendingIntent.getActivity(this, 0,
-                    cancelAlertIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            views.setOnClickPendingIntent(R.id.rl_alert, pAlertIntent);
-        }
-        else{
-            Intent cancelAlertIntent = new Intent(this, MainActivity.class);
-            cancelAlertIntent.putExtra(MainActivity.CANCEL_ALERT_EXTRA,true);
-            cancelAlertIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                    Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            PendingIntent pAlertIntent = PendingIntent.getActivity(this, 0,
-                    cancelAlertIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            views.setOnClickPendingIntent(R.id.rl_alert, pAlertIntent);
-        }
+                views.setOnClickPendingIntent(R.id.rl_alert, pAlertIntent);
+            } else if (!set_action.equals("")) {
+                Intent cancelAlertIntent = new Intent(this, MainActivity.class);
+                cancelAlertIntent.putExtra(MainActivity.CANCEL_ALERT_EXTRA, true);
+                cancelAlertIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                        Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                PendingIntent pAlertIntent = PendingIntent.getActivity(this, 0,
+                        cancelAlertIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                views.setOnClickPendingIntent(R.id.rl_alert, pAlertIntent);
+            } else {
+                Intent cancelAlertIntent = new Intent(this, MainActivity.class);
+                cancelAlertIntent.putExtra(MainActivity.CANCEL_ALERT_EXTRA, true);
+                cancelAlertIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                        Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                PendingIntent pAlertIntent = PendingIntent.getActivity(this, 0,
+                        cancelAlertIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                views.setOnClickPendingIntent(R.id.rl_alert, pAlertIntent);
+            }
+//        }
+//        else{
+//
+//        }
     }
 
     boolean isPossibleToSendAlert(){

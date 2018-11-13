@@ -19,7 +19,7 @@ public class AlertHistoryPresenterImpl extends BasePresenterImpl<AlertHistoryVie
     @Override
     public void getAlertHistory(int offset) {
         view.showLoadingDialog();
-        Disposable disposable = new RequestService<AlertsListResponse>(new RequestService.RequestResponse<AlertsListResponse>() {
+        Disposable disposable = new RequestService<>(new RequestService.RequestResponse<AlertsListResponse>() {
             @Override
             public void onSuccess(AlertsListResponse data) {
                 view.hideLoadingDialog();

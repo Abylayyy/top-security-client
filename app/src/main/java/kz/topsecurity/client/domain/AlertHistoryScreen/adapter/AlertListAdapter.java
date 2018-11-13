@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import kz.topsecurity.client.R;
 import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.helper.DateUtils;

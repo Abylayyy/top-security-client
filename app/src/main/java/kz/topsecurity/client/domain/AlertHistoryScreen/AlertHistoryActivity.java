@@ -1,9 +1,6 @@
 package kz.topsecurity.client.domain.AlertHistoryScreen;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -11,17 +8,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.AndroidInjection;
 import kz.topsecurity.client.R;
+import kz.topsecurity.client.application.TopSecurityClientApplication;
+import kz.topsecurity.client.di.components.AlertHistory.AlertHistoryComponent;
+import kz.topsecurity.client.di.components.TrustedNumber.TrustedNumberComponent;
 import kz.topsecurity.client.domain.AlertHistoryScreen.adapter.AlertListAdapter;
 import kz.topsecurity.client.domain.AlertHistoryScreen.adapter.AlertListDecorator;
 import kz.topsecurity.client.domain.base.BaseActivity;
 import kz.topsecurity.client.model.alertList.Alert;
-import kz.topsecurity.client.model.place.Place;
 import kz.topsecurity.client.presenter.alertHistoryPresenter.AlertHistoryPresenter;
 import kz.topsecurity.client.presenter.alertHistoryPresenter.AlertHistoryPresenterImpl;
 import kz.topsecurity.client.view.alertHistoryView.AlertHistoryView;
@@ -33,11 +34,14 @@ public class AlertHistoryActivity extends BaseActivity<AlertHistoryView,AlertHis
     @BindView(R.id.tv_empty_list)
     TextView tv_empty_list;
 
-    AlertListAdapter mAdapter = new AlertListAdapter(this,new ArrayList<>(),this);
-    private RecyclerView.LayoutManager mLayoutManager;
+    @Inject
+    AlertListAdapter mAdapter;
+
+    RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alert_history);
         ButterKnife.bind(this);
@@ -50,6 +54,7 @@ public class AlertHistoryActivity extends BaseActivity<AlertHistoryView,AlertHis
         initPresenter(new AlertHistoryPresenterImpl(this));
         presenter.getAlertHistory(0);
     }
+
 
     private void initRV() {
         rv_alerts.setHasFixedSize(true);

@@ -187,6 +187,8 @@ public class MainActivity extends ServiceControlActivity
             presenter.setAlertActive(true);
         }
         boolean isCancelAlertAction = intent.getBooleanExtra(CANCEL_ALERT_EXTRA,false);
+        if (!SharedPreferencesManager.getUserPaymentIsActive(this))
+            return;
         if(isCancelAlertAction){
 //            presenter.actionWithCheck();
             presenter.actionCancel();
@@ -564,7 +566,6 @@ public class MainActivity extends ServiceControlActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == R.id.action_places) {
             if(!Constants.is_service_sending_alert())
                 startActivity(new Intent(this, PlaceActivity.class));
@@ -742,6 +743,8 @@ public class MainActivity extends ServiceControlActivity
     }
 
     void showCallAlertView(){
+        if(!SharedPreferencesManager.getUserPaymentIsActive(this))
+            return;
         isAlertViewVisible = false;
         runOnUiThread(()->{
                 stopRippleAnimation();
@@ -752,6 +755,8 @@ public class MainActivity extends ServiceControlActivity
     }
 
     void showCancelAlertView(){
+        if(!SharedPreferencesManager.getUserPaymentIsActive(this))
+            return;
         isAlertViewVisible = true;
         runOnUiThread(()->{
 //            rippleBackground.setRippleColor(getResources().getColor(R.color.colorPrimary));
