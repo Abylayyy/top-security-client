@@ -30,8 +30,8 @@ public class SplashScreen extends AppCompatActivity {
             intent.putExtra(StartActivity.START_MAIN_SCREEN_KEY,true);
         }
         startActivity(intent);
+        System.gc();
 //        startActivity(new Intent(this,AnimationActivity.class));
-
         finish();
     }
 }

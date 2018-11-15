@@ -32,9 +32,9 @@ public class TelephonyListenerManager implements SignalListener {
     private static final String TAG = TelephonyListenerManager.class.getSimpleName();
     private String mUrl;
 
-    TelephonyManager mTelephonyManager;
-    PhoneSignalStateListener mPhoneStateListener;
-    int mSignalStrength = 0;
+    private TelephonyManager mTelephonyManager;
+    private PhoneSignalStateListener mPhoneStateListener;
+    private int mSignalStrength = 0;
     private Double mLatitude = 0.0;
     private Double mLongitude = 0.0;
     private boolean mIsActive = false;

@@ -54,10 +54,7 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
 
     int onBackAction = -1;
     int onForwardAction = -1;
-    String userPhone= "";
-    private String sendedPhone;
-    private String password;
-    private String imei;
+    private String sendedPhone,password,imei;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,15 +67,14 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
         setupView();
         onBackAction = getIntent().getIntExtra(ON_BACK_EXTRA,-1);
         onForwardAction = getIntent().getIntExtra(ON_FORWARD_EXTRA , -1);
-        userPhone = getIntent().getStringExtra(GET_PHONE_NUMB);
-        if(userPhone!=null){
-            sendedPhone = userPhone;
-            SharedPreferencesManager.setTmpSendedCode(this,userPhone);
+        sendedPhone = getIntent().getStringExtra(GET_PHONE_NUMB);
+        if(sendedPhone!=null){
+            SharedPreferencesManager.setTmpSendedCode(this,sendedPhone);
             if(getIntent().getIntExtra(FOR_LOGIN,-1)!=-1) {
                 isShouldLogin = true;
                 password = getIntent().getStringExtra(PASSWORD);
                 imei = getIntent().getStringExtra(IMEI);
-                requestVerificationCode(userPhone);
+                requestVerificationCode(sendedPhone);
             }
         }
     }
@@ -130,9 +126,7 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onClick(View view) {
-        int id = view.getId();
-
-        switch(id){
+        switch( view.getId()){
             case R.id.btn_confirm:{
                 sendCode();
                 break;
@@ -219,6 +213,7 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
         else{
             isSuccess = true;
             startActivity(new Intent(this, LoginActivity.class));
+            System.gc();
             finish();
         }
     }
@@ -243,7 +238,7 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
                 finish();
             }
         }).makeRequest(RetrofitClient.getClientApi()
-                .authorize(userPhone, password, Constants.CLIENT_DEVICE_TYPE,Constants.CLIENT_DEVICE_PLATFORM_TYPE, imei));
+                .authorize(sendedPhone, password, Constants.CLIENT_DEVICE_TYPE,Constants.CLIENT_DEVICE_PLATFORM_TYPE, imei));
 
         compositeDisposable.add(success);
     }
@@ -265,6 +260,7 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
 //        if(onForwardAction==TO_MAIN)
 //            activityToClass = MainActivity.class;
         startActivity(new Intent(this,activityToClass));
+        System.gc();
         finish();
     }
 
@@ -283,6 +279,7 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
                 public void onPositiveBtnClicked() {
                     dissmissAreYouSureDialog();
                     startActivity(new Intent(SmsCodeActivity.this, LoginActivity.class));
+                    System.gc();
                     SmsCodeActivity.super.finish();
                 }
             });

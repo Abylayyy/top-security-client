@@ -1,5 +1,6 @@
 package kz.topsecurity.client.view.mainView;
 
+import kz.topsecurity.client.model.other.Client;
 import kz.topsecurity.client.view.base.BaseView;
 
 public interface MainView extends BaseView {
@@ -11,4 +12,6 @@ public interface MainView extends BaseView {
     void onStoppingAlert();
     void onCallingAlert();
     void setAnimationStatus(int status);
+    void setDrawerData(Client clientData);
+    void exitFromMainScreen();
 }

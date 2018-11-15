@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.lang.ref.WeakReference;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kz.topsecurity.client.BuildConfig;
@@ -58,9 +60,7 @@ public class LoginActivity extends BaseActivity<LoginView, LoginPresenter, Login
     @BindView(R.id.ll_toolbar) RelativeLayout ll_toolbar;
     @BindView(R.id.tv_forget_password) TextView tv_forget_password;
 
-
-    RoundCorneredEditTextHelper telephone_helper;
-    RoundCorneredEditTextHelper password_helper;
+    RoundCorneredEditTextHelper telephone_helper,password_helper;
 
     String imei = "";
 
@@ -112,9 +112,11 @@ public class LoginActivity extends BaseActivity<LoginView, LoginPresenter, Login
         setIMEI();
         String phone = getIntent().getStringExtra(PHONE_EXTRA);
         phone = phone!=null && !phone.isEmpty() ? phone :  SharedPreferencesManager.getUserPhone(this);
+        WeakReference<String> data = new WeakReference<>(phone);
         if(phone!=null && !phone.isEmpty()){
             ed_tel_number.setText(phone);
         }
+        data.clear();
     }
 
     public void setIMEI() {
@@ -219,16 +221,7 @@ public class LoginActivity extends BaseActivity<LoginView, LoginPresenter, Login
         SharedPreferencesManager.setUserAuthToken(this,token);
         boolean isPaymentActive = client.getPlan()!=null && !client.getPlan().getIsExpired();
         SharedPreferencesManager.setUserPaymentIsActive(this, isPaymentActive);
-//        if((client.getPlan()!=null && !client.getPlan().getIsExpired())){
-//            startMainActivity();
-//        }
         startMainActivity();
-//        else{
-//            Intent intent = new Intent(this, PaymentActivity.class);
-//            intent.putExtra(PaymentActivity.FORCED,true);
-//            startActivity(intent);
-//            finish();
-//        }
     }
 
     @Override
@@ -278,6 +271,7 @@ public class LoginActivity extends BaseActivity<LoginView, LoginPresenter, Login
         intent.putExtra(SmsCodeActivity.IMEI,imei);
         intent.putExtra(SmsCodeActivity.FOR_LOGIN,1);
         startActivity(intent);
+        System.gc();
         finish();
     }
 
@@ -286,6 +280,7 @@ public class LoginActivity extends BaseActivity<LoginView, LoginPresenter, Login
             @Override
             public void run() {
                 startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                System.gc();
                 finish();
             }
         });

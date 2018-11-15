@@ -27,11 +27,12 @@ public class RegisterPresenterImpl extends BasePresenterImpl<RegisterView> imple
             view.onPhoneFieldError(R.string.phone_length_error);
             is_contain_error = true;
         }
-        if(!email.contains("@")||!email.contains(".") )
-        {
-            view.onEmailError(R.string.email_format_error);
-            is_contain_error = true;
-        }
+        if(email!=null && !email.isEmpty())
+            if(!email.contains("@")||!email.contains(".") )
+            {
+                view.onEmailError(R.string.email_format_error);
+                is_contain_error = true;
+            }
         if(userName.isEmpty())
         {
             view.onUserNameError(R.string.field_cant_be_empty);
@@ -52,7 +53,7 @@ public class RegisterPresenterImpl extends BasePresenterImpl<RegisterView> imple
 
     private void makeRequest(String phone , String email , String password , String name ){
         view.onShowLoading();
-        Disposable success = new RequestService<>(new RequestService.RequestResponse<RegisterResponse>() {
+        RequestService.RequestResponse<RegisterResponse> requestResponse = new RequestService.RequestResponse<RegisterResponse>() {
             @Override
             public void onSuccess(RegisterResponse r) {
                 view.onRegisterSuccess(r.getClient());
@@ -68,8 +69,15 @@ public class RegisterPresenterImpl extends BasePresenterImpl<RegisterView> imple
             public void onError(Throwable e, int error_message) {
                 setError(error_message);
             }
-        }).makeRequest(RetrofitClient.getClientApi()
-                .register(phone, password , email, name));
+        };
+
+        Disposable success;
+        if(email!=null && !email.isEmpty())
+             success = new RequestService<>(requestResponse).makeRequest(RetrofitClient.getClientApi()
+                    .register(phone, password , email, name));
+        else
+             success = new RequestService<>(requestResponse).makeRequest(RetrofitClient.getClientApi()
+                    .register(phone, password , name));
 
         compositeDisposable.add(success);
     }

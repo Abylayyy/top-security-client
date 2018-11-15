@@ -1,6 +1,10 @@
 package kz.topsecurity.client.presenter.mainPresenter;
 
+import android.content.Context;
+
 import com.google.firebase.iid.FirebaseInstanceId;
+
+import java.lang.ref.WeakReference;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -9,8 +13,11 @@ import io.reactivex.schedulers.Schedulers;
 import kz.topsecurity.client.application.TopSecurityClientApplication;
 import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
+import kz.topsecurity.client.helper.dataBase.DataBaseManager;
+import kz.topsecurity.client.helper.dataBase.DataBaseManagerImpl;
 import kz.topsecurity.client.model.alert.AlertStatusResponse;
 import kz.topsecurity.client.model.alert.CheckAlertResponse;
+import kz.topsecurity.client.model.other.Client;
 import kz.topsecurity.client.presenter.base.BasePresenterImpl;
 import kz.topsecurity.client.service.api.RequestService;
 import kz.topsecurity.client.service.api.RetrofitClient;
@@ -189,6 +196,7 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
     @Override
     public void logToken(){
         String token = FirebaseInstanceId.getInstance().getToken();
+        WeakReference data = new WeakReference<String>(token);
         // Log and toast
         if(token == null || token.isEmpty())
             return;
@@ -203,5 +211,24 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
 
                 });
         compositeDisposable.add(subscribe);
+        data.clear();
+    }
+
+
+
+    @Override
+    public void updateDrawerData(Context context) {
+        Client clientData = (new DataBaseManagerImpl(context)).getClientData();
+        WeakReference data = new WeakReference<Client>(clientData);
+        if(clientData!=null){
+            view.setDrawerData(clientData);
+        }
+        data.clear();
+    }
+
+    @Override
+    public void exitFromApplication(Context context) {
+        Constants.clearData(context);
+        view.exitFromMainScreen();
     }
 }

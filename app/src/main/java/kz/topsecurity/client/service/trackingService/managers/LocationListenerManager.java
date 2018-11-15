@@ -124,9 +124,8 @@ public class LocationListenerManager {
         mLocationRequest.setFastestInterval(Constants.FASTEST_LOCATION_INTERVAL);
 
 //        int priority = LocationRequest.PRIORITY_HIGH_ACCURACY;
-        int priority = LocationRequest.PRIORITY_HIGH_ACCURACY;
         //other values are PRIORITY_BALANCED_POWER_ACCURACY, PRIORITY_LOW_POWER, PRIORITY_NO_POWER
-        mLocationRequest.setPriority(priority);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         Log.d(TAG, "LOCATION TRACKER CONNECTING");
         mFusedLocationProviderClient= client;
         checkSettings();

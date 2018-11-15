@@ -11,10 +11,10 @@ import kz.topsecurity.client.service.trackingService.listenerImpl.PowerConnectio
 public class BatteryListenerManager implements BatteryLevelListener {
 
     private static final String TAG = BatteryListenerManager.class.getSimpleName();
-    PowerConnectionReceiver mPowerConnectionReceiver;
+    private PowerConnectionReceiver mPowerConnectionReceiver;
 
-    int batteryPct = 0;
-    boolean mIsActive = false;
+    private int batteryPct = 0;
+    private boolean mIsActive = false;
 
     public int getBatteryPct() {
         return batteryPct;

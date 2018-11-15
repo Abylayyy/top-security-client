@@ -23,14 +23,14 @@ import static android.content.Context.SENSOR_SERVICE;
 public class BarometricAltitudeListenerManager implements SensorEventListener {
 
     private static final String TAG = BarometricAltitudeListenerManager.class.getSimpleName();
-    SensorManager mSensorManager;
-    float mPressureAltitudeValue=0;
-    boolean blockSensorAccordingToAccuracy = false;
-    double AtmosphericPressure = SensorManager.PRESSURE_STANDARD_ATMOSPHERE;
+    private SensorManager mSensorManager;
+    private float mPressureAltitudeValue=0;
+    private boolean blockSensorAccordingToAccuracy = false;
+    private double AtmosphericPressure = SensorManager.PRESSURE_STANDARD_ATMOSPHERE;
     private okhttp3.Call weatherCall;
     private String mUrl;
     private boolean active;
-    long lastRequestTime = -1;
+    private long lastRequestTime = -1;
 
     public float getPressureAltitudeValue() {
         return mPressureAltitudeValue;
@@ -45,6 +45,7 @@ public class BarometricAltitudeListenerManager implements SensorEventListener {
             Sensor mBarometer = mSensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
             mSensorManager.registerListener(this, mBarometer, SensorManager.SENSOR_DELAY_NORMAL);
             Log.d(TAG, "ALTITUDE TRACKER CONNECTING");
+            active = true;
         }
         else{
             Log.d(TAG, "ALTITUDE TRACKER IS UNAVAILABLE. CAUSE : HARDWARE");
@@ -106,6 +107,7 @@ public class BarometricAltitudeListenerManager implements SensorEventListener {
     }
 
     public void stop(){
+        active = false;
         if(mSensorManager!=null)
             mSensorManager.unregisterListener(this);
         if(weatherCall!=null)

@@ -30,6 +30,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.lang.ref.WeakReference;
 
 import kz.topsecurity.client.R;
 import kz.topsecurity.client.fragments.TutorialFragment;
@@ -164,8 +165,10 @@ public abstract class BaseActivity
 
     public boolean isNetworkOnline() {
         boolean status=false;
+        WeakReference data = null;
         try{
             ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            data = new WeakReference<ConnectivityManager>(cm);
             if(cm!=null) {
                 NetworkInfo netInfo = cm.getNetworkInfo(0);
                 if (netInfo != null && netInfo.getState() == NetworkInfo.State.CONNECTED) {
@@ -179,6 +182,10 @@ public abstract class BaseActivity
         }catch(Exception e){
             e.printStackTrace();
             return false;
+        }
+        finally {
+            if(data!=null)
+                data.clear();
         }
         return status;
     }
@@ -296,6 +303,7 @@ public abstract class BaseActivity
 
     public void setAvatar(ImageView iv_user_avatar,String userAvatar){
         String imageStringUri = SharedPreferencesManager.getAvatarUriValue(this);
+        WeakReference data = new WeakReference<String>(imageStringUri);
         if(imageStringUri!=null) {
             setImage(imageStringUri,iv_user_avatar);
         }
@@ -305,19 +313,23 @@ public abstract class BaseActivity
                     .placeholder(R.drawable.placeholder_avatar)
                     .into(iv_user_avatar);
         }
+        data.clear();
     }
 
     public void setImage(String imagePath, ImageView iv_user_avatar){
         iv_user_avatar.setImageResource(R.drawable.placeholder_avatar);
         if (imagePath!=null && !imagePath.isEmpty()){
             Bitmap bitmap = getBitmap(imagePath);
+            WeakReference data = new WeakReference<Bitmap>(bitmap);
             if(bitmap!=null){
                 setImage(bitmap,iv_user_avatar);
+                data.clear();
                 return;
             }
             else{
                 try {
                     setImage(Uri.parse(imagePath),iv_user_avatar);
+                    data.clear();
                 }
                 catch (Exception ex){
 
@@ -327,31 +339,45 @@ public abstract class BaseActivity
     }
 
     public void setImage(Uri imageUri, ImageView iv_user_avatar){
+        WeakReference data =null;
         try {
 //            imageStream = getContentResolver().openInputStream(imageUri);
 //            final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
 
             Bitmap selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(),imageUri);
+            data = new WeakReference<Bitmap>(selectedImage);
             iv_user_avatar.setImageBitmap(selectedImage);
+            data.clear();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         catch (Exception ex){
             ex.printStackTrace();
         }
+        finally {
+            if(data!=null)
+                data.clear();
+        }
     }
 
     public Bitmap getBitmap(String path) {
+        WeakReference fileData =null;
+        WeakReference data =null;
         Bitmap bitmap=null;
         try {
             File f= new File(path);
+            fileData = new WeakReference<File>(f);
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-
+            fileData.clear();
             bitmap = BitmapFactory.decodeStream(new FileInputStream(f), null, options);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+        finally {
+            if(fileData!=null)
+                fileData.clear();
         }
         return bitmap;
     }
@@ -368,9 +394,9 @@ public abstract class BaseActivity
         }
     }
 
+    final String serviceLink = "kz.topsecurity.client/kz.topsecurity.client.service.trackingService.volumeService.VolumeService";
     public boolean isAccessibilitySettingsOn(Context context) {
         int accessibilityEnabled = 0;
-        final String service = "kz.topsecurity.client/kz.topsecurity.client.service.trackingService.volumeService.VolumeService";
         boolean accessibilityFound = false;
         try {
             accessibilityEnabled = Settings.Secure.getInt(
@@ -396,7 +422,7 @@ public abstract class BaseActivity
                     String accessabilityService = splitter.next();
 
                     Log.d(TAG,"-------------- > accessabilityService :: " + accessabilityService);
-                    if (accessabilityService.equalsIgnoreCase(service)) {
+                    if (accessabilityService.equalsIgnoreCase(serviceLink)) {
                         Log.v(TAG,"We've found the correct setting - accessibility is switched on!");
                         return true;
                     }

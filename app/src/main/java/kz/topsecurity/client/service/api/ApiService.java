@@ -49,6 +49,12 @@ public interface ApiService {
                                           @Field("username") String username );
 
     @FormUrlEncoded
+    @POST("client/register")
+    Observable<RegisterResponse> register(@Field("phone") String phone,
+                                          @Field("password") String password,
+                                          @Field("username") String username );
+
+    @FormUrlEncoded
     @POST("client/device/data")
     Observable<SaveDeviceDataResponse> saveData(@Header("Authorization") String token,
                                                 @Field("lat") Double lat,

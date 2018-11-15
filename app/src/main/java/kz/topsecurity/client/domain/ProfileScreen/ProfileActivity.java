@@ -57,6 +57,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -115,8 +116,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private static final int READ_STORAGE = 22;
     private static final int CHANGE_EMAIL = 41;
 
-    CompositeDisposable compositeDisposable = new CompositeDisposable();
-
     public static final String CROPPED_IMAGE_PATH = "cropped_image_path_extra";
     private static final String IMAGE_DIRECTORY = "/demonuts_upload_gallery";
 
@@ -142,13 +141,19 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     setImage(stringUri, iv_user_avatar);
                     isMadeChanges = true;
                     Bitmap bitmap = null;
+                    WeakReference data = null;
                     try {
                         bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                        data = new WeakReference<Bitmap>(bitmap);
                         String path = saveImage(bitmap);
                         startActivityForResult((new Intent(ProfileActivity.this, CropPictureActivity.class).putExtra(CropPictureActivity.IMAGE_SOURCE,path)),CROP_PHOTO);
                         //uploadImage(path);
                     } catch (IOException e) {
                         e.printStackTrace();
+                    }
+                    finally {
+                        if(data!=null)
+                            data.clear();
                     }
                 }
                 break;
@@ -173,7 +178,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
                     String stringExtra = imageReturnedIntent.getStringExtra(CROPPED_IMAGE_PATH);
                     Bitmap bitmap = getBitmap(stringExtra);
+                    WeakReference data = new WeakReference<Bitmap>(bitmap);
                     checkAndUploadAvatar(stringExtra, bitmap );
+                    data.clear();
                 }
                 break;
             }

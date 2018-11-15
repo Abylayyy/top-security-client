@@ -28,6 +28,8 @@ import android.widget.TextView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
+import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -45,8 +47,6 @@ import kz.topsecurity.client.domain.TrustedNumbersScreen.TrustedNumbersActivity;
 import kz.topsecurity.client.fragments.TutorialFragment;
 import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
-import kz.topsecurity.client.helper.dataBase.DataBaseManager;
-import kz.topsecurity.client.helper.dataBase.DataBaseManagerImpl;
 import kz.topsecurity.client.model.other.Client;
 import kz.topsecurity.client.presenter.mainPresenter.MainPresenterImpl;
 import kz.topsecurity.client.service.trackingService.TrackingService;
@@ -87,6 +87,7 @@ public class MainActivity extends ServiceControlActivity
     @BindView(R.id.iv_circle2) ImageView iv_circle2;
     @BindView(R.id.iv_dash_circle) ImageView iv_dash_circle;
     @BindView(R.id.iv_icon) ImageView iv_icon;
+
     private static final String TAG = MainActivity.class.getSimpleName();
 
     boolean isAlertViewVisible = false;
@@ -96,9 +97,8 @@ public class MainActivity extends ServiceControlActivity
     private static final int ALERT_HISTORY_CODE = 175;
     private static final int ABOUT_CODE = 818;
 
-    DataBaseManager dataBaseManager = new DataBaseManagerImpl(this);
-    AnimatorSet rippleAnimatorSet;
-    AnimatorSet circleAnimatorSet;
+
+    AnimatorSet rippleAnimatorSet, circleAnimatorSet;
     RotateAnimation carAnimation  ;
     int currentAnimationState = -1;
 
@@ -107,14 +107,12 @@ public class MainActivity extends ServiceControlActivity
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case PROFILE_REQUEST_CODE:{
-                    setDrawerData();
+                presenter.updateDrawerData(this);
                 break;
             }
             case SETTINGS_REQUEST_CODE:{
                 if(data.getBooleanExtra(MainActivity.EXIT_FROM_APPLICATION,false)) {
-                    Constants.clearData(this);
-                    startActivity(new Intent(MainActivity.this, SplashScreen.class));
-                    finish();
+                    presenter.exitFromApplication(this);
                 }
                 break;
             }
@@ -128,6 +126,12 @@ public class MainActivity extends ServiceControlActivity
                 break;
             }
         }
+    }
+
+    @Override
+    public void exitFromMainScreen(){
+        startActivity(new Intent(MainActivity.this, SplashScreen.class));
+        finish();
     }
 
     @Override
@@ -206,6 +210,38 @@ public class MainActivity extends ServiceControlActivity
         if (savedInstanceState != null) {
            currentAnimationState = savedInstanceState.getInt(ANIMATION_STATE_KEY);
         }
+        setDrawerSettings(toolbar);
+
+        ll_profile.setOnClickListener(this);
+        ll_places.setOnClickListener(this);
+        ll_contacts.setOnClickListener(this);
+        ll_settings.setOnClickListener(this);
+        ll_payment.setOnClickListener(this);
+        ll_feedback.setOnClickListener(this);
+        ll_alert_history.setOnClickListener(this);
+        btn_alert.setOnClickListener(this);
+        btn_cancel_alert.setOnClickListener(this);
+        btn_minimize_app.setOnClickListener(this);
+        iv_user_avatar.setOnClickListener(this);
+        initPresenter(new MainPresenterImpl(this));
+        presenter.logToken();
+
+        setupBroadcastReceiver();
+        if(Constants.is_service_sending_alert()){
+            showCancelAlertView();
+            presenter.setAlertActive(true);
+        }
+
+        if(getIntent().getBooleanExtra(CANCEL_ALERT_EXTRA,false)){
+            presenter.actionCancel();
+        }
+        presenter.updateDrawerData(this);
+        btn_alert.setEnabled(false);
+        presenter.checkStatus();
+        checkTutsStatus(savedInstanceState);
+    }
+
+    private void setDrawerSettings(Toolbar toolbar) {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
@@ -230,33 +266,6 @@ public class MainActivity extends ServiceControlActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        ll_profile.setOnClickListener(this);
-        ll_places.setOnClickListener(this);
-        ll_contacts.setOnClickListener(this);
-        ll_settings.setOnClickListener(this);
-        ll_payment.setOnClickListener(this);
-        ll_feedback.setOnClickListener(this);
-        ll_alert_history.setOnClickListener(this);
-        btn_alert.setOnClickListener(this);
-        btn_cancel_alert.setOnClickListener(this);
-        btn_minimize_app.setOnClickListener(this);
-        iv_user_avatar.setOnClickListener(this);
-        initPresenter(new MainPresenterImpl(this));
-        presenter.logToken();
-
-        setupBroadcastReceiver();
-        if(Constants.is_service_sending_alert()){
-            showCancelAlertView();
-            presenter.setAlertActive(true);
-        }
-        boolean isCancelAlertAction = getIntent().getBooleanExtra(CANCEL_ALERT_EXTRA,false);
-        if(isCancelAlertAction){
-            presenter.actionCancel();
-        }
-        setDrawerData();
-        btn_alert.setEnabled(false);
-        presenter.checkStatus();
-        checkTutsStatus(savedInstanceState);
     }
 
     int waitingColor = R.color.colorPrimary;
@@ -461,9 +470,9 @@ public class MainActivity extends ServiceControlActivity
         broadcastToService(intent);
     }
 
-    private void setDrawerData() {
+    @Override
+    public void setDrawerData(Client clientData) {
         String userAvatar = null;
-        Client clientData = dataBaseManager.getClientData();
         if (clientData != null) {
             tv_user_name.setText(clientData.getUsername());
             String phone = clientData.getPhone();
@@ -479,6 +488,8 @@ public class MainActivity extends ServiceControlActivity
         }
         if (iv_user_avatar != null)
             setAvatar(iv_user_avatar,userAvatar);
+        WeakReference data = new WeakReference<String>(userAvatar);
+        data.clear();
     }
 
     private void setupBroadcastReceiver() {
@@ -565,15 +576,14 @@ public class MainActivity extends ServiceControlActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_places) {
+        if (item.getItemId() == R.id.action_places) {
             if(!Constants.is_service_sending_alert())
                 startActivity(new Intent(this, PlaceActivity.class));
             else
                 onShowToast(R.string.you_cant_when_alert_active);
             return true;
         }
-        else if (id == R.id.action_contacts) {
+        else if (item.getItemId() == R.id.action_contacts) {
             if(!Constants.is_service_sending_alert())
                 startActivity(new Intent(this, TrustedNumbersActivity.class));
             else
@@ -594,9 +604,8 @@ public class MainActivity extends ServiceControlActivity
 
     @Override
     public void onClick(View view) {
-        int id = view.getId();
         boolean ifNavButtons = false;
-        switch(id){
+        switch(view.getId()){
             case R.id.iv_user_avatar:{
                 ifNavButtons = true;
                 if(!Constants.is_service_sending_alert())

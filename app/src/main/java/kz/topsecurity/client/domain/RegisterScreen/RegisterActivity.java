@@ -59,10 +59,7 @@ public class RegisterActivity extends BaseActivity<RegisterView,RegisterPresente
     @BindView(R.id.tv_privacy_policy) TextView tv_privacy_policy;
     @BindView(R.id.cb_privacy_policy) CheckBox cb_privacy_policy;
 
-    RoundCorneredEditTextHelper phoneNumber_helper;
-    RoundCorneredEditTextHelper userName_helper;
-    RoundCorneredEditTextHelper userEmail_helper;
-    RoundCorneredEditTextHelper userPassword_helper;
+    RoundCorneredEditTextHelper phoneNumber_helper,userName_helper,userEmail_helper,userPassword_helper;
 
     DataBaseManager dataBaseManager = new DataBaseManagerImpl(this);
 
@@ -81,7 +78,7 @@ public class RegisterActivity extends BaseActivity<RegisterView,RegisterPresente
         userPassword_helper = new RoundCorneredEditTextHelper(this , ed_password , tv_password , tv_password_error);
         phoneNumber_helper.setMandatory();
         userName_helper.setMandatory();
-        userEmail_helper.setMandatory();
+//        userEmail_helper.setMandatory();
         userPassword_helper.setMandatory();
         phoneNumber_helper.init(this);
         userName_helper.init(this);
@@ -91,8 +88,7 @@ public class RegisterActivity extends BaseActivity<RegisterView,RegisterPresente
 
     @Override
     public void onClick(View view) {
-        int id = view.getId();
-        switch (id){
+        switch (view.getId()){
             case R.id.btn_sign_up:{
                 register();
                 break;
@@ -173,6 +169,7 @@ public class RegisterActivity extends BaseActivity<RegisterView,RegisterPresente
         Intent intent = new Intent(RegisterActivity.this, StartActivity.class);
         intent.putExtra(StartActivity.SKIP_LOADING_KEY,true);
         startActivity(intent);
+        System.gc();
         finish();
     }
 
@@ -196,6 +193,7 @@ public class RegisterActivity extends BaseActivity<RegisterView,RegisterPresente
         intent.putExtra(SmsCodeActivity.GET_PHONE_NUMB, ed_tel_number.getText().toString());
         intent.putExtra(SmsCodeActivity.ON_FORWARD_EXTRA,SmsCodeActivity.TO_LOGIN);
         startActivity(intent);
+        System.gc();
         finish();
     }
 

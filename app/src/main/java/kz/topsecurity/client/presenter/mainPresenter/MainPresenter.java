@@ -1,5 +1,8 @@
 package kz.topsecurity.client.presenter.mainPresenter;
 
+import android.content.Context;
+
+import kz.topsecurity.client.domain.MainScreen.MainActivity;
 import kz.topsecurity.client.presenter.base.BasePresenter;
 
 public interface MainPresenter extends BasePresenter {
@@ -13,4 +16,8 @@ public interface MainPresenter extends BasePresenter {
 
     void actionCancel();
     void logToken();
+
+    void updateDrawerData(Context context);
+
+    void exitFromApplication(Context context);
 }

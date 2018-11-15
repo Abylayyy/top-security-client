@@ -119,7 +119,7 @@
     <string name="service_summary"></string>
     <string name="place_delete_failed">Не удалось удалить место</string>
     <string name="delete">Удалить</string>
-    <string name="edit">Редактировать</string>
+    <string name="edit">Изменить</string>
     <string name="are_you_sure_delete">Вы действительно хотите удалить?</string>
     <string name="are_you_sure_delete_contact">Вы действительно хотите удалить контакт?</string>
     <string name="contacts">Контакты</string>
@@ -207,11 +207,11 @@
     <string name="tuts_alert_desc">при нажатии на кнопку тревоги, оператор получает сигнал, который передается мобильной группе оперативного реагирования</string>
     <string name="tuts_cancel_alert_desc">Вы всегда можете отменить тревогу, если она не требуется или была вызвана случайно</string>
     <string name="tuts_volume_btn_to_alert_desc">Также кнопку тревоги можно активировать зажав качельку громкости</string>
-    <string name="tuts_places_desc">Во вкладке "места" Вы можете добавлять места, которые часто посещаете</string>
-    <string name="tuts_contacts_desc">Во вкладке "контакты" Вы можете добавлять номера близких Вам людей</string>
-    <string name="tuts_settings_desc">В настройках Вы сможете управлять отслеживанием местоположения и настроить кнопку вызова тревоги на качельку громкости.</string>
+    <string name="tuts_places_desc">Во вкладке \"места\" Вы можете добавлять места, которые часто посещаете</string>
+    <string name="tuts_contacts_desc">Во вкладке "контакты" Вы можете добавлять номера, близких Вам людей</string>
+    <string name="tuts_settings_desc">В настройках Вы сможете управлять отслеживанием местоположения и настроить кнопку вызова тревоги на качельку громкости</string>
     <string name="title_activity_tutorial_slider">TutorialSliderActivity</string>
-    <string name="fast_alert_by_volume_btn_desc">Вы можете осуществлять вызов тревоги путем зажатия качельки громкости в выбранном положении в течении 5 секунд.</string>
+    <string name="fast_alert_by_volume_btn_desc">Вы можете осуществлять вызов тревоги путем зажатия качельки громкости в выбранном положении в течении 5 секунд</string>
     <string name="customer_service">Служба поддержки пользователей</string>
     <string name="user_agreement"><u>Пользовательское соглашение</u></string>
     <string name="cancelled">Отменено</string>

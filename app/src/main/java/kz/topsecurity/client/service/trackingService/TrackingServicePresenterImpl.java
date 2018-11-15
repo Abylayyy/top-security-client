@@ -68,9 +68,9 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
     //   private KalmanLocationManager mKalmanLocationManager = new KalmanLocationManager(this);
     private LocationListenerManager mLocationListenerManager = new LocationListenerManager(this);
     private BatteryListenerManager mBatteryListenerManager = new BatteryListenerManager();
-    private TelephonyListenerManager mTelephonyListenerManager = new TelephonyListenerManager();
+//    private TelephonyListenerManager mTelephonyListenerManager = new TelephonyListenerManager();
     private BarometricAltitudeListenerManager mBarometricAltitudeListenerManager = new BarometricAltitudeListenerManager();
-    private VolumeListenerManager mVolumeListenerManager = new VolumeListenerManager();
+//    private VolumeListenerManager mVolumeListenerManager = new VolumeListenerManager();
     private VolumeServiceManager mVolumeServiceManager = new VolumeServiceManager() ;
     private FirebaseMessagesListenerManager mFirebaseMessagesListenerManager = new FirebaseMessagesListenerManager(this);
 
@@ -87,21 +87,21 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
             mBatteryListenerManager.setupBatteryManager(context);
     }
 
-    public void setupTelephonyReceiver(Context context){
-        if(!mTelephonyListenerManager.isActive())
-            mTelephonyListenerManager.setupTelephonyListener(context);
-    }
+//    public void setupTelephonyReceiver(Context context){
+//        if(!mTelephonyListenerManager.isActive())
+//            mTelephonyListenerManager.setupTelephonyListener(context);
+//    }
 
     public void setupBarometricAltitudeTracker(Context context){
         if(!mBarometricAltitudeListenerManager.isActive())
             mBarometricAltitudeListenerManager.setupBarometricAltitude(context);
     }
 
-    public void setupVolumeReceiver(Context context) {
-        if (mVolumeListenerManager.isActive()) {
-            mVolumeListenerManager.setupVolumeReceiver(context);
-        }
-    }
+//    public void setupVolumeReceiver(Context context) {
+//        if (mVolumeListenerManager.isActive()) {
+//            mVolumeListenerManager.setupVolumeReceiver(context);
+//        }
+//    }
     public void setupVolumeServiceReceiver(Context context) {
         if(!mVolumeServiceManager.isActive())
             mVolumeServiceManager.setupVolumeReceiver(context);
@@ -271,7 +271,7 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
 //        new LocationServiceWithFilter();
     }
 
-    long lastAddressRequestInMilis = 0;
+    private long lastAddressRequestInMilis = 0;
 
     @Override
     public void onLocationChanged(Double lat, Double lng, Double alt, String street) {
@@ -319,12 +319,12 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
             mLocationListenerManager.stop();
         if(mBatteryListenerManager!=null)
             mBatteryListenerManager.stop(context);
-        if(mTelephonyListenerManager!=null)
-            mTelephonyListenerManager.stop();
+//        if(mTelephonyListenerManager!=null)
+//            mTelephonyListenerManager.stop();
         if(mBarometricAltitudeListenerManager!=null)
             mBarometricAltitudeListenerManager.stop();
-        if(mVolumeListenerManager!=null)
-            mVolumeListenerManager.stop(context);
+//        if(mVolumeListenerManager!=null)
+//            mVolumeListenerManager.stop(context);
         if(mVolumeServiceManager!=null)
             mVolumeServiceManager.stop(context);
     }

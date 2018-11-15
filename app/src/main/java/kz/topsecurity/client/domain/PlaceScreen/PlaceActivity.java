@@ -273,7 +273,7 @@ public class PlaceActivity
             public void onMapClick(LatLng latLng) {
               //  mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
                 CameraUpdate location = CameraUpdateFactory.newLatLngZoom(
-                        latLng, 15);
+                        latLng, 17);
 //                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(latLng);
                 mMap.animateCamera(location, 1000, null);
                 if(currentViewState == RADIUS_VIEW) {
