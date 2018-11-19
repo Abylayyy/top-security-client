@@ -475,7 +475,7 @@ public class PlaceActivity
     @Override
     public void onItemEdit(Place place) {
         if(place!=null && presenter!=null){
-            showToast("EDIT PLACE");
+//            showToast("EDIT PLACE");
         }
     }
 

@@ -22,11 +22,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="d7efdc006c378252d5af49194b71cf9c714de39e" />
-
         <meta-data
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"
             android:value="face" />
@@ -71,11 +69,11 @@
             </intent-filter>
         </service>
 
-        <!--<service-->
-            <!--android:name="mad.location.manager.lib.Services.KalmanLocationService"-->
-            <!--android:enabled="true"-->
-            <!--android:exported="false"-->
-            <!--android:stopWithTask="false" />-->
+        <!-- <service -->
+        <!-- android:name="mad.location.manager.lib.Services.KalmanLocationService" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="false" -->
+        <!-- android:stopWithTask="false" /> -->
         <!-- <meta-data android:name="net.hockeyapp.android.appIdentifier" android:value="${HOCKEYAPP_APP_ID}" /> -->
 
         <activity
@@ -130,7 +128,6 @@
             android:enabled="true" />
 
         <receiver android:name=".service.trackingService.listenerImpl.PowerConnectionReceiver" />
-
         <receiver
             android:name=".service.trackingService.listenerImpl.TrackingServiceRestarterBroadcastReceiver"
             android:enabled="true"
@@ -224,7 +221,11 @@
             android:name=".domain.TutorialSliderScreen.TutorialSliderActivity"
             android:label="@string/title_activity_tutorial_slider"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".domain.AnimationTest.AnimationActivity"></activity>
+        <activity android:name=".domain.AnimationTest.AnimationActivity" />
+        <activity
+            android:name=".domain.aboutScreen.AboutActivity"
+            android:label="@string/title_activity_about"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

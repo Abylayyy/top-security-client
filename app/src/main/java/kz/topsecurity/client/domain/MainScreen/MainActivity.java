@@ -231,6 +231,9 @@ public class MainActivity extends ServiceControlActivity
             showCancelAlertView();
             presenter.setAlertActive(true);
         }
+        else{
+            showCallAlertView();
+        }
 
         if(getIntent().getBooleanExtra(CANCEL_ALERT_EXTRA,false)){
             presenter.actionCancel();
@@ -751,9 +754,23 @@ public class MainActivity extends ServiceControlActivity
         broadcastToService(intent);
     }
 
-    void showCallAlertView(){
-        if(!SharedPreferencesManager.getUserPaymentIsActive(this))
+    void showCallAlertView() {
+        if (!SharedPreferencesManager.getUserPaymentIsActive(this)) {
+            isAlertViewVisible = false;
+            runOnUiThread(()->{
+                stopRippleAnimation();
+                btn_alert.setVisibility(View.VISIBLE);
+                btn_cancel_alert.setVisibility(View.GONE);
+                iv_dash_circle.setImageResource(R.drawable.ic_dash_circle_red);
+                iv_dash_circle.setVisibility(View.VISIBLE);
+                iv_icon.setImageResource(R.drawable.ic_blocked);
+                iv_icon.setVisibility(View.VISIBLE);
+                btn_alert.setBackgroundResource(R.drawable.alert_btn_disabled_bg);
+            });
             return;
+        }
+        btn_alert.setBackgroundResource(R.drawable.alert_btn_bg);
+        iv_dash_circle.setImageResource(R.drawable.ic_dashed_circle);
         isAlertViewVisible = false;
         runOnUiThread(()->{
                 stopRippleAnimation();

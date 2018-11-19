@@ -154,6 +154,7 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.MyVi
             holder.mEditIV.setVisibility(View.INVISIBLE);
             holder.mEditIV.setEnabled(false);
         }
+        holder.mEditIV.setVisibility(View.GONE);
     }
 
     public void removeSelection(){

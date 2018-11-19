@@ -54,9 +54,10 @@
             app:srcCompat="@drawable/circle_icon" />
         <ImageView
             android:id="@+id/iv_icon"
+            android:visibility="gone"
             android:transformPivotX="40dp"
             android:transformPivotY="40dp"
-            android:layout_width="80dp"
+            android:layout_width="wrap_content"
             android:layout_height="80dp"
             app:layout_constraintBottom_toTopOf="@+id/iv_dash_circle"
             app:layout_constraintEnd_toEndOf="parent"
@@ -64,6 +65,7 @@
             app:srcCompat="@drawable/ic_operator" />
         <ImageView
             android:id="@+id/iv_dash_circle"
+            android:visibility="gone"
             android:layout_width="220dp"
             android:layout_height="220dp"
             app:srcCompat="@drawable/ic_dashed_circle"
