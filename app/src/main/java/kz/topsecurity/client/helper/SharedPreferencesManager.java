@@ -166,6 +166,9 @@ public class SharedPreferencesManager {
         setUserPhone(context,null);
         setBackgroundServiceState(context, 0);
         setAlertActive(context,false);
+        setIsServiceSendingAlert(context,false);
+        setIsServiceActive(context,false);
+        setUserPaymentIsActive(context,false);
     }
 
     public static String getPhoneImei(Context context){

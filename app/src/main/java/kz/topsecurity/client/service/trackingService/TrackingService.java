@@ -19,14 +19,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
-import android.widget.RemoteViews;
-import android.widget.Toast;
-
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
+import android.util.Log;
+import android.widget.RemoteViews;
+import android.widget.Toast;
+
 
 import java.lang.ref.WeakReference;
 
@@ -499,7 +499,7 @@ public class TrackingService extends Service implements TrackingServiceView {
                         .setNotif_icon(R.drawable.ic_notification_pink_bg)
                         .setTopText("трекер активен")
                         .setTopTextColor(darkGrey)
-                        .setBottomText("Слежка включена")
+                        .setBottomText("Онлайн")
                         .setBottomTextColor(darkGrey)
                         .setBottomTextColor(R.drawable.ic_active)
                         .setBtn_text(getString(R.string.alert));
@@ -512,7 +512,7 @@ public class TrackingService extends Service implements TrackingServiceView {
                         .setNotif_icon(R.drawable.ic_notification_pink_bg)
                         .setTopText("трекер активен")
                         .setTopTextColor(darkGrey)
-                        .setBottomText("Слежка включена")
+                        .setBottomText("Онлайн")
                         .setBottomTextColor(darkGrey)
                         .setBottomTextColor(R.drawable.ic_active)
                         .setBtn_text(getString(R.string.alert));
@@ -592,7 +592,7 @@ public class TrackingService extends Service implements TrackingServiceView {
                     .setNotif_icon(R.drawable.ic_notification_pink_bg)
                     .setTopText("трекер активен")
                     .setTopTextColor(darkGrey)
-                    .setBottomText("Слежка включена")
+                    .setBottomText("Онлайн")
                     .setBottomTextColor(darkGrey)
                     .setBottomTextColor(R.drawable.ic_active)
                     .setBtn_text(getString(R.string.alert));
@@ -765,6 +765,7 @@ public class TrackingService extends Service implements TrackingServiceView {
         Constants.is_service_active(false);
         if(subscribe!=null)
             subscribe.dispose();
-        presenter.stop(this);
+        if(presenter!=null)
+            presenter.stop(this);
     }
 }

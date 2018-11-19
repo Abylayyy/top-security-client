@@ -55,7 +55,7 @@ public class StartActivity extends BaseActivity implements View.OnClickListener 
 
         showLoadingView();
 
-        boolean startMainScreen = getIntent().getBooleanExtra(START_MAIN_SCREEN_KEY , false) ;
+//        boolean startMainScreen = getIntent().getBooleanExtra(START_MAIN_SCREEN_KEY , false) ;
         boolean skipLoading= getIntent().getBooleanExtra(SKIP_LOADING_KEY, false);
         boolean isUserLoggedIn = SharedPreferencesManager.getUserData(this) && SharedPreferencesManager.getUserAuthToken(this)!=null;
 
@@ -63,10 +63,10 @@ public class StartActivity extends BaseActivity implements View.OnClickListener 
         if(skipLoading){
             showStartView();
         }
-        else if (startMainScreen ){
-            startActivity(new Intent(this,MainActivity.class));
-            finish();
-        }
+//        else if (startMainScreen ){
+//            startActivity(new Intent(this,MainActivity.class));
+//            finish();
+//        }
         else if(isUserLoggedIn){
             startWithLogin();
         }
@@ -83,7 +83,6 @@ public class StartActivity extends BaseActivity implements View.OnClickListener 
                     onLoginFailed();
                 else {
                     //TODO : CHECK IF USER ACC NOT ACTIVATED
-
                     boolean isPaymentActive = r.getClient().getPlan()!=null && !r.getClient().getPlan().getIsExpired();
                     SharedPreferencesManager.setUserPaymentIsActive( StartActivity.this, isPaymentActive);
                     onSuccessLogin(r.getClient());
