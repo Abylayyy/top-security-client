@@ -13,6 +13,7 @@ import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.model.auth.AuthResponse;
 import kz.topsecurity.client.model.other.BasicResponse;
 import kz.topsecurity.client.model.place.GetPlaceResponse;
+import kz.topsecurity.client.model.place.Place;
 import kz.topsecurity.client.model.place.SavePlaceResponse;
 import kz.topsecurity.client.presenter.base.BasePresenterImpl;
 import kz.topsecurity.client.service.api.RequestService;
@@ -64,6 +65,7 @@ public class PlacesPresenterImpl extends BasePresenterImpl<PlacesView> implement
     void setGetPlaceError(int error_message){
         view.onPlacesLoadError(error_message);
     }
+
 
     @Override
     public void savePlace(String s, LatLng markerLocation, int mRadius) {
@@ -120,6 +122,43 @@ public class PlacesPresenterImpl extends BasePresenterImpl<PlacesView> implement
                 .deletePlace(RetrofitClient.getRequestToken(), id));
 
         compositeDisposable.add(success);
+    }
+
+    @Override
+    public void editPlace(int edit_place_id, String s, LatLng markerLocation, int mRadius) {
+        view.showLoadingDialog();
+        String lat = String.valueOf(markerLocation.latitude);
+        String lng = String.valueOf(markerLocation.longitude);
+
+        Disposable success = new RequestService<>(new RequestService.RequestResponse<SavePlaceResponse>() {
+            @Override
+            public void onSuccess(SavePlaceResponse r) {
+                editPlaceSuccess(r.getPlace(), edit_place_id);
+            }
+
+            @Override
+            public void onFailed(SavePlaceResponse data, int error_message) {
+                editPlaceError(error_message);
+            }
+
+            @Override
+            public void onError(Throwable e, int error_message) {
+                deletePlaceError(error_message);
+            }
+        }).makeRequest(RetrofitClient.getClientApi()
+                .editPlace(edit_place_id, RetrofitClient.getRequestToken(), s, lat, lng, mRadius));
+
+        compositeDisposable.add(success);
+    }
+
+    private void editPlaceError(int error) {
+        view.hideLoadingDialog();
+        view.onPlaceEditError(error);
+    }
+
+    private void editPlaceSuccess(Place place , int edit_place_id) {
+        view.hideLoadingDialog();
+        view.onPlaceEditSuccess(place,edit_place_id);
     }
 
     private void deletePlaceSuccess(int id) {

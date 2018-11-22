@@ -19,7 +19,7 @@ public class TrackingServiceRestarterBroadcastReceiver extends BroadcastReceiver
     public void onReceive(Context context, Intent intent) {
         Log.e(TAG, "Restart is called");
 
-        if(SharedPreferencesManager.getTrackingServiceActiveState(context)){
+        if(SharedPreferencesManager.getTrackingServiceActiveState(context) && SharedPreferencesManager.getUserAuthToken(context)!=null && !SharedPreferencesManager.getUserAuthToken(context).isEmpty()){
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
                 context.startService(new Intent(context, TrackingService.class));
                 intent.setAction(Constants.RESTART_FOREGROUND_SERVICE);

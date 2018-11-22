@@ -196,10 +196,14 @@ public class PlaceActivity
         configureFabButton(R.drawable.ic_add ,placeListViewButtonClick );
     }
 
+    int edit_place_id = -1;
     private final View.OnClickListener textValuesViewButtonClick = v -> {
         if (checkTextValues()) {
             hideSoftKeyboard(fab);
-            presenter.savePlace(ed_place_name.getText().toString(), markerLocation, mRadius);
+            if(edit_place_id==-1)
+                presenter.savePlace(ed_place_name.getText().toString(), markerLocation, mRadius);
+            else
+                presenter.editPlace(edit_place_id, ed_place_name.getText().toString(), markerLocation, mRadius);
         }
     };
 
@@ -423,6 +427,22 @@ public class PlaceActivity
         setPlaceListView();
     }
 
+    @Override
+    public void onPlaceEditSuccess(Place place, int edit_place_id) {
+        mPlaceListAdapter.removeByDataId(edit_place_id);
+        mPlaceListAdapter.add(place);
+        setPlaceListView();
+        clearEditTextViews();
+        this.edit_place_id = -1;
+    }
+
+    @Override
+    public void onPlaceEditError(int error) {
+        showToast(error);
+        setPlaceListView();
+        clearEditTextViews();
+    }
+
     private void clearEditTextViews() {
         ed_place_name.setText("");
         ed_place_description.setText("");
@@ -476,7 +496,39 @@ public class PlaceActivity
     public void onItemEdit(Place place) {
         if(place!=null && presenter!=null){
 //            showToast("EDIT PLACE");
+            setEditPlaceRadiusView(place);
+
         }
+    }
+
+    private void setEditPlaceRadiusView(Place place) {
+        clearMapElements();
+        findViewById(R.id.map).setVisibility(View.VISIBLE);
+        ll_place_text_values_input_view.setVisibility(View.GONE);
+        ll_place_list_view.setVisibility(View.GONE);
+        currentViewState = RADIUS_VIEW;
+        ll_radius_picker.setVisibility(View.VISIBLE);
+        sb_radius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                mRadius = i + 1;
+                drawCircle(mRadius);
+                setTextRadius(mRadius);
+            }
+
+            @Override public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+        mRadius = place.getRadius();
+        sb_radius.setProgress(mRadius);
+        configureFabButton(R.drawable.ic_arrow_forward ,onRadiusViewButtonClick );
+        ed_place_name.setText(place.getName());
+        //markerLocation
+        markerLocation = new LatLng(place.getLat(),place.getLng());
+        drawMarker(markerLocation);
+        drawCircle(mRadius);
+        edit_place_id = place.getId();
     }
 
     @Override

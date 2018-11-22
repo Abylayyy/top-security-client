@@ -15,6 +15,7 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
@@ -46,6 +47,7 @@ import kz.topsecurity.client.R;
 @RuntimePermissions
 public class CropPictureActivity extends BaseActivity {
 
+    public static final String BITMAP_IMAGE = "bitmap_image";
     private static final String TAG = CropPictureActivity.class.getSimpleName();
 
     @BindView(R.id.crop_view) public CropImageView cropView;
@@ -167,7 +169,13 @@ public class CropPictureActivity extends BaseActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         cropView.setAspectRatio(1,1);
         cropView.setOnCropImageCompleteListener(listener);
-        CropPictureActivityPermissionsDispatcher.pickImageWithCheck(CropPictureActivity.this);
+        Parcelable parcelableExtra = getIntent().getParcelableExtra(BITMAP_IMAGE);
+        if(parcelableExtra!=null){
+            Bitmap bitmap = (Bitmap) parcelableExtra;
+            cropView.setImageBitmap(bitmap);
+        }
+        else
+            CropPictureActivityPermissionsDispatcher.pickImageWithCheck(CropPictureActivity.this);
     }
 
     @Override

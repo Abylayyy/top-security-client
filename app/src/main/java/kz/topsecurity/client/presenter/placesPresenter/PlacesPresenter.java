@@ -9,4 +9,6 @@ public interface PlacesPresenter extends BasePresenter {
     void getPlaces();
     void savePlace(String s, LatLng markerLocation, int mRadius);
     void deletePlace(Integer id);
+
+    void editPlace(int edit_place_id, String s, LatLng markerLocation, int mRadius);
 }

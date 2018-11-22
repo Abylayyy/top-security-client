@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -44,6 +45,7 @@ import kz.topsecurity.client.R;
 import kz.topsecurity.client.domain.SettingsScreen.SettingsActivity;
 import kz.topsecurity.client.domain.SplashScreen.SplashScreen;
 import kz.topsecurity.client.domain.TrustedNumbersScreen.TrustedNumbersActivity;
+import kz.topsecurity.client.domain.informationScreen.InformationActivity;
 import kz.topsecurity.client.fragments.TutorialFragment;
 import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
@@ -75,6 +77,7 @@ public class MainActivity extends ServiceControlActivity
     @BindView(R.id.ll_settings) LinearLayout ll_settings;
     @BindView(R.id.ll_payment) LinearLayout ll_payment;
     @BindView(R.id.ll_feedback) LinearLayout ll_feedback;
+    @BindView(R.id.ll_info) LinearLayout ll_info;
     @BindView(R.id.ll_alert_history) LinearLayout ll_alert_history;
     @BindView(R.id.btn_alert) Button btn_alert;
     @BindView(R.id.btn_cancel_alert) Button btn_cancel_alert;
@@ -125,7 +128,51 @@ public class MainActivity extends ServiceControlActivity
                 }
                 break;
             }
+            case PAYMENT_REQUEST_CODE:{
+                if(checkIfUserPhotoIsNessesarry()){
+                    showAddYourPhotoDialog();
+                }
+            }
         }
+    }
+
+    CustomSimpleDialog needAvatarToWorkProperlyDialog;
+
+    private boolean checkIfUserPhotoIsNessesarry(){
+        String imageStringUri = SharedPreferencesManager.getAvatarUriValue(this);
+        boolean isUserMadePayment = SharedPreferencesManager.getUserPaymentIsActive(this);
+        return (isUserMadePayment &&( imageStringUri==null || imageStringUri.isEmpty()));
+    }
+
+    private void showAddYourPhotoDialog() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+        needAvatarToWorkProperlyDialog = new CustomSimpleDialog();
+
+        Bundle arg = new Bundle();
+        arg.putString(CustomSimpleDialog.DIALOG_MESSAGE, getString(R.string.need_avatar_to_work_properly));
+
+        needAvatarToWorkProperlyDialog.setArguments(arg);
+        needAvatarToWorkProperlyDialog.setCancelable(false);
+        needAvatarToWorkProperlyDialog.setListener(new CustomSimpleDialog.Callback() {
+            @Override
+            public void onCancelBtnClicked() {
+                if(needAvatarToWorkProperlyDialog!=null)
+                    needAvatarToWorkProperlyDialog.dismiss();
+            }
+
+            @Override
+            public void onPositiveBtnClicked() {
+                ll_profile.performClick();
+                if(needAvatarToWorkProperlyDialog!=null)
+                    needAvatarToWorkProperlyDialog.dismiss();
+            }
+        });
+        needAvatarToWorkProperlyDialog.show(ft, "dialog");
     }
 
     @Override
@@ -218,6 +265,7 @@ public class MainActivity extends ServiceControlActivity
         ll_settings.setOnClickListener(this);
         ll_payment.setOnClickListener(this);
         ll_feedback.setOnClickListener(this);
+        ll_info.setOnClickListener(this);
         ll_alert_history.setOnClickListener(this);
         btn_alert.setOnClickListener(this);
         btn_cancel_alert.setOnClickListener(this);
@@ -242,6 +290,8 @@ public class MainActivity extends ServiceControlActivity
         btn_alert.setEnabled(false);
         presenter.checkStatus();
         checkTutsStatus(savedInstanceState);
+        if(checkIfUserPhotoIsNessesarry() && !SharedPreferencesManager.getIsTutsShown(this))
+            showAddYourPhotoDialog();
     }
 
     private void setDrawerSettings(Toolbar toolbar) {
@@ -669,6 +719,14 @@ public class MainActivity extends ServiceControlActivity
                 ifNavButtons = true;
                 if(!Constants.is_service_sending_alert())
                     startActivityForResult(new Intent(MainActivity.this, FeedbackActivity.class), ABOUT_CODE);
+                else
+                    onShowToast(R.string.you_cant_when_alert_active);
+                break;
+            }
+            case R.id.ll_info:{
+                ifNavButtons = true;
+                if(!Constants.is_service_sending_alert())
+                    startActivityForResult(new Intent(MainActivity.this, InformationActivity.class), ABOUT_CODE);
                 else
                     onShowToast(R.string.you_cant_when_alert_active);
                 break;

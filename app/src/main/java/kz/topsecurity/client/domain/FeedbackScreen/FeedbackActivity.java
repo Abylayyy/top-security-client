@@ -20,10 +20,6 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
     TextView tv_contacts_phone_for_other_issues;
     @BindView(R.id.tv_technical_issues)
     TextView tv_technical_issues;
-    @BindView(R.id.tv_user_agreement)
-    TextView tv_user_agreement;
-    @BindView(R.id.tv_user_instruction)
-    TextView tv_user_instruction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +33,6 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         tv_contacts_phone_for_other_issues.setOnClickListener(this);
         tv_technical_issues.setOnClickListener(this);
-        tv_user_agreement.setOnClickListener(this);
-        tv_user_instruction.setOnClickListener(this);
     }
 
     @Override
@@ -69,18 +63,7 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
                 startActivity(Intent.createChooser(intent, "Отправить Email"));
                 break;
             }
-            case R.id.tv_user_agreement:{
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(Constants.PRIVACY_POLICY_LINK));
-                startActivity(i);
-                break;
-            }
-            case R.id.tv_user_instruction:{
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(Constants.INSTRuCTION_LINK));
-                startActivity(i);
-                break;
-            }
+
         }
     }
 }

@@ -31,8 +31,7 @@
                 android:id="@+id/iv_user_avatar"
                 android:layout_width="140dp"
                 android:layout_height="140dp"
-                android:layout_centerInParent="true"
-                android:src="@drawable/placeholder_avatar"/>
+                android:layout_centerInParent="true" />
 
             <ImageView
                 android:id="@+id/iv_upload_avatar"

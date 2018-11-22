@@ -105,6 +105,7 @@
     <string name="title_activity_crop_picture_activiry">Редактировать</string>
     <string name="load_image_error">Не удалось загрузить изображение</string>
     <string name="permission_crop_rationale">Необходим доступ для обрезки фотографии</string>
+    <string name="permission_camera">Необходим доступ к камеры для рагрузки фотографии</string>
     <string name="button_allow">Разрешить</string>
     <string name="button_deny">Отмена</string>
     <string name="new_email">Новый email</string>
@@ -186,7 +187,7 @@
     <string name="title_activity_introduction">IntroductionActivity</string>
     <string name="skip">Пропустить</string>
     <string name="finish">Готово</string>
-    <string name="title_activity_about">AboutActivity</string>
+    <string name="title_activity_about">О приложении</string>
     <string name="technical_issues_label">По техническим вопросам</string>
     <string name="contacts_email_for_technical_issues">support@topsecurity.kz</string>
     <string name="to_phone_number">Номер телефона</string>
@@ -233,6 +234,17 @@
     <string name="intro_frag_3_title">Мобильная группа оперативного реагирования</string>
     <string name="sms_code_has_been_send">СМС код был отправлен на ваш номер</string>
     <string name="appTextTitile">“Top Security KZ”</string>
-    <string name="about_app">Первое мобильное приложение -“Тревожная кнопка”, разработанное в Казахстане.   Top Security KZ - тревожная кнопка для вызова мобильной группы в твоем смартфоне. Мобильное приложение “Тревожная кнопка” - собственная разработка Top Security KZ: - Своя техническая поддержка. - Реагирование 24/7. - Своя мобильная группа оперативного реагирования. - Консультации по использованию приложения. Функциональные преимущества мобильной тревожной кнопки Top Security KZ:  1. Быстрый доступ к тревожной кнопке. В критической ситуации очень сложно искать приложение и активировать тревожный сигнал. Настройте быстрый вызов, так, вы можете незаметно для злоумышленников вызвать подмогу. 2. Отслеживание местоположения. Мобильная группа оперативного реагирования  найдёт вас, не привлекая внимания злоумышленника, благодаря функции отслеживания вашего местоположения.  3. Отслеживание передвижения после вызова тревоги. Мобильная группа оперативного реагирования будет двигаться за вами, если вы покинули место вызова тревоги.</string>
-
+    <string name="about_app">Первое мобильное приложение -“Тревожная кнопка”, разработанное в Казахстане. \n\nTop Security KZ - тревожная кнопка для вызова мобильной группы в твоем смартфоне. \n\nМобильное приложение “Тревожная кнопка” - собственная разработка Top Security KZ: \n- Своя техническая поддержка. \n- Реагирование 24/7. \n- Своя мобильная группа оперативного реагирования. \n- Консультации по использованию приложения. \n\nФункциональные преимущества мобильной тревожной кнопки Top Security KZ:  \n\n1. Быстрый доступ к тревожной кнопке. В критической ситуации очень сложно искать приложение и активировать тревожный сигнал. Настройте быстрый вызов, так, вы можете незаметно для злоумышленников вызвать подмогу. \n2. Отслеживание местоположения. Мобильная группа оперативного реагирования  найдёт вас, не привлекая внимания злоумышленника, благодаря функции отслеживания вашего местоположения.  \n3. Отслеживание передвижения после вызова тревоги. Мобильная группа оперативного реагирования будет двигаться за вами, если вы покинули место вызова тревоги.</string>
+    <string name="title_activity_information">Информация</string>
+    <string name="place_holder_app_version">Версия: N.N</string>
+    <string name="place_holder_app_update_date">Дата обновления: dd.mm.yy</string>
+    <string name="text_about_app">О приложении</string>
+    <string name="text_instruction">Инструкция</string>
+    <string name="text_copyright">© 2018 “Top Security KZ”</string>
+    <string name="text_user_agreement">Пользовательское соглашение</string>
+    <string name="text_from_gallery">Галерея</string>
+    <string name="text_from_camera">Камера</string>
+    <string name="permission_camera_denied">Отказан доступ к камере</string>
+    <string name="permission_camera_neverask">Не показывать никогда</string>
+    <string name="need_avatar_to_work_properly">Необходима фотография для опознания. Перейти к профилю для загрузки фотографий?</string>
 </resources>

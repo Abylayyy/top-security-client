@@ -112,6 +112,16 @@ public interface ApiService {
                                             @Field("lng") String lng,
                                             @Field("radius") int radius);
 
+    @FormUrlEncoded
+    @PATCH("client/places/{place_id}")
+    Observable<SavePlaceResponse> editPlace(@Path("place_id") int place_id,
+                                            @Header("Authorization") String token,
+                                            @Field("name") String name,
+                                            @Field("lat") String lat,
+                                            @Field("lng") String lng,
+                                            @Field("radius") int radius);
+
+
     @DELETE("client/places/{place_id}")
     Observable<BasicResponse> deletePlace(@Header("Authorization") String token,
                                           @Path("place_id") int place_id);
@@ -196,4 +206,5 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("client/register/confirm")
     Observable<BasicResponse> confirmCode( @Field("verification_code") String verification_code);
+
 }

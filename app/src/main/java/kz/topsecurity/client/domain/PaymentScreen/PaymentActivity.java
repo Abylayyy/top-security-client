@@ -48,7 +48,7 @@ public class PaymentActivity extends BaseActivity {
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle(R.string.payment_activity_name);
+        setTitle(R.string.payment);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         checkPlan(FIRST_CHECK);
@@ -104,7 +104,7 @@ public class PaymentActivity extends BaseActivity {
 //                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 //                startActivity(intent);
                 checkPlan(LAST_CHECK);
-                return false;
+               // return false;
             }
             // Otherwise, the link is not for a page on my site, so launch another Activity that handles URLs
             return false;
@@ -127,16 +127,7 @@ public class PaymentActivity extends BaseActivity {
                                 }
                                 hideProgressDialog();
                             }
-                            if(type==FIRST_CHECK){
-                                if(status) {
-                                    showToast(R.string.you_already_paid);
-                                    finish();
-                                }else
-                                    getPlans();
-                            }
-                            else if(type == LAST_CHECK){
-                                finish();
-                            }
+                            getPlans();
                         },
                         e -> {
                             hideProgressDialog();

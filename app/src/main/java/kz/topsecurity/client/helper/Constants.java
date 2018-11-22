@@ -13,7 +13,7 @@ public class Constants {
     private static final String DEVELOPMENT_DOMAIN = "http://192.168.0.27";
     public static final String ACTIVE_DOMAIN = PRODUCTION_DOMAIN;
     public static final String PRIVACY_POLICY_LINK = "http://signal.topsecurity.kz/terms";
-    public static final String INSTRuCTION_LINK = "http://signal.topsecurity.kz/instructions";
+    public static final String INSTRUCTION_LINK = "http://signal.topsecurity.kz/instructions";
 
     public static final boolean IS_DEBUG = true;
 
