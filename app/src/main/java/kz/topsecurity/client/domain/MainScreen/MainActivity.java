@@ -48,6 +48,7 @@ import kz.topsecurity.client.domain.TrustedNumbersScreen.TrustedNumbersActivity;
 import kz.topsecurity.client.domain.informationScreen.InformationActivity;
 import kz.topsecurity.client.fragments.TutorialFragment;
 import kz.topsecurity.client.helper.Constants;
+import kz.topsecurity.client.helper.PhoneHelper;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
 import kz.topsecurity.client.model.other.Client;
 import kz.topsecurity.client.presenter.mainPresenter.MainPresenterImpl;
@@ -129,8 +130,10 @@ public class MainActivity extends ServiceControlActivity
                 break;
             }
             case PAYMENT_REQUEST_CODE:{
-                if(checkIfUserPhotoIsNessesarry()){
-                    showAddYourPhotoDialog();
+                if (resultCode == Activity.RESULT_OK) {
+                    if(checkIfUserPhotoIsNessesarry()){
+                        showAddYourPhotoDialog();
+                    }
                 }
             }
         }
@@ -290,8 +293,9 @@ public class MainActivity extends ServiceControlActivity
         btn_alert.setEnabled(false);
         presenter.checkStatus();
         checkTutsStatus(savedInstanceState);
-        if(checkIfUserPhotoIsNessesarry() && !SharedPreferencesManager.getIsTutsShown(this))
+        if(checkIfUserPhotoIsNessesarry() && SharedPreferencesManager.getIsTutsShown(this))
             showAddYourPhotoDialog();
+
     }
 
     private void setDrawerSettings(Toolbar toolbar) {
@@ -529,13 +533,7 @@ public class MainActivity extends ServiceControlActivity
         if (clientData != null) {
             tv_user_name.setText(clientData.getUsername());
             String phone = clientData.getPhone();
-            if(phone!=null && phone.length()==11) {
-                String phoneWithFormat = phone.replaceFirst("(\\d{1})(\\d{3})(\\d{3})(\\d{2})(\\d{2})", "+$1($2)$3-$4-$5");
-                tv_user_phone.setText(phoneWithFormat);
-            }
-            else{
-                tv_user_phone.setText(phone);
-            }
+            tv_user_phone.setText(PhoneHelper.getFormattedPhone(phone));
             tv_user_email.setText(clientData.getEmail());
             userAvatar = clientData.getPhoto();
         }

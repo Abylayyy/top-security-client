@@ -1,5 +1,6 @@
 package kz.topsecurity.client.domain.PaymentScreen;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ public class PaymentActivity extends BaseActivity {
     @BindView(R.id.wv_payment_site)
     WebView wv_payment_site;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
+    boolean userMadePayment = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +106,7 @@ public class PaymentActivity extends BaseActivity {
 //                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 //                startActivity(intent);
                 checkPlan(LAST_CHECK);
+                userMadePayment = true;
                // return false;
             }
             // Otherwise, the link is not for a page on my site, so launch another Activity that handles URLs
@@ -120,6 +123,8 @@ public class PaymentActivity extends BaseActivity {
                             boolean status = false;
                             if (!r.getStatus().equals("success")) {
                                 hideProgressDialog();
+                                if(userMadePayment)
+                                    userMadePayment = false;
                             } else {
                                 if(r.getClient().getPlan()!=null && !r.getClient().getPlan().getIsExpired()){
                                     SharedPreferencesManager.setUserPaymentIsActive(PaymentActivity.this,true);
@@ -145,4 +150,10 @@ public class PaymentActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void finish() {
+        if(userMadePayment)
+            setResult(Activity.RESULT_OK);
+        super.finish();
+    }
 }

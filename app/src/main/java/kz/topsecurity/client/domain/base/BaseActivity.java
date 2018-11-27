@@ -161,8 +161,6 @@ public abstract class BaseActivity
         showToast(getString(textMsgResId));
     }
 
-
-
     public boolean isNetworkOnline() {
         boolean status=false;
         WeakReference data = null;

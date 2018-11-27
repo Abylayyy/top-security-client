@@ -196,6 +196,9 @@ public class TrackingService extends Service implements TrackingServiceView {
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
+                finally {
+                    setIdleStatus();
+                }
                 break;
             }
         }

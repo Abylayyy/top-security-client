@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import kz.topsecurity.client.R;
+import kz.topsecurity.client.helper.PhoneHelper;
 import kz.topsecurity.client.model.contact.Contact;
 
 public class TrustedContactsAdapter extends  RecyclerView.Adapter<TrustedContactsAdapter.MyViewHolder>  {
@@ -91,7 +92,7 @@ public class TrustedContactsAdapter extends  RecyclerView.Adapter<TrustedContact
             listener.onOptionsItem(mDataset.get(position));
         });
         holder.mContactName.setText(mDataset.get(position).getName());
-        holder.mContactPhone.setText(mDataset.get(position).getPhone());
+        holder.mContactPhone.setText(PhoneHelper.getFormattedPhone(mDataset.get(position).getPhone()));
         holder.mContactDesc.setText(mDataset.get(position).getDescription());
         if(activeOptionViewPosiition!=-1 && position == activeOptionViewPosiition){
             holder.iv_more.setImageResource(R.drawable.ic_arrow_up_in_circle);

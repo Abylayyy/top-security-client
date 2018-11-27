@@ -86,6 +86,7 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onSuccess(BasicResponse data) {
                 sendedPhone = phone;
+                restartTimer();
                 hideProgressDialog();
                 showToast(R.string.sms_code_has_been_send);
             }
@@ -103,6 +104,12 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
             }
         }).makeRequest(RetrofitClient.getClientApi().requesteCode("register",phone));
         compositeDisposable.add(disposable);
+    }
+
+    private void restartTimer() {
+        tv_send_again.setClickable(false);
+        tv_send_again.setTextColor(getResources().getColor(R.color.gray));
+        countDownTimer.start();
     }
 
     CountDownTimer countDownTimer =  new CountDownTimer(60000, 1000) {

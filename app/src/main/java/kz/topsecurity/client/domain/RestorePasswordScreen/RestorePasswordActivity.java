@@ -21,6 +21,7 @@ import kz.topsecurity.client.ui_widgets.customDialog.CustomSimpleDialog;
 import kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditText;
 import kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditTextHelper;
 import kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditTextWithMask;
+import kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditTextWithPhoneMask;
 import kz.topsecurity.client.ui_widgets.roundCorneredEditText.StatusListener;
 import kz.topsecurity.client.view.restorePassView.RestorePasswordView;
 
@@ -38,7 +39,8 @@ public class RestorePasswordActivity extends BaseActivity<RestorePasswordView,
     @BindView(R.id.tv_sms_code_label) TextView tv_sms_code_label;
     @BindView(R.id.tv_sms_code_error) TextView tv_sms_code_error;
     @BindView(R.id.tv_send_again) TextView tv_send_again;
-    @BindView(R.id.ed_tel_number) RoundCorneredEditTextWithMask ed_tel_number;
+    @BindView(R.id.ed_tel_number)
+    RoundCorneredEditTextWithPhoneMask ed_tel_number;
     @BindView(R.id.ed_sms_code) RoundCorneredEditText ed_sms_code;
     @BindView(R.id.btn_confirm) Button btn_confirm;
 

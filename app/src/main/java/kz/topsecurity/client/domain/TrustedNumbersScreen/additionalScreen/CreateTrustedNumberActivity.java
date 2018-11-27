@@ -28,7 +28,7 @@ import kz.topsecurity.client.service.api.RequestService;
 import kz.topsecurity.client.service.api.RetrofitClient;
 import kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditText;
 import kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditTextHelper;
-import kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditTextWithMask;
+import kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditTextWithPhoneMask;
 import kz.topsecurity.client.ui_widgets.roundCorneredEditText.StatusListener;
 
 public class CreateTrustedNumberActivity extends BaseActivity implements StatusListener {
@@ -43,7 +43,8 @@ public class CreateTrustedNumberActivity extends BaseActivity implements StatusL
     @BindView(R.id.tv_user_name_error) TextView tv_user_name_error;
 
     @BindView(R.id.tv_telephone_number_label) TextView tv_telephone_number_label;
-    @BindView(R.id.ed_tel_number) RoundCorneredEditTextWithMask ed_tel_number;
+    @BindView(R.id.ed_tel_number)
+    RoundCorneredEditTextWithPhoneMask ed_tel_number;
     @BindView(R.id.tv_phone_number_error) TextView tv_phone_number_error;
 
     @BindView(R.id.tv_user_desc) TextView tv_user_desc;

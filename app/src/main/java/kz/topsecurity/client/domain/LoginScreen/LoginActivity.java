@@ -38,7 +38,7 @@ import kz.topsecurity.client.presenter.loginPresenter.LoginPresenter;
 import kz.topsecurity.client.presenter.loginPresenter.LoginPresenterImpl;
 import kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditText;
 import kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditTextHelper;
-import kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditTextWithMask;
+import kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditTextWithPhoneMask;
 import kz.topsecurity.client.ui_widgets.roundCorneredEditText.StatusListener;
 import kz.topsecurity.client.view.loginView.LoginView;
 
@@ -50,7 +50,8 @@ public class LoginActivity extends BaseActivity<LoginView, LoginPresenter, Login
     @BindView(R.id.btn_sign_in) Button btn_sign_in;
 
     @BindView (R.id.tv_telephone_number_label) TextView tv_telephone_number_label;
-    @BindView (R.id.ed_tel_number) RoundCorneredEditTextWithMask ed_tel_number;
+    @BindView (R.id.ed_tel_number)
+    RoundCorneredEditTextWithPhoneMask ed_tel_number;
     @BindView (R.id.tv_phone_number_error) TextView tv_phone_number_error;
 
     @BindView (R.id.tv_password_label) TextView tv_password_label;

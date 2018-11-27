@@ -11,9 +11,9 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <!--<uses-feature android:name="android.hardware.camera"-->
-        <!--android:required="false" />-->
 
+    <!-- <uses-feature android:name="android.hardware.camera" -->
+    <!-- android:required="false" /> -->
     <application
         android:name=".application.TopSecurityClientApplication"
         android:allowBackup="true"
@@ -231,7 +231,8 @@
         <activity
             android:name=".domain.informationScreen.InformationActivity"
             android:label="@string/title_activity_information"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".domain.testScreen.TestEditTextActivity"></activity>
     </application>
 
 </manifest>

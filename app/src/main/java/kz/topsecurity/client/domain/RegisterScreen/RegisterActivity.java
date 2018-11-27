@@ -28,7 +28,7 @@ import kz.topsecurity.client.presenter.registerPresenter.RegisterPresenter;
 import kz.topsecurity.client.presenter.registerPresenter.RegisterPresenterImpl;
 import kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditText;
 import kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditTextHelper;
-import kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditTextWithMask;
+import kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditTextWithPhoneMask;
 import kz.topsecurity.client.ui_widgets.roundCorneredEditText.StatusListener;
 import kz.topsecurity.client.view.registerView.RegisterView;
 
@@ -41,7 +41,8 @@ public class RegisterActivity extends BaseActivity<RegisterView,RegisterPresente
     @BindView(R.id.btn_sign_up) Button btn_sign_up;
 
     @BindView(R.id.tv_telephone_number_label) TextView tv_telephone_number_label;
-    @BindView(R.id.ed_tel_number) RoundCorneredEditTextWithMask ed_tel_number;
+    @BindView(R.id.ed_tel_number)
+    RoundCorneredEditTextWithPhoneMask ed_tel_number;
     @BindView(R.id.tv_phone_number_error) TextView tv_phone_number_error;
 
     @BindView(R.id.tv_user_name) TextView tv_user_name;

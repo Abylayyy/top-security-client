@@ -83,7 +83,7 @@ public class AlertHistoryActivity extends BaseActivity<AlertHistoryView,AlertHis
 
     @Override
     public void onHistoryEmpty() {
-        showToast(R.string.list_is_empty);
+//        showToast(R.string.list_is_empty);
         tv_empty_list.setVisibility(View.VISIBLE);
     }
 
