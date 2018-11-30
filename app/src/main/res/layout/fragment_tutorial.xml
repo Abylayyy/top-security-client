@@ -9,7 +9,7 @@
     android:paddingRight="60dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.TutorialFragment">
+    tools:context=".fragments.tutorial.TutorialFragment">
 
     <ImageView
         android:visibility="invisible"

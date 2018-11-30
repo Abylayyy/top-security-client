@@ -11,6 +11,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import kz.topsecurity.client.application.TopSecurityClientApplication;
+import kz.topsecurity.client.domain.MainScreen.MainActivity;
 import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
 import kz.topsecurity.client.helper.dataBase.DataBaseManager;
@@ -230,5 +231,21 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
     public void exitFromApplication(Context context) {
         Constants.clearData(context);
         view.exitFromMainScreen();
+    }
+
+    @Override
+    public void checkPlan() {
+        Disposable success = RetrofitClient.getClientApi().getClientData(RetrofitClient.getRequestToken())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(r -> {
+                            if(r.getClient().getPlan()!=null && !r.getClient().getPlan().getIsExpired()){
+                                SharedPreferencesManager.setUserPaymentIsActive(TopSecurityClientApplication.getInstance(),true);
+                                view.userPlanChanged(true);
+                            }
+                        },
+                        e -> {
+                        });
+        compositeDisposable.add(success);
     }
 }

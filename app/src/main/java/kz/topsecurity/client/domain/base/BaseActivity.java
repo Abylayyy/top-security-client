@@ -33,7 +33,7 @@ import java.io.FileNotFoundException;
 import java.lang.ref.WeakReference;
 
 import kz.topsecurity.client.R;
-import kz.topsecurity.client.fragments.TutorialFragment;
+import kz.topsecurity.client.fragments.tutorial.TutorialFragment;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
 import kz.topsecurity.client.presenter.base.BasePresenter;
 import kz.topsecurity.client.service.trackingService.TrackingService;
@@ -41,13 +41,11 @@ import kz.topsecurity.client.ui_widgets.customDialog.CustomSimpleDialog;
 import kz.topsecurity.client.utils.GlideApp;
 import kz.topsecurity.client.view.base.BaseView;
 
-import static kz.topsecurity.client.helper.Constants.ACTIVE_DOMAIN;
-
 public abstract class BaseActivity
         <V extends  BaseView,
         S extends BasePresenter ,
         U extends  S >
-        extends AppCompatActivity
+        extends HelperActivity
         implements BaseView,
         TutorialFragment.OnFragmentInteractionListener{
 
@@ -55,7 +53,6 @@ public abstract class BaseActivity
     private Intent mTrackingService;
     private static final String TRACKING_SERVICE = TrackingService.class.getSimpleName();
 
-    ProgressDialog pg_loader;
 
     protected S presenter;
 
@@ -116,27 +113,6 @@ public abstract class BaseActivity
         if(mAlarmBroadcastReceiver!=null && !isAlarmReceiverRegistered) {
             setupAlertBroadcastReceiver(mAlarmBroadcastReceiver, mAlarmAction);
         }
-    }
-
-    protected void showLoadingDialog()  {
-        pg_loader = ProgressDialog.show(this,"","Идет загрузка ...",true);
-    }
-
-    protected void hideProgressDialog() {
-        if(pg_loader!=null )
-            pg_loader.cancel();
-    }
-
-    protected void showToast(final String msg){
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(BaseActivity.this,msg,Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-    protected void showToast(int textMsgResId){
-        showToast(getString(textMsgResId));
     }
 
     @Override

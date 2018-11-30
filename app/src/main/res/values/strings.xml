@@ -247,4 +247,6 @@
     <string name="permission_camera_denied">Отказан доступ к камере</string>
     <string name="permission_camera_neverask">Не показывать никогда</string>
     <string name="need_avatar_to_work_properly">Необходима фотография для опознания. Перейти к профилю для загрузки фотографий?</string>
+    <string name="confirm_password">Подтверждение пароля</string>
+    <string name="confirm_password_not_match">Пароли не совпадают</string>
 </resources>

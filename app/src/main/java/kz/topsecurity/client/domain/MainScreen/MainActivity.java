@@ -11,7 +11,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -29,7 +28,6 @@ import android.widget.TextView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
-import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
@@ -46,7 +44,7 @@ import kz.topsecurity.client.domain.SettingsScreen.SettingsActivity;
 import kz.topsecurity.client.domain.SplashScreen.SplashScreen;
 import kz.topsecurity.client.domain.TrustedNumbersScreen.TrustedNumbersActivity;
 import kz.topsecurity.client.domain.informationScreen.InformationActivity;
-import kz.topsecurity.client.fragments.TutorialFragment;
+import kz.topsecurity.client.fragments.tutorial.TutorialFragment;
 import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.helper.PhoneHelper;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
@@ -70,6 +68,7 @@ public class MainActivity extends ServiceControlActivity
     public static final String CANCEL_ALERT_EXTRA = "CANCEL_ALERT_EXTRA";
     public static final String TRACKING_SERVICE_STATUS_RESULT = "IS_MADE_CHANGES";
     public static final String EXIT_FROM_APPLICATION = "EXIT_FROM_APPLICATION";
+    public static final String SHOULD_FINISH = "SHOULD_FINISH";
     private static final String ANIMATION_STATE_KEY = "ANIMATION_STATE";
 
     @BindView(R.id.ll_profile) LinearLayout ll_profile;
@@ -112,6 +111,9 @@ public class MainActivity extends ServiceControlActivity
         switch (requestCode){
             case PROFILE_REQUEST_CODE:{
                 presenter.updateDrawerData(this);
+//                if(data.hasExtra(SHOULD_FINISH) && data.getBooleanExtra(SHOULD_FINISH,false)){
+//                    finish();
+//                }
                 break;
             }
             case SETTINGS_REQUEST_CODE:{
@@ -134,6 +136,9 @@ public class MainActivity extends ServiceControlActivity
                     if(checkIfUserPhotoIsNessesarry()){
                         showAddYourPhotoDialog();
                     }
+                }
+                if(!SharedPreferencesManager.getUserPaymentIsActive(this)){
+                    presenter.checkPlan();
                 }
             }
         }
@@ -182,6 +187,19 @@ public class MainActivity extends ServiceControlActivity
     public void exitFromMainScreen(){
         startActivity(new Intent(MainActivity.this, SplashScreen.class));
         finish();
+    }
+
+    @Override
+    public void userPlanChanged(boolean isActive) {
+        if(isActive){
+            openProfileForcedToLoadAvatar();
+        }
+    }
+
+    private void openProfileForcedToLoadAvatar(){
+        Intent intent = new Intent(this, ProfileActivity.class);
+        intent.putExtra(ProfileActivity.FORCED_LOAD_AVATAR,true);
+        startActivityForResult(intent,PROFILE_REQUEST_CODE);
     }
 
     @Override

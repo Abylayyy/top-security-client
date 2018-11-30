@@ -24,7 +24,7 @@ import kz.topsecurity.client.domain.TrustedNumbersScreen.adapter.ContactItemDeco
 import kz.topsecurity.client.domain.TrustedNumbersScreen.adapter.TrustedContactsAdapter;
 import kz.topsecurity.client.domain.TrustedNumbersScreen.additionalScreen.CreateTrustedNumberActivity;
 import kz.topsecurity.client.domain.base.BaseActivity;
-import kz.topsecurity.client.fragments.TutorialFragment;
+import kz.topsecurity.client.fragments.tutorial.TutorialFragment;
 import kz.topsecurity.client.model.contact.Contact;
 import kz.topsecurity.client.presenter.trustedNumberPresenter.TrustedNumberPresenter;
 import kz.topsecurity.client.presenter.trustedNumberPresenter.TrustedNumberPresenterImpl;

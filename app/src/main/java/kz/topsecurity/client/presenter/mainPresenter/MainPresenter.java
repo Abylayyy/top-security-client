@@ -20,4 +20,6 @@ public interface MainPresenter extends BasePresenter {
     void updateDrawerData(Context context);
 
     void exitFromApplication(Context context);
+
+    void checkPlan();
 }

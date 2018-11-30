@@ -111,7 +111,7 @@ public class StartActivity extends BaseActivity implements View.OnClickListener 
 
     private void onSuccessLogin(Client client) {
         dataBaseManager.saveClientData(client);
-//        if(Constants.IS_DEBUG || (client.getPlan()!=null && !client.getPlan().getIsExpired())) {
+//        if(Constants.IS_DEBUG || (client.checkPlan()!=null && !client.checkPlan().getIsExpired())) {
 
             startActivity(new Intent(this, MainActivity.class));
             System.gc();

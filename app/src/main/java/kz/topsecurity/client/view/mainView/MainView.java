@@ -14,4 +14,6 @@ public interface MainView extends BaseView {
     void setAnimationStatus(int status);
     void setDrawerData(Client clientData);
     void exitFromMainScreen();
+
+    void userPlanChanged(boolean isActive);
 }

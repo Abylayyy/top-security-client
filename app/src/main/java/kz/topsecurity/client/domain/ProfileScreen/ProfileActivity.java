@@ -56,6 +56,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import kz.topsecurity.client.R;
+import kz.topsecurity.client.domain.MainScreen.MainActivity;
 import kz.topsecurity.client.domain.ProfileScreen.CropPhotoScreen.CropPictureActivity;
 import kz.topsecurity.client.domain.ProfileScreen.EditEmailScreen.EditEmailActivity;
 import kz.topsecurity.client.domain.ProfileScreen.EditPasswordScreen.EditPasswordActivity;
@@ -99,6 +100,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private static final int READ_STORAGE = 22;
     private static final int CHANGE_EMAIL = 41;
 
+    public static final String FORCED_LOAD_AVATAR = "FORCED_LOAD_AVATAR_EXTRA";
     public static final String CROPPED_IMAGE_PATH = "cropped_image_path_extra";
     private static final String IMAGE_DIRECTORY = "/demonuts_upload_gallery";
 
@@ -256,6 +258,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         SharedPreferencesManager.setAvatarUriValue(this, stringExtra);
         setImage(bitmap, iv_user_avatar);
         uploadMultipart(this,stringExtra);
+        setFinishResult(false);
         isMadeChanges = true;
     }
 
@@ -387,6 +390,17 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
         if(!Constants.BlockedFunctions.isTwoCodeEnabled)
             tv_add_secret_code.setVisibility(View.GONE);
+
+        boolean booleanExtra = getIntent().getBooleanExtra(FORCED_LOAD_AVATAR, false);
+        if(booleanExtra){
+            setFinishResult(true);
+        }
+    }
+
+    boolean onGoBackMainActShouldFinish = false;
+
+    private void setFinishResult(boolean shouldFinish) {
+        onGoBackMainActShouldFinish = shouldFinish;
     }
 
     DataBaseManager dataBaseManager = new DataBaseManagerImpl(this);
@@ -567,6 +581,12 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     public void finish(){
         if(isMadeChanges)
             setResult(RESULT_OK);
+        if(onGoBackMainActShouldFinish)
+        {
+           Intent resIntent = new Intent();
+           resIntent.putExtra(MainActivity.SHOULD_FINISH,true);
+           setResult(RESULT_OK, resIntent);
+        }
         super.finish();
     }
 

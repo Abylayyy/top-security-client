@@ -504,7 +504,7 @@ public class TrackingService extends Service implements TrackingServiceView {
                         .setTopTextColor(darkGrey)
                         .setBottomText("Онлайн")
                         .setBottomTextColor(darkGrey)
-                        .setBottomTextColor(R.drawable.ic_active)
+                        .setBottomIcon(R.drawable.ic_active)
                         .setBtn_text(getString(R.string.alert));
             }else{
                 customNotificationViewHolder
@@ -517,7 +517,7 @@ public class TrackingService extends Service implements TrackingServiceView {
                         .setTopTextColor(darkGrey)
                         .setBottomText("Онлайн")
                         .setBottomTextColor(darkGrey)
-                        .setBottomTextColor(R.drawable.ic_active)
+                        .setBottomIcon(R.drawable.ic_active)
                         .setBtn_text(getString(R.string.alert));
             }
         }
@@ -538,7 +538,7 @@ public class TrackingService extends Service implements TrackingServiceView {
                         .setTopTextColor(colorWhite)
                         .setBottomText("Тревога активна")
                         .setBottomTextColor(darkGrey)
-                        .setBottomTextColor(R.drawable.ic_active)
+                        .setBottomIcon(R.drawable.ic_active)
                         .setBtn_text(getString(R.string.cancel));
             }else{
                 //TODO: IT IS JUST AN PLACEHOLDER
@@ -553,7 +553,7 @@ public class TrackingService extends Service implements TrackingServiceView {
                         .setTopTextColor(colorWhite)
                         .setBottomText("Тревога активна")
                         .setBottomTextColor(darkGrey)
-                        .setBottomTextColor(R.drawable.ic_active)
+                        .setBottomIcon(R.drawable.ic_active)
                         .setBtn_text(getString(R.string.cancel));
             }
         }
@@ -568,7 +568,7 @@ public class TrackingService extends Service implements TrackingServiceView {
                     .setTopTextColor(darkGrey)
                     .setBottomText("Включите геолокацию")
                     .setBottomTextColor(darkGrey)
-                    .setBottomTextColor(R.drawable.ic_not_active)
+                    .setBottomIcon(R.drawable.ic_not_active)
                     .setBtn_text(getString(R.string.turn_on));
         }
         else if(action_type == ACTION_NETWORK){
@@ -582,7 +582,7 @@ public class TrackingService extends Service implements TrackingServiceView {
                     .setTopTextColor(darkGrey)
                     .setBottomText("Включите сеть")
                     .setBottomTextColor(darkGrey)
-                    .setBottomTextColor(R.drawable.ic_not_active)
+                    .setBottomIcon(R.drawable.ic_not_active)
                     .setBtn_text(getString(R.string.turn_on));
 
         }else{
@@ -597,7 +597,7 @@ public class TrackingService extends Service implements TrackingServiceView {
                     .setTopTextColor(darkGrey)
                     .setBottomText("Онлайн")
                     .setBottomTextColor(darkGrey)
-                    .setBottomTextColor(R.drawable.ic_active)
+                    .setBottomIcon(R.drawable.ic_active)
                     .setBtn_text(getString(R.string.alert));
         }
         views.setInt(R.id.rl_info_container, "setBackgroundColor",

@@ -3,36 +3,41 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="64dp">
     <RelativeLayout
         android:id="@+id/rl_info_container"
         android:layout_weight="3"
-        android:background="@color/white"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        android:paddingLeft="20dp"
+        android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:background="@color/white"
         android:layout_width="0dp"
         android:layout_height="match_parent">
         <ImageView
             android:id="@+id/iv_app_icon"
             android:layout_marginRight="10dp"
-            android:src="@drawable/ic_notification_pink_bg"
-            android:layout_width="60dp"
-            android:layout_height="60dp" />
-        <RelativeLayout
+            android:src="@drawable/notif_icon"
+            android:padding="5dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp" />
+        <LinearLayout
             android:layout_toRightOf="@id/iv_app_icon"
+            android:orientation="vertical"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_toEndOf="@id/iv_app_icon">
             <RelativeLayout
                 android:id="@+id/rl_top_text_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:gravity="center_vertical"
+                android:layout_height="1dp"
+                android:layout_weight="1">
                 <TextView
                     android:id="@+id/tv_app_name"
                     android:maxLines="1"
                     android:padding="2dp"
+                    android:textSize="14sp"
                     android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -40,6 +45,7 @@
                 <TextView
                     android:id="@+id/tv_service_status"
                     android:maxLines="1"
+                    android:visibility="gone"
                     android:layout_marginLeft="10dp"
                     android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
@@ -54,13 +60,15 @@
             <RelativeLayout
                 android:layout_below="@id/rl_top_text_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="1dp"
+                android:layout_weight="1">
                 <TextView
                     android:id="@+id/tv_service_msg"
                     android:maxLines="1"
                     android:layout_centerVertical="true"
                     android:textStyle="bold"
                     android:textColor="#949494"
+                    android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tracker_is_active"
@@ -70,6 +78,7 @@
                     android:layout_alignParentStart="true" />
                 <ImageView
                     android:id="@+id/iv_status"
+                    android:visibility="gone"
                     android:layout_marginRight="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_centerVertical="true"
@@ -79,7 +88,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true" />
             </RelativeLayout>
-        </RelativeLayout>
+        </LinearLayout>
     </RelativeLayout>
 
     <RelativeLayout
@@ -97,17 +106,18 @@
             android:layout_height="match_parent">
             <ImageView
                 android:id="@+id/iv_alert"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:src="@drawable/ic_call_alert"/>
             <TextView
+                android:visibility="visible"
                 android:id="@+id/tv_alert_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/alert"
                 android:textColor="@color/white"
                 android:textStyle="bold"/>
-        ]</LinearLayout>
+        </LinearLayout>
     </RelativeLayout>
 
 </LinearLayout>

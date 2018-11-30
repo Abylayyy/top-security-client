@@ -232,7 +232,8 @@
             android:name=".domain.informationScreen.InformationActivity"
             android:label="@string/title_activity_information"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".domain.testScreen.TestEditTextActivity"></activity>
+        <activity android:name=".domain.RegisterScreen.SignUpActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

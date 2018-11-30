@@ -105,8 +105,8 @@ public class PaymentActivity extends BaseActivity {
             {
 //                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 //                startActivity(intent);
-                checkPlan(LAST_CHECK);
                 userMadePayment = true;
+                checkPlan(LAST_CHECK);
                // return false;
             }
             // Otherwise, the link is not for a page on my site, so launch another Activity that handles URLs
