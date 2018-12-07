@@ -29,20 +29,24 @@ public class RegisterSignFieldsFragment extends Fragment implements RegisterSign
     @BindView(R.id.tv_telephone_number_label) TextView tv_telephone_number_label;
     @BindView(R.id.ed_tel_number) RoundCorneredEditTextWithPhoneMask ed_tel_number;
     @BindView(R.id.tv_phone_number_error) TextView tv_phone_number_error;
+
     @BindView(R.id.tv_password) TextView tv_password;
     @BindView(R.id.ed_password) RoundCorneredEditText ed_password;
     @BindView(R.id.tv_password_error) TextView tv_password_error;
+
     @BindView(R.id.tv_confirm_password) TextView tv_confirm_password;
     @BindView(R.id.ed_confirm_password) RoundCorneredEditText ed_confirm_password;
     @BindView(R.id.tv_confirm_password_error) TextView tv_confirm_password_error;
+
     @BindView(R.id.btn_sign_up) Button btn_sign_up;
     RegisterSignFieldsFragmentCallback mCallback;
     RoundCorneredEditTextHelper phoneNumber_helper,userConfirmPassword_helper,userPassword_helper;
     RegisterSignFieldsPresenter presenter;
 
     public interface RegisterSignFieldsFragmentCallback{
-         void onFieldsCorrect(String phone, String password);
+         void onMainFieldsCorrect(String phone, String password);
          void showToast(int msg);
+         void onClosed();
     }
 
     @Override
@@ -65,7 +69,7 @@ public class RegisterSignFieldsFragment extends Fragment implements RegisterSign
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View inflate = inflater.inflate(R.layout.register_sign_fields_fragment, container, false);
-        ButterKnife.bind(inflate);
+        ButterKnife.bind(this,inflate);
         return inflate;
     }
 
@@ -126,11 +130,18 @@ public class RegisterSignFieldsFragment extends Fragment implements RegisterSign
     @Override
     public void onFieldsCorrect(String phone, String password) {
         if(mCallback!=null)
-            mCallback.onFieldsCorrect(phone,password);
+            mCallback.onMainFieldsCorrect(phone,password);
     }
 
     @Override
     public void onErrorDeactivated() {
         btn_sign_up.setEnabled(true);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(presenter!=null)
+            presenter.detach();
     }
 }

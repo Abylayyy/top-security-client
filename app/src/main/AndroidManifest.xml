@@ -12,6 +12,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <!-- <uses-feature android:name="android.hardware.camera" -->
     <!-- android:required="false" /> -->
     <application
@@ -82,11 +85,13 @@
             android:name=".domain.SplashScreen.SplashScreen"
             android:screenOrientation="portrait"
             android:theme="@style/SplashScreenTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+             <intent-filter>
+             <action android:name="android.intent.action.MAIN" />
+
+
+             <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
         </activity>
         <activity
             android:name=".domain.StartScreen.StartActivity"
@@ -212,7 +217,7 @@
             android:label="@string/title_activity_alert_history"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".introductionScreen.IntroductionActivity"
+            android:name=".domain.introductionScreen.IntroductionActivity"
             android:label="@string/title_activity_introduction"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -232,8 +237,9 @@
             android:name=".domain.informationScreen.InformationActivity"
             android:label="@string/title_activity_information"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".domain.RegisterScreen.SignUpActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".domain.RegisterScreen.SignUpActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

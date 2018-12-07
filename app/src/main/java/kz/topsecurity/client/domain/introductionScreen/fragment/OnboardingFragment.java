@@ -1,4 +1,4 @@
-package kz.topsecurity.client.introductionScreen.fragment;
+package kz.topsecurity.client.domain.introductionScreen.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

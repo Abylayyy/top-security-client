@@ -15,6 +15,9 @@
     <string name="reg_text">Регистрация</string>
     <string name="privacy_policy">Подписавшись, Вы соглашаетесь с Условиями использования приложения</string>
     <string name="username">Имя</string>
+    <string name="lastname">Фамилия</string>
+    <string name="patronymic">Отчество</string>
+    <string name="user_iin">ИИН</string>
     <string name="email">Email</string>
     <string name="register">Зарегистрироваться</string>
     <string name="please_wait">Пожалуйста, подождите...</string>
@@ -52,6 +55,7 @@
     <string name="change_password">Изменить пароль</string>
     <string name="password_length_error">Пароль должен содержать не менее 6 символов</string>
     <string name="phone_length_error">Номер телефона должен содержать 11 цифр</string>
+    <string name="user_iin_length_error">ИИН должен содержать 12 цифр</string>
     <string name="field_cant_be_empty">Поле не может быть пустым</string>
     <string name="email_format_error">Формат почты неправильный</string>
     <string name="permission_denied_explanation">Доступ запрещен</string>
@@ -134,7 +138,9 @@
     <string name="password_missmatch_code">Пароль не совпадает</string>
     <string name="password_successful_changed_code">Пароль успешно изменен</string>
     <string name="profile_successful_saved_code">Редактирование профиля прошло успешно</string>
-    <string name="photo_successful_saved_code">Фотография успешно изменена</string>
+    <string name="photo_successful_updated_code">Фотография успешно изменена</string>
+    <string name="photo_successful_saved_code">Фотография успешно сохранена</string>
+
     <string name="secret_success_saved_code">Защитный код успешно создан</string>
     <string name="device_already_linked_code">Устройство уже привязано к другому аккаунту</string>
     <string name="concurrency_error_code"> </string>
@@ -247,6 +253,13 @@
     <string name="permission_camera_denied">Отказан доступ к камере</string>
     <string name="permission_camera_neverask">Не показывать никогда</string>
     <string name="need_avatar_to_work_properly">Необходима фотография для опознания. Перейти к профилю для загрузки фотографий?</string>
+    <string name="need_avatar_to_work_properly_register">Необходима фотография для идентификации.</string>
     <string name="confirm_password">Подтверждение пароля</string>
     <string name="confirm_password_not_match">Пароли не совпадают</string>
+    <string name="email_already_exists">Пользователь с таким емайлом уже существует</string>
+    <string name="next">Далее</string>
+    <string name="firstNameFieldCantBeEmpty">Поле имя не может быть пустым</string>
+    <string name="lastNameFieldCantBeEmpty">Поле фамилия не может быть пустым</string>
+    <string name="patronymicFieldCantBeEmpty">Поле отчество не может быть пустым</string>
+    <string name="user_iin_format">Формат ИИН не правильный</string>
 </resources>

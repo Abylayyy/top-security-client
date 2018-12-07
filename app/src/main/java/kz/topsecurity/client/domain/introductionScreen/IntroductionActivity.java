@@ -1,13 +1,9 @@
-package kz.topsecurity.client.introductionScreen;
+package kz.topsecurity.client.domain.introductionScreen;
 
 import android.animation.ArgbEvaluator;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -16,8 +12,8 @@ import android.widget.TextView;
 
 import kz.topsecurity.client.R;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
-import kz.topsecurity.client.introductionScreen.adapter.OnboardingAdapter;
-import kz.topsecurity.client.introductionScreen.transformer.OnboardingPageTransformer;
+import kz.topsecurity.client.domain.introductionScreen.adapter.OnboardingAdapter;
+import kz.topsecurity.client.domain.introductionScreen.transformer.OnboardingPageTransformer;
 
 public class IntroductionActivity extends AppCompatActivity {
 

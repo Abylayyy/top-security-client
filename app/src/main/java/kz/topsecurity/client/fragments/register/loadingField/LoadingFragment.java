@@ -29,5 +29,4 @@ public class LoadingFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         // TODO: Use the ViewModel
     }
-
 }

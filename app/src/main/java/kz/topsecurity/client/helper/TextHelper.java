@@ -5,6 +5,8 @@ import kz.topsecurity.client.R;
 public class TextHelper {
     public static int getErrorMessage(int code){
         switch (code){
+            case -2 : return R.string.msg_alert_no_internet;
+
             case Constants.ERROR_STATES.WRONG_PASSWORD_CODE: return R.string.wrong_password_code;
 
             case Constants.ERROR_STATES.NOT_AUTHENTICATED_CODE: return R.string.not_authenticated_code;
@@ -31,7 +33,7 @@ public class TextHelper {
 
             case Constants.ERROR_STATES.PROFILE_SUCCESSFUL_SAVED_CODE: return R.string.profile_successful_saved_code;
 
-            case Constants.ERROR_STATES.PHOTO_SUCCESSFUL_SAVED_CODE: return R.string.photo_successful_saved_code;
+            case Constants.ERROR_STATES.PHOTO_SUCCESSFUL_SAVED_CODE: return R.string.photo_successful_updated_code;
 
             case Constants.ERROR_STATES.SECRET_SUCCESS_SAVED_CODE: return R.string.secret_success_saved_code;
 
@@ -62,6 +64,12 @@ public class TextHelper {
             case Constants.ERROR_STATES.ALERT_SUCCESSFUL_CHECKED_CODE: return R.string.alert_successful_checked_code;
 
             case Constants.ERROR_STATES.ALERT_SUCCESSFUL_CANCELLED_CODE: return R.string.alert_successful_cancelled_code;
+
+            case Constants.ERROR_STATES.PHONE_ALREADY_EXISTS_CODE: return R.string.telephone_number_exist;
+
+            case Constants.ERROR_STATES.EMAIL_ALREADY_EXISTS_CODE: return R.string.email_already_exists;
+            //case Constants.ERROR_STATES.PHONE_NOT_EXISTS_CODE: return R.string.alert_successful_cancelled_code;
+
             default: return R.string.error_from_server;
         }
     }

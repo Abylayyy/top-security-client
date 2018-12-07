@@ -42,7 +42,7 @@ public class PaymentActivity extends BaseActivity {
     WebView wv_payment_site;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     boolean userMadePayment = false;
-
+    String startURL = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +67,7 @@ public class PaymentActivity extends BaseActivity {
                                 finish();
                             } else {
                                 if(r.getUrl()!=null){
+                                    startURL = r.getUrl();
                                     initWebView(r.getUrl());
                                 }
                                 hideProgressDialog();

@@ -7,6 +7,7 @@ import android.support.multidex.MultiDexApplication;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.firebase.FirebaseApp;
+import com.microblink.MicroblinkSDK;
 
 import net.gotev.uploadservice.UploadService;
 

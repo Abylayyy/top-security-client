@@ -1,9 +1,9 @@
 package kz.topsecurity.client.view.registerView.fragmentsView;
 
 public interface AdditionalRegistrationFieldsView {
-    void onUserNameError(int error);
+    void onUser_IIN_Error(int error);
     void onEmailError(int error);
     void onLockRegisterButton();
-    void onFieldsCorrect(String userEmail, String userName);
+    void onFieldsCorrect(String userEmail, String userIIN);
     void onFieldsWrong(int error);
 }

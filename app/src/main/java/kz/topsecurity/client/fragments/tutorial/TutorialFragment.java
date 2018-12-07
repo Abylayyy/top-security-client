@@ -78,7 +78,7 @@ public class TutorialFragment extends Fragment {
                 break;
             }
             default:{
-                finishFragment();
+                closeFragment();
                 return false;
             }
         }
@@ -147,6 +147,11 @@ public class TutorialFragment extends Fragment {
         if(iv_tuts==null || tv_tuts_desc==null || tv_tuts_title == null)
             return;
         setDataToViews();
+        if(getContext()==null)
+        {
+            closeFragment();
+            return;
+        }
         Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -254,12 +259,42 @@ public class TutorialFragment extends Fragment {
 
     void checkTutsStatus(){
         SharedPreferencesManager.setShownTutsList(getContext(),shownTutsList);
+
         if(shownTutsList.size() >= 6){
             SharedPreferencesManager.setIsTutsShown(getContext(), true);
+        }
+
+        if(shownTutsList.contains(ALERT_PAGE) && shownTutsList.contains(CANCEL_ALERT_PAGE)){
+            SharedPreferencesManager
+                    .setIsTutsShown(getContext(),
+                            SharedPreferencesManager.TutsPages.MAIN_PAGE,
+                            true);
+        }
+        if(shownTutsList.contains(PLACES_PAGE)){
+            SharedPreferencesManager
+                    .setIsTutsShown(getContext(),
+                            SharedPreferencesManager.TutsPages.PLACES_PAGE,
+                            true);
+        }
+        if(shownTutsList.contains(CONTACTS_PAGE)){
+            SharedPreferencesManager
+                    .setIsTutsShown(getContext(),
+                            SharedPreferencesManager.TutsPages.CONTACTS_PAGE,
+                            true);
+        }
+        if(shownTutsList.contains(SETTINGS_PAGE) && shownTutsList.contains(VOLUME_BUTTON_PAGE)){
+            SharedPreferencesManager
+                    .setIsTutsShown(getContext(),
+                            SharedPreferencesManager.TutsPages.SETTTINGS_PAGE,
+                            true);
         }
     }
 
     private void finishFragment() {
+        if(getContext()==null){
+            closeFragment();
+            return;
+        }
         Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out_fast);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -282,7 +317,16 @@ public class TutorialFragment extends Fragment {
         cl_main_container.startAnimation(animation);
     }
 
+    void closeFragment(){
+        if(mListener!=null)
+            mListener.onOkButtonClick();
+    }
+
     private void hideCurrentPage() {
+        if(getContext()==null){
+            closeFragment();
+            return;
+        }
         btn_ok.setEnabled(false);
         Animation fade_out = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
         fade_out.setAnimationListener(new Animation.AnimationListener() {
@@ -357,10 +401,14 @@ public class TutorialFragment extends Fragment {
         iv_tuts.startAnimation(fade_out_fast);
         tv_tuts_desc.startAnimation(fade_out2);
         btn_ok.startAnimation(fade_out3);
-        new Handler().postDelayed(afterHideAnimation,1500);
+        new Handler().postDelayed(afterHideAnimation,700);
     }
 
     private void animateElements() {
+        if(getContext()==null){
+            closeFragment();
+            return;
+        }
         stopAnimations();
         btn_ok.setEnabled(true);
         Animation scaleFadeIn = AnimationUtils.loadAnimation(getContext(), R.anim.scale_fade_anim);
@@ -386,6 +434,10 @@ public class TutorialFragment extends Fragment {
     }
 
     private void animateTexts() {
+        if(getContext()==null) {
+            finishFragment();
+            return;
+        }
         Animation fade_in = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
         fade_in.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -412,11 +464,15 @@ public class TutorialFragment extends Fragment {
 
     Handler handler;
     Runnable r ;
-    private static final int delayMillis  = 1000;
+    private static final int delayMillis  = 500;
 
     private void showButton() {
         if(handler!=null && r!=null)
             handler.removeCallbacks(r);
+        if(getContext()==null){
+            closeFragment();
+            return;
+        }
         handler = new Handler();
         r = () -> {
             btn_ok.setVisibility(View.VISIBLE);
@@ -459,6 +515,10 @@ public class TutorialFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        if(getContext()==null){
+            closeFragment();
+            return;
+        }
         if(SharedPreferencesManager.getIsTutsShown(getContext()))
         {
             finishFragment();
@@ -507,6 +567,10 @@ public class TutorialFragment extends Fragment {
     }
 
     void stopAnimations(){
+        if(getContext()==null){
+            closeFragment();
+            return;
+        }
         if(handler!=null && r!=null)
             handler.removeCallbacks(r);
         iv_tuts.clearAnimation();
@@ -519,6 +583,10 @@ public class TutorialFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if(getContext()==null){
+            closeFragment();
+            return;
+        }
         stopAnimations();
         unbinder.unbind();
     }

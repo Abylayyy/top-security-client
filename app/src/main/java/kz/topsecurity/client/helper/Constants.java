@@ -126,6 +126,9 @@ public class Constants {
         public static final int ALERT_SUCCESSFUL_CREATED_CODE = 4001;
         public static final int ALERT_SUCCESSFUL_CHECKED_CODE = 4002;
         public static final int ALERT_SUCCESSFUL_CANCELLED_CODE = 4003;
+        public static final int PHONE_ALREADY_EXISTS_CODE = 14101;
+        public static final int PHONE_NOT_EXISTS_CODE = 14102;
+        public static final int EMAIL_ALREADY_EXISTS_CODE = 15101;
     }
 
     public class ALERT_STATUS{

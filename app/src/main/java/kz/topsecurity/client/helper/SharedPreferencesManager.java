@@ -43,6 +43,16 @@ public class SharedPreferencesManager {
     private static final String IS_GPS_ACTIVE_KEY = "IS_GPS_ACTIVE_KEY";
     private static final String IS_PAYMENT_ACTIVE_KEY = "IS_PAYMENT_ACTIVE_KEY";
     private static final String TMP_SENDED_PHONE = "TMP_SENDED_PHONE";
+    private static final String IS_TUTS_SHOWN = "IS_TUTS_SHOWN_";
+
+    public class TutsPages{
+        public static final String MAIN_PAGE = "MAIN_PAGE";
+        public static final String PLACES_PAGE = "PLACES_PAGE";
+        public static final String CONTACTS_PAGE = "CONTACTS_PAGE";
+        public static final String SETTTINGS_PAGE = "SETTTINGS_PAGE";
+    }
+
+
     // other properties...
 
 
@@ -169,6 +179,10 @@ public class SharedPreferencesManager {
         setIsServiceSendingAlert(context,false);
         setIsServiceActive(context,false);
         setUserPaymentIsActive(context,false);
+        setIsTutsShown(context,TutsPages.MAIN_PAGE,false);
+        setIsTutsShown(context,TutsPages.PLACES_PAGE,false);
+        setIsTutsShown(context,TutsPages.CONTACTS_PAGE,false);
+        setIsTutsShown(context,TutsPages.SETTTINGS_PAGE,false);
     }
 
     public static String getPhoneImei(Context context){
@@ -370,6 +384,20 @@ public class SharedPreferencesManager {
     public static void setTmpSendedCode(Context context, String userPhone) {
         final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
         editor.putString(TMP_SENDED_PHONE, userPhone);
+        //editor.apply();
+        boolean isSuccessful = editor.commit();
+        if(!isSuccessful){
+            Log.e(TAG,"Put value failed");
+        }
+    }
+
+    public static boolean getIsTutsShown(Context context,String type){
+        return getSharedPreferences(context).getBoolean(IS_TUTS_SHOWN+type,false);
+    }
+
+    public static void setIsTutsShown(Context context,String type , boolean state){
+        final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putBoolean(IS_TUTS_SHOWN+type, state);
         //editor.apply();
         boolean isSuccessful = editor.commit();
         if(!isSuccessful){

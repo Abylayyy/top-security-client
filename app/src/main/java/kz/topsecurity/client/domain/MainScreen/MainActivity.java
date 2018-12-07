@@ -100,7 +100,6 @@ public class MainActivity extends ServiceControlActivity
     private static final int ALERT_HISTORY_CODE = 175;
     private static final int ABOUT_CODE = 818;
 
-
     AnimatorSet rippleAnimatorSet, circleAnimatorSet;
     RotateAnimation carAnimation  ;
     int currentAnimationState = -1;
@@ -133,9 +132,9 @@ public class MainActivity extends ServiceControlActivity
             }
             case PAYMENT_REQUEST_CODE:{
                 if (resultCode == Activity.RESULT_OK) {
-                    if(checkIfUserPhotoIsNessesarry()){
-                        showAddYourPhotoDialog();
-                    }
+//                    if(checkIfUserPhotoIsNessesarry()){
+////                        showAddYourPhotoDialog();
+//                    }
                 }
                 if(!SharedPreferencesManager.getUserPaymentIsActive(this)){
                     presenter.checkPlan();
@@ -152,36 +151,36 @@ public class MainActivity extends ServiceControlActivity
         return (isUserMadePayment &&( imageStringUri==null || imageStringUri.isEmpty()));
     }
 
-    private void showAddYourPhotoDialog() {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
-        if (prev != null) {
-            ft.remove(prev);
-        }
-        ft.addToBackStack(null);
-        needAvatarToWorkProperlyDialog = new CustomSimpleDialog();
-
-        Bundle arg = new Bundle();
-        arg.putString(CustomSimpleDialog.DIALOG_MESSAGE, getString(R.string.need_avatar_to_work_properly));
-
-        needAvatarToWorkProperlyDialog.setArguments(arg);
-        needAvatarToWorkProperlyDialog.setCancelable(false);
-        needAvatarToWorkProperlyDialog.setListener(new CustomSimpleDialog.Callback() {
-            @Override
-            public void onCancelBtnClicked() {
-                if(needAvatarToWorkProperlyDialog!=null)
-                    needAvatarToWorkProperlyDialog.dismiss();
-            }
-
-            @Override
-            public void onPositiveBtnClicked() {
-                ll_profile.performClick();
-                if(needAvatarToWorkProperlyDialog!=null)
-                    needAvatarToWorkProperlyDialog.dismiss();
-            }
-        });
-        needAvatarToWorkProperlyDialog.show(ft, "dialog");
-    }
+//    private void showAddYourPhotoDialog() {
+//        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//        Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
+//        if (prev != null) {
+//            ft.remove(prev);
+//        }
+//        ft.addToBackStack(null);
+//        needAvatarToWorkProperlyDialog = new CustomSimpleDialog();
+//
+//        Bundle arg = new Bundle();
+//        arg.putString(CustomSimpleDialog.DIALOG_MESSAGE, getString(R.string.need_avatar_to_work_properly));
+//
+//        needAvatarToWorkProperlyDialog.setArguments(arg);
+//        needAvatarToWorkProperlyDialog.setCancelable(false);
+//        needAvatarToWorkProperlyDialog.setListener(new CustomSimpleDialog.Callback() {
+//            @Override
+//            public void onCancelBtnClicked() {
+//                if(needAvatarToWorkProperlyDialog!=null)
+//                    needAvatarToWorkProperlyDialog.dismiss();
+//            }
+//
+//            @Override
+//            public void onPositiveBtnClicked() {
+//                ll_profile.performClick();
+//                if(needAvatarToWorkProperlyDialog!=null)
+//                    needAvatarToWorkProperlyDialog.dismiss();
+//            }
+//        });
+//        needAvatarToWorkProperlyDialog.show(ft, "dialog");
+//    }
 
     @Override
     public void exitFromMainScreen(){
@@ -191,15 +190,7 @@ public class MainActivity extends ServiceControlActivity
 
     @Override
     public void userPlanChanged(boolean isActive) {
-        if(isActive){
-            openProfileForcedToLoadAvatar();
-        }
-    }
-
-    private void openProfileForcedToLoadAvatar(){
-        Intent intent = new Intent(this, ProfileActivity.class);
-        intent.putExtra(ProfileActivity.FORCED_LOAD_AVATAR,true);
-        startActivityForResult(intent,PROFILE_REQUEST_CODE);
+        showCallAlertView();
     }
 
     @Override
@@ -311,8 +302,8 @@ public class MainActivity extends ServiceControlActivity
         btn_alert.setEnabled(false);
         presenter.checkStatus();
         checkTutsStatus(savedInstanceState);
-        if(checkIfUserPhotoIsNessesarry() && SharedPreferencesManager.getIsTutsShown(this))
-            showAddYourPhotoDialog();
+//        if(checkIfUserPhotoIsNessesarry() && SharedPreferencesManager.getIsTutsShown(this))
+//            showAddYourPhotoDialog();
 
     }
 

@@ -4,33 +4,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 import kz.topsecurity.client.R;
 import kz.topsecurity.client.domain.MainScreen.MainActivity;
-import kz.topsecurity.client.domain.PaymentScreen.PaymentActivity;
-import kz.topsecurity.client.domain.RegisterScreen.RegisterActivity;
 import kz.topsecurity.client.domain.LoginScreen.LoginActivity;
+import kz.topsecurity.client.domain.RegisterScreen.SignUpActivity;
 import kz.topsecurity.client.domain.base.BaseActivity;
-import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
 import kz.topsecurity.client.helper.dataBase.DataBaseManager;
 import kz.topsecurity.client.helper.dataBase.DataBaseManagerImpl;
-import kz.topsecurity.client.introductionScreen.IntroductionActivity;
+import kz.topsecurity.client.domain.introductionScreen.IntroductionActivity;
 import kz.topsecurity.client.model.auth.GetClientResponse;
-import kz.topsecurity.client.model.other.BasicResponse;
 import kz.topsecurity.client.model.other.Client;
 import kz.topsecurity.client.service.api.RequestService;
 import kz.topsecurity.client.service.api.RetrofitClient;
-import retrofit2.Retrofit;
 
 public class StartActivity extends BaseActivity implements View.OnClickListener {
 
@@ -184,7 +177,8 @@ public class StartActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void register() {
-        startActivity(new Intent(this,RegisterActivity.class));
+//        startActivity(new Intent(this,RegisterActivity.class));
+        startActivity(new Intent(this,SignUpActivity.class));
         finish();
     }
 

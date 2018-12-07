@@ -31,8 +31,8 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="48dp"
-                app:layout_constraintBottom_toTopOf="@+id/privacy_policy"
+                android:layout_marginTop="20dp"
+                app:layout_constraintBottom_toTopOf="@+id/btn_sign_up"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_reg">
@@ -47,29 +47,24 @@
 
                     <!-- Username block -->
                     <TextView
-                        android:id="@+id/tv_user_name"
+                        android:id="@+id/tv_user_IIN"
                         android:layout_width="wrap_content"
                         android:layout_height="17dp"
                         android:layout_marginTop="14dp"
-                        android:text="@string/username"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_phone_number_error" />
+                        android:text="@string/user_iin"/>
 
                     <kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditText
-                        android:id="@+id/ed_username"
+                        android:id="@+id/ed_user_IIN"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_marginTop="4dp"
                         android:gravity="center"
-                        android:hint="@string/username"
-                        android:inputType="text"
+                        android:hint="@string/user_iin"
+                        android:inputType="number"
                         android:maxLines="1"
+                        android:maxLength="12"
                         android:paddingLeft="25dp"
                         android:paddingRight="25dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_user_name"
                         app:libIZO_clearIconTint="#8f1f15"
                         app:libIZO_setBorderColor="#c4c4c4"
                         app:libIZO_setBorderColorError="@color/colorAccent"
@@ -80,16 +75,13 @@
                         app:libIZO_setStrokeWidth="2dp" />
 
                     <TextView
-                        android:id="@+id/tv_user_name_error"
+                        android:id="@+id/tv_user_IIN_error"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="@string/username"
+                        android:text="@string/user_iin"
                         android:textColor="@color/colorAccent"
-                        android:visibility="gone"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/ed_username" />
+                        android:visibility="gone" />
 
                     <!-- Email block -->
 
@@ -98,10 +90,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
-                        android:text="@string/email"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_user_name_error" />
+                        android:text="@string/email" />
 
                     <kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditText
                         android:id="@+id/ed_email"
@@ -114,9 +103,6 @@
                         android:maxLines="1"
                         android:paddingLeft="25dp"
                         android:paddingRight="25dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_email"
                         app:libIZO_clearIconTint="#8f1f15"
                         app:libIZO_setBorderColor="#c4c4c4"
                         app:libIZO_setBorderColorError="@color/colorAccent"
@@ -133,49 +119,19 @@
                         android:layout_marginTop="4dp"
                         android:text="@string/email"
                         android:textColor="@color/colorAccent"
-                        android:visibility="gone"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/ed_email" />
+                        android:visibility="gone" />
 
                 </LinearLayout>
             </ScrollView>
-            <LinearLayout
-                android:id="@+id/privacy_policy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/btn_sign_up"
-                android:layout_marginBottom="18dp"
-                android:layout_marginEnd="8dp"
-                android:paddingLeft="50dp"
-                android:paddingRight="50dp"
-                android:gravity="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintLeft_toRightOf="parent"
-                app:layout_constraintRight_toLeftOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginRight="8dp">
-                <CheckBox
-                    android:padding="10dp"
-                    android:id="@+id/cb_privacy_policy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"/>
-                <TextView
-                    android:id="@+id/tv_privacy_policy"
-                    android:text="@string/privacy_policy"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
             <Button
                 android:id="@+id/btn_sign_up"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/button_grad_bg"
-                android:text="@string/register"
+                android:text="@string/next"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

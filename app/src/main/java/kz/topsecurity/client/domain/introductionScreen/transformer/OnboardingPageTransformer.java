@@ -1,8 +1,7 @@
-package kz.topsecurity.client.introductionScreen.transformer;
+package kz.topsecurity.client.domain.introductionScreen.transformer;
 
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.ImageView;
 
 import kz.topsecurity.client.R;
 

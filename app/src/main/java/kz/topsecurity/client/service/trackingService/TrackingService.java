@@ -608,12 +608,12 @@ public class TrackingService extends Service implements TrackingServiceView {
         views.setImageViewResource(R.id.iv_app_icon, customNotificationViewHolder.notif_icon);
 
 
-        views.setTextViewText(R.id.tv_service_status, customNotificationViewHolder.topText);
+//        views.setTextViewText(R.id.tv_service_status, customNotificationViewHolder.topText);
         views.setTextViewText(R.id.tv_service_msg, customNotificationViewHolder.bottomText);
 
-        views.setTextColor(R.id.tv_service_status ,customNotificationViewHolder.topTextColor);
+//        views.setTextColor(R.id.tv_service_status ,customNotificationViewHolder.topTextColor);
         views.setTextColor(R.id.tv_service_msg, customNotificationViewHolder.bottomTextColor);
-        views.setImageViewResource(R.id.iv_status,customNotificationViewHolder.bottomIcon);
+//        views.setImageViewResource(R.id.iv_status,customNotificationViewHolder.bottomIcon);
 
         views.setTextViewText(R.id.tv_alert_btn,customNotificationViewHolder.btn_text);
 //        if(SharedPreferencesManager.getUserPaymentIsActive(TopSecurityClientApplication.getInstance())) {

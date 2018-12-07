@@ -72,6 +72,29 @@ public abstract class BaseActivity
             return;
         if(findViewById(R.id.fl_tuts_fragment_container) == null)
             return;
+        String tutsPage = "";
+        switch (type){
+            case TutorialFragment.MAIN_ACTIVITY:{
+                tutsPage = SharedPreferencesManager.TutsPages.MAIN_PAGE;
+                break;
+            }
+            case TutorialFragment.CONTACTS_ACTIVITY:{
+                tutsPage = SharedPreferencesManager.TutsPages.CONTACTS_PAGE;
+                break;
+            }
+            case TutorialFragment.PLACES_ACTIVITY:{
+                tutsPage = SharedPreferencesManager.TutsPages.PLACES_PAGE;
+                break;
+            }
+            case TutorialFragment.SETTINGS_ACTIVITY:{
+                tutsPage = SharedPreferencesManager.TutsPages.SETTTINGS_PAGE;
+                break;
+            }
+        }
+
+        if(!tutsPage.isEmpty() && SharedPreferencesManager.getIsTutsShown(this,tutsPage))
+            return;
+
         try {
             // Create a new Fragment to be placed in the activity layout
             findViewById(R.id.fl_tuts_fragment_container).setVisibility(View.VISIBLE);
@@ -137,32 +160,7 @@ public abstract class BaseActivity
         showToast(getString(textMsgResId));
     }
 
-    public boolean isNetworkOnline() {
-        boolean status=false;
-        WeakReference data = null;
-        try{
-            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            data = new WeakReference<ConnectivityManager>(cm);
-            if(cm!=null) {
-                NetworkInfo netInfo = cm.getNetworkInfo(0);
-                if (netInfo != null && netInfo.getState() == NetworkInfo.State.CONNECTED) {
-                    status = true;
-                } else {
-                    netInfo = cm.getNetworkInfo(1);
-                    if (netInfo != null && netInfo.getState() == NetworkInfo.State.CONNECTED)
-                        status = true;
-                }
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-            return false;
-        }
-        finally {
-            if(data!=null)
-                data.clear();
-        }
-        return status;
-    }
+
 
     @Override
     public void onShowSnackbar(int resMsg, int resActionTxt, View.OnClickListener listener) {

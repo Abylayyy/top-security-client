@@ -219,7 +219,9 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
             loginUser();
         else{
             isSuccess = true;
-            startActivity(new Intent(this, LoginActivity.class));
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.putExtra(LoginActivity.PHONE_EXTRA,sendedPhone);
+            startActivity(intent);
             System.gc();
             finish();
         }

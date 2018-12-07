@@ -1,12 +1,15 @@
 package kz.topsecurity.client.domain.base;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import kz.topsecurity.client.R;
 
 public abstract class BaseFragmentActivity extends HelperActivity {
+
+    private static final String BACK_STACK_ROOT_TAG = "root_fragment";
 
     protected String addFragment(Fragment fragment,String fragmentTag){
         addFragment(R.id.fragment_container,fragment,fragmentTag);
@@ -18,7 +21,12 @@ public abstract class BaseFragmentActivity extends HelperActivity {
     }
 
     protected void replaceFragment(Fragment fragment){
-        replaceFragment(R.id.fragment_container,fragment);
+        replaceFragment(R.id.fragment_container,fragment,"none",false);
+    }
+
+    protected String replaceFragment(Fragment fragment, String fragmentTag, boolean withBackStack){
+        replaceFragment(R.id.fragment_container,fragment,fragmentTag,withBackStack);
+        return fragmentTag;
     }
 
     protected void previousFragment(){
@@ -32,11 +40,16 @@ public abstract class BaseFragmentActivity extends HelperActivity {
         }
     }
 
-    private void replaceFragment(int view_id, Fragment fragment){
+    private void replaceFragment(int view_id, Fragment fragment, String fragmentTag, boolean withBackStack){
         if(findViewById(view_id)!=null){
+            FragmentManager fragmentManager = getSupportFragmentManager();
+
             FragmentTransaction transaction  = getSupportFragmentManager().beginTransaction();
-            transaction.replace(view_id, fragment);
-            transaction.addToBackStack(null);
+            if(withBackStack){
+                fragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                transaction.addToBackStack(BACK_STACK_ROOT_TAG);
+            }
+            transaction.replace(view_id, fragment,fragmentTag);
             transaction.commit();
         }
     }

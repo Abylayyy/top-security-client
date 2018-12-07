@@ -207,4 +207,36 @@ public interface ApiService {
     @POST("client/register/confirm")
     Observable<BasicResponse> confirmCode( @Field("verification_code") String verification_code);
 
+    @FormUrlEncoded
+    @POST("client/register/phone")
+    Observable<BasicResponse> checkPhone(@Field("phone") String phone);
+
+    @FormUrlEncoded
+    @POST("client/register/email")
+    Observable<BasicResponse> checkEmail(@Field("email") String phone);
+
+    @Multipart
+    @POST("client/register/photo")
+    Observable<PhotoResponse> uploadPhotoForRegistration(@Header("Authorization") String token, @Part MultipartBody.Part filePart);
+
+
+    @FormUrlEncoded
+    @POST("client/register")
+    Observable<RegisterResponse> registerWithPhoto( @Field("phone") String phone,
+                                                    @Field("password") String password,
+                                                    @Field("email") String email,
+                                                    @Field("username") String username,
+                                                    @Field("photo") String photo);
+
+    @FormUrlEncoded
+    @POST("client/register/?v2=true")
+    Observable<RegisterResponse> registrationNew(@Field("phone") String phone,
+                                                 @Field("password") String password,
+                                                 @Field("email") String email,
+                                                 @Field("username") String username,
+                                                 @Field("photo") String photo,
+                                                 @Field("iin") String iin,
+                                                 @Field("firstname") String firstname,
+                                                 @Field("lastname") String lastname,
+                                                 @Field("patronymic") String patronymic);
 }

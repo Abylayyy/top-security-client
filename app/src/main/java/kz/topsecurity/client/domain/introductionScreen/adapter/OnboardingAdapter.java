@@ -1,10 +1,10 @@
-package kz.topsecurity.client.introductionScreen.adapter;
+package kz.topsecurity.client.domain.introductionScreen.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import kz.topsecurity.client.introductionScreen.fragment.OnboardingFragment;
+import kz.topsecurity.client.domain.introductionScreen.fragment.OnboardingFragment;
 
 public class OnboardingAdapter extends FragmentPagerAdapter {
     public OnboardingAdapter(FragmentManager fm) {
