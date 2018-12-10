@@ -89,7 +89,8 @@ public interface ApiService {
                                                 @Field("alt_barometer") Double alt_barometer,
                                                 @Field("charge") Integer charge,
                                                 @Field("address") String address,
-                                                @Field("timestamp") Integer timestamp);
+                                                @Field("timestamp") Integer timestamp,
+                                                @Field("type") String type);
 
     @POST("client/alert/cancel")
     Observable<CancelAlertResponse> cancelAlert(@Header("Authorization") String token);

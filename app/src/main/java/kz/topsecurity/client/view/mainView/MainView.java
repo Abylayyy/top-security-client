@@ -4,7 +4,7 @@ import kz.topsecurity.client.model.other.Client;
 import kz.topsecurity.client.view.base.BaseView;
 
 public interface MainView extends BaseView {
-    void onAlert();
+    void onAlert(int type);
     void onCancelAlert();
     void onStopAlert();
     void onAlertIsActive();

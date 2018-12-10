@@ -49,6 +49,8 @@ public class Constants {
     public static final String ALERT_CANCELED_ACTION = PACKAGE_NAME+".action.alert_stopped";
     public static final String ASK_TO_TURN_ON_GPS_ACTION = PACKAGE_NAME+".action.ask_gps";
     public static final String ASK_TO_TURN_ON_NETWORK_ACTION = PACKAGE_NAME+".action.ask_network";
+    public static final String CALL_AMBULANCE_ACTION = PACKAGE_NAME +".action.call_ambulance";
+    public static final String REQUEST_CALL_ACTION = PACKAGE_NAME +".action.request_call";
 
     public static final String CLIENT_DEVICE_TYPE = "mobile";
     public static final String CLIENT_DEVICE_PLATFORM_TYPE = "android";

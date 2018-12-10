@@ -93,7 +93,7 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
     @Override
     public void callAlert(){
         isAlertActive = true;
-        view.onAlert();
+        view.onAlert(0);
     }
 
     @Override
@@ -247,5 +247,21 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
                         e -> {
                         });
         compositeDisposable.add(success);
+    }
+
+    @Override
+    public void callAmbulance() {
+        if(isAlertActive)
+            return;
+
+        view.onAlert(2);
+    }
+
+    @Override
+    public void callMeBack() {
+        if(isAlertActive)
+            return;
+
+        view.onAlert(1);
     }
 }

@@ -158,6 +158,22 @@ public class TrackingService extends Service implements TrackingServiceView {
                 presenter.callAlert(data);
                 break;
             }
+            case Constants.CALL_AMBULANCE_ACTION:{
+                if(SharedPreferencesManager.getUserPaymentIsActive(TopSecurityClientApplication.getInstance())) {
+                    setAlertStatus();
+                    Constants.is_service_sending_alert(true);
+                }
+                presenter.callAlert(data,2);
+                break;
+            }
+            case Constants.REQUEST_CALL_ACTION:{
+                if(SharedPreferencesManager.getUserPaymentIsActive(TopSecurityClientApplication.getInstance())) {
+                    setAlertStatus();
+                    Constants.is_service_sending_alert(true);
+                }
+                presenter.callAlert(data,1);
+                break;
+            }
             case Constants.ALERT_ACTIVE_ACTION:{
                 setAlertSendStatus();
                 break;

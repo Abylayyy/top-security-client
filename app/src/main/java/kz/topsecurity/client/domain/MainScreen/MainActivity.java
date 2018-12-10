@@ -90,6 +90,8 @@ public class MainActivity extends ServiceControlActivity
     @BindView(R.id.iv_circle2) ImageView iv_circle2;
     @BindView(R.id.iv_dash_circle) ImageView iv_dash_circle;
     @BindView(R.id.iv_icon) ImageView iv_icon;
+    @BindView(R.id.btn_call_me_back) Button btn_call_me_back;
+    @BindView(R.id.btn_call_ambulance) Button btn_call_ambulance;
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -283,6 +285,8 @@ public class MainActivity extends ServiceControlActivity
         btn_cancel_alert.setOnClickListener(this);
         btn_minimize_app.setOnClickListener(this);
         iv_user_avatar.setOnClickListener(this);
+        btn_call_me_back.setOnClickListener(this);
+        btn_call_ambulance.setOnClickListener(this);
         initPresenter(new MainPresenterImpl(this));
         presenter.logToken();
 
@@ -763,6 +767,21 @@ public class MainActivity extends ServiceControlActivity
                 minimizeApp();
                 break;
             }
+            case R.id.btn_call_me_back:{
+                if(!checkNetwork()){
+                    return;
+                }
+                presenter.callMeBack();
+                break;
+            }
+            case R.id.btn_call_ambulance:{
+                if(!checkNetwork()){
+                    return;
+                }
+                presenter.callAmbulance();
+
+                break;
+            }
             default:{
                 showToast("Not exits");
                 break;
@@ -787,12 +806,42 @@ public class MainActivity extends ServiceControlActivity
     }
 
     @Override
-    public void onAlert() {
-        btn_cancel_alert.setEnabled(false);
-        sendAlert();
+    public void onAlert(int type) {
+        if(type==0) {
+            btn_cancel_alert.setEnabled(false);
+            sendAlert(type);
+        }
+        else if(type == 1){
+            btn_cancel_alert.setEnabled(false);
+            requestCall();
+        }
+        else if (type == 2){
+            btn_cancel_alert.setEnabled(false);
+            callAmbulance();
+        }
+        hideAdditionalBtns();
     }
 
-    void sendAlert(){
+    private void hideAdditionalBtns() {
+        btn_call_ambulance.setVisibility(View.GONE);
+        btn_call_me_back.setVisibility(View.GONE);
+    }
+
+
+    private void showAdditionalBtns() {
+        btn_call_ambulance.setVisibility(View.VISIBLE);
+        btn_call_me_back.setVisibility(View.VISIBLE);
+    }
+
+    private void callAmbulance() {
+        sendAlert(2);
+    }
+
+    private void requestCall() {
+        sendAlert(1);
+    }
+
+    void sendAlert(int type){
         if(!SharedPreferencesManager.getUserPaymentIsActive(this)) {
             showAreYouSureDialog(getString(R.string.user_do_not_make_the_payment_to_call_alert), new CustomSimpleDialog.Callback() {
                 @Override
@@ -809,7 +858,12 @@ public class MainActivity extends ServiceControlActivity
             return;
         }
         Intent intent = new Intent(this, TrackingService.class);
-        intent.setAction(Constants.ALERT_ACTION);
+        if(type == 0)
+            intent.setAction(Constants.ALERT_ACTION);
+        else if(type == 1)
+            intent.setAction(Constants.REQUEST_CALL_ACTION);
+        else if(type == 2)
+            intent.setAction(Constants.CALL_AMBULANCE_ACTION);
         broadcastToService(intent);
     }
 
@@ -842,7 +896,7 @@ public class MainActivity extends ServiceControlActivity
                 btn_alert.setVisibility(View.VISIBLE);
                 btn_cancel_alert.setVisibility(View.GONE);
         });
-
+        showAdditionalBtns();
     }
 
     void showCancelAlertView(){

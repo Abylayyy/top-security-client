@@ -22,4 +22,8 @@ public interface MainPresenter extends BasePresenter {
     void exitFromApplication(Context context);
 
     void checkPlan();
+
+    void callAmbulance();
+
+    void callMeBack();
 }

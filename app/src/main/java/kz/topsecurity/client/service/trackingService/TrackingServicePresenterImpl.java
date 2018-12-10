@@ -337,6 +337,23 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
 //            setAlertSendError();
 //            return;
 //        }
+        callAlert(data,0);
+    }
+
+    void callAlert(DeviceData data, int type){
+//        if(data==null)
+//        {
+//            setAlertSendError();
+//            return;
+//        }
+        String str_type = "alert";
+        if(type==0)
+            str_type = "alert";
+        else if(type == 1)
+            str_type = "undefined";
+        else if (type == 2)
+            str_type = "ambulance";
+
         if(!SharedPreferencesManager.getUserPaymentIsActive(TopSecurityClientApplication.getInstance()))
         {
             setAlertSendError();
@@ -379,7 +396,8 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
                         data.getAltBarometer(),
                         data.getCharge(),
                         data.getStreetAddress(),
-                        data.getTimestamp()));
+                        data.getTimestamp(),
+                        str_type));
 
 
         compositeDisposable.add(success);
