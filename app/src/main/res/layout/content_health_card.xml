@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".domain.HealthCardScreen.HealthCardActivity"
+    tools:showIn="@layout/activity_health_card"
+    xmlns:tools="http://schemas.android.com/tools">
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_main_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!-- Date of Birth -->
+        <LinearLayout
+            android:id="@+id/ll_divider1"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="16dp"
+            android:background="@color/black"
+            android:orientation="vertical"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/tv_date_of_birth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:textSize="12sp"
+            android:text="@string/date_of_birth"
+            android:textColor="@color/colorSecondaryText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_divider1" />
+
+        <TextView
+            android:id="@+id/tv_edit_date_of_birth"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:clickable="false"
+            android:enabled="false"
+            android:focusable="false"
+            android:gravity="left"
+            android:text="@string/placeholder_date_of_birth"
+            android:textSize="14sp"
+            android:textColor="@color/colorPrimaryText"
+            android:maxLines="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_date_of_birth"/>
+        <FrameLayout
+            android:id="@+id/fl_date_of_birth_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/ll_divider1"
+            app:layout_constraintBottom_toTopOf="@+id/ll_divider2" />
+
+        <!-- Blood Group -->
+
+        <LinearLayout
+            android:id="@+id/ll_divider2"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="16dp"
+            android:background="@color/black"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_edit_date_of_birth" />
+        <TextView
+            android:id="@+id/tv_blood_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:textSize="12sp"
+            android:text="@string/blood_group"
+            android:textColor="@color/colorSecondaryText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_divider2" />
+
+        <TextView
+            android:id="@+id/tv_edit_blood_group"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:clickable="false"
+            android:enabled="false"
+            android:focusable="false"
+            android:gravity="left"
+            android:text="@string/placeholder_blood_group"
+            android:textSize="14sp"
+            android:textColor="@color/colorPrimaryText"
+            android:maxLines="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_blood_group"/>
+        <FrameLayout
+            android:id="@+id/fl_blood_group_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/ll_divider2"
+            app:layout_constraintBottom_toTopOf="@+id/ll_divider3" />
+
+        <!-- Weight -->
+
+        <LinearLayout
+            android:id="@+id/ll_divider3"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="16dp"
+            android:background="@color/black"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_edit_blood_group" />
+
+        <TextView
+            android:id="@+id/tv_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:textSize="12sp"
+            android:text="@string/weight"
+            android:textColor="@color/colorSecondaryText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_divider3" />
+
+        <TextView
+            android:id="@+id/tv_edit_weight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:clickable="false"
+            android:enabled="false"
+            android:focusable="false"
+            android:gravity="left"
+            android:text="@string/placeholder_weight"
+            android:textSize="14sp"
+            android:textColor="@color/colorPrimaryText"
+            android:maxLines="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_weight"/>
+        <FrameLayout
+            android:id="@+id/fl_weight_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/ll_divider3"
+            app:layout_constraintBottom_toTopOf="@+id/ll_divider4" />
+        <!-- Height-->
+
+        <LinearLayout
+            android:id="@+id/ll_divider4"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="16dp"
+            android:background="@color/black"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_edit_weight" />
+        <TextView
+            android:id="@+id/tv_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:textSize="12sp"
+            android:text="@string/height"
+            android:textColor="@color/colorSecondaryText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_divider4" />
+
+        <TextView
+            android:id="@+id/tv_edit_height"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:clickable="false"
+            android:enabled="false"
+            android:focusable="false"
+            android:gravity="left"
+            android:text="@string/placeholder_height"
+            android:textSize="14sp"
+            android:textColor="@color/colorPrimaryText"
+            android:maxLines="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_height"/>
+        <FrameLayout
+            android:id="@+id/fl_height_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/ll_divider4"
+            app:layout_constraintBottom_toTopOf="@+id/ll_divider5" />
+        <!--Allergic reaction-->
+
+        <LinearLayout
+            android:id="@+id/ll_divider5"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="16dp"
+            android:background="@color/black"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_edit_height" />
+        <TextView
+            android:id="@+id/tv_allergic_reaction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:textSize="12sp"
+            android:text="@string/allergic_reaction"
+            android:textColor="@color/colorSecondaryText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_divider5" />
+
+        <!--<TextView-->
+            <!--android:id="@+id/tv_edit_allergic_reaction"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginStart="16dp"-->
+            <!--android:layout_marginLeft="16dp"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--android:clickable="false"-->
+            <!--android:enabled="false"-->
+            <!--android:focusable="false"-->
+            <!--android:gravity="left"-->
+            <!--android:text="@string/placeholder_allergic_reaction"-->
+            <!--android:textSize="14sp"-->
+            <!--android:textColor="@color/colorPrimaryText"-->
+            <!--android:maxLines="1"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/tv_allergic_reaction"/>-->
+
+
+        <TextView
+            android:id="@+id/tv_edit_allergic_reaction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:enabled="false"
+            android:focusable="false"
+            android:gravity="start"
+            android:text="@string/placeholder_allergic_reaction"
+            android:textSize="14sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/colorPrimaryText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_allergic_reaction"
+            android:maxLines="1"/>
+        <FrameLayout
+            android:id="@+id/fl_allergic_reaction_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/ll_divider5"
+            app:layout_constraintBottom_toTopOf="@+id/ll_divider6" />
+
+        <!-- Drugs -->
+
+        <LinearLayout
+            android:id="@+id/ll_divider6"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="16dp"
+            android:background="@color/black"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_edit_allergic_reaction" />
+        <TextView
+            android:id="@+id/tv_drugs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:textSize="12sp"
+            android:text="@string/drugs"
+            android:textColor="@color/colorSecondaryText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_divider6" />
+
+        <TextView
+            android:id="@+id/tv_edit_drugs"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:clickable="false"
+            android:enabled="false"
+            android:focusable="false"
+            android:gravity="left"
+            android:text="@string/placeholder_drugs"
+            android:textSize="14sp"
+            android:textColor="@color/colorPrimaryText"
+            android:maxLines="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_drugs"/>
+
+        <FrameLayout
+            android:id="@+id/fl_drugs_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/ll_divider6"
+            app:layout_constraintBottom_toTopOf="@+id/ll_divider7" />
+
+        <!-- Disease -->
+
+        <LinearLayout
+            android:id="@+id/ll_divider7"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="16dp"
+            android:background="@color/black"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_edit_drugs" />
+        <TextView
+            android:id="@+id/tv_disease"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:textSize="12sp"
+            android:text="@string/disease"
+            android:textColor="@color/colorSecondaryText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_divider7" />
+
+        <TextView
+            android:id="@+id/tv_edit_disease"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:clickable="false"
+            android:enabled="false"
+            android:focusable="false"
+            android:gravity="left"
+            android:text="@string/placeholder_disease"
+            android:textSize="14sp"
+            android:textColor="@color/colorPrimaryText"
+            android:maxLines="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_disease"/>
+        <FrameLayout
+            android:id="@+id/fl_disease_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/ll_divider7"
+            app:layout_constraintBottom_toTopOf="@+id/ll_divider8" />
+
+        <LinearLayout
+            android:id="@+id/ll_divider8"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="16dp"
+            android:background="@color/black"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_edit_disease" />
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -56,6 +57,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import kz.topsecurity.client.R;
+import kz.topsecurity.client.domain.HealthCardScreen.HealthCardActivity;
 import kz.topsecurity.client.domain.MainScreen.MainActivity;
 import kz.topsecurity.client.domain.ProfileScreen.CropPhotoScreen.CropPictureActivity;
 import kz.topsecurity.client.domain.ProfileScreen.EditEmailScreen.EditEmailActivity;
@@ -84,11 +86,18 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     @BindView(R.id.btn_ok) Button btn_ok;
     @BindView(R.id.btn_cancel) Button btn_cancel;
     @BindView(R.id.rl_user_avatar) RelativeLayout rl_user_avatar;
-    @BindView(R.id.iv_edit_user_email) ImageView iv_edit_user_email;
-    @BindView(R.id.iv_edit_user_password) ImageView iv_edit_user_password;
+//    @BindView(R.id.iv_edit_user_email) ImageView iv_edit_user_email;
+//    @BindView(R.id.iv_edit_user_password) ImageView iv_edit_user_password;
+    @BindView(R.id.tv_edit_user_email) TextView tv_edit_user_email;
+    @BindView(R.id.tv_edit_user_password) TextView tv_edit_user_password;
+    @BindView(R.id.fl_email_container) FrameLayout fl_email_container;
+    @BindView(R.id.fl_password_container) FrameLayout fl_password_container;
+    @BindView(R.id.fl_healthcard_container) FrameLayout fl_healthcard_container;
     @BindView(R.id.iv_user_avatar) CircleImageView iv_user_avatar;
     @BindView(R.id.tv_add_secret_code) TextView tv_add_secret_code;
     @BindView(R.id.iv_upload_avatar) ImageView iv_upload_avatar;
+
+    private static final int HealthCardRequestCode = 48;
 
     String stringUri;
 
@@ -383,8 +392,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         btn_ok.setOnClickListener(this);
         btn_cancel.setOnClickListener(this);
         rl_user_avatar.setOnClickListener(this);
-        iv_edit_user_email.setOnClickListener(this);
-        iv_edit_user_password.setOnClickListener(this);
+        fl_email_container.setOnClickListener(this);
+        fl_password_container.setOnClickListener(this);
+        fl_healthcard_container.setOnClickListener(this);
         tv_add_secret_code.setOnClickListener(this);
         setUserData();
 
@@ -413,7 +423,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         }
         setAvatar(iv_user_avatar,userAvatar);
         checkAvatar(userAvatar);
-        ((EditText)findViewById(R.id.ed_edit_user_email)).setHint(clientData.getEmail());
+        ((TextView)findViewById(R.id.tv_edit_user_email)).setHint(clientData.getEmail());
     }
 
     void checkAvatar(String userAvatar){
@@ -456,16 +466,22 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 showChooser();
                 break;
             }
-            case (R.id.iv_edit_user_email):{
+            case (R.id.tv_add_secret_code):{
+                startActivity(new Intent(ProfileActivity.this, SetSecretCancelCodeActivity.class));
+                break;
+            }
+            case (R.id.fl_email_container):{
                 startActivityForResult((new Intent(this,EditEmailActivity.class)),CHANGE_EMAIL);
                 break;
             }
-            case (R.id.iv_edit_user_password):{
+
+            case (R.id.fl_password_container):{
                 startActivity(new Intent(ProfileActivity.this, EditPasswordActivity.class));
                 break;
             }
-            case (R.id.tv_add_secret_code):{
-                startActivity(new Intent(ProfileActivity.this, SetSecretCancelCodeActivity.class));
+
+            case (R.id.fl_healthcard_container):{
+                startActivityForResult(new Intent(ProfileActivity.this, HealthCardActivity.class),HealthCardRequestCode);
                 break;
             }
             default:{

@@ -85,13 +85,11 @@
             android:name=".domain.SplashScreen.SplashScreen"
             android:screenOrientation="portrait"
             android:theme="@style/SplashScreenTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-             <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
-
-
-             <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".domain.StartScreen.StartActivity"
@@ -240,6 +238,14 @@
         <activity
             android:name=".domain.RegisterScreen.SignUpActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".domain.HealthCardScreen.HealthCardActivity"
+            android:label="@string/title_activity_health_card"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".domain.HealthCardScreen.additionalScreen.ListInputActivity"
+            android:label="@string/title_activity_list_input"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

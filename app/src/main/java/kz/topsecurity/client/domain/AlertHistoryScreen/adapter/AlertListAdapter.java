@@ -99,7 +99,7 @@ public class AlertListAdapter extends RecyclerView.Adapter<AlertListAdapter.MyVi
             GlideApp.with(mContext)
                     .load("https://maps.googleapis.com/maps/api/staticmap" +
                             "?center="+ lat +","+ lng +
-                            "&zoom=13" +
+                            "&zoom=18" +
                             "&size=600x300" +
                             "&maptype=roadmap" +
                             "&markers=color:blue%7Tlabel:S%7C"+lat+","+lng +

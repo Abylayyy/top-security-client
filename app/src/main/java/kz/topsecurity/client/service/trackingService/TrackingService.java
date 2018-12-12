@@ -70,6 +70,8 @@ public class TrackingService extends Service implements TrackingServiceView {
     public static final int ACTION_OPERATOR_CANCELLED = 563;
     public static final int ACTION_MRRT_CHANGED_POSITION = 643;
     public static final int ACTION_OPERATOR_CREATED = 908;
+    public static final int ACTION_UNDEFINED_ALERT_SEND = 765;
+    public static final int ACTION_AMBULANCE_CALLED = 324;
 
     NotificationCompat.Builder notificationBuilder;
     NotificationManager mNotifyManager;
@@ -571,6 +573,39 @@ public class TrackingService extends Service implements TrackingServiceView {
                         .setBottomTextColor(darkGrey)
                         .setBottomIcon(R.drawable.ic_active)
                         .setBtn_text(getString(R.string.cancel));
+            }
+        }
+        else if(action_type==ACTION_AMBULANCE_CALLED || action_type == ACTION_UNDEFINED_ALERT_SEND)
+        {
+            views.setOnClickPendingIntent(R.id.rl_alert, null);
+            if (isPossibleToSendAlert()) {
+                isAlertActive = true;
+                SharedPreferencesManager.setAlertActive(this,true);
+
+                customNotificationViewHolder
+                        .setBg_btn(darkBlue)
+                        .setBg_color_info_container(lightPink)
+                        .setBtn_image(0)
+                        .setNotif_icon(R.drawable.ic_notification_white_bg)
+                        .setTopText("тревога отправлена")
+                        .setTopTextColor(colorWhite)
+                        .setBottomText("Тревога активна")
+                        .setBottomTextColor(darkGrey)
+                        .setBottomIcon(R.drawable.ic_active)
+                        .setBtn_text("");
+            }else{
+                //TODO: IT IS JUST AN PLACEHOLDER
+                customNotificationViewHolder
+                        .setBg_btn(darkBlue)
+                        .setBg_color_info_container(lightPink)
+                        .setBtn_image(0)
+                        .setNotif_icon(R.drawable.ic_notification_white_bg)
+                        .setTopText("тревога отправлена")
+                        .setTopTextColor(colorWhite)
+                        .setBottomText("Тревога активна")
+                        .setBottomTextColor(darkGrey)
+                        .setBottomIcon(R.drawable.ic_active)
+                        .setBtn_text("");
             }
         }
         else if(action_type == ACTION_GPS){

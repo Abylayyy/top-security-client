@@ -575,6 +575,18 @@ public class MainActivity extends ServiceControlActivity
 //                        rippleBackground./setRippleColor(getResources().getColor(R.color.colorAccent));
                         break;
                     }
+                    case TrackingService.ACTION_AMBULANCE_CALLED:{
+                        btn_cancel_alert.setEnabled(true);
+                        //TODO:ACTION BEHAVIOUR
+//                        rippleBackground./setRippleColor(getResources().getColor(R.color.colorAccent));
+                        break;
+                    }
+                    case TrackingService.ACTION_UNDEFINED_ALERT_SEND:{
+                        //TODO:ACTION BEHAVIOUR
+                        btn_cancel_alert.setEnabled(true);
+//                        rippleBackground./setRippleColor(getResources().getColor(R.color.colorAccent));
+                        break;
+                    }
                     case TrackingService.ACTION_STATUS_ALERT_FAILED:{
                         presenter.setAlertActive(false);
                         btn_alert.setEnabled(true);

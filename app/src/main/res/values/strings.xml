@@ -262,4 +262,25 @@
     <string name="lastNameFieldCantBeEmpty">Поле фамилия не может быть пустым</string>
     <string name="patronymicFieldCantBeEmpty">Поле отчество не может быть пустым</string>
     <string name="user_iin_format">Формат ИИН не правильный</string>
+    <string name="placeholder_iin">000000000000</string>
+    <string name="placeholder_fullname">Firstname Lastname Patroym</string>
+    <string name="healthcards">Мед. карта</string>
+    <string name="title_activity_health_card">HealthCardActivity</string>
+    <string name="date_of_birth">Дата рождения</string>
+    <string name="placeholder_date_of_birth">00.00.0000</string>
+    <string name="blood_group">Группа крови</string>
+    <string name="placeholder_blood_group">A +</string>
+    <string name="weight">Вес</string>
+    <string name="placeholder_weight">75 rг</string>
+    <string name="height">Рост</string>
+    <string name="placeholder_height">182 см</string>
+    <string name="allergic_reaction">Аллергическая реакция</string>
+    <string name="placeholder_allergic_reaction">коровье молоко, куриные яйца</string>
+    <string name="drugs">Медикаменты</string>
+    <string name="placeholder_drugs">L-Тироксин 50 Берлин-Хеми</string>
+    <string name="disease">Заболевания</string>
+    <string name="placeholder_disease">Гастрит</string>
+    <string name="title_activity_list_input">ListInputActivity</string>
+    <string name="placeholder_label">label</string>
+    <string name="already_added">Данное значение уже добавлено</string>
 </resources>

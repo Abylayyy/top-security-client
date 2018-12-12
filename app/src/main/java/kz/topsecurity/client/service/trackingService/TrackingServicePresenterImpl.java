@@ -37,8 +37,6 @@ import kz.topsecurity.client.service.trackingService.managers.FirebaseMessageLis
 import kz.topsecurity.client.service.trackingService.managers.FirebaseMessagesListenerManager;
 import kz.topsecurity.client.service.trackingService.managers.LocationListener;
 import kz.topsecurity.client.service.trackingService.managers.LocationListenerManager;
-import kz.topsecurity.client.service.trackingService.managers.TelephonyListenerManager;
-import kz.topsecurity.client.service.trackingService.managers.VolumeListenerManager;
 import kz.topsecurity.client.service.trackingService.managers.VolumeServiceManager;
 import kz.topsecurity.client.service.trackingService.model.DeviceData;
 
@@ -340,7 +338,7 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
         callAlert(data,0);
     }
 
-    void callAlert(DeviceData data, int type){
+    void callAlert(DeviceData data, final int type){
 //        if(data==null)
 //        {
 //            setAlertSendError();
@@ -362,20 +360,20 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
         }
         if(data==null || data.getLat()==0.0 || data.getLng()==0.0)
         {
-            setAlertOnHold();
+            setAlertOnHold(type);
             return;
         }
         Disposable success = new RequestService<>(new RequestService.RequestResponse<AlertResponse>() {
             @Override
             public void onSuccess(AlertResponse data) {
-                setAlertIsActiveStatus();
+                setAlertIsActiveStatus(type);
                 removeAlertFromHold();
             }
 
             @Override
             public void onFailed(AlertResponse data, int error_message) {
                 if (data.getStatusCode() == 4102) {
-                    setAlertIsActiveStatus();
+                    setAlertIsActiveStatus(type);
                     removeAlertFromHold();
                 } else {
                     setAlertSendError();
@@ -407,16 +405,21 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
         SharedPreferencesManager.setIsAlertOnHold(TopSecurityClientApplication.getInstance(),false);
     }
 
-    private void setAlertOnHold() {
+    private void setAlertOnHold(int type) {
         SharedPreferencesManager.setIsAlertOnHold(TopSecurityClientApplication.getInstance(),true);
-        setAlertIsActiveStatus();
+        setAlertIsActiveStatus(type );
     }
 
-    private void setAlertIsActiveStatus() {
+    private void setAlertIsActiveStatus(int type) {
         isAlertActive = true;
         setupAlertTimer();
         Constants.is_service_sending_alert(true);
-        view.onBroadcastMessage(TrackingService.ACTION_STATUS_ALERT_SEND);
+        if(type==0)
+            view.onBroadcastMessage(TrackingService.ACTION_STATUS_ALERT_SEND);
+        else if(type == 1)
+            view.onBroadcastMessage(TrackingService.ACTION_UNDEFINED_ALERT_SEND);
+        else if (type ==2 )
+            view.onBroadcastMessage(TrackingService.ACTION_AMBULANCE_CALLED);
         view.setAlertSendStatus();
     }
 
