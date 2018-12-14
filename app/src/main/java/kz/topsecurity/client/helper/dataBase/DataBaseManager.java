@@ -1,6 +1,7 @@
 package kz.topsecurity.client.helper.dataBase;
 
 import kz.topsecurity.client.model.other.Client;
+import kz.topsecurity.client.model.other.Healthcard;
 import kz.topsecurity.client.service.trackingService.model.DeviceData;
 
 public interface DataBaseManager {
@@ -11,4 +12,6 @@ public interface DataBaseManager {
     void saveClientData(Client data);
     Client getClientData();
     void dropClientData();
+
+    void updateHealthCard(Healthcard healthcard);
 }

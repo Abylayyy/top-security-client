@@ -407,29 +407,7 @@ public abstract class BaseActivity
         return accessibilityFound;
     }
 
-    CustomSimpleDialog customSimpleDialog;
 
-    public void showAreYouSureDialog(String message, CustomSimpleDialog.Callback listener){
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
-        if (prev != null) {
-            ft.remove(prev);
-        }
-        ft.addToBackStack(null);
-        customSimpleDialog = new CustomSimpleDialog();
-
-        Bundle arg = new Bundle();
-        arg.putString(CustomSimpleDialog.DIALOG_MESSAGE, message);
-
-        customSimpleDialog.setArguments(arg);
-        customSimpleDialog.setCancelable(false);
-        customSimpleDialog.setListener(listener);
-        customSimpleDialog.show(ft, "dialog");
-    }
-
-    public void dissmissAreYouSureDialog(){
-        customSimpleDialog.dismiss();
-    }
 
 
     @Override

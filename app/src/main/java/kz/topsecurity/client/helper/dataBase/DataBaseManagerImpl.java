@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 
 import kz.topsecurity.client.model.other.Client;
+import kz.topsecurity.client.model.other.Healthcard;
 import kz.topsecurity.client.service.trackingService.model.DeviceData;
 
 public class DataBaseManagerImpl implements DataBaseManager {
@@ -112,12 +113,38 @@ public class DataBaseManagerImpl implements DataBaseManager {
     public void saveClientData(Client data) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
+        if(data.getHealthcard()!=null) {
+            int healthCardID = saveHealthCard(data.getHealthcard());
+            values.put(Client.COLUMN_HEALTH_CARD_ID,healthCardID);
+        }
+        else
+            values.put(Client.COLUMN_HEALTH_CARD_ID,-1);
         values.put(Client.COLUMN_USER_ID, data.getId());
         values.put(Client.COLUMN_USERNAME, data.getUsername());
         values.put(Client.COLUMN_PHONE, data.getPhone());
         values.put(Client.COLUMN_EMAIL, data.getEmail());
         values.put(Client.COLUMN_PHOTO, data.getPhoto());
+        values.put(Client.COLUMN_FIRST_NAME, data.getFirstname());
+        values.put(Client.COLUMN_LAST_NAME, data.getLastname());
+        values.put(Client.COLUMN_PATRONYMIC, data.getPatronymic());
+        values.put(Client.COLUMN_IIN, data.getIin());
         long newRowId = db.insert(Client.TABLE_NAME, null, values);
+    }
+
+    private int saveHealthCard(Healthcard healthcard) {
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(Healthcard.COLUMN_HEALTHCARD_ID, healthcard.getId());
+        values.put(Healthcard.COLUMN_CLIENT_ID, healthcard.getClientId());
+        values.put(Healthcard.COLUMN_BLOOD_GROUP, healthcard.getBloodGroup());
+        values.put(Healthcard.COLUMN_BIRTHDAY, healthcard.getBirthday());
+        values.put(Healthcard.COLUMN_WEIGHT, healthcard.getWeight().toString());
+        values.put(Healthcard.COLUMN_HEIGHT, healthcard.getHeight().toString());
+        values.put(Healthcard.COLUMN_ALLERGIC_REACTIONS, healthcard.getAllergicReactions());
+        values.put(Healthcard.COLUMN_DRUGS, healthcard.getDrugs());
+        values.put(Healthcard.COLUMN_DISEASE, healthcard.getDisease());
+        long newRowId = db.insert(Healthcard.TABLE_NAME, null, values);
+        return healthcard.getId();
     }
 
     @Override
@@ -130,6 +157,11 @@ public class DataBaseManagerImpl implements DataBaseManager {
                 Client.COLUMN_PHONE ,
                 Client.COLUMN_EMAIL ,
                 Client.COLUMN_PHOTO ,
+                Client.COLUMN_FIRST_NAME ,
+                Client.COLUMN_LAST_NAME ,
+                Client.COLUMN_PATRONYMIC ,
+                Client.COLUMN_IIN,
+                Client.COLUMN_HEALTH_CARD_ID
         };
 
 
@@ -158,7 +190,11 @@ public class DataBaseManagerImpl implements DataBaseManager {
         String phone = cursor.getString(cursor.getColumnIndex(Client.COLUMN_PHONE));
         String email = cursor.getString(cursor.getColumnIndex(Client.COLUMN_EMAIL));
         String photo = cursor.getString(cursor.getColumnIndex(Client.COLUMN_PHOTO));
-
+        String firstName = cursor.getString(cursor.getColumnIndex(Client.COLUMN_FIRST_NAME));
+        String lastName = cursor.getString(cursor.getColumnIndex(Client.COLUMN_LAST_NAME));
+        String patronymic = cursor.getString(cursor.getColumnIndex(Client.COLUMN_PATRONYMIC));
+        String iin = cursor.getString(cursor.getColumnIndex(Client.COLUMN_IIN));
+        int healthCardID = cursor.getInt(cursor.getColumnIndex(Client.COLUMN_HEALTH_CARD_ID));
 
         Client clientData = new Client();
         clientData.setId(user_id);
@@ -166,6 +202,12 @@ public class DataBaseManagerImpl implements DataBaseManager {
         clientData.setPhone(phone);
         clientData.setEmail(email);
         clientData.setPhoto(photo);
+        clientData.setFirstname(firstName);
+        clientData.setLastname(lastName);
+        clientData.setPatronymic(patronymic);
+        clientData.setIin(iin);
+        clientData.setHealthcard(getHealthCard(healthCardID));
+
 
         // close the db connection
         cursor.close();
@@ -173,10 +215,92 @@ public class DataBaseManagerImpl implements DataBaseManager {
         return clientData;
     }
 
+    private Healthcard getHealthCard(int healthCardID) {
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        String[] projection = {
+                Healthcard.COLUMN_ID,
+                Healthcard.COLUMN_HEALTHCARD_ID,
+                Healthcard.COLUMN_CLIENT_ID,
+                Healthcard.COLUMN_BLOOD_GROUP,
+                Healthcard.COLUMN_BIRTHDAY,
+                Healthcard.COLUMN_WEIGHT,
+                Healthcard.COLUMN_HEIGHT,
+                Healthcard.COLUMN_ALLERGIC_REACTIONS,
+                Healthcard.COLUMN_DRUGS,
+                Healthcard.COLUMN_DISEASE
+        };
+
+        Healthcard healthCard = new Healthcard();
+        if(healthCardID == -1)
+            return  healthCard;
+
+// How you want the results sorted in the resulting Cursor
+        String sortOrder =
+                Healthcard.COLUMN_ID + " DESC";
+        String[] whereClause = new String[]{""+healthCardID};
+        Cursor cursor = db.query(
+                Healthcard.TABLE_NAME,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+                Healthcard.COLUMN_HEALTHCARD_ID + "=?",              // The columns for the WHERE clause
+                whereClause,          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                sortOrder               // The sort order
+        );
+
+        if (cursor != null)
+            cursor.moveToFirst();
+        else
+            return healthCard;
+        if(!(cursor.getCount()>0))
+            return healthCard;
+
+        Integer _id  = cursor.getInt(cursor.getColumnIndex(Healthcard.COLUMN_HEALTHCARD_ID));
+        Integer client_id = cursor.getInt(cursor.getColumnIndex(Healthcard.COLUMN_CLIENT_ID));
+        String bloodGroup = cursor.getString(cursor.getColumnIndex(Healthcard.COLUMN_BLOOD_GROUP));
+        String birthGroup = cursor.getString(cursor.getColumnIndex(Healthcard.COLUMN_BIRTHDAY));
+        String weight = cursor.getString(cursor.getColumnIndex(Healthcard.COLUMN_WEIGHT));
+        String height = cursor.getString(cursor.getColumnIndex(Healthcard.COLUMN_HEIGHT));
+        String allericReaction = cursor.getString(cursor.getColumnIndex(Healthcard.COLUMN_ALLERGIC_REACTIONS));
+        String drugs = cursor.getString(cursor.getColumnIndex(Healthcard.COLUMN_DRUGS));
+        String disease = cursor.getString(cursor.getColumnIndex(Healthcard.COLUMN_DISEASE));
+
+        healthCard.setId(_id);
+        healthCard.setClientId(client_id);
+        healthCard.setBloodGroup(bloodGroup);
+        healthCard.setBirthday(birthGroup);
+        healthCard.setWeight(Float.valueOf(weight));
+        healthCard.setHeight(Float.valueOf(height));
+        healthCard.setAllergicReactions(allericReaction);
+        healthCard.setDrugs(drugs);
+        healthCard.setDisease(disease);
+
+
+        // close the db connection
+        cursor.close();
+
+        return healthCard;
+    }
+
     @Override
     public void dropClientData() {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         db.execSQL("delete from " + Client.TABLE_NAME);
         db.close();
+    }
+
+    @Override
+    public void updateHealthCard(Healthcard healthcard) {
+        saveHealthCard(healthcard);
+        updateClientHealthCard(healthcard.getId());
+    }
+
+    private void updateClientHealthCard(Integer id) {
+        Client clientData = getClientData();
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(Client.COLUMN_HEALTH_CARD_ID,id);
+
+        long newRowId = db.update(Client.TABLE_NAME, values,Client.COLUMN_ID+"=?",new String[]{"" + clientData.getId()});
     }
 }

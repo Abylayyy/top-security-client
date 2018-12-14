@@ -17,6 +17,11 @@ public class Client {
     public static final String COLUMN_PHONE = "phone";
     public static final String COLUMN_EMAIL = "email";
     public static final String COLUMN_PHOTO = "photo";
+    public static final String COLUMN_FIRST_NAME = "first_name";
+    public static final String COLUMN_LAST_NAME= "last_name";
+    public static final String COLUMN_PATRONYMIC = "patronymic";
+    public static final String COLUMN_IIN = "iin";
+    public static final String COLUMN_HEALTH_CARD_ID = "health_card_id";
 
     public static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + "("
@@ -25,7 +30,12 @@ public class Client {
                     + COLUMN_USERNAME+ " TEXT,"
                     + COLUMN_PHONE + " TEXT, "
                     + COLUMN_EMAIL + " TEXT, "
-                    + COLUMN_PHOTO + " TEXT "
+                    + COLUMN_PHOTO + " TEXT, "
+                    + COLUMN_FIRST_NAME + " TEXT, "
+                    + COLUMN_LAST_NAME + " TEXT, "
+                    + COLUMN_PATRONYMIC + " TEXT, "
+                    + COLUMN_IIN + " TEXT, "
+                    + COLUMN_HEALTH_CARD_ID + " INTEGER "
                     + ")";
 
     public static final String DELETE_TABLE =
@@ -38,6 +48,18 @@ public class Client {
     @SerializedName("username")
     @Expose
     private String username;
+    @SerializedName("iin")
+    @Expose
+    private String iin;
+    @SerializedName("firstname")
+    @Expose
+    private String firstname;
+    @SerializedName("lastname")
+    @Expose
+    private String lastname;
+    @SerializedName("patronymic")
+    @Expose
+    private String patronymic;
     @SerializedName("phone")
     @Expose
     private String phone;
@@ -53,6 +75,49 @@ public class Client {
     @SerializedName("plan")
     @Expose
     private Plan plan;
+    @SerializedName("healthcard")
+    @Expose
+    private Healthcard healthcard;
+
+    public String getIin() {
+        return iin;
+    }
+
+    public void setIin(String iin) {
+        this.iin = iin;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getPatronymic() {
+        return patronymic;
+    }
+
+    public void setPatronymic(String patronymic) {
+        this.patronymic = patronymic;
+    }
+
+    public Healthcard getHealthcard() {
+        return healthcard;
+    }
+
+    public void setHealthcard(Healthcard healthcard) {
+        this.healthcard = healthcard;
+    }
 
     public Integer getId() {
         return id;
@@ -109,4 +174,5 @@ public class Client {
     public void setPlan(Plan plan) {
         this.plan = plan;
     }
+
 }

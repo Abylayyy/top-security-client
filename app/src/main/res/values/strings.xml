@@ -283,4 +283,8 @@
     <string name="title_activity_list_input">ListInputActivity</string>
     <string name="placeholder_label">label</string>
     <string name="already_added">Данное значение уже добавлено</string>
+    <string name="concatenated_text_explanation">Добавьте запятую, чтобы добавить новое значение</string>
+    <string name="empty_field">Данные отсутствуют</string>
+    <string name="add">Добавить</string>
+    <string name="are_you_sure_without_saving_data">Вы действительно хотите выйти без сохранения данных?</string>
 </resources>

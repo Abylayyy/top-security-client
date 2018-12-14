@@ -4,10 +4,15 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
+
+import kz.topsecurity.client.ui_widgets.customDialog.CustomSimpleDialog;
 
 public abstract class HelperActivity extends AppCompatActivity {
 
@@ -60,5 +65,27 @@ public abstract class HelperActivity extends AppCompatActivity {
         }
         return status;
     }
+    CustomSimpleDialog customSimpleDialog;
 
+    public void showAreYouSureDialog(String message, CustomSimpleDialog.Callback listener){
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+        customSimpleDialog = new CustomSimpleDialog();
+
+        Bundle arg = new Bundle();
+        arg.putString(CustomSimpleDialog.DIALOG_MESSAGE, message);
+
+        customSimpleDialog.setArguments(arg);
+        customSimpleDialog.setCancelable(false);
+        customSimpleDialog.setListener(listener);
+        customSimpleDialog.show(ft, "dialog");
+    }
+
+    public void dissmissAreYouSureDialog(){
+        customSimpleDialog.dismiss();
+    }
 }

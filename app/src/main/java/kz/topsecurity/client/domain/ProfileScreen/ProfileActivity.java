@@ -65,6 +65,7 @@ import kz.topsecurity.client.domain.ProfileScreen.EditPasswordScreen.EditPasswor
 import kz.topsecurity.client.domain.SetSecretCancelCodeScreen.SetSecretCancelCodeActivity;
 import kz.topsecurity.client.domain.base.BaseActivity;
 import kz.topsecurity.client.helper.Constants;
+import kz.topsecurity.client.helper.PhoneHelper;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
 import kz.topsecurity.client.helper.dataBase.DataBaseManager;
 import kz.topsecurity.client.helper.dataBase.DataBaseManagerImpl;
@@ -96,6 +97,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     @BindView(R.id.iv_user_avatar) CircleImageView iv_user_avatar;
     @BindView(R.id.tv_add_secret_code) TextView tv_add_secret_code;
     @BindView(R.id.iv_upload_avatar) ImageView iv_upload_avatar;
+    @BindView(R.id.tv_user_iin)TextView tv_user_iin;
+    @BindView(R.id.tv_user_full_name)TextView tv_user_full_name;
+    @BindView(R.id.tv_phone)TextView tv_phone;
+    @BindView(R.id.tv_edit_user_healthcard)TextView tv_edit_user_healthcard;
 
     private static final int HealthCardRequestCode = 48;
 
@@ -196,6 +201,12 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             case READ_STORAGE:{
                 if (resultCode == RESULT_OK) {
                     openImagePicker();
+                }
+                break;
+            }
+            case HealthCardRequestCode:{
+                if(resultCode==RESULT_OK){
+                    setUserData();
                 }
                 break;
             }
@@ -424,6 +435,15 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         setAvatar(iv_user_avatar,userAvatar);
         checkAvatar(userAvatar);
         ((TextView)findViewById(R.id.tv_edit_user_email)).setHint(clientData.getEmail());
+        tv_user_iin.setText(clientData.getIin());
+        tv_user_full_name.setText(String.format("%s %s %s", clientData.getLastname(),clientData.getFirstname(), clientData.getPatronymic()));
+        tv_phone.setText(PhoneHelper.getFormattedPhone(clientData.getPhone()));
+        if(clientData.getHealthcard()!=null){
+            tv_edit_user_healthcard.setText(clientData.getHealthcard().getDataInStringFormat(this));
+        }
+        else {
+            tv_edit_user_healthcard.setText(getString(R.string.empty_field));
+        }
     }
 
     void checkAvatar(String userAvatar){

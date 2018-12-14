@@ -8,8 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -21,6 +23,7 @@ import butterknife.ButterKnife;
 import kz.topsecurity.client.R;
 import kz.topsecurity.client.domain.PlaceScreen.adapter.PlaceListDecorator;
 import kz.topsecurity.client.domain.base.HelperActivity;
+import kz.topsecurity.client.ui_widgets.customDialog.CustomSimpleDialog;
 
 public class ListInputActivity extends HelperActivity implements ValuesAdapterListener {
 
@@ -86,10 +89,25 @@ public class ListInputActivity extends HelperActivity implements ValuesAdapterLi
             }
         };
         ed_text_input.addTextChangedListener(textWatcher);
+        ed_text_input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == R.integer.customImeActionId || actionId == EditorInfo.IME_ACTION_NEXT) {
+                    addValue(ed_text_input.getText().toString());
+                    ed_text_input.getText().clear();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
-    private void addValue(String newValue) {
-        mValuesAdapter.add(newValue);
+    private void addValue(String str) {
+        String newValue = str.trim();
+        if(newValue!=null && !newValue.isEmpty())
+            mValuesAdapter.add(newValue);
+        else
+            showToast(R.string.field_cant_be_empty);
     }
 
     private void setupRV() {
@@ -132,7 +150,27 @@ public class ListInputActivity extends HelperActivity implements ValuesAdapterLi
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        showAreYouSureDialog(getString(R.string.are_you_sure_without_saving_data), new CustomSimpleDialog.Callback() {
+            @Override
+            public void onCancelBtnClicked() {
+                dissmissAreYouSureDialog();
+            }
+
+            @Override
+            public void onPositiveBtnClicked() {
+                dissmissAreYouSureDialog();
+                finish();
+            }
+        });
+    }
+
     private void saveValue() {
+        if(!ed_text_input.getText().toString().isEmpty()){
+            addValue(ed_text_input.getText().toString());
+            ed_text_input.getText().clear();
+        }
         StringBuilder value = new StringBuilder();
         List<String> data = mValuesAdapter.getData();
         for (int i =0 ; i<data.size() ; i++) {

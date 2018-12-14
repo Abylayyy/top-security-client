@@ -33,6 +33,11 @@
         android:id="@+id/ed_text_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:imeActionId="@integer/customImeActionId"
+        android:imeActionLabel="@string/add"
+        android:imeOptions="actionUnspecified"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
@@ -42,18 +47,47 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_label" />
 
+    <TextView
+        android:id="@+id/tv_explanation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:clickable="false"
+        android:enabled="false"
+        android:focusable="false"
+        android:gravity="start"
+        android:maxLines="1"
+        android:text="@string/concatenated_text_explanation"
+        android:textColor="@color/colorSecondaryText"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ed_text_input" />
+    <LinearLayout
+        android:id="@+id/ll_divider1"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/gray"
+        android:orientation="vertical"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_explanation"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_values"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ed_text_input" />
+        app:layout_constraintTop_toBottomOf="@+id/ll_divider1" />
 </android.support.constraint.ConstraintLayout>

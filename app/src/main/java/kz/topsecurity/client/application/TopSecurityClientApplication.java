@@ -7,7 +7,6 @@ import android.support.multidex.MultiDexApplication;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.firebase.FirebaseApp;
-import com.microblink.MicroblinkSDK;
 
 import net.gotev.uploadservice.UploadService;
 
@@ -39,6 +38,7 @@ public class TopSecurityClientApplication extends MultiDexApplication  implement
         UploadService.NAMESPACE = BuildConfig.APPLICATION_ID;
         UploadService.NAMESPACE = "kz.topsecurity.client";
         trackingApp = this;
+//        Stetho.initializeWithDefaults(this);
     }
 
     private static TopSecurityClientApplication trackingApp;

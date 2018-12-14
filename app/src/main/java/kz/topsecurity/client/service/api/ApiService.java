@@ -13,6 +13,7 @@ import kz.topsecurity.client.model.contact.GetContactsResponse;
 import kz.topsecurity.client.model.contact.SaveContactsResponse;
 import kz.topsecurity.client.model.device.SaveDeviceDataResponse;
 import kz.topsecurity.client.model.other.BasicResponse;
+import kz.topsecurity.client.model.other.HealthCardPostResponse;
 import kz.topsecurity.client.model.other.PlansResponse;
 import kz.topsecurity.client.model.other.SampleRequest;
 import kz.topsecurity.client.model.photo.PhotoResponse;
@@ -231,7 +232,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("client/register/?v2=true")
-    Observable<RegisterResponse> registrationNew(@Field("phone") String phone,
+    Observable<RegisterResponse> registrationNew( @Field("phone") String phone,
                                                  @Field("password") String password,
                                                  @Field("email") String email,
                                                  @Field("username") String username,
@@ -240,4 +241,15 @@ public interface ApiService {
                                                  @Field("firstname") String firstname,
                                                  @Field("lastname") String lastname,
                                                  @Field("patronymic") String patronymic);
+
+    @FormUrlEncoded
+    @POST("client/healthcard")
+    Observable<HealthCardPostResponse> addUserHealthCard(@Header("Authorization") String access_token,
+                                                         @Field("blood_group") String blood_group,
+                                                         @Field("birthday") String birthday,
+                                                         @Field("weight") String weight,
+                                                         @Field("height") String height,
+                                                         @Field("allergic_reactions") String allergic_reactions,
+                                                         @Field("drugs") String drugs,
+                                                         @Field("disease") String disease);
 }
