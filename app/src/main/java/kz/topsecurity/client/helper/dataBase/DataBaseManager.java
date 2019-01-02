@@ -14,4 +14,6 @@ public interface DataBaseManager {
     void dropClientData();
 
     void updateHealthCard(Healthcard healthcard);
+
+    void updateDatabase(String reason);
 }

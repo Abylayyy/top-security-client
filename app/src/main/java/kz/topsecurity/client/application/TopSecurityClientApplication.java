@@ -20,7 +20,7 @@ import kz.topsecurity.client.BuildConfig;
 import kz.topsecurity.client.di.components.app.DaggerAppComponent;
 
 
-public class TopSecurityClientApplication extends MultiDexApplication  implements HasActivityInjector {
+public class TopSecurityClientApplication extends MultiDexApplication implements HasActivityInjector {
 
     @Inject
     DispatchingAndroidInjector<Activity> activityDispatchingAndroidInjector;

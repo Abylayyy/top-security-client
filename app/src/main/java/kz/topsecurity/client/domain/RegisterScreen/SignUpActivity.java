@@ -109,39 +109,36 @@ public class SignUpActivity extends BaseFragmentActivity implements RegisterSign
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == IMAGE_CAPTURE && resultCode == RESULT_OK){
+        if (requestCode == IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap bitmap = (Bitmap) extras.get("data");
             WeakReference weakdata = null;
             weakdata = new WeakReference<Bitmap>(bitmap);
             Intent intent = new Intent(SignUpActivity.this, CropPictureActivity.class).putExtra(CropPictureActivity.BITMAP_IMAGE, bitmap);
             intent.putExtra("BitmapImage", bitmap);
-            startActivityForResult(intent,CROP_PHOTO);
+            startActivityForResult(intent, CROP_PHOTO);
             weakdata.clear();
-        }
-        else if(requestCode == CROP_PHOTO && resultCode == RESULT_OK){
+        } else if (requestCode == CROP_PHOTO && resultCode == RESULT_OK) {
             String stringExtra = data.getStringExtra(CROPPED_IMAGE_PATH);
             Bitmap bitmap = getBitmap(stringExtra);
             WeakReference weakdata = new WeakReference<Bitmap>(bitmap);
-            checkAndUploadAvatar(stringExtra, bitmap );
+            checkAndUploadAvatar(stringExtra, bitmap);
             weakdata.clear();
         }
     }
 
-    private void checkAndUploadAvatar(final String stringExtra,final Bitmap bitmap) {
+    private void checkAndUploadAvatar(final String stringExtra, final Bitmap bitmap) {
         showLoadingDialog();
         OnSuccessListener<List<FirebaseVisionFace>> onSuccessListener = new OnSuccessListener<List<FirebaseVisionFace>>() {
             @Override
             public void onSuccess(List<FirebaseVisionFace> firebaseVisionFaces) {
                 hideProgressDialog();
-                if(firebaseVisionFaces.size()==0){
+                if (firebaseVisionFaces.size() == 0) {
                     showToast(R.string.face_not_detected);
-                }
-                else if(firebaseVisionFaces.size()==1) {
+                } else if (firebaseVisionFaces.size() == 1) {
                     showToast(R.string.success);
                     prepareAvatarToSave(stringExtra, bitmap);
-                }
-                else {
+                } else {
                     showToast(R.string.more_than_one_face_in_picture);
                 }
             }
@@ -153,7 +150,7 @@ public class SignUpActivity extends BaseFragmentActivity implements RegisterSign
                 showToast("FAILED");
             }
         };
-        detectFace(bitmap,onSuccessListener,onFailureListener );
+        detectFace(bitmap, onSuccessListener, onFailureListener);
     }
 
     private void prepareAvatarToSave(String stringExtra, Bitmap bitmap) {
@@ -161,12 +158,11 @@ public class SignUpActivity extends BaseFragmentActivity implements RegisterSign
         try {
             AvatarFieldFragment fragment = (AvatarFieldFragment) getSupportFragmentManager().findFragmentByTag(AvatarFieldFragment.class.getSimpleName());
             fragment.setImage(bitmap);
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
 
         }
         //TODO : setImageLogic
-        uploadMultipart(this,bitmap);
+        uploadMultipart(this, bitmap);
     }
 
     CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -174,20 +170,23 @@ public class SignUpActivity extends BaseFragmentActivity implements RegisterSign
     public void uploadMultipart(final Context context, Bitmap imagePath) {
 
         File file = getCreateFile(imagePath);
-        if(imagePath==null) {
+        if (imagePath == null) {
             showToast(R.string.file_not_found);
             return;
         }
-        if(file==null)
+        if (file == null)
             return;
         showLoadingDialog();
-        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
+        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file",
+                file.getName(),
+                RequestBody.create(MediaType.parse("image/*"),
+                        file));
         Disposable success = new RequestService<>(new RequestService.RequestResponse<PhotoResponse>() {
             @Override
             public void onSuccess(PhotoResponse r) {
                 hideProgressDialog();
                 String src = r.getSrc();
-                userPhoto = src ;
+                userPhoto = src;
                 showToast(R.string.photo_successful_saved_code);
                 //registerUser();
             }
@@ -210,29 +209,29 @@ public class SignUpActivity extends BaseFragmentActivity implements RegisterSign
     }
 
     private void registerUser() {
-        Log.d(TAG,userEmail);
-        Log.d(TAG,userPassword);
-        Log.d(TAG,userPhone);
-        Log.d(TAG,userPhoto);
-        Log.d(TAG,userFirstName);
+        Log.d(TAG, userEmail);
+        Log.d(TAG, userPassword);
+        Log.d(TAG, userPhone);
+        Log.d(TAG, userPhoto);
+        Log.d(TAG, userFirstName);
     }
 
     private File getCreateFile(Bitmap imagePath) {
-        String filename = "image_"+String.valueOf(System.currentTimeMillis());
+        String filename = "image_" + String.valueOf(System.currentTimeMillis());
         File f = new File(getCacheDir(), filename);
-        boolean newFile= false;
+        boolean newFile = false;
         boolean isError = false;
         try {
-             newFile = f.createNewFile();
+            newFile = f.createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        if(!newFile)
+        if (!newFile)
             return null;
         Bitmap bitmap = imagePath;
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 0 /*ignored for PNG*/, bos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100 /*ignored for PNG*/, bos);
         byte[] bitmapdata = bos.toByteArray();
 
 //write the bytes in file
@@ -251,7 +250,7 @@ public class SignUpActivity extends BaseFragmentActivity implements RegisterSign
             e.printStackTrace();
             isError = true;
         }
-        if(isError)
+        if (isError)
             return null;
         return f;
     }
@@ -280,11 +279,11 @@ public class SignUpActivity extends BaseFragmentActivity implements RegisterSign
     }
 
     public Bitmap getBitmap(String path) {
-        WeakReference fileData =null;
-        WeakReference data =null;
-        Bitmap bitmap=null;
+        WeakReference fileData = null;
+        WeakReference data = null;
+        Bitmap bitmap = null;
         try {
-            File f= new File(path);
+            File f = new File(path);
             fileData = new WeakReference<File>(f);
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
@@ -293,9 +292,8 @@ public class SignUpActivity extends BaseFragmentActivity implements RegisterSign
         } catch (Exception e) {
             e.printStackTrace();
             return null;
-        }
-        finally {
-            if(fileData!=null)
+        } finally {
+            if (fileData != null)
                 fileData.clear();
         }
         return bitmap;
@@ -312,7 +310,7 @@ public class SignUpActivity extends BaseFragmentActivity implements RegisterSign
     }
 
     private void setupToolbar() {
-        iv_back.setOnClickListener(v->{
+        iv_back.setOnClickListener(v -> {
             goBack();
         });
     }
@@ -328,7 +326,7 @@ public class SignUpActivity extends BaseFragmentActivity implements RegisterSign
             public void onPositiveBtnClicked() {
                 dissmissAreYouSureDialog();
                 Intent intent = new Intent(SignUpActivity.this, StartActivity.class);
-                intent.putExtra(StartActivity.SKIP_LOADING_KEY,true);
+                intent.putExtra(StartActivity.SKIP_LOADING_KEY, true);
                 startActivity(intent);
                 System.gc();
                 finish();
@@ -338,7 +336,7 @@ public class SignUpActivity extends BaseFragmentActivity implements RegisterSign
 
     CustomSimpleDialog customSimpleDialog;
 
-    public void showAreYouSureDialog(String message, CustomSimpleDialog.Callback listener){
+    public void showAreYouSureDialog(String message, CustomSimpleDialog.Callback listener) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
         if (prev != null) {
@@ -356,37 +354,36 @@ public class SignUpActivity extends BaseFragmentActivity implements RegisterSign
         customSimpleDialog.show(ft, "dialog");
     }
 
-    public void dissmissAreYouSureDialog(){
+    public void dissmissAreYouSureDialog() {
         customSimpleDialog.dismiss();
     }
 
 
     private void setNextFragment() {
-        if(currentFragment.equals(RegisterSignFieldsFragment.class.getSimpleName())){
+        if (currentFragment.equals(RegisterSignFieldsFragment.class.getSimpleName())) {
             setAdditionalFieldsFragment();
-        }
-        else if(currentFragment.equals(AdditionalRegistrationFieldsFragment.class.getSimpleName()))
+        } else if (currentFragment.equals(AdditionalRegistrationFieldsFragment.class.getSimpleName()))
             setAvatarFieldFragment();
     }
 
     private void setSignFieldsFragment() {
         RegisterSignFieldsFragment registerSignFieldsFragment = RegisterSignFieldsFragment.newInstance();
-        currentFragment = replaceFragment(registerSignFieldsFragment, RegisterSignFieldsFragment.class.getSimpleName(),false);
+        currentFragment = replaceFragment(registerSignFieldsFragment, RegisterSignFieldsFragment.class.getSimpleName(), false);
     }
 
     private void setAdditionalFieldsFragment() {
         AdditionalRegistrationFieldsFragment additionalRegistrationFieldsFragment = AdditionalRegistrationFieldsFragment.newInstance();
-        currentFragment = replaceFragment(additionalRegistrationFieldsFragment, AdditionalRegistrationFieldsFragment.class.getSimpleName(),false);
+        currentFragment = replaceFragment(additionalRegistrationFieldsFragment, AdditionalRegistrationFieldsFragment.class.getSimpleName(), false);
     }
 
     private void setAvatarFieldFragment() {
         AvatarFieldFragment additionalRegistrationFieldsFragment = AvatarFieldFragment.newInstance();
-        currentFragment = replaceFragment(additionalRegistrationFieldsFragment, AvatarFieldFragment.class.getSimpleName(),false);
+        currentFragment = replaceFragment(additionalRegistrationFieldsFragment, AvatarFieldFragment.class.getSimpleName(), false);
     }
 
     private void setUserNameFieldFragment() {
         UserNameFieldsFragment userNameFieldsFragment = UserNameFieldsFragment.newInstance();
-        currentFragment = replaceFragment(userNameFieldsFragment, UserNameFieldsFragment.class.getSimpleName(),false);
+        currentFragment = replaceFragment(userNameFieldsFragment, UserNameFieldsFragment.class.getSimpleName(), false);
     }
 
     @Override
@@ -408,7 +405,7 @@ public class SignUpActivity extends BaseFragmentActivity implements RegisterSign
 //        Log.d(TAG,userPhone);
 //        Log.d(TAG,userPhoto);
 //        Log.d(TAG,userName);
-        presenter.register(userPhone,userEmail,userIIN,userPassword,userPhoto,userFirstName, userLastName, userPatronymic);
+        presenter.register(userPhone, userEmail, userIIN, userPassword, userPhoto, userFirstName, userLastName, userPatronymic);
     }
 
     @Override
@@ -428,10 +425,9 @@ public class SignUpActivity extends BaseFragmentActivity implements RegisterSign
 
     @Override
     public void onClosed() {
-        if(currentFragment.equals(AvatarFieldFragment.class.getSimpleName())){
+        if (currentFragment.equals(AvatarFieldFragment.class.getSimpleName())) {
             currentFragment = AdditionalRegistrationFieldsFragment.class.getSimpleName();
-        }
-        else if(currentFragment.equals(AdditionalRegistrationFieldsFragment.class.getSimpleName())){
+        } else if (currentFragment.equals(AdditionalRegistrationFieldsFragment.class.getSimpleName())) {
             currentFragment = RegisterSignFieldsPresenter.class.getSimpleName();
         }
     }
@@ -462,12 +458,14 @@ public class SignUpActivity extends BaseFragmentActivity implements RegisterSign
     private void showRationaleDialog(@StringRes int messageResId, final PermissionRequest request) {
         new AlertDialog.Builder(this).setPositiveButton(R.string.button_allow,
                 new DialogInterface.OnClickListener() {
-                    @Override public void onClick(@NonNull DialogInterface dialog, int which) {
+                    @Override
+                    public void onClick(@NonNull DialogInterface dialog, int which) {
                         request.proceed();
                     }
                 }).setNegativeButton(R.string.button_deny,
                 new DialogInterface.OnClickListener() {
-                    @Override public void onClick(@NonNull DialogInterface dialog, int which) {
+                    @Override
+                    public void onClick(@NonNull DialogInterface dialog, int which) {
                         request.cancel();
                     }
                 }).setCancelable(false).setMessage(messageResId).show();
@@ -504,7 +502,7 @@ public class SignUpActivity extends BaseFragmentActivity implements RegisterSign
     }
 
     private void loadImage() {
-        startActivityForResult((new Intent(SignUpActivity.this, CropPictureActivity.class)),CROP_PHOTO);
+        startActivityForResult((new Intent(SignUpActivity.this, CropPictureActivity.class)), CROP_PHOTO);
     }
 
     @Override
@@ -528,13 +526,13 @@ public class SignUpActivity extends BaseFragmentActivity implements RegisterSign
     @Override
     public void onRegisterSuccess(Client client) {
         dataBaseManager.saveClientData(client);
-        SharedPreferencesManager.setUserData(this,true);
+        SharedPreferencesManager.setUserData(this, true);
 //        Intent intent = new Intent(this, LoginActivity.class);
 //        intent.putExtra(LoginActivity.GET_PHONE_NUMB , ed_tel_number.getRawText());
         Intent intent = new Intent(this, SmsCodeActivity.class);
         String formattedPhone = PhoneHelper.getFormattedPhone(client.getPhone());
-        intent.putExtra(SmsCodeActivity.GET_PHONE_NUMB,formattedPhone);
-        intent.putExtra(SmsCodeActivity.ON_FORWARD_EXTRA,SmsCodeActivity.TO_LOGIN);
+        intent.putExtra(SmsCodeActivity.GET_PHONE_NUMB, formattedPhone);
+        intent.putExtra(SmsCodeActivity.ON_FORWARD_EXTRA, SmsCodeActivity.TO_LOGIN);
         startActivity(intent);
         System.gc();
         finish();
@@ -543,7 +541,7 @@ public class SignUpActivity extends BaseFragmentActivity implements RegisterSign
     @Override
     public void showLoading() {
         iv_back.setEnabled(false);
-        addFragment(LoadingFragment.newInstance(),LoadingFragment.class.getSimpleName());
+        addFragment(LoadingFragment.newInstance(), LoadingFragment.class.getSimpleName());
     }
 
     @Override

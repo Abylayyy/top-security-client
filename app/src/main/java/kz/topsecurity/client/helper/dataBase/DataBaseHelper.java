@@ -10,8 +10,8 @@ import kz.topsecurity.client.service.trackingService.model.DeviceData;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 2;
-    public static final String DATABASE_NAME = "newTracker.db";
+    public static final int DATABASE_VERSION = 1;
+    public static final String DATABASE_NAME = "topsecurity_client.db";
 
     public DataBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -29,6 +29,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(DeviceData.DELETE_TABLE);
         sqLiteDatabase.execSQL(Client.DELETE_TABLE);
         sqLiteDatabase.execSQL(Healthcard.DELETE_TABLE);
+        onCreate(sqLiteDatabase);
     }
 
 

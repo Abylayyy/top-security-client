@@ -20,8 +20,8 @@ android {
         applicationId "kz.topsecurity.client"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 18
-        versionName "1.7"
+        versionCode 19
+        versionName "1.8"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
@@ -46,7 +46,6 @@ android {
 ext {
     permissionsDispatcherVersion = '2.1.2'
 }
-
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -118,6 +117,5 @@ dependencies {
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.6@aar') {
         transitive = true;
     }
-
 }
 apply plugin: 'com.google.gms.google-services'

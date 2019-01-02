@@ -1,6 +1,7 @@
 package kz.topsecurity.client.domain.StartScreen;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
@@ -48,10 +49,13 @@ public class StartActivity extends BaseActivity implements View.OnClickListener 
 
         showLoadingView();
 
+        checkDataBase();
 //        boolean startMainScreen = getIntent().getBooleanExtra(START_MAIN_SCREEN_KEY , false) ;
         boolean skipLoading= getIntent().getBooleanExtra(SKIP_LOADING_KEY, false);
         boolean isUserLoggedIn = SharedPreferencesManager.getUserData(this) && SharedPreferencesManager.getUserAuthToken(this)!=null;
-
+        boolean db_state = checkDatabaseForTables();
+        skipLoading = skipLoading && db_state;
+        isUserLoggedIn = isUserLoggedIn && db_state;
 
         if(skipLoading){
             showStartView();
@@ -66,6 +70,24 @@ public class StartActivity extends BaseActivity implements View.OnClickListener 
         else{
             mimicLoading();
         }
+    }
+
+    DataBaseManager dataBaseManager = new DataBaseManagerImpl(this);
+
+    private void checkDataBase() {
+        dataBaseManager.updateDatabase(DataBaseManagerImpl.REASON_VERSION);
+    }
+
+    private boolean checkDatabaseForTables() {
+        boolean state = true;
+        try{
+            dataBaseManager.getClientData();
+        }
+        catch (SQLiteException exception){
+            state = false;
+            dataBaseManager.updateDatabase(DataBaseManagerImpl.REASON_FORCE);
+        }
+        return state;
     }
 
     private void startWithLogin() {
@@ -99,8 +121,6 @@ public class StartActivity extends BaseActivity implements View.OnClickListener 
     private void onLoginFailed() {
         showStartView();
     }
-
-    DataBaseManager dataBaseManager = new DataBaseManagerImpl(this);
 
     private void onSuccessLogin(Client client) {
         dataBaseManager.saveClientData(client);

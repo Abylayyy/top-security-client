@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.provider.BaseColumns;
 
 import kz.topsecurity.client.model.other.Client;
@@ -12,34 +13,36 @@ import kz.topsecurity.client.service.trackingService.model.DeviceData;
 
 public class DataBaseManagerImpl implements DataBaseManager {
 
+    public static final String REASON_VERSION = "REASON_VERSION";
+    public static final String REASON_FORCE = "REASON_FORCE";
     DataBaseHelper mDbHelper;
 
-    public DataBaseManagerImpl(Context ctx){
+    public DataBaseManagerImpl(Context ctx) {
         mDbHelper = new DataBaseHelper(ctx);
     }
 
     @Override
     public void saveDeviceData(DeviceData deviceData) {
-            SQLiteDatabase db = mDbHelper.getWritableDatabase();
-            ContentValues values = new ContentValues();
-            values.put(DeviceData.COLUMN_LAT, deviceData.getLat().toString());
-            values.put(DeviceData.COLUMN_LNG, deviceData.getLng().toString());
-            values.put(DeviceData.COLUMN_ALT, deviceData.getAlt().toString());
-            values.put(DeviceData.COLUMN_ALT_BAROMETER, deviceData.getAltBarometer().toString());
-            values.put(DeviceData.COLUMN_STREET_ADDRESS, deviceData.getStreetAddress());
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DeviceData.COLUMN_LAT, deviceData.getLat().toString());
+        values.put(DeviceData.COLUMN_LNG, deviceData.getLng().toString());
+        values.put(DeviceData.COLUMN_ALT, deviceData.getAlt().toString());
+        values.put(DeviceData.COLUMN_ALT_BAROMETER, deviceData.getAltBarometer().toString());
+        values.put(DeviceData.COLUMN_STREET_ADDRESS, deviceData.getStreetAddress());
 //            values.put(DeviceData.COLUMN_SIGNAL_STRENGTH, );
-            values.put(DeviceData.COLUMN_CHARGE, deviceData.getCharge());
-            values.put(DeviceData.COLUMN_IS_URGENT, deviceData.getIs_urgent());
-            values.put(DeviceData.COLUMN_IS_GPS_ACTIVE, deviceData.getIs_gps_active());
-            values.put(DeviceData.COLUMN_TIMESTAMP, deviceData.getTimestamp());
+        values.put(DeviceData.COLUMN_CHARGE, deviceData.getCharge());
+        values.put(DeviceData.COLUMN_IS_URGENT, deviceData.getIs_urgent());
+        values.put(DeviceData.COLUMN_IS_GPS_ACTIVE, deviceData.getIs_gps_active());
+        values.put(DeviceData.COLUMN_TIMESTAMP, deviceData.getTimestamp());
 //            values.put(DeviceData.COLUMN_CREATED_AT, deviceData.getCreatedAt().getDate());
 
 // Insert the new row, returning the primary key value of the new row
-            long newRowId = db.insert(DeviceData.TABLE_NAME, null, values);
+        long newRowId = db.insert(DeviceData.TABLE_NAME, null, values);
     }
 
     @Override
-    public DeviceData getDeviceData() {
+    public DeviceData getDeviceData() throws SQLiteException {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         String[] projection = {
                 DeviceData.COLUMN_ID,
@@ -73,7 +76,7 @@ public class DataBaseManagerImpl implements DataBaseManager {
             cursor.moveToFirst();
         else
             return null;
-        if(!(cursor.getCount()>0))
+        if (!(cursor.getCount() > 0))
             return null;
         String latitude = cursor.getString(cursor.getColumnIndex(DeviceData.COLUMN_LAT));
         String longitude = cursor.getString(cursor.getColumnIndex(DeviceData.COLUMN_LNG));
@@ -81,8 +84,8 @@ public class DataBaseManagerImpl implements DataBaseManager {
         String barometricAltitude = cursor.getString(cursor.getColumnIndex(DeviceData.COLUMN_ALT_BAROMETER));
         Integer battery = cursor.getInt(cursor.getColumnIndex(DeviceData.COLUMN_CHARGE));
         String streetLocation = cursor.getString(cursor.getColumnIndex(DeviceData.COLUMN_STREET_ADDRESS));
-        boolean isAlertActive = cursor.getInt(cursor.getColumnIndex(DeviceData.COLUMN_IS_URGENT))==1;
-        boolean isGpsActive = cursor.getInt(cursor.getColumnIndex(DeviceData.COLUMN_IS_GPS_ACTIVE))==1;
+        boolean isAlertActive = cursor.getInt(cursor.getColumnIndex(DeviceData.COLUMN_IS_URGENT)) == 1;
+        boolean isGpsActive = cursor.getInt(cursor.getColumnIndex(DeviceData.COLUMN_IS_GPS_ACTIVE)) == 1;
         String unixTime = cursor.getString(cursor.getColumnIndex(DeviceData.COLUMN_TIMESTAMP));
 
         DeviceData deviceData = new DeviceData();
@@ -103,7 +106,7 @@ public class DataBaseManagerImpl implements DataBaseManager {
         return deviceData;
     }
 
-    public void dropDeviceDataTable(){
+    public void dropDeviceDataTable() {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         db.execSQL("delete  from " + DeviceData.TABLE_NAME);
         db.close();
@@ -113,12 +116,11 @@ public class DataBaseManagerImpl implements DataBaseManager {
     public void saveClientData(Client data) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        if(data.getHealthcard()!=null) {
+        if (data.getHealthcard() != null) {
             int healthCardID = saveHealthCard(data.getHealthcard());
-            values.put(Client.COLUMN_HEALTH_CARD_ID,healthCardID);
-        }
-        else
-            values.put(Client.COLUMN_HEALTH_CARD_ID,-1);
+            values.put(Client.COLUMN_HEALTH_CARD_ID, healthCardID);
+        } else
+            values.put(Client.COLUMN_HEALTH_CARD_ID, -1);
         values.put(Client.COLUMN_USER_ID, data.getId());
         values.put(Client.COLUMN_USERNAME, data.getUsername());
         values.put(Client.COLUMN_PHONE, data.getPhone());
@@ -148,18 +150,18 @@ public class DataBaseManagerImpl implements DataBaseManager {
     }
 
     @Override
-    public Client getClientData() {
+    public Client getClientData() throws SQLiteException {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         String[] projection = {
-                Client.COLUMN_ID ,
-                Client.COLUMN_USER_ID ,
-                Client.COLUMN_USERNAME ,
-                Client.COLUMN_PHONE ,
-                Client.COLUMN_EMAIL ,
-                Client.COLUMN_PHOTO ,
-                Client.COLUMN_FIRST_NAME ,
-                Client.COLUMN_LAST_NAME ,
-                Client.COLUMN_PATRONYMIC ,
+                Client.COLUMN_ID,
+                Client.COLUMN_USER_ID,
+                Client.COLUMN_USERNAME,
+                Client.COLUMN_PHONE,
+                Client.COLUMN_EMAIL,
+                Client.COLUMN_PHOTO,
+                Client.COLUMN_FIRST_NAME,
+                Client.COLUMN_LAST_NAME,
+                Client.COLUMN_PATRONYMIC,
                 Client.COLUMN_IIN,
                 Client.COLUMN_HEALTH_CARD_ID
         };
@@ -183,7 +185,7 @@ public class DataBaseManagerImpl implements DataBaseManager {
             cursor.moveToFirst();
         else
             return null;
-        if(!(cursor.getCount()>0))
+        if (!(cursor.getCount() > 0))
             return null;
         Integer user_id = cursor.getInt(cursor.getColumnIndex(Client.COLUMN_USER_ID));
         String username = cursor.getString(cursor.getColumnIndex(Client.COLUMN_USERNAME));
@@ -215,7 +217,7 @@ public class DataBaseManagerImpl implements DataBaseManager {
         return clientData;
     }
 
-    private Healthcard getHealthCard(int healthCardID) {
+    private Healthcard getHealthCard(int healthCardID) throws SQLiteException {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         String[] projection = {
                 Healthcard.COLUMN_ID,
@@ -231,13 +233,13 @@ public class DataBaseManagerImpl implements DataBaseManager {
         };
 
         Healthcard healthCard = new Healthcard();
-        if(healthCardID == -1)
-            return  healthCard;
+        if (healthCardID == -1)
+            return healthCard;
 
 // How you want the results sorted in the resulting Cursor
         String sortOrder =
                 Healthcard.COLUMN_ID + " DESC";
-        String[] whereClause = new String[]{""+healthCardID};
+        String[] whereClause = new String[]{"" + healthCardID};
         Cursor cursor = db.query(
                 Healthcard.TABLE_NAME,   // The table to query
                 projection,             // The array of columns to return (pass null to get all)
@@ -252,10 +254,10 @@ public class DataBaseManagerImpl implements DataBaseManager {
             cursor.moveToFirst();
         else
             return healthCard;
-        if(!(cursor.getCount()>0))
+        if (!(cursor.getCount() > 0))
             return healthCard;
 
-        Integer _id  = cursor.getInt(cursor.getColumnIndex(Healthcard.COLUMN_HEALTHCARD_ID));
+        Integer _id = cursor.getInt(cursor.getColumnIndex(Healthcard.COLUMN_HEALTHCARD_ID));
         Integer client_id = cursor.getInt(cursor.getColumnIndex(Healthcard.COLUMN_CLIENT_ID));
         String bloodGroup = cursor.getString(cursor.getColumnIndex(Healthcard.COLUMN_BLOOD_GROUP));
         String birthGroup = cursor.getString(cursor.getColumnIndex(Healthcard.COLUMN_BIRTHDAY));
@@ -295,12 +297,28 @@ public class DataBaseManagerImpl implements DataBaseManager {
         updateClientHealthCard(healthcard.getId());
     }
 
+    @Override
+    public void updateDatabase(String reason) {
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        try {
+            if (reason.equals(REASON_VERSION) && db.getVersion() != DataBaseHelper.DATABASE_VERSION) {
+                mDbHelper.onUpgrade(mDbHelper.getWritableDatabase(),db.getVersion(),DataBaseHelper.DATABASE_VERSION);
+            }
+            else{
+                mDbHelper.onUpgrade(mDbHelper.getWritableDatabase(),db.getVersion(),DataBaseHelper.DATABASE_VERSION);
+            }
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
     private void updateClientHealthCard(Integer id) {
         Client clientData = getClientData();
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(Client.COLUMN_HEALTH_CARD_ID,id);
+        values.put(Client.COLUMN_HEALTH_CARD_ID, id);
 
-        long newRowId = db.update(Client.TABLE_NAME, values,Client.COLUMN_ID+"=?",new String[]{"" + clientData.getId()});
+        long newRowId = db.update(Client.TABLE_NAME, values, Client.COLUMN_ID + "=?", new String[]{"" + clientData.getId()});
     }
 }
