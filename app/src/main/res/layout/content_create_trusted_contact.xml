@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="kz.topsecurity.client.domain.TrustedNumbersScreen.additionalScreen.CreateTrustedNumberActivity"
+    tools:showIn="@layout/activity_create_trusted_number">
+
+    <TextView
+        android:id="@+id/tv_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="17dp"
+        android:text="@string/username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditText
+        android:id="@+id/ed_username"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:hint="@string/placeholder_registration_username"
+        android:inputType="text"
+        android:maxLines="1"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:maxLength="25"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_user_name"
+        app:libIZO_clearIconTint="#8f1f15"
+        app:libIZO_setBorderColor="#c4c4c4"
+        app:libIZO_setBorderColorError="@color/colorAccent"
+        app:libIZO_setBorderColorFocused="#000"
+        app:libIZO_setBorderView="true"
+        app:libIZO_setCornerRadius="25dp"
+        app:libIZO_setFocusedDrawable="@drawable/edittext_line_background"
+        app:libIZO_setStrokeWidth="2dp" />
+
+    <TextView
+        android:id="@+id/tv_user_name_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/username"
+        android:textColor="@color/colorAccent"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ed_username" />
+
+    <TextView
+        android:id="@+id/tv_user_desc"
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="17dp"
+        android:text="@string/contact_user_desc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_user_name_error" />
+
+    <kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditText
+        android:id="@+id/ed_user_desc"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:hint="@string/placeholder_contact_user_desc"
+        android:inputType="text"
+        android:maxLines="1"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:maxLength="30"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_user_desc"
+        app:libIZO_clearIconTint="#8f1f15"
+        app:libIZO_setBorderColor="#c4c4c4"
+        app:libIZO_setBorderColorError="@color/colorAccent"
+        app:libIZO_setBorderColorFocused="#000"
+        app:libIZO_setBorderView="true"
+        app:libIZO_setCornerRadius="25dp"
+        app:libIZO_setFocusedDrawable="@drawable/edittext_line_background"
+        app:libIZO_setStrokeWidth="2dp" />
+
+    <TextView
+        android:id="@+id/tv_user_desc_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/username"
+        android:textColor="@color/colorAccent"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ed_user_desc" />
+
+
+    <TextView
+        android:id="@+id/tv_telephone_number_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/telephone_number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_user_desc_error" />
+
+    <kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditTextWithPhoneMask
+        android:id="@+id/ed_tel_number"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:hint="7000000000"
+        android:inputType="phone"
+        android:maxLines="1"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        app:allowed_chars="1234567890"
+        app:keep_hint="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_telephone_number_label"
+        app:libIZO_clearIconTint="#8f1f15"
+        app:libIZO_setBorderColor="#c4c4c4"
+        app:libIZO_setBorderColorError="@color/colorAccent"
+        app:libIZO_setBorderColorFocused="#000"
+        app:libIZO_setBorderView="true"
+        app:libIZO_setCornerRadius="25dp"
+        app:libIZO_setFocusedDrawable="@drawable/edittext_line_background"
+        app:libIZO_setStrokeWidth="2dp"
+        app:mask="+7(###)###-##-##" />
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_phone_number_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/colorAccent"
+        android:text="@string/telephone_number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ed_tel_number" />
+
+    <Button
+        android:id="@+id/btn_create_contact"
+        app:layout_constraintVertical_bias="0.12"
+        android:background="@drawable/button_grad_bg"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="parent"
+        android:text="@string/create"
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#F98417</color>
+    <color name="colorPrimaryDark">#C4C4C4</color>
+    <color name="colorAccent">#FF005C</color>
+    <color name="colorSecondaryRed">#ff0000</color>
+    <color name="colorLightRed">#FF6267</color>
+    <color name="white">#fff</color>
+    <color name="gray">#C4C4C4</color>
+    <color name="black">#000</color>
+    <color name="indicator_unselected">#4D000000</color>
+    <color name="colorPrimaryText">#212121</color>
+    <color name="colorSecondaryText">#727272</color>
+    <color name="colorSecondaryTextLight">#80727272</color> <!--50% transparent-->
+    <color name="colorGrayText">#4C4C4C</color>
+    <color name="iconDark">#99000000</color>
+    <color name="menu_item_highlighted">#FFD0D0</color>
+    <color name="transparentBlack">#48000000</color>
+    <!-- ONBOARDING -->
+    <color name="dividerColor">#CCB6B6B6</color>
+    <color name="dividerColorLight">#48B6B6B6</color>
+    <color name="colorForCallMeBackButton">#89D466</color>
+</resources>

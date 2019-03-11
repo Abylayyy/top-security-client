@@ -1,0 +1,42 @@
+<resources>
+    <declare-styleable name="RoundButton">
+        <attr name="rb_corner_radius" format="dimension" />
+        <attr name="rb_corner_width" format="dimension" />
+        <attr name="rb_corner_color" format="color" />
+        <attr name="rb_corner_color_pressed" format="color" />
+        <attr name="rb_corner_color_disabled" format="color" />
+        <attr name="rb_background_color" format="color" />
+        <attr name="rb_background_color_pressed" format="color" />
+        <attr name="rb_background_color_disabled" format="color" />
+        <attr name="rb_text_color" format="color" />
+        <attr name="rb_text_color_pressed" format="color" />
+        <attr name="rb_text_color_disabled" format="color" />
+    </declare-styleable>
+    <declare-styleable name="RoundCorneredEditText">
+        <attr name="android:inputType" />
+        <attr name="android:padding" />
+        <attr name="android:paddingLeft" />
+        <attr name="android:paddingRight" />
+        <attr name="android:paddingTop" />
+        <attr name="android:paddingBottom" />
+        <attr name="libIZO_setBackgroundColor" format="color" />
+        <attr name="libIZO_setBorderColor" format="color" />
+        <attr name="libIZO_setBorderColorFocused" format="color" />
+        <attr name="libIZO_setBorderColorError" format="color" />
+        <attr name="libIZO_setFocusedDrawable" format="integer" />
+        <attr name="libIZO_setBorderView" format="boolean" />
+        <attr name="libIZO_setFont" format="string" />
+        <attr name="libIZO_setStrokeWidth" format="dimension" />
+        <attr name="libIZO_setCornerRadius" format="dimension" />
+        <attr name="libIZO_setClearIconVisible" format="boolean" />
+        <attr name="libIZO_clearIconTint" format="color" />
+        <attr name="libIZO_hideShowPasswordIconTint" format="color" />
+    </declare-styleable>
+    <declare-styleable name="RoundCorneredEditTextWithMask">
+        <attr name="mask" format="string" />
+        <attr name="allowed_chars" format="string" />
+        <attr name="denied_chars" format="string" />
+        <attr name="char_representation" format="string" />
+        <attr name="keep_hint" format="boolean" />
+    </declare-styleable>
+</resources>
