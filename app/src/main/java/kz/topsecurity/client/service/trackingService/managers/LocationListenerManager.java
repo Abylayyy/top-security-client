@@ -77,7 +77,7 @@ public class LocationListenerManager {
     LocationManager mLocationManager;
     LocationRequest mLocationRequest = new LocationRequest();
     FusedLocationProviderClient mFusedLocationProviderClient;
-   // private KalmanLocationManager mKalmanLocationManager;
+    // private KalmanLocationManager mKalmanLocationManager;
 
     boolean mIsActive = false;
 

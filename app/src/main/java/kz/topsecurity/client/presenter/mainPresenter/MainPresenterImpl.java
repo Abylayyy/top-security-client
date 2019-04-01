@@ -2,7 +2,6 @@ package kz.topsecurity.client.presenter.mainPresenter;
 
 import android.content.Context;
 
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.lang.ref.WeakReference;
@@ -224,7 +223,7 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
         WeakReference data = new WeakReference<Client>(clientData);
         if(clientData!=null){
             view.setDrawerData(clientData);
-        }
+       }
         data.clear();
     }
 

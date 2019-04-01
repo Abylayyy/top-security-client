@@ -127,7 +127,8 @@ public class StartActivity extends BaseActivity implements View.OnClickListener 
         dataBaseManager.saveClientData(client);
         if(client.getPhoto().contains("no-avatar") || client.getPhoto()==null || client.getPhoto().isEmpty())
             SharedPreferencesManager.setCheckClientAvatar( StartActivity.this, false);
-
+        else
+            SharedPreferencesManager.setCheckClientAvatar(StartActivity.this,true);
 //        if(Constants.IS_DEBUG || (client.checkPlan()!=null && !client.checkPlan().getIsExpired())) {
 
             startActivity(new Intent(this, MainActivity.class));

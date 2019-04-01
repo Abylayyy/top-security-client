@@ -4,6 +4,7 @@
     <string name="google_app_id">1:568270559912:android:3dbc6e84ccf79845</string>
     <string name="app_name">Top Security KZ</string>
     <string name="title_activity_splash_screen">Стартовый экран</string>
+    <string name="location_changed">location changed</string>
     <string name="splash_screen_loading">Загрузка...</string>
     <string name="sign_up">Регистрация</string>
     <string name="title_activity_login">Авторизация</string>

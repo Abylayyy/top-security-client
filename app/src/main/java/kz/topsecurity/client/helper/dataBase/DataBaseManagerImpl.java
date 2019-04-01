@@ -326,4 +326,12 @@ public class DataBaseManagerImpl implements DataBaseManager {
 
 
    }
+   public void updateClientPhoto(String url){
+       Client clientData = getClientData();
+       SQLiteDatabase db = mDbHelper.getWritableDatabase();
+       ContentValues values = new ContentValues();
+       values.put(Client.COLUMN_PHOTO, url);
+       int newRowId = db.update(Client.TABLE_NAME, values, Client.COLUMN_USER_ID + "=?", new String[]{clientData.getId().toString()});
+
+   }
 }

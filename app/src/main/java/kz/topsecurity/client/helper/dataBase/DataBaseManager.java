@@ -18,4 +18,5 @@ public interface DataBaseManager {
     void updateHealthCard(Healthcard healthcard, Context context);
 
     void updateDatabase(String reason);
+    void updateClientPhoto(String url);
 }

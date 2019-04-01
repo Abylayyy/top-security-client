@@ -31,15 +31,11 @@ import android.support.v4.app.FragmentTransaction;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 import kz.topsecurity.client.domain.FeedbackScreen.FeedbackActivity;
 import kz.topsecurity.client.domain.AlertHistoryScreen.AlertHistoryActivity;
 import kz.topsecurity.client.domain.PaymentScreen.PaymentActivity;
@@ -54,9 +50,9 @@ import kz.topsecurity.client.fragments.tutorial.TutorialFragment;
 import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.helper.PhoneHelper;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
+import kz.topsecurity.client.helper.dataBase.DataBaseManagerImpl;
 import kz.topsecurity.client.model.other.Client;
 import kz.topsecurity.client.presenter.mainPresenter.MainPresenterImpl;
-import kz.topsecurity.client.service.api.RetrofitClient;
 import kz.topsecurity.client.service.trackingService.TrackingService;
 import kz.topsecurity.client.service.trackingService.interfaces.TrackingServiceBroadcastReceiverListener;
 import kz.topsecurity.client.service.trackingService.listenerImpl.TrackingServiceBroadcastReceiver;
@@ -113,14 +109,13 @@ public class MainActivity extends ServiceControlActivity
     AnimatorSet rippleAnimatorSet, circleAnimatorSet;
     RotateAnimation carAnimation  ;
     int currentAnimationState = -1;
-    String photo_url = "";
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case PROFILE_REQUEST_CODE:{
                 presenter.updateDrawerData(this);
+
 //                if(data.hasExtra(SHOULD_FINISH) && data.getBooleanExtra(SHOULD_FINISH,false)){
 //                    finish();
 //                }
@@ -221,17 +216,26 @@ public class MainActivity extends ServiceControlActivity
         super.onSaveInstanceState(outState);
     }
 
+    boolean firstTimeShow = true;
+    private void checkClientAvatarExist(){
+        checkClientAvatarExist = SharedPreferencesManager.getCheckClientAvatar( this);
+        if(!checkClientAvatarExist && firstTimeShow ){
+            firstTimeShow = false;
+            startActivityForResult(new Intent(this,ProfileActivity.class),PROFILE_REQUEST_CODE);
+        }
+    }
     @Override
     protected void onResume() {
         super.onResume();
+
         checkAlertBtn();
         presenter.checkStatus();
+        checkClientAvatarExist();
     }
 
     private void checkAlertBtn() {
         if(SharedPreferencesManager.getIsServiceActive(this)) {
             btn_cancel_alert.setEnabled(true);
-            hideAdditionalBtns();
         }
         else
             btn_alert.setEnabled(true);
@@ -279,8 +283,6 @@ public class MainActivity extends ServiceControlActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle("Тревога");
-
-        getClientPhotoInfo();
         if (savedInstanceState != null) {
            currentAnimationState = savedInstanceState.getInt(ANIMATION_STATE_KEY);
         }
@@ -297,7 +299,6 @@ public class MainActivity extends ServiceControlActivity
         btn_alert.setOnClickListener(this);
         btn_cancel_alert.setOnClickListener(this);
         btn_minimize_app.setOnClickListener(this);
-        iv_user_avatar.setOnClickListener(this);
         btn_call_me_back.setOnClickListener(this);
         btn_call_ambulance.setOnClickListener(this);
         initPresenter(new MainPresenterImpl(this));
@@ -323,13 +324,7 @@ public class MainActivity extends ServiceControlActivity
 //            showAddYourPhotoDialog();
 
     }
-    boolean checkClientAvatar = true;
-    private void getClientPhotoInfo(){
-        checkClientAvatar = SharedPreferencesManager.getCheckClientAvatar( this);
-        if(!checkClientAvatar){
-            startActivity(new Intent(this,ProfileActivity.class));
-        }
-        }
+    boolean checkClientAvatarExist = true;
     private void setDrawerSettings(Toolbar toolbar) {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -721,7 +716,7 @@ public class MainActivity extends ServiceControlActivity
             case R.id.ll_places:{
                 ifNavButtons = true;if(Constants.is_service_sending_alert())
                     onShowToast(R.string.you_cant_when_alert_active);
-                else if(checkClientAvatar == false)
+                else if(checkClientAvatarExist == false)
                     onShowToast(R.string.you_cant_when_your_photo_not_exist_on_server);
                 else
                     startActivity(new Intent(this,PlaceActivity.class));
@@ -730,7 +725,7 @@ public class MainActivity extends ServiceControlActivity
             case R.id.ll_contacts : {
                 ifNavButtons = true;if(Constants.is_service_sending_alert())
                     onShowToast(R.string.you_cant_when_alert_active);
-                else if(checkClientAvatar == false)
+                else if(checkClientAvatarExist == false)
                     onShowToast(R.string.you_cant_when_your_photo_not_exist_on_server);
                 else
                     startActivity(new Intent(this,TrustedNumbersActivity.class));
@@ -739,7 +734,7 @@ public class MainActivity extends ServiceControlActivity
             case R.id.ll_settings:{
                 ifNavButtons = true;if(Constants.is_service_sending_alert())
                     onShowToast(R.string.you_cant_when_alert_active);
-                else if(checkClientAvatar == false)
+                else if(checkClientAvatarExist == false)
                     onShowToast(R.string.you_cant_when_your_photo_not_exist_on_server);
                 else
                     startActivityForResult(new Intent(this,SettingsActivity.class),SETTINGS_REQUEST_CODE);
@@ -748,7 +743,7 @@ public class MainActivity extends ServiceControlActivity
             case R.id.ll_payment:{
                 ifNavButtons = true;if(Constants.is_service_sending_alert())
                     onShowToast(R.string.you_cant_when_alert_active);
-                else if(checkClientAvatar == false)
+                else if(checkClientAvatarExist == false)
                     onShowToast(R.string.you_cant_when_your_photo_not_exist_on_server);
                 else
                     startActivityForResult(new Intent(this,PaymentActivity.class),PAYMENT_REQUEST_CODE);
@@ -757,7 +752,7 @@ public class MainActivity extends ServiceControlActivity
             case R.id.ll_alert_history:{
                 ifNavButtons = true;if(Constants.is_service_sending_alert())
                     onShowToast(R.string.you_cant_when_alert_active);
-                else if(checkClientAvatar == false)
+                else if(checkClientAvatarExist == false)
                     onShowToast(R.string.you_cant_when_your_photo_not_exist_on_server);
                 else
                     startActivityForResult(new Intent(this,AlertHistoryActivity.class),ALERT_HISTORY_CODE);
@@ -766,7 +761,7 @@ public class MainActivity extends ServiceControlActivity
             case R.id.ll_feedback:{
                 ifNavButtons = true;if(Constants.is_service_sending_alert())
                     onShowToast(R.string.you_cant_when_alert_active);
-                else if(checkClientAvatar == false)
+                else if(checkClientAvatarExist == false)
                     onShowToast(R.string.you_cant_when_your_photo_not_exist_on_server);
                 else
                     startActivityForResult(new Intent(this,FeedbackActivity.class),ABOUT_CODE);
@@ -786,7 +781,7 @@ public class MainActivity extends ServiceControlActivity
                 else if(!mAlreadyStartedService && !Constants.is_service_active() && !SharedPreferencesManager.getTrackingServiceActiveState(this)){
                     promptTurnOnService();
                 }
-                else if(checkClientAvatar == false)
+                else if(checkClientAvatarExist == false)
                     onShowToast(R.string.you_cant_when_your_photo_not_exist_on_server);
                 else {
                     presenter.actionAlert();
@@ -809,7 +804,7 @@ public class MainActivity extends ServiceControlActivity
             case R.id.btn_call_me_back:{
                 if(!checkNetwork()){
                     return;
-                }else if(checkClientAvatar == false)
+                }else if(checkClientAvatarExist == false)
                     onShowToast(R.string.you_cant_when_your_photo_not_exist_on_server);
                 else
                     presenter.callMeBack();
@@ -818,7 +813,7 @@ public class MainActivity extends ServiceControlActivity
             case R.id.btn_call_ambulance:{
                 if(!checkNetwork()){
                     return;
-                }else if(checkClientAvatar == false)
+                }else if(checkClientAvatarExist == false)
                     onShowToast(R.string.you_cant_when_your_photo_not_exist_on_server);
                 else
                     presenter.callAmbulance();

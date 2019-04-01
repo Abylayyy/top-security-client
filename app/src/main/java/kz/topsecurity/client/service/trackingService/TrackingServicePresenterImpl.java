@@ -66,9 +66,9 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
     //   private KalmanLocationManager mKalmanLocationManager = new KalmanLocationManager(this);
     private LocationListenerManager mLocationListenerManager = new LocationListenerManager(this);
     private BatteryListenerManager mBatteryListenerManager = new BatteryListenerManager();
-//    private TelephonyListenerManager mTelephonyListenerManager = new TelephonyListenerManager();
+    //    private TelephonyListenerManager mTelephonyListenerManager = new TelephonyListenerManager();
     private BarometricAltitudeListenerManager mBarometricAltitudeListenerManager = new BarometricAltitudeListenerManager();
-//    private VolumeListenerManager mVolumeListenerManager = new VolumeListenerManager();
+    //    private VolumeListenerManager mVolumeListenerManager = new VolumeListenerManager();
     private VolumeServiceManager mVolumeServiceManager = new VolumeServiceManager() ;
     private FirebaseMessagesListenerManager mFirebaseMessagesListenerManager = new FirebaseMessagesListenerManager(this);
 
@@ -95,7 +95,7 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
             mBarometricAltitudeListenerManager.setupBarometricAltitude(context);
     }
 
-//    public void setupVolumeReceiver(Context context) {
+    //    public void setupVolumeReceiver(Context context) {
 //        if (mVolumeListenerManager.isActive()) {
 //            mVolumeListenerManager.setupVolumeReceiver(context);
 //        }
@@ -213,13 +213,10 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
     }
 
     private void sendDataToServer(DeviceData data) {
-        Log.i("aibolscorpion","sendDataToServer: "+data.getLat()+" "+data.getLng());
-
         Disposable success = new RequestService<>(new RequestService.RequestResponse<SaveDeviceDataResponse>() {
             @Override
             public void onSuccess(SaveDeviceDataResponse data) {
                 Log.e(TAG,"Data send successfully");
-
             }
 
             @Override
@@ -253,7 +250,7 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
             e.printStackTrace();
         }
         sendMessageToUI(sendToServer);
-        Log.i(TAG, "sendToServer "+sendToServer);
+        Log.i(TAG, "TIMER FIRED");
     }
 
     public void stopTimer() {
@@ -354,7 +351,7 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
             str_type = "undefined";
         else if (type == 2)
             str_type = "ambulance";
-        Log.i("aibolscorpion","callAlert: "+data.getLat()+" "+data.getLng());
+
         if(!SharedPreferencesManager.getUserPaymentIsActive(TopSecurityClientApplication.getInstance()))
         {
             setAlertSendError();

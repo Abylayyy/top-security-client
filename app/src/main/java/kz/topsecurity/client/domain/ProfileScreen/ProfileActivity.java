@@ -276,12 +276,12 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void prepareAvatarToSave(String stringExtra, Bitmap bitmap) {
+        SharedPreferencesManager.setCheckClientAvatar(this,true);
         SharedPreferencesManager.setAvatarUriValue(this, stringExtra);
         setImage(bitmap, iv_user_avatar);
         uploadMultipart(this,stringExtra);
         setFinishResult(false);
         isMadeChanges = true;
-        SharedPreferencesManager.setCheckClientAvatar(this,true);
     }
 
     private Task<List<FirebaseVisionFace>> task;
@@ -393,6 +393,14 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (!SharedPreferencesManager.getCheckClientAvatar(this))
+            tv_send_avatar_to_server.setVisibility(View.VISIBLE);
+        else
+            tv_send_avatar_to_server.setVisibility(View.GONE);
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
@@ -418,10 +426,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         if(booleanExtra){
             setFinishResult(true);
         }
-        if(!SharedPreferencesManager.getCheckClientAvatar(this))
-            tv_send_avatar_to_server.setVisibility(View.VISIBLE);
-        else
-            tv_send_avatar_to_server.setVisibility(View.GONE);
+
     }
 
     boolean onGoBackMainActShouldFinish = false;

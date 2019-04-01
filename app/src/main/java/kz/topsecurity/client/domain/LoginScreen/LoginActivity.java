@@ -226,7 +226,8 @@ public class LoginActivity extends BaseActivity<LoginView, LoginPresenter, Login
 
         if(client.getPhoto().contains("no-avatar") || client.getPhoto()==null || client.getPhoto().isEmpty())
             SharedPreferencesManager.setCheckClientAvatar( LoginActivity.this, false);
-
+        else
+            SharedPreferencesManager.setCheckClientAvatar(LoginActivity.this,true);
             startMainActivity();
     }
 
