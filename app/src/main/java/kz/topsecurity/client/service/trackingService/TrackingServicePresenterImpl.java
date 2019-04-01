@@ -66,9 +66,9 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
     //   private KalmanLocationManager mKalmanLocationManager = new KalmanLocationManager(this);
     private LocationListenerManager mLocationListenerManager = new LocationListenerManager(this);
     private BatteryListenerManager mBatteryListenerManager = new BatteryListenerManager();
-//    private TelephonyListenerManager mTelephonyListenerManager = new TelephonyListenerManager();
+    //    private TelephonyListenerManager mTelephonyListenerManager = new TelephonyListenerManager();
     private BarometricAltitudeListenerManager mBarometricAltitudeListenerManager = new BarometricAltitudeListenerManager();
-//    private VolumeListenerManager mVolumeListenerManager = new VolumeListenerManager();
+    //    private VolumeListenerManager mVolumeListenerManager = new VolumeListenerManager();
     private VolumeServiceManager mVolumeServiceManager = new VolumeServiceManager() ;
     private FirebaseMessagesListenerManager mFirebaseMessagesListenerManager = new FirebaseMessagesListenerManager(this);
 
@@ -95,7 +95,7 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
             mBarometricAltitudeListenerManager.setupBarometricAltitude(context);
     }
 
-//    public void setupVolumeReceiver(Context context) {
+    //    public void setupVolumeReceiver(Context context) {
 //        if (mVolumeListenerManager.isActive()) {
 //            mVolumeListenerManager.setupVolumeReceiver(context);
 //        }

@@ -279,7 +279,7 @@ public abstract class BaseActivity
         if(imageStringUri!=null) {
             setImage(imageStringUri,iv_user_avatar);
         }
-        else if(userAvatar!=null){
+        else if(userAvatar!=null && !userAvatar.contains("no-avatar")){
             GlideApp.with(this)
                     .load(userAvatar)
                     .placeholder(R.drawable.placeholder_avatar)
@@ -362,6 +362,7 @@ public abstract class BaseActivity
             iv_user_avatar.setImageBitmap(bmp);
         }
         catch (Exception ex){
+
             ex.printStackTrace();
         }
     }

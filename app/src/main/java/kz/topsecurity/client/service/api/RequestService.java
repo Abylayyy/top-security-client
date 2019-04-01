@@ -3,6 +3,7 @@ package kz.topsecurity.client.service.api;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 
 import java.lang.ref.WeakReference;
 

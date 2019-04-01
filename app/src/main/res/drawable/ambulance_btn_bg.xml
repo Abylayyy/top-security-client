@@ -6,7 +6,11 @@
             <size android:width="120dp" android:height="120dp"/>
         </shape>
     </item>
-    <item android:drawable="@drawable/ic_cross" android:top="16dp" android:bottom="16dp" android:left="16dp" android:right="16dp">
+    <item android:drawable="@drawable/ic_cross"
+        android:gravity="center_horizontal|top"
+        android:top="15dp"
+        android:width="40dp"
+        android:height="40dp">
 
     </item>
 </layer-list>

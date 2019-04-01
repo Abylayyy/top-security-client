@@ -78,7 +78,6 @@ public class PlaceActivity
     @BindView(R.id.ed_place_description) EditText ed_place_description;
 
     int currentViewState = UNKNOWN_VIEW;
-
     private static final int UNKNOWN_VIEW = -1;
     private static final int RADIUS_VIEW = 364;
     private static final int TEXT_INFO_VIEW = 123;
@@ -151,6 +150,7 @@ public class PlaceActivity
 
     void setPlaceRadiusView(){
         clearMapElements();
+        bottomSheetBehavior.setPeekHeight(500);
         findViewById(R.id.map).setVisibility(View.VISIBLE);
         ll_place_text_values_input_view.setVisibility(View.GONE);
         ll_place_list_view.setVisibility(View.GONE);
@@ -186,6 +186,7 @@ public class PlaceActivity
 
     void setPlaceListView(){
         clearMapElements();
+        bottomSheetBehavior.setPeekHeight(500);
         findViewById(R.id.map).setVisibility(View.VISIBLE);
         ll_place_text_values_input_view.setVisibility(View.GONE);
         ll_radius_picker.setVisibility(View.GONE);
@@ -199,15 +200,16 @@ public class PlaceActivity
         if (checkTextValues()) {
             hideSoftKeyboard(fab);
             if(edit_place_id==-1)
-                presenter.savePlace(ed_place_name.getText().toString(), markerLocation, mRadius);
+                presenter.savePlace(ed_place_name.getText().toString(), markerLocation,ed_place_description.getText().toString(), mRadius);
             else
-                presenter.editPlace(edit_place_id, ed_place_name.getText().toString(), markerLocation, mRadius);
+                presenter.editPlace(edit_place_id, ed_place_name.getText().toString(), markerLocation,ed_place_description.getText().toString(), mRadius);
         }
     };
 
     RequestOptions transforms = new RequestOptions().transforms(new CenterInside(), new RoundedCorners(10));
 
     void setPlaceTextValuesView(){
+        bottomSheetBehavior.setPeekHeight(0);
         ll_place_list_view.setVisibility(View.GONE);
         ll_radius_picker.setVisibility(View.GONE);
         currentViewState = TEXT_INFO_VIEW;
@@ -270,23 +272,20 @@ public class PlaceActivity
         mMap = googleMap;
         myLocation = new LatLng(43.2131782,76.9133051);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation,12));
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-              //  mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
-                CameraUpdate location = CameraUpdateFactory.newLatLngZoom(
-                        latLng, 17);
+        mMap.setOnMapClickListener(latLng -> {
+            //  mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(
+                    latLng, 17);
 //                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(latLng);
-                mMap.animateCamera(location, 1000, null);
-                if(currentViewState == RADIUS_VIEW) {
-                    markerLocation = latLng;
-                    drawMarker(latLng);
-                    drawCircle(mRadius);
-                }
+            mMap.animateCamera(location, 1000, null);
+            if(currentViewState == RADIUS_VIEW) {
+                markerLocation = latLng;
+                drawMarker(latLng);
+                drawCircle(mRadius);
             }
         });
         presenter.getPlaces();
-      //  mMap.animateCamera(CameraUpdateFactory.zoomTo(14));//
+        //  mMap.animateCamera(CameraUpdateFactory.zoomTo(14));//
     }
 
     private void movaCamera(LatLng latLng , int min_zoom , int final_zoom){
@@ -354,12 +353,12 @@ public class PlaceActivity
                     .strokeColor(Color.parseColor("#22000000"))
                     .fillColor(Color.parseColor("#22ed7474")));
         }
-    }
+        }
 
-    void drawCircle(int mRadius){
-        if(markerLocation!=null &&mPlaceMarker!=null)
-            drawCircle(markerLocation , mRadius);
-    }
+        void drawCircle(int mRadius){
+            if(markerLocation!=null &&mPlaceMarker!=null)
+                drawCircle(markerLocation , mRadius);
+        }
 
     public void setRadiusViewValues(int radiusViewValues) {
         setTextRadius(radiusViewValues);
@@ -459,7 +458,7 @@ public class PlaceActivity
             drawMarker(latLng);
 //                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
 //                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
-              //  mMap.animateCamera(CameraUpdateFactory.zoomTo(16));
+            //  mMap.animateCamera(CameraUpdateFactory.zoomTo(16));
 //            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(
 //                    latLng, 15);
 //            mMap.animateCamera(location, 1000, null);

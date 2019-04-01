@@ -6,7 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.provider.BaseColumns;
+import android.util.Log;
 
+import kz.topsecurity.client.domain.ProfileScreen.ProfileActivity;
 import kz.topsecurity.client.model.other.Client;
 import kz.topsecurity.client.model.other.Healthcard;
 import kz.topsecurity.client.service.trackingService.model.DeviceData;
@@ -16,7 +18,6 @@ public class DataBaseManagerImpl implements DataBaseManager {
     public static final String REASON_VERSION = "REASON_VERSION";
     public static final String REASON_FORCE = "REASON_FORCE";
     DataBaseHelper mDbHelper;
-
     public DataBaseManagerImpl(Context ctx) {
         mDbHelper = new DataBaseHelper(ctx);
     }
@@ -133,7 +134,7 @@ public class DataBaseManagerImpl implements DataBaseManager {
         long newRowId = db.insert(Client.TABLE_NAME, null, values);
     }
 
-    private int saveHealthCard(Healthcard healthcard) {
+    public int saveHealthCard(Healthcard healthcard) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(Healthcard.COLUMN_HEALTHCARD_ID, healthcard.getId());
@@ -210,14 +211,13 @@ public class DataBaseManagerImpl implements DataBaseManager {
         clientData.setIin(iin);
         clientData.setHealthcard(getHealthCard(healthCardID));
 
-
         // close the db connection
         cursor.close();
 
         return clientData;
     }
 
-    private Healthcard getHealthCard(int healthCardID) throws SQLiteException {
+    public  Healthcard getHealthCard(int healthCardID) throws SQLiteException {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         String[] projection = {
                 Healthcard.COLUMN_ID,
@@ -233,9 +233,9 @@ public class DataBaseManagerImpl implements DataBaseManager {
         };
 
         Healthcard healthCard = new Healthcard();
-        if (healthCardID == -1)
+        if (healthCardID == -1) {
             return healthCard;
-
+        }
 // How you want the results sorted in the resulting Cursor
         String sortOrder =
                 Healthcard.COLUMN_ID + " DESC";
@@ -267,6 +267,8 @@ public class DataBaseManagerImpl implements DataBaseManager {
         String drugs = cursor.getString(cursor.getColumnIndex(Healthcard.COLUMN_DRUGS));
         String disease = cursor.getString(cursor.getColumnIndex(Healthcard.COLUMN_DISEASE));
 
+
+
         healthCard.setId(_id);
         healthCard.setClientId(client_id);
         healthCard.setBloodGroup(bloodGroup);
@@ -292,9 +294,10 @@ public class DataBaseManagerImpl implements DataBaseManager {
     }
 
     @Override
-    public void updateHealthCard(Healthcard healthcard) {
+    public void updateHealthCard(Healthcard healthcard, Context context) {
+
         saveHealthCard(healthcard);
-        updateClientHealthCard(healthcard.getId());
+        updateClientHealthCard(healthcard.getId(),context);
     }
 
     @Override
@@ -313,12 +316,22 @@ public class DataBaseManagerImpl implements DataBaseManager {
         }
     }
 
-    private void updateClientHealthCard(Integer id) {
+    private void updateClientHealthCard(Integer id,Context context) {
         Client clientData = getClientData();
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(Client.COLUMN_HEALTH_CARD_ID, id);
 
-        long newRowId = db.update(Client.TABLE_NAME, values, Client.COLUMN_ID + "=?", new String[]{"" + clientData.getId()});
-    }
+        int newRowId = db.update(Client.TABLE_NAME, values, Client.COLUMN_USER_ID + "=?", new String[]{clientData.getId().toString()});
+
+
+   }
+   public void updateClientPhoto(String url){
+       Client clientData = getClientData();
+       SQLiteDatabase db = mDbHelper.getWritableDatabase();
+       ContentValues values = new ContentValues();
+       values.put(Client.COLUMN_PHOTO, url);
+       int newRowId = db.update(Client.TABLE_NAME, values, Client.COLUMN_USER_ID + "=?", new String[]{clientData.getId().toString()});
+
+   }
 }

@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -26,6 +27,7 @@ import kz.topsecurity.client.domain.InputCodeScreen.SmsCodeActivity;
 import kz.topsecurity.client.domain.MainScreen.MainActivity;
 import kz.topsecurity.client.R;
 import kz.topsecurity.client.domain.PaymentScreen.PaymentActivity;
+import kz.topsecurity.client.domain.ProfileScreen.ProfileActivity;
 import kz.topsecurity.client.domain.RestorePasswordScreen.RestorePasswordActivity;
 import kz.topsecurity.client.domain.StartScreen.StartActivity;
 import kz.topsecurity.client.domain.base.BaseActivity;
@@ -204,7 +206,6 @@ public class LoginActivity extends BaseActivity<LoginView, LoginPresenter, Login
             setIMEI();
             return;
         }
-
         hideSoftKeyboard(btn_sign_in);
         presenter.login(ed_tel_number.getRawText(),ed_tel_number.getText().toString(), ed_password.getText().toString(),imei);
     }
@@ -215,14 +216,19 @@ public class LoginActivity extends BaseActivity<LoginView, LoginPresenter, Login
     }
 
     @Override
-    public void onLoginSuccess(Client client, String token) {
+    public void onLoginSuccess(Client client, String token ) {
         dataBaseManager.saveClientData(client);
         SharedPreferencesManager.setUserPhone(this, ed_tel_number.getRawText());
         SharedPreferencesManager.setUserData(this,true);
         SharedPreferencesManager.setUserAuthToken(this,token);
         boolean isPaymentActive = client.getPlan()!=null && !client.getPlan().getIsExpired();
         SharedPreferencesManager.setUserPaymentIsActive(this, isPaymentActive);
-        startMainActivity();
+
+        if(client.getPhoto().contains("no-avatar") || client.getPhoto()==null || client.getPhoto().isEmpty())
+            SharedPreferencesManager.setCheckClientAvatar( LoginActivity.this, false);
+        else
+            SharedPreferencesManager.setCheckClientAvatar(LoginActivity.this,true);
+            startMainActivity();
     }
 
     @Override

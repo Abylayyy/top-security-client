@@ -49,7 +49,7 @@
                     <TextView
                         android:id="@+id/tv_user_IIN"
                         android:layout_width="wrap_content"
-                        android:layout_height="17dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
                         android:text="@string/user_iin"/>
 
@@ -59,7 +59,7 @@
                         android:layout_height="50dp"
                         android:layout_marginTop="4dp"
                         android:gravity="center"
-                        android:hint="@string/user_iin"
+                        android:hint="@string/placeholder_iin"
                         android:inputType="number"
                         android:maxLines="1"
                         android:maxLength="12"
@@ -98,7 +98,7 @@
                         android:layout_height="50dp"
                         android:layout_marginTop="4dp"
                         android:gravity="center"
-                        android:hint="@string/email"
+                        android:hint="@string/placeholder_email"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
                         android:paddingLeft="25dp"

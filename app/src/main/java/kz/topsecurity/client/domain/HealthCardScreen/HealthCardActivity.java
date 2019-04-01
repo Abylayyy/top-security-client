@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -86,7 +87,7 @@ public class HealthCardActivity extends HelperActivity implements View.OnClickLi
     private String allergicReactionValues = "";
     private String drugsValues ="";
     private String diseaseValues ="";
-
+    Context context;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -157,6 +158,7 @@ public class HealthCardActivity extends HelperActivity implements View.OnClickLi
         fl_drugs_container.setOnClickListener(this);
         fl_disease_container.setOnClickListener(this);
         setUserHealthCardData();
+        context = this;
 //        ConstraintLayout touchInterceptor = (ConstraintLayout)findViewById(R.id.cl_main_container);
 //        touchInterceptor.setOnTouchListener(new View.OnTouchListener() {
 //            @Override
@@ -176,6 +178,7 @@ public class HealthCardActivity extends HelperActivity implements View.OnClickLi
 //            }
 //        });
     }
+
     DataBaseManager dataBaseManager = new DataBaseManagerImpl(this);
 
     private void setUserHealthCardData() {
@@ -303,8 +306,10 @@ public class HealthCardActivity extends HelperActivity implements View.OnClickLi
                 @Override
                 public void onSuccess(HealthCardPostResponse data) {
                     hideProgressDialog();
-                    if(data.getHealthcard()!=null)
-                        dataBaseManager.updateHealthCard(data.getHealthcard());
+                    if(data.getHealthcard()!=null) {
+                        dataBaseManager.updateHealthCard(data.getHealthcard(),context);
+                    }
+
                     closeActivity();
                 }
 

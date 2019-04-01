@@ -1,5 +1,7 @@
 package kz.topsecurity.client.presenter.loginPresenter;
 
+import android.util.Log;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -49,6 +51,7 @@ public class LoginPresenterImpl extends BasePresenterImpl<LoginView> implements 
         view.onShowLoading();
 
         Disposable success = new RequestService<>(new RequestService.RequestResponse<AuthResponse>() {
+
             @Override
             public void onSuccess(AuthResponse r) {
                 view.onLoginSuccess(r.getClient() , r.getToken().getAccessToken());
@@ -77,7 +80,6 @@ public class LoginPresenterImpl extends BasePresenterImpl<LoginView> implements 
             }
             }).makeRequest(RetrofitClient.getClientApi()
                 .authorize(phone, password, Constants.CLIENT_DEVICE_TYPE,Constants.CLIENT_DEVICE_PLATFORM_TYPE, imei));
-
         compositeDisposable.add(success);
     }
 

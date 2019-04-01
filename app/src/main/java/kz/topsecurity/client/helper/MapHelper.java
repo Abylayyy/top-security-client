@@ -73,7 +73,6 @@ public class MapHelper {
         double d = R * c;
         return d; // returns the distance in meter
     };
-
     public static double getDistance(String position1_lat ,String position1_lng , String position2_lat ,String position2_lng) {
        LatLng p1 = convertStringLatLng(position1_lat,position1_lng);
        LatLng p2 = convertStringLatLng(position2_lat, position2_lng);

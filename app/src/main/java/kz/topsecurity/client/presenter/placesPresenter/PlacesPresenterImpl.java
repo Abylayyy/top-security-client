@@ -68,7 +68,7 @@ public class PlacesPresenterImpl extends BasePresenterImpl<PlacesView> implement
 
 
     @Override
-    public void savePlace(String s, LatLng markerLocation, int mRadius) {
+    public void savePlace(String s, LatLng markerLocation,String description, int mRadius) {
         String lat = String.valueOf(markerLocation.latitude);
         String lng = String.valueOf(markerLocation.longitude);
 
@@ -94,7 +94,7 @@ public class PlacesPresenterImpl extends BasePresenterImpl<PlacesView> implement
                 setSavePlaceError(error_message);
             }
         }).makeRequest(RetrofitClient.getClientApi()
-                .savePlace(RetrofitClient.getRequestToken(), s, lat, lng, mRadius));
+                .savePlace(RetrofitClient.getRequestToken(), s, lat, lng, description, mRadius));
 
         compositeDisposable.add(success);
     }
@@ -125,7 +125,7 @@ public class PlacesPresenterImpl extends BasePresenterImpl<PlacesView> implement
     }
 
     @Override
-    public void editPlace(int edit_place_id, String s, LatLng markerLocation, int mRadius) {
+    public void editPlace(int edit_place_id, String s, LatLng markerLocation,String description, int mRadius) {
         view.showLoadingDialog();
         String lat = String.valueOf(markerLocation.latitude);
         String lng = String.valueOf(markerLocation.longitude);
@@ -146,7 +146,7 @@ public class PlacesPresenterImpl extends BasePresenterImpl<PlacesView> implement
                 deletePlaceError(error_message);
             }
         }).makeRequest(RetrofitClient.getClientApi()
-                .editPlace(edit_place_id, RetrofitClient.getRequestToken(), s, lat, lng, mRadius));
+                .editPlace(edit_place_id, RetrofitClient.getRequestToken(), s, lat, lng,description, mRadius));
 
         compositeDisposable.add(success);
     }

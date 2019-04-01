@@ -87,8 +87,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     @BindView(R.id.btn_ok) Button btn_ok;
     @BindView(R.id.btn_cancel) Button btn_cancel;
     @BindView(R.id.rl_user_avatar) RelativeLayout rl_user_avatar;
-//    @BindView(R.id.iv_edit_user_email) ImageView iv_edit_user_email;
-//    @BindView(R.id.iv_edit_user_password) ImageView iv_edit_user_password;
     @BindView(R.id.tv_edit_user_email) TextView tv_edit_user_email;
     @BindView(R.id.tv_edit_user_password) TextView tv_edit_user_password;
     @BindView(R.id.fl_email_container) FrameLayout fl_email_container;
@@ -97,6 +95,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     @BindView(R.id.iv_user_avatar) CircleImageView iv_user_avatar;
     @BindView(R.id.tv_add_secret_code) TextView tv_add_secret_code;
     @BindView(R.id.iv_upload_avatar) ImageView iv_upload_avatar;
+    @BindView(R.id.tv_send_avatar_to_server) TextView tv_send_avatar_to_server;
     @BindView(R.id.tv_user_iin)TextView tv_user_iin;
     @BindView(R.id.tv_user_full_name)TextView tv_user_full_name;
     @BindView(R.id.tv_phone)TextView tv_phone;
@@ -275,6 +274,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void prepareAvatarToSave(String stringExtra, Bitmap bitmap) {
+        SharedPreferencesManager.setCheckClientAvatar(this,true);
         SharedPreferencesManager.setAvatarUriValue(this, stringExtra);
         setImage(bitmap, iv_user_avatar);
         uploadMultipart(this,stringExtra);
@@ -384,11 +384,20 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                             .setNotificationConfig(new UploadNotificationConfig())
                             .setMaxRetries(2)
                             .startUpload();
+
         } catch (Exception exc) {
             Log.e("AndroidUploadService", exc.getMessage(), exc);
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!SharedPreferencesManager.getCheckClientAvatar(this))
+            tv_send_avatar_to_server.setVisibility(View.VISIBLE);
+        else
+            tv_send_avatar_to_server.setVisibility(View.GONE);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -408,7 +417,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         fl_healthcard_container.setOnClickListener(this);
         tv_add_secret_code.setOnClickListener(this);
         setUserData();
-
         if(!Constants.BlockedFunctions.isTwoCodeEnabled)
             tv_add_secret_code.setVisibility(View.GONE);
 
@@ -416,6 +424,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         if(booleanExtra){
             setFinishResult(true);
         }
+
     }
 
     boolean onGoBackMainActShouldFinish = false;
@@ -424,19 +433,25 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         onGoBackMainActShouldFinish = shouldFinish;
     }
 
-    DataBaseManager dataBaseManager = new DataBaseManagerImpl(this);
 
     private void setUserData() {
+        DataBaseManager dataBaseManager = new DataBaseManagerImpl(this);
         String userAvatar = null;
         Client clientData = dataBaseManager.getClientData();
+
         if(clientData!=null){
             userAvatar = clientData.getPhoto();
         }
         setAvatar(iv_user_avatar,userAvatar);
         checkAvatar(userAvatar);
-        ((TextView)findViewById(R.id.tv_edit_user_email)).setHint(clientData.getEmail());
+        tv_edit_user_email.setText(clientData.getEmail());
         tv_user_iin.setText(clientData.getIin());
-        tv_user_full_name.setText(String.format("%s %s %s", clientData.getLastname(),clientData.getFirstname(), clientData.getPatronymic()));
+        if ( clientData.getPatronymic() == null)
+        {
+            tv_user_full_name.setText(String.format("%s %s ", clientData.getLastname(),clientData.getFirstname()));
+        }else {
+            tv_user_full_name.setText(String.format("%s %s %s", clientData.getLastname(),clientData.getFirstname(), clientData.getPatronymic()));
+        }
         tv_phone.setText(PhoneHelper.getFormattedPhone(clientData.getPhone()));
         if(clientData.getHealthcard()!=null){
             tv_edit_user_healthcard.setText(clientData.getHealthcard().getDataInStringFormat(this));

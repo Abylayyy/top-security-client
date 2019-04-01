@@ -1,22 +1,27 @@
 <resources>
     <string name="weather_api_key">debd5815e147d711956903e31432cf66</string>
     <string name="google_server_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBKoK2fR8cfdfqmgrpy8Kk3KUzEhgh2df0</string>
-
+    <string name="google_app_id">1:568270559912:android:3dbc6e84ccf79845</string>
     <string name="app_name">Top Security KZ</string>
     <string name="title_activity_splash_screen">Стартовый экран</string>
+    <string name="location_changed">location changed</string>
     <string name="splash_screen_loading">Загрузка...</string>
     <string name="sign_up">Регистрация</string>
     <string name="title_activity_login">Авторизация</string>
     <string name="auth_text">Авторизация\nпользователя</string>
     <string name="telephone_number">Телефонный номер</string>
     <string name="password">Пароль</string>
+    <string name="placeholder_registration_password">********</string>
     <string name="login">Войти</string>
     <string name="title_activity_register">Регистрация</string>
     <string name="reg_text">Регистрация</string>
     <string name="privacy_policy">Подписавшись, Вы соглашаетесь с Условиями использования приложения</string>
     <string name="username">Имя</string>
+    <string name="placeholder_registration_username">Ваше имя</string>
     <string name="lastname">Фамилия</string>
+    <string name="placeholder_lastname">Ваша фамилия</string>
     <string name="patronymic">Отчество</string>
+    <string name="placeholder_patronymic">Ваше отчество</string>
     <string name="user_iin">ИИН</string>
     <string name="email">Email</string>
     <string name="register">Зарегистрироваться</string>
@@ -75,6 +80,7 @@
     <string name="volume_btn_click_rate">Кол-во нажатий</string>
     <string name="exit">Выйти из аккаунта</string>
     <string name="you_cant_when_alert_active">При активной тревоге Вы не можете использовать данную функцию</string>
+    <string name="you_cant_when_your_photo_not_exist_on_server">Ваша фотография отсутвует на сервере. Выберите фотографию в галерее или снимите на камеру</string>
     <string name="title_service_not_active">Слежка неактивна</string>
     <string name="msg_service_not_active">Слежка отключена. Чтобы вызвать тревогу включите слежку</string>
     <string name="msg_turn_on_tracking_service">Cначала включите слежку</string>
@@ -109,7 +115,7 @@
     <string name="title_activity_crop_picture_activiry">Редактировать</string>
     <string name="load_image_error">Не удалось загрузить изображение</string>
     <string name="permission_crop_rationale">Необходим доступ для обрезки фотографии</string>
-    <string name="permission_camera">Необходим доступ к камеры для рагрузки фотографии</string>
+    <string name="permission_camera">Необходим доступ к камеры для загрузки фотографии</string>
     <string name="button_allow">Разрешить</string>
     <string name="button_deny">Отмена</string>
     <string name="new_email">Новый email</string>
@@ -262,7 +268,7 @@
     <string name="lastNameFieldCantBeEmpty">Поле фамилия не может быть пустым</string>
     <string name="patronymicFieldCantBeEmpty">Поле отчество не может быть пустым</string>
     <string name="user_iin_format">Формат ИИН не правильный</string>
-    <string name="placeholder_iin">000000000000</string>
+    <string name="placeholder_iin">931004300975</string>
     <string name="placeholder_fullname">Firstname Lastname Patroym</string>
     <string name="healthcards">Мед. карта</string>
     <string name="title_activity_health_card">HealthCardActivity</string>
@@ -271,7 +277,7 @@
     <string name="blood_group">Группа крови</string>
     <string name="placeholder_blood_group">A +</string>
     <string name="weight">Вес</string>
-    <string name="placeholder_weight">75 rг</string>
+    <string name="placeholder_weight">75 кг</string>
     <string name="height">Рост</string>
     <string name="placeholder_height">182 см</string>
     <string name="allergic_reaction">Аллергическая реакция</string>
@@ -287,4 +293,6 @@
     <string name="empty_field">Данные отсутствуют</string>
     <string name="add">Добавить</string>
     <string name="are_you_sure_without_saving_data">Вы действительно хотите выйти без сохранения данных?</string>
+    <string name="ambulance">СКОРАЯ \nПОМОЩЬ</string>
+    <string name="call_me_back">ЗВОНОК \nОПЕРАТОРУ</string>
 </resources>

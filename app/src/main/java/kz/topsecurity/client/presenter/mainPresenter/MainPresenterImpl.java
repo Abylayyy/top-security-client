@@ -223,7 +223,7 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
         WeakReference data = new WeakReference<Client>(clientData);
         if(clientData!=null){
             view.setDrawerData(clientData);
-        }
+       }
         data.clear();
     }
 

@@ -15,6 +15,7 @@ import io.reactivex.disposables.Disposable;
 import kz.topsecurity.client.R;
 import kz.topsecurity.client.domain.MainScreen.MainActivity;
 import kz.topsecurity.client.domain.LoginScreen.LoginActivity;
+import kz.topsecurity.client.domain.ProfileScreen.ProfileActivity;
 import kz.topsecurity.client.domain.RegisterScreen.SignUpActivity;
 import kz.topsecurity.client.domain.base.BaseActivity;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
@@ -124,6 +125,10 @@ public class StartActivity extends BaseActivity implements View.OnClickListener 
 
     private void onSuccessLogin(Client client) {
         dataBaseManager.saveClientData(client);
+        if(client.getPhoto().contains("no-avatar") || client.getPhoto()==null || client.getPhoto().isEmpty())
+            SharedPreferencesManager.setCheckClientAvatar( StartActivity.this, false);
+        else
+            SharedPreferencesManager.setCheckClientAvatar(StartActivity.this,true);
 //        if(Constants.IS_DEBUG || (client.checkPlan()!=null && !client.checkPlan().getIsExpired())) {
 
             startActivity(new Intent(this, MainActivity.class));

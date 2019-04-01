@@ -19,4 +19,5 @@
     <!-- ONBOARDING -->
     <color name="dividerColor">#CCB6B6B6</color>
     <color name="dividerColorLight">#48B6B6B6</color>
+    <color name="colorForCallMeBackButton">#89D466</color>
 </resources>

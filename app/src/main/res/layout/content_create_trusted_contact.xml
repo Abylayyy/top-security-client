@@ -24,7 +24,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:hint="@string/username"
+        android:hint="@string/placeholder_registration_username"
         android:inputType="text"
         android:maxLines="1"
         android:paddingLeft="25dp"

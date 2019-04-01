@@ -28,7 +28,8 @@
                 android:id="@+id/iv_user_avatar"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:layout_centerInParent="true" />
+                android:layout_centerInParent="true"
+                android:src="@drawable/placeholder_avatar" />
 
             <ImageView
                 android:id="@+id/iv_upload_avatar"
@@ -266,7 +267,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:visibility="visible"
+            android:visibility="gone"
             android:id="@+id/tv_add_secret_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -283,6 +284,23 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_send_avatar_to_server"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:padding="10dp"
+            android:text="@string/you_cant_when_your_photo_not_exist_on_server"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent" />
     </android.support.constraint.ConstraintLayout>
     <android.support.constraint.ConstraintLayout
         android:id="@+id/cl_delete_view"

@@ -17,7 +17,7 @@ public interface MainPresenter extends BasePresenter {
     void actionCancel();
     void logToken();
 
-    void updateDrawerData(Context context);
+    void  updateDrawerData(Context context);
 
     void exitFromApplication(Context context);
 

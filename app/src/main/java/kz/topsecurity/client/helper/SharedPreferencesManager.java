@@ -44,7 +44,7 @@ public class SharedPreferencesManager {
     private static final String IS_PAYMENT_ACTIVE_KEY = "IS_PAYMENT_ACTIVE_KEY";
     private static final String TMP_SENDED_PHONE = "TMP_SENDED_PHONE";
     private static final String IS_TUTS_SHOWN = "IS_TUTS_SHOWN_";
-
+    private static final String CHECK_CLIENT_AVATAR = "CHECK_CLIENT_AVATAR";
     public class TutsPages{
         public static final String MAIN_PAGE = "MAIN_PAGE";
         public static final String PLACES_PAGE = "PLACES_PAGE";
@@ -183,6 +183,7 @@ public class SharedPreferencesManager {
         setIsTutsShown(context,TutsPages.PLACES_PAGE,false);
         setIsTutsShown(context,TutsPages.CONTACTS_PAGE,false);
         setIsTutsShown(context,TutsPages.SETTTINGS_PAGE,false);
+        setCheckClientAvatar(context,true);
     }
 
     public static String getPhoneImei(Context context){
@@ -402,6 +403,18 @@ public class SharedPreferencesManager {
         boolean isSuccessful = editor.commit();
         if(!isSuccessful){
             Log.e(TAG,"Put value failed");
+        }
+    }
+    public static boolean getCheckClientAvatar(Context context){
+        return getSharedPreferences(context).getBoolean(CHECK_CLIENT_AVATAR,true);
+    }
+
+    public static void setCheckClientAvatar(Context context, boolean state){
+        final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putBoolean(CHECK_CLIENT_AVATAR, state);
+        boolean isSuccessful = editor.commit();
+        if(!isSuccessful){
+            Log.e(TAG,"Put chechClientAvatar value failed");
         }
     }
 }

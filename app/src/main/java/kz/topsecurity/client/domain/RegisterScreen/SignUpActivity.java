@@ -91,7 +91,6 @@ public class SignUpActivity extends BaseFragmentActivity implements RegisterSign
     ImageView iv_back;
 
     String currentFragment;
-
     String userPhone;
     String userPassword;
     String userEmail;

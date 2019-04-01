@@ -13,6 +13,7 @@ import kz.topsecurity.client.model.contact.GetContactsResponse;
 import kz.topsecurity.client.model.contact.SaveContactsResponse;
 import kz.topsecurity.client.model.device.SaveDeviceDataResponse;
 import kz.topsecurity.client.model.other.BasicResponse;
+import kz.topsecurity.client.model.other.Client;
 import kz.topsecurity.client.model.other.HealthCardPostResponse;
 import kz.topsecurity.client.model.other.PlansResponse;
 import kz.topsecurity.client.model.other.SampleRequest;
@@ -112,6 +113,7 @@ public interface ApiService {
                                             @Field("name") String name,
                                             @Field("lat") String lat,
                                             @Field("lng") String lng,
+                                            @Field("description") String description,
                                             @Field("radius") int radius);
 
     @FormUrlEncoded
@@ -121,6 +123,7 @@ public interface ApiService {
                                             @Field("name") String name,
                                             @Field("lat") String lat,
                                             @Field("lng") String lng,
+                                            @Field("description") String description,
                                             @Field("radius") int radius);
 
 
@@ -204,6 +207,7 @@ public interface ApiService {
 
     @GET("client/plans")
     Observable<PlansResponse> getPlan(@Header("Authorization") String access_token);
+
 
     @FormUrlEncoded
     @POST("client/register/confirm")
