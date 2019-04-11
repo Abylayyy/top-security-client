@@ -229,7 +229,6 @@ public class MainActivity extends ServiceControlActivity
         super.onResume();
 
         checkAlertBtn();
-        presenter.checkStatus();
         checkClientAvatarExist();
     }
 
@@ -998,5 +997,6 @@ public class MainActivity extends ServiceControlActivity
     @Override
     public void onDestroy() {
         super.onDestroy();
+        presenter.removeHandlerCallbacks();
     }
 }

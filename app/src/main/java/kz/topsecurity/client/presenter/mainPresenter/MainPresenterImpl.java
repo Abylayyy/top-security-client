@@ -1,6 +1,8 @@
 package kz.topsecurity.client.presenter.mainPresenter;
 
 import android.content.Context;
+import android.os.Handler;
+import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 
@@ -31,7 +33,7 @@ import static kz.topsecurity.client.domain.MainScreen.MainActivity.ORDER_CREATED
 public class MainPresenterImpl extends BasePresenterImpl<MainView> implements MainPresenter {
 
     private boolean isAlertActive = false;
-
+    Handler handler ;
     public MainPresenterImpl(MainView view) {
         super(view);
     }
@@ -40,6 +42,9 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
         isAlertActive = alertActive;
     }
 
+    public void removeHandlerCallbacks(){
+        handler.removeCallbacks(mRunnable);
+    }
     @Override
     public void actionWithCheck(){
         if(isAlertActive){
@@ -95,34 +100,43 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
         isAlertActive = true;
         view.onAlert(0);
     }
-
     @Override
     public void checkStatus() {
-        Disposable subscribe = new RequestService<>(new RequestService.RequestResponse<CheckAlertResponse>() {
-            @Override
-            public void onSuccess(CheckAlertResponse r) {
-                if(r.getAlert()!=null && !r.getAlert().getStatus().equals("cancelled"))
-                    processCheckStatus(true);
-                else {
-                    processCheckStatus(false);
+        handler = new Handler();
+        handler.post(mRunnable);
+    }
+
+    Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            Disposable subscribe = new RequestService<>(new RequestService.RequestResponse<CheckAlertResponse>() {
+                @Override
+                public void onSuccess(CheckAlertResponse r) {
+                    if(r.getAlert()!=null && !r.getAlert().getStatus().equals("cancelled"))
+                        processCheckStatus(true);
+                    else {
+                        processCheckStatus(false);
 //                    Constants.is_service_sending_alert(false);/
 //                    view.onCheckAlertServiceIsNotActive();//
+                    }
                 }
-            }
 
-            @Override
-            public void onFailed(CheckAlertResponse data, int error_message) {
-                processCheckStatus(false);
-            }
+                @Override
+                public void onFailed(CheckAlertResponse data, int error_message) {
+                    processCheckStatus(false);
+                }
 
-            @Override
-            public void onError(Throwable e, int error_message) {
-            }
-        }).makeRequest(RetrofitClient
-                .getClientApi()
-                .check(RetrofitClient.getRequestToken()));
-        compositeDisposable.add(subscribe);
-    }
+                @Override
+                public void onError(Throwable e, int error_message) {
+                }
+            }).makeRequest(RetrofitClient
+                    .getClientApi()
+                    .check(RetrofitClient.getRequestToken()));
+            compositeDisposable.add(subscribe);
+
+            handler.postDelayed(mRunnable, Constants.TIMER_WAKE_UP_INTERVAL);
+        }
+    };
 
     void processCheckStatus(boolean isSuccessfull){
         if(isSuccessfull){
