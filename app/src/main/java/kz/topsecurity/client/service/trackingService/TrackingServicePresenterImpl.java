@@ -1,5 +1,6 @@
 package kz.topsecurity.client.service.trackingService;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Geocoder;
@@ -23,6 +24,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import kz.topsecurity.client.R;
 import kz.topsecurity.client.application.TopSecurityClientApplication;
+import kz.topsecurity.client.domain.base.BaseActivity;
 import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
 import kz.topsecurity.client.model.alert.AlertResponse;
@@ -106,8 +108,10 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
     }
 
     void setupTimer(){
-        if(isTimerActive && (isIdleTimerActive || isAlertTimerActive))
+        isAlertActive = SharedPreferencesManager.getAlertActive(TopSecurityClientApplication.getInstance());
+        if(isTimerActive && (isIdleTimerActive || isAlertTimerActive)) {
             return;
+        }
         if(isAlertActive)
             setupAlertTimer();
         else
@@ -118,10 +122,12 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
     boolean isIdleTimerActive = false;
 
     void setupAlertTimer(){
-        if(isTimerActive && isAlertTimerActive)
+        if(isTimerActive && isAlertTimerActive) {
             return;
+        }
         stopTimer();
         isAlertTimerActive =true;
+        handler = new Handler();
         timer_fired = new Runnable() {
             @Override
             public void run() {
@@ -134,8 +140,9 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
     }
 
     void setupIdleTimer(){
-        if(isTimerActive && isIdleTimerActive)
+        if(isTimerActive && isIdleTimerActive){
             return;
+        }
         stopTimer();
         isIdleTimerActive = true;
         handler = new Handler();
@@ -284,13 +291,13 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
 
     private void checkTimer() {
         if(!isTimerActive){
-            setupTimer();
+          //  setupTimer();
         }
         else{
             handler.sendEmptyMessage(1);
             if(!handler.hasMessages(1)) {
                 isTimerActive = false;
-                setupTimer();
+             //   setupTimer();
             }
         }
     }
@@ -411,7 +418,6 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
     }
 
     private void setAlertIsActiveStatus(int type) {
-        isAlertActive = true;
         setupAlertTimer();
         Constants.is_service_sending_alert(true);
         if(type==0)
@@ -458,7 +464,6 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
 
     private void setAlertIsCanceledStatus() {
         setupIdleTimer();
-        isAlertActive = false;
         Constants.is_service_sending_alert(false);
         view.setAlertCanceledStatus();
         view.onBroadcastMessage(TrackingService.ACTION_STATUS_ALERT_CANCEL_SEND);
