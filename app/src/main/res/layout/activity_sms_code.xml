@@ -8,32 +8,49 @@
     tools:context="kz.topsecurity.client.domain.InputCodeScreen.SmsCodeActivity"
     android:orientation="vertical"
     android:id="@+id/ll_main_container"
-    android:background="@drawable/white_pattern_bg">
+    android:background="@drawable/splash_screen_bg">
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/ll_toolbar"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
         android:gravity="center_vertical"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"
-        android:layout_height="?attr/actionBarSize">
-        <ImageView
-            android:clickable="true"
-            android:focusable="true"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/main_padding_top" >
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/iv_back"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:padding="12dp"
-            android:tint="@color/colorAccent"
-            app:srcCompat="@drawable/ic_action_back"/>
-        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/app_title_text_logo"
-            android:layout_centerInParent="true" />
-    </RelativeLayout>
+            android:layout_height="?attr/actionBarSize"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+            <ImageView
+                android:id="@+id/img_iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginLeft="@dimen/main_padding_left"
+                app:srcCompat="@drawable/ic_iv_back" />
 
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="назад"
+                android:textColor="#EFEFEF"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/img_iv_back"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.45" />
+        </android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
     <include layout="@layout/content_sms_code" />
 
 </LinearLayout>

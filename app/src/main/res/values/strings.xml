@@ -6,7 +6,7 @@
     <string name="title_activity_splash_screen">Стартовый экран</string>
     <string name="location_changed">location changed</string>
     <string name="splash_screen_loading">Загрузка...</string>
-    <string name="sign_up">Регистрация</string>
+    <string name="sign_up"><u>Пройти регистрацию</u></string>
     <string name="title_activity_login">Авторизация</string>
     <string name="auth_text">Авторизация\nпользователя</string>
     <string name="telephone_number">Телефонный номер</string>
@@ -120,7 +120,7 @@
     <string name="button_deny">Отмена</string>
     <string name="new_email">Новый email</string>
     <string name="correct_errors">Исправьте ошибки</string>
-    <string name="forget_password">Забыли пароль?</string>
+    <string name="forget_password"><u>Забыли пароль?</u></string>
     <string name="no_location_data">Нет данных по локации</string>
     <string name="password_do_not_match">Пароли не совпадают</string>
     <string name="password_changed_successfully">Пароль успешно изменен</string>
@@ -294,5 +294,8 @@
     <string name="add">Добавить</string>
     <string name="are_you_sure_without_saving_data">Вы действительно хотите выйти без сохранения данных?</string>
     <string name="ambulance">СКОРАЯ \nПОМОЩЬ</string>
+    <string name="ambulance_redesign">Скорая</string>
     <string name="call_me_back">ЗВОНОК \nОПЕРАТОРУ</string>
+    <string name="welcome_to_application">Добро пожаловать \nв мобильное приложение</string>
+    <string name="operator">Оператор</string>
 </resources>

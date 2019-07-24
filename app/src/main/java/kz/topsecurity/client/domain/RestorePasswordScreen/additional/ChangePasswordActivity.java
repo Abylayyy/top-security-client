@@ -2,13 +2,9 @@ package kz.topsecurity.client.domain.RestorePasswordScreen.additional;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -16,8 +12,7 @@ import butterknife.ButterKnife;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import kz.topsecurity.client.R;
-import kz.topsecurity.client.domain.LoginScreen.LoginActivity;
-import kz.topsecurity.client.domain.LoginScreen.LoginActivity_ViewBinding;
+import kz.topsecurity.client.domain.StartScreen.StartActivity;
 import kz.topsecurity.client.domain.base.BaseActivity;
 import kz.topsecurity.client.model.other.BasicResponse;
 import kz.topsecurity.client.service.api.RequestService;
@@ -31,16 +26,13 @@ public class ChangePasswordActivity extends BaseActivity implements StatusListen
 
     boolean isSuccess = false;
     public static final String SMS_CODE = "sms_code_extra";
-    @BindView(R.id.tv_change_password) TextView tv_change_password;
-    @BindView(R.id.tv_new_password) TextView tv_new_password;
     @BindView(R.id.ed_new_password) RoundCorneredEditText ed_new_password;
     @BindView(R.id.tv_new_password_error) TextView tv_new_password_error;
-    @BindView(R.id.tv_repeat_new_password) TextView tv_repeat_new_password;
     @BindView(R.id.ed_repeat_new_password) RoundCorneredEditText ed_repeat_new_password;
     @BindView(R.id.tv_repeat_new_password_error) TextView tv_repeat_new_password_error;
     @BindView(R.id.btn_confirm) Button btn_confirm;
 
-    @BindView(R.id.iv_back) ImageView iv_back;
+    @BindView(R.id.iv_back) ConstraintLayout iv_back;
 
     RoundCorneredEditTextHelper userNewPassword_helper;
     RoundCorneredEditTextHelper userPasswordConfirmation_helper;
@@ -54,8 +46,8 @@ public class ChangePasswordActivity extends BaseActivity implements StatusListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
         ButterKnife.bind(this);
-        userNewPassword_helper = new RoundCorneredEditTextHelper(this, ed_new_password, tv_new_password , tv_new_password_error);
-        userPasswordConfirmation_helper = new RoundCorneredEditTextHelper(this, ed_repeat_new_password, tv_repeat_new_password , tv_repeat_new_password_error);
+        userNewPassword_helper = new RoundCorneredEditTextHelper(this, ed_new_password , tv_new_password_error);
+        userPasswordConfirmation_helper = new RoundCorneredEditTextHelper(this, ed_repeat_new_password , tv_repeat_new_password_error);
         smsCode = getIntent().getStringExtra(SMS_CODE);
         btn_confirm.setOnClickListener(this);
         iv_back.setOnClickListener(this);
@@ -126,7 +118,7 @@ public class ChangePasswordActivity extends BaseActivity implements StatusListen
 
     private void onChangePasswordSuccess(){
         isSuccess = true;
-        startActivity(new Intent(this, LoginActivity.class));
+        startActivity(new Intent(this, StartActivity.class));
         finish();
     }
 
@@ -177,7 +169,7 @@ public class ChangePasswordActivity extends BaseActivity implements StatusListen
                 @Override
                 public void onPositiveBtnClicked() {
                     dissmissAreYouSureDialog();
-                    startActivity(new Intent(ChangePasswordActivity.this, LoginActivity.class));
+                    startActivity(new Intent(ChangePasswordActivity.this, StartActivity.class));
                     ChangePasswordActivity.super.finish();
                 }
             });

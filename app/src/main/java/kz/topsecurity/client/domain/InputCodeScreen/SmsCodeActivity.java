@@ -6,7 +6,6 @@ import android.os.CountDownTimer;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -14,8 +13,8 @@ import butterknife.ButterKnife;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import kz.topsecurity.client.R;
-import kz.topsecurity.client.domain.LoginScreen.LoginActivity;
 import kz.topsecurity.client.domain.MainScreen.MainActivity;
+import kz.topsecurity.client.domain.StartScreen.StartActivity;
 import kz.topsecurity.client.domain.base.BaseActivity;
 import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
@@ -34,7 +33,7 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
     public static final String FOR_LOGIN = "FOR_LOGIN";
     public static final String PASSWORD = "PASS";
     public static final String IMEI = "IMEI";
-    @BindView(R.id.iv_back) ImageView iv_back;
+    @BindView(R.id.iv_back) ConstraintLayout iv_back;
     @BindView(R.id.cl_code) ConstraintLayout cl_code;
     @BindView(R.id.tv_sms_code_label) TextView tv_sms_code_label;
     @BindView(R.id.ed_sms_code) RoundCorneredEditText ed_sms_code;
@@ -121,7 +120,6 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
         public void onFinish() {
             tv_send_again.setClickable(true);
             tv_send_again.setText(getString(R.string.send_again));
-            tv_send_again.setTextColor(getResources().getColor(android.R.color.black));
         }
     };
 
@@ -219,8 +217,8 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
             loginUser();
         else{
             isSuccess = true;
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.putExtra(LoginActivity.PHONE_EXTRA,sendedPhone);
+            Intent intent = new Intent(this, StartActivity.class);
+            intent.putExtra(StartActivity.PHONE_EXTRA,sendedPhone);
             startActivity(intent);
             System.gc();
             finish();
@@ -287,7 +285,7 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
                 @Override
                 public void onPositiveBtnClicked() {
                     dissmissAreYouSureDialog();
-                    startActivity(new Intent(SmsCodeActivity.this, LoginActivity.class));
+                    startActivity(new Intent(SmsCodeActivity.this, StartActivity.class));
                     System.gc();
                     SmsCodeActivity.super.finish();
                 }

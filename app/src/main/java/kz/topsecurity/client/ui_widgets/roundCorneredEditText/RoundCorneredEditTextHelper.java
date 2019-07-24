@@ -22,7 +22,11 @@ public class RoundCorneredEditTextHelper {
         this.errorTextView = errorTextView;
         this.listener = listener;
     }
-
+    public RoundCorneredEditTextHelper(StatusListener listener, RoundCorneredEditText editText , TextView errorTextView){
+        this.roundCorneredEditText = editText;
+        this.errorTextView = errorTextView;
+        this.listener = listener;
+    }
     public void setMandatory(){
         String labelText = labelTextView.getText().toString();
         String text = String.format("%s%s",labelText,"<font color='red'>*</font>");

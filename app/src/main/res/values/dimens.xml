@@ -11,4 +11,7 @@
     <dimen name="quarter_general_margin">4dp</dimen>
     <dimen name="double_general_margin">32dp</dimen>
     <dimen name="triple_general_margin">48dp</dimen>
+    <dimen name="main_padding_left">30dp</dimen>
+    <dimen name="main_padding_right">30dp</dimen>
+    <dimen name="main_padding_top">30dp</dimen>
 </resources>

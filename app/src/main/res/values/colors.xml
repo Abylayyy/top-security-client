@@ -20,4 +20,10 @@
     <color name="dividerColor">#CCB6B6B6</color>
     <color name="dividerColorLight">#48B6B6B6</color>
     <color name="colorForCallMeBackButton">#89D466</color>
+    <color name="main_activity_top_background">#212121</color>
+    <color name="main_activity_bottom_background">#101010</color>
+    <color name="color_tv">#9E9E9E</color>
+    <color name="button_background">#232323</color>
+    <color name="enter_button_background">#EF3B39</color>
+    <color name="enter_button_pressed">#9A0A0A</color>
 </resources>

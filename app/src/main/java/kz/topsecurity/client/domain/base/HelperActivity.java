@@ -28,12 +28,7 @@ public abstract class HelperActivity extends AppCompatActivity {
     }
 
     protected void showToast(final String msg){
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(HelperActivity.this,msg,Toast.LENGTH_LONG).show();
-            }
-        });
+        runOnUiThread(() -> Toast.makeText(HelperActivity.this,msg,Toast.LENGTH_LONG).show());
     }
     protected void showToast(int textMsgResId){
         showToast(getString(textMsgResId));
@@ -44,7 +39,7 @@ public abstract class HelperActivity extends AppCompatActivity {
         WeakReference data = null;
         try{
             ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            data = new WeakReference<ConnectivityManager>(cm);
+            data = new WeakReference<>(cm);
             if(cm!=null) {
                 NetworkInfo netInfo = cm.getNetworkInfo(0);
                 if (netInfo != null && netInfo.getState() == NetworkInfo.State.CONNECTED) {

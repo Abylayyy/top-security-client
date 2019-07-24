@@ -6,17 +6,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -45,7 +45,6 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import kz.topsecurity.client.R;
 import kz.topsecurity.client.domain.InputCodeScreen.SmsCodeActivity;
-import kz.topsecurity.client.domain.LoginScreen.LoginActivity;
 import kz.topsecurity.client.domain.ProfileScreen.CropPhotoScreen.CropPictureActivity;
 import kz.topsecurity.client.domain.StartScreen.StartActivity;
 import kz.topsecurity.client.domain.base.BaseFragmentActivity;
@@ -67,7 +66,6 @@ import kz.topsecurity.client.service.api.RequestService;
 import kz.topsecurity.client.service.api.RetrofitClient;
 import kz.topsecurity.client.ui_widgets.customDialog.CustomSimpleDialog;
 import kz.topsecurity.client.view.registerView.SignUpView;
-import kz.topsecurity.client.view.registerView.fragmentsView.UserNameFieldsView;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -88,7 +86,7 @@ public class SignUpActivity extends BaseFragmentActivity implements RegisterSign
 
     private static final String TAG = SignUpActivity.class.getSimpleName();
     @BindView(R.id.iv_back)
-    ImageView iv_back;
+    ConstraintLayout iv_back;
 
     String currentFragment;
     String userPhone;

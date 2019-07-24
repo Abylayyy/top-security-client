@@ -24,7 +24,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -432,7 +431,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private void setFinishResult(boolean shouldFinish) {
         onGoBackMainActShouldFinish = shouldFinish;
     }
-
 
     private void setUserData() {
         DataBaseManager dataBaseManager = new DataBaseManagerImpl(this);

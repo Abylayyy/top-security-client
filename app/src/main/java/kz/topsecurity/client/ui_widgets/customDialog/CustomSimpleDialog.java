@@ -1,6 +1,7 @@
 package kz.topsecurity.client.ui_widgets.customDialog;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,28 +33,20 @@ public class CustomSimpleDialog extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dialogMsg = getArguments().getString(DIALOG_MESSAGE,getString(R.string.are_you_sure_delete));
+        if (getArguments() != null) {
+            dialogMsg = getArguments().getString(DIALOG_MESSAGE,getString(R.string.are_you_sure_delete));
+        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.custom_simple_dialog, container, false);
         btn_ok = v.findViewById(R.id.btn_ok);
         btn_cancel = v.findViewById(R.id.btn_cancel);
         tv_dialog_msg = v.findViewById(R.id.tv_dialog_msg);
         tv_dialog_msg.setText(dialogMsg);
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.onCancelBtnClicked();
-            }
-        });
-        btn_ok.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                listener.onPositiveBtnClicked();
-            }
-        });
+        btn_cancel.setOnClickListener(view -> listener.onCancelBtnClicked());
+        btn_ok.setOnClickListener(view -> listener.onPositiveBtnClicked());
 
         getDialog().getWindow().setBackgroundDrawableResource(R.drawable.custom_dialog_bg);
         return v;

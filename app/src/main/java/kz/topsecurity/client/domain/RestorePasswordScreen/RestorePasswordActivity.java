@@ -6,21 +6,19 @@ import android.os.CountDownTimer;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kz.topsecurity.client.R;
-import kz.topsecurity.client.domain.LoginScreen.LoginActivity;
 import kz.topsecurity.client.domain.RestorePasswordScreen.additional.ChangePasswordActivity;
+import kz.topsecurity.client.domain.StartScreen.StartActivity;
 import kz.topsecurity.client.domain.base.BaseActivity;
 import kz.topsecurity.client.presenter.restorePassPresenter.RestorePasswordPresenter;
 import kz.topsecurity.client.presenter.restorePassPresenter.RestorePasswordPresenterImpl;
 import kz.topsecurity.client.ui_widgets.customDialog.CustomSimpleDialog;
 import kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditText;
 import kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditTextHelper;
-import kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditTextWithMask;
 import kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditTextWithPhoneMask;
 import kz.topsecurity.client.ui_widgets.roundCorneredEditText.StatusListener;
 import kz.topsecurity.client.view.restorePassView.RestorePasswordView;
@@ -29,7 +27,7 @@ public class RestorePasswordActivity extends BaseActivity<RestorePasswordView,
         RestorePasswordPresenter,
         RestorePasswordPresenterImpl> implements RestorePasswordView, StatusListener , View.OnClickListener {
 
-    @BindView(R.id.iv_back) ImageView iv_back;
+    @BindView(R.id.iv_back) ConstraintLayout iv_back;
     @BindView(R.id.cl_restore_pass_layer) ConstraintLayout cl_restore_pass_layer;
     @BindView(R.id.cl_telephone) ConstraintLayout cl_telephone;
     @BindView(R.id.cl_code) ConstraintLayout cl_code;
@@ -255,7 +253,7 @@ public class RestorePasswordActivity extends BaseActivity<RestorePasswordView,
                 @Override
                 public void onPositiveBtnClicked() {
                     dissmissAreYouSureDialog();
-                    startActivity(new Intent(RestorePasswordActivity.this, LoginActivity.class));
+                    startActivity(new Intent(RestorePasswordActivity.this, StartActivity.class));
                     RestorePasswordActivity.super.finish();
                 }
             });

@@ -99,12 +99,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".domain.LoginScreen.LoginActivity"
-            android:label="@string/title_activity_login"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".domain.RegisterScreen.RegisterActivity"
             android:label="@string/title_activity_register"
@@ -115,6 +110,11 @@
             android:name=".domain.MainScreen.MainActivity"
             android:label="@string/title_activity_main"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".domain.MainActivityRedesign"
+            android:label="@string/title_activity_main"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

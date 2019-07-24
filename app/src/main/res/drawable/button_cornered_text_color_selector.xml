@@ -9,12 +9,12 @@
     <!-- Focused and pressed -->
     <item android:state_focused="true"
         android:state_pressed="true"
-        android:color="@color/colorAccent" />
+        android:color="@color/enter_button_pressed" />
 
     <!-- Unfocused and pressed -->
     <item android:state_focused="false"
         android:state_pressed="true"
-        android:color="@color/colorAccent" />
+        android:color="@color/enter_button_pressed" />
 
     <!-- Default color -->
     <item android:color="#fff" />

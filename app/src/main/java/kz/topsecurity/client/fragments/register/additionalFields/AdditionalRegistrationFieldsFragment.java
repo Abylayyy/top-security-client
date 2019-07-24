@@ -1,6 +1,5 @@
 package kz.topsecurity.client.fragments.register.additionalFields;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -25,10 +23,8 @@ import kz.topsecurity.client.view.registerView.fragmentsView.AdditionalRegistrat
 
 public class AdditionalRegistrationFieldsFragment extends Fragment implements AdditionalRegistrationFieldsView, StatusListener {
 
-    @BindView(R.id.tv_user_IIN) TextView tv_user_IIN;
     @BindView(R.id.ed_user_IIN) RoundCorneredEditText ed_user_IIN;
     @BindView(R.id.tv_user_IIN_error) TextView tv_user_IIN_error;
-    @BindView(R.id.tv_email) TextView tv_email;
     @BindView(R.id.ed_email) RoundCorneredEditText ed_email;
     @BindView(R.id.tv_email_error) TextView tv_email_error;
     @BindView(R.id.btn_sign_up)
@@ -73,10 +69,10 @@ public class AdditionalRegistrationFieldsFragment extends Fragment implements Ad
         super.onViewCreated(view, savedInstanceState);
 
         presenter = new AdditionalRegistrationFieldsPresenterImpl(this);
-        user_IIN_helper = new RoundCorneredEditTextHelper(this , ed_user_IIN , tv_user_IIN, tv_user_IIN_error);
-        userEmail_helper = new RoundCorneredEditTextHelper(this , ed_email , tv_email, tv_email_error);
-        user_IIN_helper.setMandatory();
-        userEmail_helper.setMandatory();
+        user_IIN_helper = new RoundCorneredEditTextHelper(this , ed_user_IIN , tv_user_IIN_error);
+        userEmail_helper = new RoundCorneredEditTextHelper(this , ed_email , tv_email_error);
+        //user_IIN_helper.setMandatory();
+        //userEmail_helper.setMandatory();
         user_IIN_helper.init(getActivity());
         userEmail_helper.init(getActivity());
         btn_sign_up.setOnClickListener(v->{

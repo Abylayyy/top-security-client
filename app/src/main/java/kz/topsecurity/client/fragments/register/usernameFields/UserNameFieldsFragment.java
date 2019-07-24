@@ -1,6 +1,5 @@
 package kz.topsecurity.client.fragments.register.usernameFields;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -26,15 +24,12 @@ public class UserNameFieldsFragment extends Fragment implements UserNameFieldsVi
 
     UserNameFieldsPresenterImpl presenter;
 
-    @BindView(R.id.tv_firstname) TextView tv_firstname;
     @BindView(R.id.ed_firstname) RoundCorneredEditText ed_firstname;
     @BindView(R.id.tv_firstname_error) TextView tv_firstname_error;
 
-    @BindView(R.id.tv_lastname) TextView tv_lastname;
     @BindView(R.id.ed_lastname) RoundCorneredEditText ed_lastname;
     @BindView(R.id.tv_lastname_error) TextView tv_lastname_error;
 
-    @BindView(R.id.tv_patronymic) TextView tv_patronymic;
     @BindView(R.id.ed_patronymic) RoundCorneredEditText ed_patronymic;
     @BindView(R.id.tv_patronymic_error) TextView tv_patronymic_error;
 
@@ -77,12 +72,12 @@ public class UserNameFieldsFragment extends Fragment implements UserNameFieldsVi
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         presenter = new UserNameFieldsPresenterImpl(this);
-        firstname_helper = new RoundCorneredEditTextHelper(this , ed_firstname , tv_firstname, tv_firstname_error);
-        lastname_helper = new RoundCorneredEditTextHelper(this , ed_lastname, tv_lastname, tv_lastname_error);
-        patronymic_helper = new RoundCorneredEditTextHelper(this , ed_patronymic, tv_patronymic, tv_patronymic_error);
-        firstname_helper.setMandatory();
-        lastname_helper.setMandatory();
-        firstname_helper.init(getActivity());
+        firstname_helper = new RoundCorneredEditTextHelper(this , ed_firstname , tv_firstname_error);
+        lastname_helper = new RoundCorneredEditTextHelper(this , ed_lastname,  tv_lastname_error);
+        patronymic_helper = new RoundCorneredEditTextHelper(this , ed_patronymic, tv_patronymic_error);
+        //firstname_helper.setMandatory();
+        //lastname_helper.setMandatory();
+        //firstname_helper.init(getActivity());
         lastname_helper.init(getActivity());
         patronymic_helper.init(getActivity());
 

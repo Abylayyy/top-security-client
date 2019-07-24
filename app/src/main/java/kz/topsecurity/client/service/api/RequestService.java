@@ -3,7 +3,6 @@ package kz.topsecurity.client.service.api;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.util.Log;
 
 import java.lang.ref.WeakReference;
 
@@ -11,7 +10,6 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import kz.topsecurity.client.R;
 import kz.topsecurity.client.application.TopSecurityClientApplication;
 import kz.topsecurity.client.helper.TextHelper;
 import kz.topsecurity.client.model.other.BasicResponseTemplate;
@@ -59,7 +57,7 @@ public class RequestService<T> {
         WeakReference data = null;
         try{
             ConnectivityManager cm = (ConnectivityManager) TopSecurityClientApplication.getInstance().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            data = new WeakReference<ConnectivityManager>(cm);
+            data = new WeakReference<>(cm);
             if(cm!=null) {
                 NetworkInfo netInfo = cm.getNetworkInfo(0);
                 if (netInfo != null && netInfo.getState() == NetworkInfo.State.CONNECTED) {
