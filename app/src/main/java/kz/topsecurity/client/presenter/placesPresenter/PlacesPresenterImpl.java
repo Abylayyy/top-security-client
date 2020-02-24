@@ -124,43 +124,6 @@ public class PlacesPresenterImpl extends BasePresenterImpl<PlacesView> implement
         compositeDisposable.add(success);
     }
 
-    @Override
-    public void editPlace(int edit_place_id, String s, LatLng markerLocation,String description, int mRadius) {
-        view.showLoadingDialog();
-        String lat = String.valueOf(markerLocation.latitude);
-        String lng = String.valueOf(markerLocation.longitude);
-
-        Disposable success = new RequestService<>(new RequestService.RequestResponse<SavePlaceResponse>() {
-            @Override
-            public void onSuccess(SavePlaceResponse r) {
-                editPlaceSuccess(r.getPlace(), edit_place_id);
-            }
-
-            @Override
-            public void onFailed(SavePlaceResponse data, int error_message) {
-                editPlaceError(error_message);
-            }
-
-            @Override
-            public void onError(Throwable e, int error_message) {
-                deletePlaceError(error_message);
-            }
-        }).makeRequest(RetrofitClient.getClientApi()
-                .editPlace(edit_place_id, RetrofitClient.getRequestToken(), s, lat, lng,description, mRadius));
-
-        compositeDisposable.add(success);
-    }
-
-    private void editPlaceError(int error) {
-        view.hideLoadingDialog();
-        view.onPlaceEditError(error);
-    }
-
-    private void editPlaceSuccess(Place place , int edit_place_id) {
-        view.hideLoadingDialog();
-        view.onPlaceEditSuccess(place,edit_place_id);
-    }
-
     private void deletePlaceSuccess(int id) {
         view.hideLoadingDialog();
         view.onPlaceDeleteSuccess(id);

@@ -18,7 +18,7 @@ public class RegisterSignFieldsPresenterImpl implements RegisterSignFieldsPresen
     }
 
     @Override
-    public void checkFields(String rawphone,String phone, String password, String password_confirm) {
+    public void checkFields(String rawphone,String phone, String password, String password_confirm, boolean check) {
         boolean is_contain_error= false;
         if(phone.length()<16 || rawphone.length()<10)
         {
@@ -32,6 +32,10 @@ public class RegisterSignFieldsPresenterImpl implements RegisterSignFieldsPresen
         }
         if(!password_confirm.equals(password)){
             view.onConfirmPasswordError(R.string.confirm_password_not_match);
+            is_contain_error = true;
+        }
+        if (!check) {
+            view.onCheckError();
             is_contain_error = true;
         }
         if(!is_contain_error){
@@ -49,10 +53,10 @@ public class RegisterSignFieldsPresenterImpl implements RegisterSignFieldsPresen
     }
 
     private void checkPhone(String phone, String password) {
-        Disposable disposable = new RequestService<BasicResponse>(new RequestService.RequestResponse<BasicResponse>() {
+        Disposable disposable = new RequestService<>(new RequestService.RequestResponse<BasicResponse>() {
             @Override
             public void onSuccess(BasicResponse data) {
-                view.onFieldsCorrect(phone,password);
+                view.onFieldsCorrect(phone, password);
             }
 
             @Override

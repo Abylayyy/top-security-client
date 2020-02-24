@@ -13,7 +13,6 @@ import kz.topsecurity.client.model.contact.GetContactsResponse;
 import kz.topsecurity.client.model.contact.SaveContactsResponse;
 import kz.topsecurity.client.model.device.SaveDeviceDataResponse;
 import kz.topsecurity.client.model.other.BasicResponse;
-import kz.topsecurity.client.model.other.Client;
 import kz.topsecurity.client.model.other.HealthCardPostResponse;
 import kz.topsecurity.client.model.other.PlansResponse;
 import kz.topsecurity.client.model.other.SampleRequest;
@@ -53,8 +52,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("client/register")
     Observable<RegisterResponse> register(@Field("phone") String phone,
-                                          @Field("password") String password,
-                                          @Field("username") String username );
+                                          @Field("password") String password);
 
     @FormUrlEncoded
     @POST("client/device/data")
@@ -73,13 +71,6 @@ public interface ApiService {
                                                 @Field("charge") Integer charge,
                                                 @Field("address") String address,
                                                 @Field("timestamp") Integer timestamp);
-
-//    @FormUrlEncoded
-//    @POST("client/alert")
-//    Observable<AlertResponse> sendAlert(@Header("Authorization") String token,
-//                                        @Field("lat") Double lat,
-//                                        @Field("lng") Double lng,
-//                                        @Field("timestamp") Integer timestamp);
 
 
     @FormUrlEncoded
@@ -110,16 +101,6 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("client/places")
     Observable<SavePlaceResponse> savePlace(@Header("Authorization") String token,
-                                            @Field("name") String name,
-                                            @Field("lat") String lat,
-                                            @Field("lng") String lng,
-                                            @Field("description") String description,
-                                            @Field("radius") int radius);
-
-    @FormUrlEncoded
-    @PATCH("client/places/{place_id}")
-    Observable<SavePlaceResponse> editPlace(@Path("place_id") int place_id,
-                                            @Header("Authorization") String token,
                                             @Field("name") String name,
                                             @Field("lat") String lat,
                                             @Field("lng") String lng,
@@ -162,7 +143,10 @@ public interface ApiService {
     @PATCH("client")
     Observable<GetClientResponse> editUserData(@Header("Authorization") String token,
                                                @Field("username") String username,
-                                               @Field("email") String email);
+                                               @Field("email") String email,
+                                               @Field("firstname") String firstname,
+                                               @Field("lastname") String lastname,
+                                               @Field("iin") String iin);
 
     @FormUrlEncoded
     @POST("client/password")
@@ -188,9 +172,15 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("client/password/change")
-    Observable<BasicResponse> changePassword(@Field("new_password") String new_password ,
+    Observable<BasicResponse> changePassword(@Field("new_password") String new_password,
             @Field("new_password_confirmation") String new_password_confirmation,
             @Field("verification_code") String verification_code);
+
+    @FormUrlEncoded
+    @POST("client/password")
+    Observable<BasicResponse> changePassword(@Header("Authorization") String token, @Field("old_password") String oldPass,
+                                             @Field("new_password") String newPass,
+                                             @Field("new_password_confirmation") String confirmNewPass);
 
 
     @GET("client/alerts")
@@ -227,26 +217,6 @@ public interface ApiService {
 
 
     @FormUrlEncoded
-    @POST("client/register")
-    Observable<RegisterResponse> registerWithPhoto( @Field("phone") String phone,
-                                                    @Field("password") String password,
-                                                    @Field("email") String email,
-                                                    @Field("username") String username,
-                                                    @Field("photo") String photo);
-
-    @FormUrlEncoded
-    @POST("client/register/?v2=true")
-    Observable<RegisterResponse> registrationNew( @Field("phone") String phone,
-                                                 @Field("password") String password,
-                                                 @Field("email") String email,
-                                                 @Field("username") String username,
-                                                 @Field("photo") String photo,
-                                                 @Field("iin") String iin,
-                                                 @Field("firstname") String firstname,
-                                                 @Field("lastname") String lastname,
-                                                 @Field("patronymic") String patronymic);
-
-    @FormUrlEncoded
     @POST("client/healthcard")
     Observable<HealthCardPostResponse> addUserHealthCard(@Header("Authorization") String access_token,
                                                          @Field("blood_group") String blood_group,
@@ -256,4 +226,5 @@ public interface ApiService {
                                                          @Field("allergic_reactions") String allergic_reactions,
                                                          @Field("drugs") String drugs,
                                                          @Field("disease") String disease);
+
 }

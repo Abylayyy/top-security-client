@@ -16,9 +16,10 @@ public class SignUpPresenterImpl implements SignUpPresenter {
     }
 
     @Override
-    public void register(String phone, String email, String IIN, String password , String userPhoto, String firstname, String lastname, String patronymic) {
+    public void register(String phone, String password) {
         view.showLoading();
-        Disposable disposable = new RequestService<RegisterResponse>(new RequestService.RequestResponse<RegisterResponse>() {
+        Disposable disposable = new RequestService<>(new RequestService.RequestResponse<RegisterResponse>() {
+
             @Override
             public void onSuccess(RegisterResponse data) {
                 view.onRegisterSuccess(data.getClient());
@@ -36,7 +37,7 @@ public class SignUpPresenterImpl implements SignUpPresenter {
                 view.onRegisterError(error_message);
                 view.hideLoading();
             }
-        }).makeRequest(RetrofitClient.getClientApi().registrationNew(phone, password, email, firstname, userPhoto, IIN,firstname,lastname,patronymic));
+        }).makeRequest(RetrofitClient.getClientApi().register(phone, password));
         compositeDisposable.add(disposable);
     }
 

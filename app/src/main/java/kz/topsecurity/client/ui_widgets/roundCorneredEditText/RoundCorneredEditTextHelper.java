@@ -61,14 +61,11 @@ public class RoundCorneredEditTextHelper {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                context.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(is_error_textview_visible) {
-                            errorTextView.setVisibility(View.GONE);
-                            is_error_textview_visible = false;
-                            errorDeactivated();
-                        }
+                context.runOnUiThread(() -> {
+                    if(is_error_textview_visible) {
+                        errorTextView.setVisibility(View.GONE);
+                        is_error_textview_visible = false;
+                        errorDeactivated();
                     }
                 });
 

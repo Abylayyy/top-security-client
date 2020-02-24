@@ -271,9 +271,6 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
     private void setupLocationReceiver(Context context, LocationManager locationManager, FusedLocationProviderClient client, Geocoder geocoder) {
         if(!mLocationListenerManager.isActive())
             mLocationListenerManager.setupLocationReceiver(context , locationManager,client, geocoder);
-//        if(!mLocationListenerManager.isActive())
-//            mLocationListenerManager.setupLocationReceiver(context );
-//        new LocationServiceWithFilter();
     }
 
     private long lastAddressRequestInMilis = 0;
@@ -311,9 +308,6 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
         if(  mLocationListenerManager!= null && mLocationListenerManager.isActive())
             mLocationListenerManager.isGpsEnabled();
         return SharedPreferencesManager.getGpsStatus(TopSecurityClientApplication.getInstance());
-//        if(mLocationListenerManager!=null && mLocationListenerManager.isActive())
-//            return mLocationListenerManager.isGpsEnabled();
-//        return false;
     }
 
     void stop(Context context){
@@ -337,20 +331,11 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
     CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     void callAlert(DeviceData data){
-//        if(data==null)
-//        {
-//            setAlertSendError();
-//            return;
-//        }
         callAlert(data,0);
     }
 
     void callAlert(DeviceData data, final int type){
-//        if(data==null)
-//        {
-//            setAlertSendError();
-//            return;
-//        }
+
         String str_type = "alert";
         if(type==0)
             str_type = "alert";
@@ -444,7 +429,7 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
 
             @Override
             public void onFailed(CancelAlertResponse data, int error_message) {
-                if(data.getStatusCode()==4101){
+                if(data.getStatusCode() == 4101){
                     setAlertIsCanceledStatus();
                 }
                 else
@@ -483,16 +468,6 @@ public class TrackingServicePresenterImpl implements LocationListener , Firebase
         locationSettingsResponseTask.addOnFailureListener( e ->{
             // 6
             if (e instanceof ResolvableApiException) {
-                // Location settings are not satisfied, but this can be fixed
-                // by showing the user a dialog.
-//                try {
-//                    // Show the dialog by calling startResolutionForResult(),
-//                    // and check the result in onActivityResult().
-//                    ((ResolvableApiException) e).startResolutionForResult(TrackingService.this,
-//                            REQUEST_CHECK_SETTINGS );
-//                } catch (IntentSender.SendIntentException ex) {
-//                    // Ignore the error.
-//                }
 
                 view.onLocationNotAvailable();
             }

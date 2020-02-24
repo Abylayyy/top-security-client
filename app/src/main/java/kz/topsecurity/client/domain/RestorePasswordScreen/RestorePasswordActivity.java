@@ -1,9 +1,11 @@
 package kz.topsecurity.client.domain.RestorePasswordScreen;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.constraint.ConstraintLayout;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -49,6 +51,7 @@ public class RestorePasswordActivity extends BaseActivity<RestorePasswordView,
     private static final int PHONE_VIEW = 41;
     private static final int CODE_VIEW = 43;
     private boolean isSuccess = false;
+    private static final String format = "%02d:%02d";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,14 +73,17 @@ public class RestorePasswordActivity extends BaseActivity<RestorePasswordView,
 
      CountDownTimer countDownTimer =  new CountDownTimer(60000, 1000) {
 
+        @SuppressLint("DefaultLocale")
         public void onTick(long millisUntilFinished) {
-            tv_send_again.setText(String.format("%s (%d)",getString(R.string.send_again) , millisUntilFinished / 1000));
+            int seconds = (int) (millisUntilFinished / 1000);
+            int minutes = seconds / 60;
+            tv_send_again.setText(String.format(format, minutes, seconds));
         }
 
         public void onFinish() {
             tv_send_again.setClickable(true);
             tv_send_again.setText(getString(R.string.send_again));
-            tv_send_again.setTextColor(getResources().getColor(android.R.color.black));
+            tv_send_again.setTextColor(getResources().getColor(R.color.color_tv));
         }
     };
 
@@ -94,7 +100,7 @@ public class RestorePasswordActivity extends BaseActivity<RestorePasswordView,
 
     @Override
     public void onRestorePasswordSuccess(String success_sms_code) {
-        isSuccess =true;
+        isSuccess = true;
         Intent intent = new Intent(this, ChangePasswordActivity.class);
         intent.putExtra(ChangePasswordActivity.SMS_CODE, success_sms_code);
         startActivity(intent);
@@ -237,26 +243,5 @@ public class RestorePasswordActivity extends BaseActivity<RestorePasswordView,
     protected void onDestroy() {
         countDownTimer.cancel();
         super.onDestroy();
-    }
-
-    @Override
-    public void finish() {
-        if(isSuccess)
-            super.finish();
-        else {
-            showAreYouSureDialog(getString(R.string.are_you_sure_what_exit_restore_pass), new CustomSimpleDialog.Callback() {
-                @Override
-                public void onCancelBtnClicked() {
-                    dissmissAreYouSureDialog();
-                }
-
-                @Override
-                public void onPositiveBtnClicked() {
-                    dissmissAreYouSureDialog();
-                    startActivity(new Intent(RestorePasswordActivity.this, StartActivity.class));
-                    RestorePasswordActivity.super.finish();
-                }
-            });
-        }
     }
 }

@@ -8,17 +8,17 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
+import es.dmoral.toasty.Toasty;
 import kz.topsecurity.client.ui_widgets.customDialog.CustomSimpleDialog;
 
 public abstract class HelperActivity extends AppCompatActivity {
 
     ProgressDialog pg_loader;
 
-    protected void showLoadingDialog()  {
+    public void showLoadingDialog()  {
         pg_loader = ProgressDialog.show(this,"","Идет загрузка ...",true);
     }
 
@@ -28,7 +28,7 @@ public abstract class HelperActivity extends AppCompatActivity {
     }
 
     protected void showToast(final String msg){
-        runOnUiThread(() -> Toast.makeText(HelperActivity.this,msg,Toast.LENGTH_LONG).show());
+        runOnUiThread(() -> Toasty.info(HelperActivity.this, msg, Toasty.LENGTH_LONG).show());
     }
     protected void showToast(int textMsgResId){
         showToast(getString(textMsgResId));

@@ -1,31 +1,23 @@
 package kz.topsecurity.client.domain.base;
 
 import android.app.ActivityManager;
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,11 +25,9 @@ import java.io.FileNotFoundException;
 import java.lang.ref.WeakReference;
 
 import kz.topsecurity.client.R;
-import kz.topsecurity.client.fragments.tutorial.TutorialFragment;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
 import kz.topsecurity.client.presenter.base.BasePresenter;
 import kz.topsecurity.client.service.trackingService.TrackingService;
-import kz.topsecurity.client.ui_widgets.customDialog.CustomSimpleDialog;
 import kz.topsecurity.client.utils.GlideApp;
 import kz.topsecurity.client.view.base.BaseView;
 
@@ -46,8 +36,7 @@ public abstract class BaseActivity
         S extends BasePresenter ,
         U extends  S >
         extends HelperActivity
-        implements BaseView,
-        TutorialFragment.OnFragmentInteractionListener{
+        implements BaseView {
 
     private static final String TAG = BaseActivity.class.getSimpleName();
     private Intent mTrackingService;
@@ -65,60 +54,6 @@ public abstract class BaseActivity
     protected void initPresenter(U presenterImpl){
         presenter = presenterImpl;
         presenterImpl.attach();
-    }
-
-    public void showTutorials(int type) {
-        if(SharedPreferencesManager.getIsTutsShown(this))
-            return;
-        if(findViewById(R.id.fl_tuts_fragment_container) == null)
-            return;
-        String tutsPage = "";
-        switch (type){
-            case TutorialFragment.MAIN_ACTIVITY:{
-                tutsPage = SharedPreferencesManager.TutsPages.MAIN_PAGE;
-                break;
-            }
-            case TutorialFragment.CONTACTS_ACTIVITY:{
-                tutsPage = SharedPreferencesManager.TutsPages.CONTACTS_PAGE;
-                break;
-            }
-            case TutorialFragment.PLACES_ACTIVITY:{
-                tutsPage = SharedPreferencesManager.TutsPages.PLACES_PAGE;
-                break;
-            }
-            case TutorialFragment.SETTINGS_ACTIVITY:{
-                tutsPage = SharedPreferencesManager.TutsPages.SETTTINGS_PAGE;
-                break;
-            }
-        }
-
-        if(!tutsPage.isEmpty() && SharedPreferencesManager.getIsTutsShown(this,tutsPage))
-            return;
-
-        try {
-            // Create a new Fragment to be placed in the activity layout
-            findViewById(R.id.fl_tuts_fragment_container).setVisibility(View.VISIBLE);
-            TutorialFragment firstFragment = TutorialFragment.newInstance( type );
-            // Add the fragment to the 'fragment_container' FrameLayout
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fl_tuts_fragment_container, firstFragment, TutorialFragment.class.getSimpleName()).commit();
-        }
-        catch (Exception ex){
-
-        }
-    }
-
-    public void removeTutorial() {
-        try {
-            Fragment fragment = getSupportFragmentManager().findFragmentByTag(TutorialFragment.class.getSimpleName());
-            if(fragment != null)
-                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-            if(findViewById(R.id.fl_tuts_fragment_container)!=null)
-                findViewById(R.id.fl_tuts_fragment_container).setVisibility(View.GONE);
-        }
-        catch (Exception ex){
-            ex.printStackTrace();
-        }
     }
 
     @Override
@@ -292,7 +227,7 @@ public abstract class BaseActivity
         iv_user_avatar.setImageResource(R.drawable.placeholder_avatar);
         if (imagePath!=null && !imagePath.isEmpty()){
             Bitmap bitmap = getBitmap(imagePath);
-            WeakReference data = new WeakReference<Bitmap>(bitmap);
+            WeakReference data = new WeakReference<>(bitmap);
             if(bitmap!=null){
                 setImage(bitmap,iv_user_avatar);
                 data.clear();
@@ -406,13 +341,5 @@ public abstract class BaseActivity
         }
 
         return accessibilityFound;
-    }
-
-
-
-
-    @Override
-    public void onOkButtonClick() {
-        removeTutorial();
     }
 }

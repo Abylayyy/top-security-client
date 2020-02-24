@@ -5,28 +5,24 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,12 +52,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import kz.topsecurity.client.R;
-import kz.topsecurity.client.domain.HealthCardScreen.HealthCardActivity;
-import kz.topsecurity.client.domain.MainScreen.MainActivity;
 import kz.topsecurity.client.domain.ProfileScreen.CropPhotoScreen.CropPictureActivity;
-import kz.topsecurity.client.domain.ProfileScreen.EditEmailScreen.EditEmailActivity;
-import kz.topsecurity.client.domain.ProfileScreen.EditPasswordScreen.EditPasswordActivity;
-import kz.topsecurity.client.domain.SetSecretCancelCodeScreen.SetSecretCancelCodeActivity;
 import kz.topsecurity.client.domain.base.BaseActivity;
 import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.helper.PhoneHelper;
@@ -88,9 +79,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     @BindView(R.id.rl_user_avatar) RelativeLayout rl_user_avatar;
     @BindView(R.id.tv_edit_user_email) TextView tv_edit_user_email;
     @BindView(R.id.tv_edit_user_password) TextView tv_edit_user_password;
-    @BindView(R.id.fl_email_container) FrameLayout fl_email_container;
-    @BindView(R.id.fl_password_container) FrameLayout fl_password_container;
-    @BindView(R.id.fl_healthcard_container) FrameLayout fl_healthcard_container;
     @BindView(R.id.iv_user_avatar) CircleImageView iv_user_avatar;
     @BindView(R.id.tv_add_secret_code) TextView tv_add_secret_code;
     @BindView(R.id.iv_upload_avatar) ImageView iv_upload_avatar;
@@ -100,7 +88,11 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     @BindView(R.id.tv_phone)TextView tv_phone;
     @BindView(R.id.tv_edit_user_healthcard)TextView tv_edit_user_healthcard;
 
+    public static Bitmap savedBitmap;
+
     private static final int HealthCardRequestCode = 48;
+
+    DataBaseManager manager = new DataBaseManagerImpl(getApplication());
 
     String stringUri;
 
@@ -115,6 +107,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     public static final String FORCED_LOAD_AVATAR = "FORCED_LOAD_AVATAR_EXTRA";
     public static final String CROPPED_IMAGE_PATH = "cropped_image_path_extra";
     private static final String IMAGE_DIRECTORY = "/demonuts_upload_gallery";
+    public static int currentView;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
@@ -141,10 +134,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                     WeakReference data = null;
                     try {
                         bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-                        data = new WeakReference<Bitmap>(bitmap);
+                        data = new WeakReference<>(bitmap);
                         String path = saveImage(bitmap);
-                        startActivityForResult((new Intent(ProfileActivity.this, CropPictureActivity.class).putExtra(CropPictureActivity.IMAGE_SOURCE,path)),CROP_PHOTO);
-                        //uploadImage(path);
+                        startActivityForResult((new Intent(ProfileActivity.this, CropPictureActivity.class).putExtra(
+                                CropPictureActivity.IMAGE_SOURCE,path)),CROP_PHOTO);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -159,15 +152,13 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 if (resultCode == RESULT_OK) {
                     Bundle extras = imageReturnedIntent.getExtras();
                     Bitmap bitmap = (Bitmap) extras.get("data");
-                    WeakReference data = null;
-                    data = new WeakReference<Bitmap>(bitmap);
+                    WeakReference data;
+                    data = new WeakReference<>(bitmap);
                     Intent intent = new Intent(ProfileActivity.this, CropPictureActivity.class).putExtra(CropPictureActivity.BITMAP_IMAGE, bitmap);
                     intent.putExtra("BitmapImage", bitmap);
+                    currentView = IMAGE_CAPTURE;
                     startActivityForResult(intent,CROP_PHOTO);
                     data.clear();
-                }
-                else{
-
                 }
             }
             case CHANGE_EMAIL:{
@@ -179,19 +170,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             }
             case CROP_PHOTO:{
                 if (resultCode == RESULT_OK) {
-//                    String stringExtra = imageReturnedIntent.getStringExtra(CROPPED_IMAGE_PATH);
-//                    SharedPreferencesManager.setAvatarUriValue(this, stringExtra);
-//                    Bitmap bitmap = getBitmap(stringExtra);
-//                    setImage(bitmap, iv_user_avatar);
-//                    uploadMultipart(this,stringExtra);
-//                    checkAndUploadAvatar(stringExtra, bitmap );
-//                    detectFace(bitmap);
-//                    isMadeChanges = true;
-
                     String stringExtra = imageReturnedIntent.getStringExtra(CROPPED_IMAGE_PATH);
                     Bitmap bitmap = getBitmap(stringExtra);
-                    WeakReference data = new WeakReference<Bitmap>(bitmap);
-                    checkAndUploadAvatar(stringExtra, bitmap );
+                    WeakReference data = new WeakReference<>(bitmap);
+                    checkAndUploadAvatar(stringExtra, bitmap);
                     data.clear();
                 }
                 break;
@@ -245,37 +227,49 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     private void checkAndUploadAvatar(final String stringExtra,final Bitmap bitmap) {
         showLoadingDialog();
-        OnSuccessListener<List<FirebaseVisionFace>> onSuccessListener = new OnSuccessListener<List<FirebaseVisionFace>>() {
-            @Override
-            public void onSuccess(List<FirebaseVisionFace> firebaseVisionFaces) {
+        OnSuccessListener<List<FirebaseVisionFace>> onSuccessListener = firebaseVisionFaces -> {
+
+            if(firebaseVisionFaces.size()==0){
                 hideProgressDialog();
-                if(firebaseVisionFaces.size()==0){
-                    showToast(R.string.face_not_detected);
-                }
-                else if(firebaseVisionFaces.size()==1) {
-                    showToast(R.string.success);
-                    prepareAvatarToSave(stringExtra, bitmap);
-                    stopAnimLoadImageButton();
-                }
-                else {
-                    showToast(R.string.more_than_one_face_in_picture);
-                }
+                showDialog(getString(R.string.face_not_detected));
+
+            }
+            else if(firebaseVisionFaces.size()==1) {
+                prepareAvatarToSave(stringExtra, bitmap);
+                stopAnimLoadImageButton();
+                new Handler().postDelayed(()->{
+                    hideProgressDialog();
+                    ProfileActivity.this.finish();
+                }, 1500);
+            }
+            else {
+                hideProgressDialog();
+                showDialog(getString(R.string.more_than_one_face_in_picture));
             }
         };
-        OnFailureListener onFailureListener = new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                hideProgressDialog();
-                showToast("FAILED");
-            }
+        OnFailureListener onFailureListener = e -> {
+            hideProgressDialog();
+            showToast("FAILED");
         };
         detectFace(bitmap,onSuccessListener,onFailureListener );
+    }
+
+    private void showDialog(String di) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(di);
+        builder.setPositiveButton("ОК", (dialog, which) -> {
+            dialog.dismiss();
+            ProfileActivity.this.finish();
+        });
+        builder.create().show();
     }
 
     private void prepareAvatarToSave(String stringExtra, Bitmap bitmap) {
         SharedPreferencesManager.setCheckClientAvatar(this,true);
         SharedPreferencesManager.setAvatarUriValue(this, stringExtra);
+        savedBitmap = bitmap;
         setImage(bitmap, iv_user_avatar);
+
         uploadMultipart(this,stringExtra);
         setFinishResult(false);
         isMadeChanges = true;
@@ -290,13 +284,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         FirebaseApp.initializeApp(this);
         FirebaseVisionFaceDetector faceDetector =
                 FirebaseVision.getInstance().getVisionFaceDetector();
-//        FirebaseVisionFaceDetectorOptions build = new FirebaseVisionFaceDetectorOptions.Builder()
-//                .setModeType(ACCURATE_MODE)
-//                .setLandmarkType(ALL_LANDMARKS)
-//                .setClassificationType(ALL_CLASSIFICATIONS)
-//                .setMinFaceSize(0.15f)
-//                .setTrackingEnabled(true)
-//                .build();
         FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bitmap);
         task = faceDetector.detectInImage(image);
         task.addOnSuccessListener(onSuccessListener)
@@ -339,40 +326,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         return "";
     }
 
-    private void uploadImage(String imagePath) {
-//        File file = new File(imagePath);
-//        if(file==null) {
-//            showToast(R.string.file_not_found);
-//            return;
-//        }
-//
-//        showLoadingDialog();
-//
-//        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
-//        Disposable success = new RequestService<>(new RequestService.RequestResponse<PhotoResponse>() {
-//            @Override
-//            public void onSuccess(PhotoResponse r) {
-//                hideProgressDialog();
-//                showToast(R.string.photo_successful_saved_code);
-//            }
-//
-//            @Override
-//            public void onFailed(PhotoResponse data, int error_message) {
-//                hideProgressDialog();
-//                showToast(error_message);
-//            }
-//
-//            @Override
-//            public void onError(Throwable e, int error_message) {
-//                hideProgressDialog();
-//                showToast(error_message);
-//            }
-//        }).makeRequest(RetrofitClient.getClientApi()
-//                .uploadPhoto(RetrofitClient.getRequestToken(), filePart).subscribeOn(Schedulers.newThread()));
-//
-//        compositeDisposable.add(success);
-    }
-
     public void uploadMultipart(final Context context,String imagePath) {
         try {
             String uploadId =
@@ -402,19 +355,13 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         ButterKnife.bind(this);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        setTitle("Профиль");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         tv_delete_account.setOnClickListener(this);
         btn_ok.setOnClickListener(this);
         btn_cancel.setOnClickListener(this);
         rl_user_avatar.setOnClickListener(this);
-        fl_email_container.setOnClickListener(this);
-        fl_password_container.setOnClickListener(this);
-        fl_healthcard_container.setOnClickListener(this);
         tv_add_secret_code.setOnClickListener(this);
+        ProfileActivityPermissionsDispatcher.capturePhotoWithCheck(ProfileActivity.this);
+
         setUserData();
         if(!Constants.BlockedFunctions.isTwoCodeEnabled)
             tv_add_secret_code.setVisibility(View.GONE);
@@ -496,25 +443,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 break;
             }
             case (R.id.rl_user_avatar):{
-                showChooser();
+                ProfileActivityPermissionsDispatcher.capturePhotoWithCheck(ProfileActivity.this);
                 break;
             }
             case (R.id.tv_add_secret_code):{
-                startActivity(new Intent(ProfileActivity.this, SetSecretCancelCodeActivity.class));
-                break;
-            }
-            case (R.id.fl_email_container):{
-                startActivityForResult((new Intent(this,EditEmailActivity.class)),CHANGE_EMAIL);
-                break;
-            }
-
-            case (R.id.fl_password_container):{
-                startActivity(new Intent(ProfileActivity.this, EditPasswordActivity.class));
-                break;
-            }
-
-            case (R.id.fl_healthcard_container):{
-                startActivityForResult(new Intent(ProfileActivity.this, HealthCardActivity.class),HealthCardRequestCode);
                 break;
             }
             default:{
@@ -522,36 +454,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
                 break;
             }
         }
-    }
-
-    private void showChooser() {
-        BottomSheetDialog mBottomSheetDialog = new BottomSheetDialog(this);
-        View sheetView = getLayoutInflater().inflate(R.layout.fragment_chooser_bottom_sheet, null);
-        LinearLayout camera = (LinearLayout) sheetView.findViewById(R.id.fragment_chooser_bottom_sheet_camera);
-        LinearLayout gallery = (LinearLayout) sheetView.findViewById(R.id.fragment_chooser_bottom_sheet_gallery);
-        camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ProfileActivityPermissionsDispatcher.capturePhotoWithCheck(ProfileActivity.this);
-                mBottomSheetDialog.dismiss();
-            }
-        });
-
-        gallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadImage();
-                mBottomSheetDialog.dismiss();
-            }
-        });
-        mBottomSheetDialog.setContentView(sheetView);
-        mBottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                String test = "";
-            }
-        });
-        mBottomSheetDialog.show();
     }
 
     @OnShowRationale(Manifest.permission.CAMERA)
@@ -579,20 +481,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     private void showRationaleDialog(@StringRes int messageResId, final PermissionRequest request) {
         new AlertDialog.Builder(this).setPositiveButton(R.string.button_allow,
-                new DialogInterface.OnClickListener() {
-                    @Override public void onClick(@NonNull DialogInterface dialog, int which) {
-                        request.proceed();
-                    }
-                }).setNegativeButton(R.string.button_deny,
-                new DialogInterface.OnClickListener() {
-                    @Override public void onClick(@NonNull DialogInterface dialog, int which) {
-                        request.cancel();
-                    }
-                }).setCancelable(false).setMessage(messageResId).show();
-    }
-
-    private void loadImage() {
-        startActivityForResult((new Intent(ProfileActivity.this, CropPictureActivity.class)),CROP_PHOTO);
+                (dialog, which) -> request.proceed()).setNegativeButton(R.string.button_deny,
+                (dialog, which) -> request.cancel()).setCancelable(false).setMessage(messageResId).show();
     }
 
     void openImagePicker(){
@@ -628,22 +518,14 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void finish(){
-        if(isMadeChanges)
-            setResult(RESULT_OK);
-        if(onGoBackMainActShouldFinish)
-        {
-           Intent resIntent = new Intent();
-           resIntent.putExtra(MainActivity.SHOULD_FINISH,true);
-           setResult(RESULT_OK, resIntent);
-        }
         super.finish();
     }
 
     @Override
     protected void onDestroy() {
-//        if(task!=null)
         super.onDestroy();
     }
+
 
 
 }

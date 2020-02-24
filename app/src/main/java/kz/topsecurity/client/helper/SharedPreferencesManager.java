@@ -4,11 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.util.ArrayList;
-
 public class SharedPreferencesManager {
     private static final String TAG = SharedPreferencesManager.class.getSimpleName();
 
@@ -38,20 +33,11 @@ public class SharedPreferencesManager {
     private static final String TMP_SENDED_PHONE = "TMP_SENDED_PHONE";
     private static final String IS_TUTS_SHOWN = "IS_TUTS_SHOWN_";
     private static final String CHECK_CLIENT_AVATAR = "CHECK_CLIENT_AVATAR";
-    public class TutsPages{
-        public static final String MAIN_PAGE = "MAIN_PAGE";
-        public static final String PLACES_PAGE = "PLACES_PAGE";
-        public static final String CONTACTS_PAGE = "CONTACTS_PAGE";
-        public static final String SETTTINGS_PAGE = "SETTTINGS_PAGE";
-    }
+    private static final String USER_PASSWORD = "USER_PASSWORD";
+    private static final String USER_PIN_CODE = "USER_PIN_CODE";
+    private static final String USER_ADDED_PIN = "USER_ADDED_PIN";
 
-
-    // other properties...
-
-
-    private SharedPreferencesManager() {}
-
-    private static SharedPreferences getSharedPreferences(Context context) {
+    public static SharedPreferences getSharedPreferences(Context context) {
         return context.getSharedPreferences(APP_SETTINGS, Context.MODE_PRIVATE);
     }
 
@@ -65,6 +51,31 @@ public class SharedPreferencesManager {
         editor.commit();
     }
 
+    public static String getUserPincode(Context context) {
+        return getSharedPreferences(context).getString(USER_PIN_CODE, null);
+    }
+
+    public static void setUserPinCode(Context context, String newValue) {
+        final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putString(USER_PIN_CODE, newValue);
+        editor.apply();
+    }
+
+    public static void setUserPinExist(Context context, int newValue) {
+        final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putInt(USER_ADDED_PIN, newValue);
+        editor.apply();
+    }
+
+    public static int getUserPinExist(Context context) {
+        return getSharedPreferences(context).getInt(USER_ADDED_PIN, 0);
+    }
+
+    public static void cleanPinCode(Context context) {
+        setUserPinExist(context, 0);
+        setUserPinCode(context, null);
+    }
+
     public static String getAvatarUriValue(Context context) {
         return getSharedPreferences(context).getString(AVATAR_URI_PATH, null);
     }
@@ -72,7 +83,7 @@ public class SharedPreferencesManager {
     public static void setAvatarUriValue(Context context, String newValue) {
         final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
         editor.putString(AVATAR_URI_PATH, newValue);
-        editor.commit();
+        editor.apply();
     }
 
     public static boolean getTrackingServiceActiveState(Context context) {
@@ -148,6 +159,16 @@ public class SharedPreferencesManager {
         return getSharedPreferences(context).getString(USER_PHONE_KEY, null);
     }
 
+    public static String getUserPassword(Context context) {
+        return getSharedPreferences(context).getString(USER_PASSWORD, null);
+    }
+
+    public static void setUserPassword(Context context, String password) {
+        final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putString(USER_PASSWORD, password);
+        editor.apply();
+    }
+
     public static void setUserPhone(Context context, String newValue) {
         final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
         editor.putString(USER_PHONE_KEY, newValue);
@@ -172,11 +193,9 @@ public class SharedPreferencesManager {
         setIsServiceSendingAlert(context,false);
         setIsServiceActive(context,false);
         setUserPaymentIsActive(context,false);
-        setIsTutsShown(context,TutsPages.MAIN_PAGE,false);
-        setIsTutsShown(context,TutsPages.PLACES_PAGE,false);
-        setIsTutsShown(context,TutsPages.CONTACTS_PAGE,false);
-        setIsTutsShown(context,TutsPages.SETTTINGS_PAGE,false);
         setCheckClientAvatar(context,true);
+        setUserPinExist(context, 0);
+        setUserPinCode(context, null);
     }
 
     public static String getPhoneImei(Context context){
@@ -251,68 +270,6 @@ public class SharedPreferencesManager {
         }
     }
 
-
-    public static boolean getIsFirstStart(Context context) {
-        return getSharedPreferences(context).getBoolean(IS_FIRST_START_KEY, true);
-    }
-
-    public static void setIsFirstStart(Context context, boolean newValue) {
-        final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-        editor.putBoolean(IS_FIRST_START_KEY, newValue);
-        //editor.apply();
-        boolean isSuccessful = editor.commit();
-        if(!isSuccessful){
-            Log.e(TAG,"Put value failed");
-        }
-    }
-
-    public static boolean getIsTutsShown(Context context) {
-        return getSharedPreferences(context).getBoolean(IS_TUTS_SHOWN_KEY, false);
-    }
-
-    public static void setIsTutsShown(Context context, boolean newValue) {
-        final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-        editor.putBoolean(IS_TUTS_SHOWN_KEY, newValue);
-        //editor.apply();
-        boolean isSuccessful = editor.commit();
-        if(!isSuccessful){
-            Log.e(TAG,"Put value failed");
-        }
-    }
-
-
-    public static void setShownTutsList(Context context, ArrayList<String> values) {
-        final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-        JSONArray a = new JSONArray();
-        for (int i = 0; i < values.size(); i++) {
-            a.put(values.get(i));
-        }
-        if (!values.isEmpty()) {
-            editor.putString(SHOWN_TUTS_ARRAY_KEY, a.toString());
-        } else {
-            editor.putString(SHOWN_TUTS_ARRAY_KEY, null);
-        }
-        boolean commit = editor.commit();
-    }
-
-    public static ArrayList<String> getShownTutsList(Context context) {
-        SharedPreferences prefs = getSharedPreferences(context);
-        String json = prefs.getString(SHOWN_TUTS_ARRAY_KEY, null);
-        ArrayList<String> urls = new ArrayList<String>();
-        if (json != null) {
-            try {
-                JSONArray a = new JSONArray(json);
-                for (int i = 0; i < a.length(); i++) {
-                    String url = a.optString(i);
-                    urls.add(url);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return urls;
-    }
-
     public static String getFcmToken(Context context){
         return getSharedPreferences(context).getString(FCM_TOKEN_KEY, null);
     }
@@ -385,19 +342,6 @@ public class SharedPreferencesManager {
         }
     }
 
-    public static boolean getIsTutsShown(Context context,String type){
-        return getSharedPreferences(context).getBoolean(IS_TUTS_SHOWN+type,false);
-    }
-
-    public static void setIsTutsShown(Context context,String type , boolean state){
-        final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-        editor.putBoolean(IS_TUTS_SHOWN+type, state);
-        //editor.apply();
-        boolean isSuccessful = editor.commit();
-        if(!isSuccessful){
-            Log.e(TAG,"Put value failed");
-        }
-    }
     public static boolean getCheckClientAvatar(Context context){
         return getSharedPreferences(context).getBoolean(CHECK_CLIENT_AVATAR,true);
     }

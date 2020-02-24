@@ -1,46 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <ImageView
-        android:id="@+id/iv_delete_place"
-        android:visibility="visible"
-        app:srcCompat="@drawable/ic_delete"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="12dp"
-        android:tint="@color/colorSecondaryRed"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_width="50dp"
-        android:layout_height="50dp" />
-    <RelativeLayout
-        android:id="@+id/rl_place_container"
-        android:layout_width="match_parent"
+
+    <TextView
+        android:id="@+id/favorName"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:paddingBottom="2dp"
-        android:background="@drawable/place_item_default_bg">
-        <TextView
-            android:padding="10dp"
-            android:id="@+id/tv_place_name"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <ImageView
-            android:id="@+id/iv_edit_place"
-            app:srcCompat="@drawable/ic_edit"
-            android:padding="10dp"
-            android:tint="@color/white"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:visibility="invisible"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
-    </RelativeLayout>
-</RelativeLayout>
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@null"
+        android:ellipsize="end"
+        android:fontFamily="@font/roboto_light"
+        android:maxLength="30"
+        android:maxLines="1"
+        android:padding="10dp"
+        android:text="Название места для избранных"
+        android:textColor="#505050"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/deleteFavor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/viewFavor"
+        android:layout_width="0dp"
+        android:layout_height="0.6dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginLeft="26dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="26dp"
+        android:layout_marginRight="26dp"
+        android:layout_marginBottom="8dp"
+        android:background="#B6B6B6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/favorName" />
+
+    <ImageView
+        android:id="@+id/deleteFavor"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginEnd="26dp"
+        android:layout_marginRight="26dp"
+        app:layout_constraintBottom_toBottomOf="@+id/favorName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/favorName"
+        app:srcCompat="@drawable/delete_favor" />
+
+</android.support.constraint.ConstraintLayout>

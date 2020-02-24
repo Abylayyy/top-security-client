@@ -1,17 +1,8 @@
 package kz.topsecurity.client.presenter.loginPresenter;
 
-import android.util.Log;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 import kz.topsecurity.client.R;
 import kz.topsecurity.client.helper.Constants;
-import kz.topsecurity.client.helper.SharedPreferencesManager;
-import kz.topsecurity.client.helper.TextHelper;
-import kz.topsecurity.client.helper.dataBase.DataBaseManager;
-import kz.topsecurity.client.helper.dataBase.DataBaseManagerImpl;
 import kz.topsecurity.client.model.auth.AuthResponse;
 import kz.topsecurity.client.presenter.base.BasePresenterImpl;
 import kz.topsecurity.client.service.api.RequestService;

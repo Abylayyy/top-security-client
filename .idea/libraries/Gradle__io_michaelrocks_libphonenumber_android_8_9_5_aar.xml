@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: io.michaelrocks:libphonenumber-android:8.9.5@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c1d1554c193b94c38700a5194b2d6c0f/libphonenumber-android-8.9.5/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c1d1554c193b94c38700a5194b2d6c0f/libphonenumber-android-8.9.5/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.michaelrocks/libphonenumber-android/8.9.5/13a59633f1227522acca45654bc02df2de65893a/libphonenumber-android-8.9.5-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.michaelrocks/libphonenumber-android/8.9.5/a74afb80002d5c376c8bd4bc76b1fe26b3965509/libphonenumber-android-8.9.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

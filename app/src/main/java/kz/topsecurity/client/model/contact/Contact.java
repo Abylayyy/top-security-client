@@ -21,6 +21,16 @@ public class Contact {
     @Expose
     private String phone;
 
+    public Contact(String name, String description, String phone) {
+        this.name = name;
+        this.description = description;
+        this.phone = phone;
+    }
+
+    public Contact() {
+
+    }
+
     public Integer getId() {
         return id;
     }

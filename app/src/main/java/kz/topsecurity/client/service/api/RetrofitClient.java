@@ -1,7 +1,5 @@
 package kz.topsecurity.client.service.api;
 
-import android.util.Log;
-
 import java.util.concurrent.TimeUnit;
 
 import kz.topsecurity.client.application.TopSecurityClientApplication;
@@ -17,7 +15,7 @@ import static kz.topsecurity.client.helper.Constants.ACTIVE_DOMAIN;
 public class RetrofitClient {
     private static Retrofit retrofit;
     private static final String API_ROUTE = "/api/";
-    private static final String BASE_URL = ACTIVE_DOMAIN+API_ROUTE;
+    private static final String BASE_URL = ACTIVE_DOMAIN + API_ROUTE;
 
     private static Retrofit getRetrofitInstance() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();

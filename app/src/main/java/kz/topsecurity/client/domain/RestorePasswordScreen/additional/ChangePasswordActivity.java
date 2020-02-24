@@ -91,7 +91,7 @@ public class ChangePasswordActivity extends BaseActivity implements StatusListen
 
     private void makeChangePassword(String smsCode, String new_password, String password_confirmation) {
         showLoadingDialog();
-        Disposable disposable = new RequestService<BasicResponse>(new RequestService.RequestResponse<BasicResponse>() {
+        Disposable disposable = new RequestService<>(new RequestService.RequestResponse<BasicResponse>() {
             @Override
             public void onSuccess(BasicResponse data) {
                 hideProgressDialog();
@@ -108,7 +108,7 @@ public class ChangePasswordActivity extends BaseActivity implements StatusListen
                 failStatus(error_message);
             }
 
-            void failStatus(int error_message){
+            void failStatus(int error_message) {
                 hideProgressDialog();
                 onChangePasswordFailed(error_message);
             }
@@ -157,22 +157,6 @@ public class ChangePasswordActivity extends BaseActivity implements StatusListen
 
     @Override
     public void finish() {
-        if(isSuccess)
-            super.finish();
-        else {
-            showAreYouSureDialog(getString(R.string.are_you_sure_what_exit_change_pass), new CustomSimpleDialog.Callback() {
-                @Override
-                public void onCancelBtnClicked() {
-                    dissmissAreYouSureDialog();
-                }
-
-                @Override
-                public void onPositiveBtnClicked() {
-                    dissmissAreYouSureDialog();
-                    startActivity(new Intent(ChangePasswordActivity.this, StartActivity.class));
-                    ChangePasswordActivity.super.finish();
-                }
-            });
-        }
+        if(isSuccess) super.finish();
     }
 }

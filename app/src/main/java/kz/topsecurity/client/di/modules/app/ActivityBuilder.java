@@ -9,7 +9,6 @@ import dagger.android.AndroidInjector;
 import dagger.multibindings.IntoMap;
 import kz.topsecurity.client.di.components.AlertHistory.AlertHistoryComponent;
 import kz.topsecurity.client.domain.AlertHistoryScreen.AlertHistoryActivity;
-import kz.topsecurity.client.domain.TrustedNumbersScreen.TrustedNumbersActivity;
 
 @Module
 public abstract class ActivityBuilder {

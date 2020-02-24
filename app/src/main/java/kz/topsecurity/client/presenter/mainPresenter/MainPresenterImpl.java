@@ -2,21 +2,14 @@ package kz.topsecurity.client.presenter.mainPresenter;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
-
 import com.google.firebase.iid.FirebaseInstanceId;
-
 import java.lang.ref.WeakReference;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import kz.topsecurity.client.application.TopSecurityClientApplication;
-import kz.topsecurity.client.domain.MainScreen.MainActivity;
 import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
-import kz.topsecurity.client.helper.dataBase.DataBaseManager;
 import kz.topsecurity.client.helper.dataBase.DataBaseManagerImpl;
 import kz.topsecurity.client.model.alert.AlertStatusResponse;
 import kz.topsecurity.client.model.alert.CheckAlertResponse;
@@ -26,9 +19,10 @@ import kz.topsecurity.client.service.api.RequestService;
 import kz.topsecurity.client.service.api.RetrofitClient;
 import kz.topsecurity.client.view.mainView.MainView;
 
-import static kz.topsecurity.client.domain.MainScreen.MainActivity.MRRT_CHANGED_POSIITION;
-import static kz.topsecurity.client.domain.MainScreen.MainActivity.ORDER_ACCEPTED;
-import static kz.topsecurity.client.domain.MainScreen.MainActivity.ORDER_CREATED;
+import static kz.topsecurity.client.domain.MainScreen.AlertActivity.MRRT_CHANGED_POSIITION;
+import static kz.topsecurity.client.domain.MainScreen.AlertActivity.ORDER_ACCEPTED;
+import static kz.topsecurity.client.domain.MainScreen.AlertActivity.ALERT_SEND;
+import static kz.topsecurity.client.domain.MainScreen.AlertActivity.ORDER_CREATED;
 
 public class MainPresenterImpl extends BasePresenterImpl<MainView> implements MainPresenter {
 
@@ -45,6 +39,7 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
     public void removeHandlerCallbacks(){
         handler.removeCallbacks(mRunnable);
     }
+
     @Override
     public void actionWithCheck(){
         if(isAlertActive){
@@ -116,8 +111,6 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
                         processCheckStatus(true);
                     else {
                         processCheckStatus(false);
-//                    Constants.is_service_sending_alert(false);/
-//                    view.onCheckAlertServiceIsNotActive();//
                     }
                 }
 
@@ -162,15 +155,10 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
             public void onSuccess(AlertStatusResponse r) {
                 processAlertExactStatus(r.getAlertStatus());
             }
-
             @Override
-            public void onFailed(AlertStatusResponse data, int error_message) {
-               // processCheckStatus(false);
-            }
-
+            public void onFailed(AlertStatusResponse data, int error_message) { }
             @Override
-            public void onError(Throwable e, int error_message) {
-            }
+            public void onError(Throwable e, int error_message) { }
         }).makeRequest(RetrofitClient
                 .getClientApi()
                 .getAlertStatus(RetrofitClient.getRequestToken()));
@@ -180,7 +168,7 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
     private void processAlertExactStatus(String alertStatus) {
         switch (alertStatus){
             case Constants.ALERT_STATUS.ENEW:{
-
+                view.setAnimationStatus(ORDER_CREATED);
                 break;
             }
             case Constants.ALERT_STATUS.ACCEPTED:{
@@ -188,7 +176,6 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
                 break;
             }
             case Constants.ALERT_STATUS.CANCELLED:{
-
                 break;
             }
             case Constants.ALERT_STATUS.IN_PROCESS:{
@@ -196,7 +183,7 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
                 break;
             }
             case Constants.ALERT_STATUS.FINISHED:{
-
+                view.setAnimationStatus(ALERT_SEND);
                 break;
             }
 
@@ -211,8 +198,7 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
     @Override
     public void logToken(){
         String token = FirebaseInstanceId.getInstance().getToken();
-        WeakReference data = new WeakReference<String>(token);
-        // Log and toast
+        WeakReference data = new WeakReference<>(token);
         if(token == null || token.isEmpty())
             return;
 
@@ -234,7 +220,7 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
     @Override
     public void updateDrawerData(Context context) {
         Client clientData = (new DataBaseManagerImpl(context)).getClientData();
-        WeakReference data = new WeakReference<Client>(clientData);
+        WeakReference data = new WeakReference<>(clientData);
         if(clientData!=null){
             view.setDrawerData(clientData);
        }

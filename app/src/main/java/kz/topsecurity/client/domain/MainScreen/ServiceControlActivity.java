@@ -84,18 +84,15 @@ public abstract class ServiceControlActivity extends BaseActivity<MainView,MainP
 
             } else {
                 onShowSnackbar(R.string.permission_denied_explanation,
-                        R.string.settings, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Intent intent = new Intent();
-                                intent.setAction(
-                                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                Uri uri = Uri.fromParts("package",
-                                        BuildConfig.APPLICATION_ID, null);
-                                intent.setData(uri);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                            }
+                        R.string.settings, view -> {
+                            Intent intent = new Intent();
+                            intent.setAction(
+                                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                            Uri uri = Uri.fromParts("package",
+                                    BuildConfig.APPLICATION_ID, null);
+                            intent.setData(uri);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
                         });
             }
         }
@@ -107,18 +104,15 @@ public abstract class ServiceControlActivity extends BaseActivity<MainView,MainP
 
             } else {
                 onShowSnackbar(R.string.permission_denied_explanation,
-                        R.string.settings, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Intent intent = new Intent();
-                                intent.setAction(
-                                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                Uri uri = Uri.fromParts("package",
-                                        BuildConfig.APPLICATION_ID, null);
-                                intent.setData(uri);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                            }
+                        R.string.settings, view -> {
+                            Intent intent = new Intent();
+                            intent.setAction(
+                                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                            Uri uri = Uri.fromParts("package",
+                                    BuildConfig.APPLICATION_ID, null);
+                            intent.setData(uri);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
                         });
             }
         }
@@ -165,26 +159,18 @@ public abstract class ServiceControlActivity extends BaseActivity<MainView,MainP
         builder.setMessage(R.string.msg_service_not_active);
         String positiveText = getString(R.string.turn_on);
         builder.setPositiveButton(positiveText,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (checkPermissions()) {
-                            SharedPreferencesManager.setTrackingServiceActiveState(ServiceControlActivity.this,true);
-                            startStep1();
-                        } else if (!checkPermissions()) {
-                            onRequestPermission(GEOLOCATION_PERMISSION);
-                        }
-                        dialog.dismiss();
+                (dialog, which) -> {
+                    if (checkPermissions()) {
+                        SharedPreferencesManager.setTrackingServiceActiveState(ServiceControlActivity.this,true);
+                        startStep1();
+                    } else if (!checkPermissions()) {
+                        onRequestPermission(GEOLOCATION_PERMISSION);
                     }
+                    dialog.dismiss();
                 });
         String negativeText = getString(R.string.cancel);
         builder.setNegativeButton(negativeText,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+                (dialog, which) -> dialog.dismiss());
         AlertDialog dialog = builder.create();
         dialog.show();
     }
@@ -196,7 +182,6 @@ public abstract class ServiceControlActivity extends BaseActivity<MainView,MainP
             checkAndStartService(intent,TrackingService.class);
             mAlreadyStartedService = true;
             runOnUiThread(()->{
-                //blockAlertButton(false);
             });
         }
         else if(Constants.is_service_sending_alert() ){
@@ -252,12 +237,9 @@ public abstract class ServiceControlActivity extends BaseActivity<MainView,MainP
 
         String positiveText = getString(R.string.btn_label_refresh);
         builder.setPositiveButton(positiveText,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        networkDialog.dismiss();
-                        checkServices();
-                    }
+                (dialog, which) -> {
+                    networkDialog.dismiss();
+                    checkServices();
                 });
 
         networkDialog = builder.create();
@@ -288,12 +270,9 @@ public abstract class ServiceControlActivity extends BaseActivity<MainView,MainP
 
         String positiveText = getString(R.string.btn_label_refresh);
         builder.setPositiveButton(positiveText,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        gpsDialog.dismiss();
-                        checkServices();
-                    }
+                (dialog, which) -> {
+                    gpsDialog.dismiss();
+                    checkServices();
                 });
 
         gpsDialog = builder.create();
@@ -330,14 +309,11 @@ public abstract class ServiceControlActivity extends BaseActivity<MainView,MainP
         if (shouldProvideRationale) {
             Log.i(TAG, "Displaying permission rationale to provide additional context.");
             onShowSnackbar(R.string.permission_rationale,
-                    android.R.string.ok, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            // Request permission
-                            ActivityCompat.requestPermissions(ServiceControlActivity.this,
-                                    new String[]{Manifest.permission.READ_PHONE_STATE},
-                                    REQUEST_PHONE_STATE_PERMISSION_REQUEST_CODE);
-                        }
+                    android.R.string.ok, view -> {
+                        // Request permission
+                        ActivityCompat.requestPermissions(ServiceControlActivity.this,
+                                new String[]{Manifest.permission.READ_PHONE_STATE},
+                                REQUEST_PHONE_STATE_PERMISSION_REQUEST_CODE);
                     });
         } else {
             Log.i(TAG, "Requesting permission");
@@ -378,45 +354,33 @@ public abstract class ServiceControlActivity extends BaseActivity<MainView,MainP
 
     void createAndCheckLocationProvider(){
         LocationRequest locationRequest = new LocationRequest();
-        // 2
         locationRequest.setInterval(10000);
-        // 3
         locationRequest.setFastestInterval(5000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
                 .addLocationRequest(locationRequest);
 
-        // 4
         SettingsClient settingsClient = LocationServices.getSettingsClient(this);
         Task<LocationSettingsResponse> locationSettingsResponseTask = settingsClient.checkLocationSettings(builder.build());
 
-        // 5
         locationSettingsResponseTask.addOnSuccessListener (r->{
             restartService();
         });
         locationSettingsResponseTask.addOnFailureListener ( error ->{
             if (error instanceof ResolvableApiException) {
-                // Location settings are not satisfied, but this can be fixed
-                // by showing the user a dialog.
                 try {
-                    // Show the dialog by calling startResolutionForResult(),
-                    // and check the result in onActivityResult().
-
                     if(!isGpsAlertShown)
                         ((ResolvableApiException) error).startResolutionForResult(this,REQUEST_CHECK_SETTINGS);
                 } catch (IntentSender.SendIntentException sendEx) {
-                    // Ignore the error.
                 }
             }
         });
     }
 
     protected void restartService() {
-//        fusedLocationClient.removeLocationUpdates(locationCallback);
         Intent newIntent = new Intent(this, TrackingService.class);
         stopService(newIntent);
         forceStartService();
     }
-
 }

@@ -16,8 +16,4 @@ public interface PlacesView extends BaseView {
     void onPlaceSaved(Place place);
     void onPlaceDeleteError(int error);
     void onPlaceDeleteSuccess(int id);
-
-    void onPlaceEditSuccess(Place place,int edit_place_id);
-
-    void onPlaceEditError(int error);
 }

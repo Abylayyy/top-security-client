@@ -35,18 +35,8 @@ public class CustomDialog extends DialogFragment {
         ed_user_password = v.findViewById(R.id.ed_user_password);
         btn_ok = v.findViewById(R.id.btn_ok);
         btn_cancel = v.findViewById(R.id.btn_cancel);
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.onCancelBtnClicked();
-            }
-        });
-        btn_ok.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-              listener.onPositiveBtnClicked();
-            }
-        });
+        btn_cancel.setOnClickListener(view -> listener.onCancelBtnClicked());
+        btn_ok.setOnClickListener(view -> listener.onPositiveBtnClicked());
 
         getDialog().getWindow().setBackgroundDrawableResource(R.drawable.custom_dialog_bg);
 

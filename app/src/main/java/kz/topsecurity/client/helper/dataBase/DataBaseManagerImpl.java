@@ -279,8 +279,6 @@ public class DataBaseManagerImpl implements DataBaseManager {
         healthCard.setDrugs(drugs);
         healthCard.setDisease(disease);
 
-
-        // close the db connection
         cursor.close();
 
         return healthCard;

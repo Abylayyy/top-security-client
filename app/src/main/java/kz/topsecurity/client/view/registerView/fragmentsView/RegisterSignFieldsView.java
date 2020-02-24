@@ -7,4 +7,5 @@ public interface RegisterSignFieldsView {
     void onLockRegisterButton();
     void onFieldsWrong(int error);
     void onFieldsCorrect(String phone, String password);
+    void onCheckError();
 }

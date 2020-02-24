@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.hotchemi:permissionsdispatcher:2.1.2@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ea99ae46b9ed6c9f950cc762ad9404b1/permissionsdispatcher-2.1.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ea99ae46b9ed6c9f950cc762ad9404b1/permissionsdispatcher-2.1.2/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.hotchemi/permissionsdispatcher/2.1.2/29fff9c50d543f198d3291bb32b88a0351692221/permissionsdispatcher-2.1.2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.hotchemi/permissionsdispatcher/2.1.2/93194c6e874b9aca60c001f35b6df4315791e8e1/permissionsdispatcher-2.1.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

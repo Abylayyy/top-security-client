@@ -1,6 +1,9 @@
 package kz.topsecurity.client.fragments.register.signUpFields;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,11 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kz.topsecurity.client.R;
+import kz.topsecurity.client.domain.RegisterScreen.InfoActivity;
 import kz.topsecurity.client.presenter.registerPresenter.fragmentsPresenter.RegisterSignFieldsPresenter;
 import kz.topsecurity.client.presenter.registerPresenter.fragmentsPresenter.RegisterSignFieldsPresenterImpl;
 import kz.topsecurity.client.ui_widgets.roundCorneredEditText.RoundCorneredEditText;
@@ -33,6 +38,11 @@ public class RegisterSignFieldsFragment extends Fragment implements RegisterSign
     @BindView(R.id.ed_confirm_password) RoundCorneredEditText ed_confirm_password;
     @BindView(R.id.tv_confirm_password_error) TextView tv_confirm_password_error;
 
+    @BindView(R.id.ed_num_hide) RoundCorneredEditText ed_num_hide;
+    @BindView(R.id.infText) TextView infText;
+
+    @BindView(R.id.checkAgree) CheckBox checkAgree;
+
     @BindView(R.id.btn_sign_up) Button btn_sign_up;
     RegisterSignFieldsFragmentCallback mCallback;
     RoundCorneredEditTextHelper phoneNumber_helper,userConfirmPassword_helper,userPassword_helper;
@@ -42,6 +52,7 @@ public class RegisterSignFieldsFragment extends Fragment implements RegisterSign
          void onMainFieldsCorrect(String phone, String password);
          void showToast(int msg);
          void onClosed();
+         void onSignUp();
     }
 
     @Override
@@ -73,26 +84,29 @@ public class RegisterSignFieldsFragment extends Fragment implements RegisterSign
         super.onViewCreated(view, savedInstanceState);
 
         presenter = new RegisterSignFieldsPresenterImpl(this);
-
+        infText.setOnClickListener(v -> startActivity(new Intent(getContext(), InfoActivity.class)));
         phoneNumber_helper = new RoundCorneredEditTextHelper(this,ed_tel_number,tv_phone_number_error);
         userPassword_helper = new RoundCorneredEditTextHelper(this , ed_password , tv_password_error);
         userConfirmPassword_helper = new RoundCorneredEditTextHelper(this , ed_confirm_password , tv_confirm_password_error);
-
-        //    phoneNumber_helper.setMandatory();
-        //    userPassword_helper.setMandatory();
-        //    userConfirmPassword_helper.setMandatory();
 
         phoneNumber_helper.init(getActivity());
         userPassword_helper.init(getActivity());
         userConfirmPassword_helper.init(getActivity());
 
+        infText.setPaintFlags(infText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
         btn_sign_up.setOnClickListener(v->{
+            ed_num_hide.setVisibility(View.INVISIBLE);
+
             presenter
                     .checkFields(ed_tel_number.getRawText(),
-                    ed_tel_number.getText().toString(),
-                    ed_password.getText().toString(),
-                    ed_confirm_password.getText().toString());
+                            ed_tel_number.getText().toString(),
+                            ed_password.getText().toString(),
+                            ed_confirm_password.getText().toString(),
+                            checkAgree.isChecked());
         });
+
+        ed_num_hide.setOnFocusChangeListener((v,f)-> ed_num_hide.setVisibility(View.INVISIBLE));
     }
 
     @Override
@@ -112,7 +126,7 @@ public class RegisterSignFieldsFragment extends Fragment implements RegisterSign
 
     @Override
     public void onLockRegisterButton() {
-        btn_sign_up.setEnabled(false);
+
     }
 
     @Override
@@ -124,13 +138,21 @@ public class RegisterSignFieldsFragment extends Fragment implements RegisterSign
 
     @Override
     public void onFieldsCorrect(String phone, String password) {
-        if(mCallback!=null)
-            mCallback.onMainFieldsCorrect(phone,password);
+        if(mCallback!=null) {
+            mCallback.onMainFieldsCorrect(phone, password);
+            mCallback.onSignUp();
+        }
+    }
+
+    @Override
+    public void onCheckError() {
+        infText.setTextColor(Color.parseColor("#EF3B39"));
     }
 
     @Override
     public void onErrorDeactivated() {
         btn_sign_up.setEnabled(true);
+        infText.setTextColor(Color.WHITE);
     }
 
     @Override

@@ -65,7 +65,7 @@ public class RestorePasswordPresenterImpl extends BasePresenterImpl<RestorePassw
 
     private void checkSmsCode(String phone,String code) {
         view.onShowLoadingView();
-        Disposable forget_password = new RequestService<BasicResponse>(new RequestService.RequestResponse<BasicResponse>() {
+        Disposable forget_password = new RequestService<>(new RequestService.RequestResponse<BasicResponse>() {
             @Override
             public void onSuccess(BasicResponse data) {
                 view.onHideLoadingView();

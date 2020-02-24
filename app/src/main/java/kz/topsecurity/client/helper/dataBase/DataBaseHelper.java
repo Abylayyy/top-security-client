@@ -36,4 +36,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onUpgrade(db, oldVersion, newVersion);
     }
+
+    @Override
+    protected void finalize() throws Throwable {
+        this.close();
+        super.finalize();
+    }
 }

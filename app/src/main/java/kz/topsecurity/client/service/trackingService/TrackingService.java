@@ -19,32 +19,27 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
+import android.widget.RemoteViews;
+import android.widget.Toast;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
-import android.util.Log;
-import android.widget.RemoteViews;
-import android.widget.Toast;
-
-
 import java.lang.ref.WeakReference;
-
 import io.reactivex.annotations.Nullable;
 import io.reactivex.disposables.Disposable;
 import kz.topsecurity.client.R;
 import kz.topsecurity.client.application.TopSecurityClientApplication;
-import kz.topsecurity.client.domain.MainScreen.MainActivity;
+import kz.topsecurity.client.domain.MainScreen.AlertActivity;
 import kz.topsecurity.client.domain.SplashScreen.SplashScreen;
 import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
 import kz.topsecurity.client.helper.dataBase.DataBaseManager;
 import kz.topsecurity.client.helper.dataBase.DataBaseManagerImpl;
 import kz.topsecurity.client.service.trackingService.model.DeviceData;
-
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
-//import com.example.sample.trackingapp.services.actionService.ActionService;
 
 public class TrackingService extends Service implements TrackingServiceView {
 
@@ -101,16 +96,13 @@ public class TrackingService extends Service implements TrackingServiceView {
         setupReceivers();
         setupIntent(intent);
         Constants.is_service_active(true);
-        // SETUP ACTION LOGIC
-        //setupForeground();
+
         return START_STICKY;
     }
 
     void setupData(){
-        //Restore last data service recreated
         if(dataBaseManager==null)
             return;
-
         if(data==null){
                 data = dataBaseManager.getDeviceData();
         }
@@ -125,7 +117,6 @@ public class TrackingService extends Service implements TrackingServiceView {
     void setupReceivers(){
         setupLocationReceiver();
         presenter.setupBatteryReceiver(this);
-//        setupTelephonyReceiver();
         presenter.setupBarometricAltitudeTracker(this);
         presenter.setupVolumeServiceReceiver( this);
         presenter.setupTimer();
@@ -226,7 +217,6 @@ public class TrackingService extends Service implements TrackingServiceView {
         isAlertActive = SharedPreferencesManager.getAlertActive(this);
         currentState = SharedPreferencesManager.getBackgroundServiceState(this);
         sendNotification("Restore state", currentState);
-//        broadcastMessage(SharedPreferencesManager.getBackgroundServiceState(this));
     }
 
     private void setIdleStatus(){
@@ -281,10 +271,10 @@ public class TrackingService extends Service implements TrackingServiceView {
     public void checkLocationRequest(LocationRequest locationRequest) {
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
                 .addLocationRequest(locationRequest);
-        WeakReference data = new WeakReference< LocationSettingsRequest.Builder >(builder);
+        WeakReference data = new WeakReference<>(builder);
 
         SettingsClient settingsClient = LocationServices.getSettingsClient(this);
-        WeakReference data2 = new WeakReference< SettingsClient >(settingsClient);
+        WeakReference data2 = new WeakReference<>(settingsClient);
         presenter.checkLocationRequest(builder,settingsClient);
         data.clear();
         data2.clear();
@@ -320,40 +310,26 @@ public class TrackingService extends Service implements TrackingServiceView {
         presenter.setupLocationReceiver( this );
     }
 
-//    private void setupTelephonyReceiver() {
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-//                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//
-//            Log.d(TAG, "== Error On onConnected() Permission not granted");
-//            return;
-//        }
-//        presenter.setupTelephonyReceiver(this);
-//    }
-
     static final String channelId = "channel_02";
     private void sendNotification(String msg, int action_type) {
-        Intent notificationIntent = new Intent(this, MainActivity.class);
-//        notificationIntent.putExtra(SplashScreen.START_MAIN_SCREEN_KEY,true);
+        Intent notificationIntent = new Intent(this, SplashScreen.class);
         notificationIntent.addFlags(FLAG_ACTIVITY_NEW_TASK);
-
-        //notificationIntent.setAction(Constants.MAIN_ACTION);// ??
         RemoteViews views = new RemoteViews(getPackageName(),
                 R.layout.notification_alert);
-        WeakReference data = new WeakReference<RemoteViews>(views);
+        WeakReference data = new WeakReference<>(views);
         setupView(views, msg, action_type);
-        //
+
         mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             createChannel(mNotifyManager, channelId);
         notificationBuilder = new NotificationCompat.Builder(this, channelId)
-                .setSmallIcon(R.drawable.ic_vector_app_icon)
-                .setColor(ContextCompat.getColor(this, R.color.white))
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setColor(ContextCompat.getColor(this, R.color.black))
                 .setChannelId(channelId)
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
                 .setLights(Color.RED, 3000, 3000)
                 .setSound(null)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setOngoing(true);
 
         notificationBuilder.setCustomContentView(views);
@@ -375,7 +351,7 @@ public class TrackingService extends Service implements TrackingServiceView {
                         .setContentTitle("TOP SIGNAL")
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
                         .setContentText(msg);
-        WeakReference data = new WeakReference< NotificationCompat.Builder>(mBuilder);
+        WeakReference data = new WeakReference<>(mBuilder);
         mBuilder.setContentIntent(PendingIntent.getActivity(this, 0,
                 resultIntent, 0));
         startForeground(2, mBuilder.build());
@@ -383,10 +359,10 @@ public class TrackingService extends Service implements TrackingServiceView {
     }
 
     int darkBlue = android.graphics.Color.rgb(56, 69, 79);
-    int lightPink = android.graphics.Color.rgb(255, 0, 92);
-    int lightGrey = android.graphics.Color.rgb(183, 183, 183);
-    int colorWhite = android.graphics.Color.rgb(255, 255, 255);
-    int darkGrey = android.graphics.Color.rgb(148, 148, 148);
+    int black = Color.BLACK;
+    int colorWhite = Color.WHITE;
+    int gray = Color.parseColor("#212121");
+    int darkGrey = Color.parseColor("#e2e2e2");
 
     static class CustomNotificationViewHolder {
         static class Builder{
@@ -514,10 +490,10 @@ public class TrackingService extends Service implements TrackingServiceView {
                 SharedPreferencesManager.setAlertActive(this,false);
                 customNotificationViewHolder
                         .setSet_action(Constants.ALERT_ACTION)
-                        .setBg_btn(lightPink)
-                        .setBg_color_info_container(colorWhite)
-                        .setBtn_image(R.drawable.ic_call_alert)
-                        .setNotif_icon(R.drawable.ic_notification_pink_bg)
+                        .setBg_btn(gray)
+                        .setBg_color_info_container(black)
+                        .setBtn_image(R.drawable.alert_button)
+                        .setNotif_icon(R.drawable.app_logo)
                         .setTopText("трекер активен")
                         .setTopTextColor(darkGrey)
                         .setBottomText("Онлайн")
@@ -527,10 +503,10 @@ public class TrackingService extends Service implements TrackingServiceView {
             }else{
                 customNotificationViewHolder
                         .setSet_action(Constants.ALERT_ACTION)
-                        .setBg_btn(lightPink)
-                        .setBg_color_info_container(colorWhite)
-                        .setBtn_image(R.drawable.ic_call_alert)
-                        .setNotif_icon(R.drawable.ic_notification_pink_bg)
+                        .setBg_btn(gray)
+                        .setBg_color_info_container(black)
+                        .setBtn_image(R.drawable.alert_button)
+                        .setNotif_icon(R.drawable.app_logo)
                         .setTopText("трекер активен")
                         .setTopTextColor(darkGrey)
                         .setBottomText("Онлайн")
@@ -549,9 +525,9 @@ public class TrackingService extends Service implements TrackingServiceView {
                 customNotificationViewHolder
                         .setSet_action(Constants.ALERT_CANCEL_ACTION)
                         .setBg_btn(darkBlue)
-                        .setBg_color_info_container(lightPink)
+                        .setBg_color_info_container(black)
                         .setBtn_image(R.drawable.ic_cancel_alert)
-                        .setNotif_icon(R.drawable.ic_notification_white_bg)
+                        .setNotif_icon(R.drawable.app_logo)
                         .setTopText("тревога отправлена")
                         .setTopTextColor(colorWhite)
                         .setBottomText("Тревога активна")
@@ -564,9 +540,9 @@ public class TrackingService extends Service implements TrackingServiceView {
                 customNotificationViewHolder
                         .setSet_action(Constants.ALERT_CANCEL_ACTION)
                         .setBg_btn(darkBlue)
-                        .setBg_color_info_container(lightPink)
+                        .setBg_color_info_container(black)
                         .setBtn_image(R.drawable.ic_cancel_alert)
-                        .setNotif_icon(R.drawable.ic_notification_white_bg)
+                        .setNotif_icon(R.drawable.app_logo)
                         .setTopText("тревога отправлена")
                         .setTopTextColor(colorWhite)
                         .setBottomText("Тревога активна")
@@ -583,23 +559,23 @@ public class TrackingService extends Service implements TrackingServiceView {
                 SharedPreferencesManager.setAlertActive(this,true);
 
                 customNotificationViewHolder
-                        .setBg_btn(darkBlue)
-                        .setBg_color_info_container(lightPink)
+                        .setBg_btn(gray)
+                        .setBg_color_info_container(black)
                         .setBtn_image(0)
-                        .setNotif_icon(R.drawable.ic_notification_white_bg)
+                        .setNotif_icon(R.drawable.app_logo)
                         .setTopText("тревога отправлена")
                         .setTopTextColor(colorWhite)
                         .setBottomText("Тревога активна")
-                        .setBottomTextColor(darkGrey)
+                        .setBottomTextColor(colorWhite)
                         .setBottomIcon(R.drawable.ic_active)
                         .setBtn_text("");
             }else{
                 //TODO: IT IS JUST AN PLACEHOLDER
                 customNotificationViewHolder
-                        .setBg_btn(darkBlue)
-                        .setBg_color_info_container(lightPink)
+                        .setBg_btn(gray)
+                        .setBg_color_info_container(black)
                         .setBtn_image(0)
-                        .setNotif_icon(R.drawable.ic_notification_white_bg)
+                        .setNotif_icon(R.drawable.app_logo)
                         .setTopText("тревога отправлена")
                         .setTopTextColor(colorWhite)
                         .setBottomText("Тревога активна")
@@ -611,28 +587,28 @@ public class TrackingService extends Service implements TrackingServiceView {
         else if(action_type == ACTION_GPS){
             views.setOnClickPendingIntent(R.id.rl_alert, null);
             customNotificationViewHolder
-                    .setBg_btn(darkGrey)
-                    .setBg_color_info_container(colorWhite)
+                    .setBg_btn(gray)
+                    .setBg_color_info_container(black)
                     .setBtn_image(R.drawable.ic_no_geolocation)
-                    .setNotif_icon(R.drawable.ic_notification_pink_bg)
+                    .setNotif_icon(R.drawable.app_logo)
                     .setTopText("не активно")
-                    .setTopTextColor(darkGrey)
+                    .setTopTextColor(colorWhite)
                     .setBottomText("Включите геолокацию")
-                    .setBottomTextColor(darkGrey)
+                    .setBottomTextColor(colorWhite)
                     .setBottomIcon(R.drawable.ic_not_active)
                     .setBtn_text(getString(R.string.turn_on));
         }
         else if(action_type == ACTION_NETWORK){
             views.setOnClickPendingIntent(R.id.rl_alert, null);
             customNotificationViewHolder
-                    .setBg_btn(darkGrey)
-                    .setBg_color_info_container(colorWhite)
+                    .setBg_btn(gray)
+                    .setBg_color_info_container(black)
                     .setBtn_image(R.drawable.ic_no_connection)
-                    .setNotif_icon(R.drawable.ic_notification_pink_bg)
+                    .setNotif_icon(R.drawable.app_logo)
                     .setTopText("не активно")
-                    .setTopTextColor(darkGrey)
+                    .setTopTextColor(colorWhite)
                     .setBottomText("Включите сеть")
-                    .setBottomTextColor(darkGrey)
+                    .setBottomTextColor(colorWhite)
                     .setBottomIcon(R.drawable.ic_not_active)
                     .setBtn_text(getString(R.string.turn_on));
 
@@ -640,14 +616,14 @@ public class TrackingService extends Service implements TrackingServiceView {
             //TODO: IT IS JUST AN PLACEHOLDER
             customNotificationViewHolder
                     .setSet_action(Constants.ALERT_ACTION)
-                    .setBg_btn(lightPink)
-                    .setBg_color_info_container(colorWhite)
+                    .setBg_btn(gray)
+                    .setBg_color_info_container(black)
                     .setBtn_image(R.drawable.ic_call_alert)
-                    .setNotif_icon(R.drawable.ic_notification_pink_bg)
+                    .setNotif_icon(R.drawable.app_logo)
                     .setTopText("трекер активен")
-                    .setTopTextColor(darkGrey)
+                    .setTopTextColor(colorWhite)
                     .setBottomText("Онлайн")
-                    .setBottomTextColor(darkGrey)
+                    .setBottomTextColor(colorWhite)
                     .setBottomIcon(R.drawable.ic_active)
                     .setBtn_text(getString(R.string.alert));
         }
@@ -659,15 +635,12 @@ public class TrackingService extends Service implements TrackingServiceView {
         views.setImageViewResource(R.id.iv_app_icon, customNotificationViewHolder.notif_icon);
 
 
-//        views.setTextViewText(R.id.tv_service_status, customNotificationViewHolder.topText);
         views.setTextViewText(R.id.tv_service_msg, customNotificationViewHolder.bottomText);
 
-//        views.setTextColor(R.id.tv_service_status ,customNotificationViewHolder.topTextColor);
         views.setTextColor(R.id.tv_service_msg, customNotificationViewHolder.bottomTextColor);
-//        views.setImageViewResource(R.id.iv_status,customNotificationViewHolder.bottomIcon);
 
         views.setTextViewText(R.id.tv_alert_btn,customNotificationViewHolder.btn_text);
-//        if(SharedPreferencesManager.getUserPaymentIsActive(TopSecurityClientApplication.getInstance())) {
+
             if (customNotificationViewHolder.set_action!=null&& !customNotificationViewHolder.set_action.equals("") && customNotificationViewHolder.set_action.equals(Constants.ALERT_ACTION)) {
                 Intent alertIntent = new Intent(this, TrackingService.class);
                 alertIntent.setAction(customNotificationViewHolder.set_action);
@@ -677,25 +650,17 @@ public class TrackingService extends Service implements TrackingServiceView {
 
                 views.setOnClickPendingIntent(R.id.rl_alert, pAlertIntent);
             } else if (customNotificationViewHolder.set_action!=null&& !customNotificationViewHolder.set_action.equals("")&& customNotificationViewHolder.set_action.equals(Constants.ALERT_CANCEL_ACTION)) {
-                Intent cancelAlertIntent = new Intent(this, MainActivity.class);
-                cancelAlertIntent.putExtra(MainActivity.CANCEL_ALERT_EXTRA, true);
+                Intent cancelAlertIntent = new Intent(this, SplashScreen.class);
+                cancelAlertIntent.putExtra(AlertActivity.CANCEL_ALERT_EXTRA, true);
                 cancelAlertIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                         Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 PendingIntent pAlertIntent = PendingIntent.getActivity(this, 0,
                         cancelAlertIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 views.setOnClickPendingIntent(R.id.rl_alert, pAlertIntent);
             } else {
-                //Todo : test it
-//                Intent cancelAlertIntent = new Intent(this, MainActivity.class);
-//                cancelAlertIntent.putExtra(MainActivity.CANCEL_ALERT_EXTRA, true);
-//                cancelAlertIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-//                        Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//                PendingIntent pAlertIntent = PendingIntent.getActivity(this, 0,
-//                        cancelAlertIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//                views.setOnClickPendingIntent(R.id.rl_alert, pAlertIntent);
             }
 
-            WeakReference data = new WeakReference<CustomNotificationViewHolder.Builder>(customNotificationViewHolder);
+            WeakReference data = new WeakReference<>(customNotificationViewHolder);
             data.clear();
     }
 
@@ -750,7 +715,6 @@ public class TrackingService extends Service implements TrackingServiceView {
 
     Disposable subscribe;
 
-    //TODO: MAKE THIS METHOD WORK PROPERLY
     public void checkServiceStatus(DeviceData data) {
         if(currentState == ACTION_NETWORK && !isNetworkOnline())
             return;
@@ -781,7 +745,7 @@ public class TrackingService extends Service implements TrackingServiceView {
         WeakReference data = null;
         try{
             ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            data = new WeakReference<ConnectivityManager>(cm);
+            data = new WeakReference<>(cm);
             if(cm!=null) {
                 NetworkInfo netInfo = cm.getNetworkInfo(0);
                 if (netInfo != null && netInfo.getState() == NetworkInfo.State.CONNECTED) {

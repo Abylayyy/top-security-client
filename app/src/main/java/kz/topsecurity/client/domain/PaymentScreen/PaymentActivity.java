@@ -2,35 +2,25 @@ package kz.topsecurity.client.domain.PaymentScreen;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.Observable;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import kz.topsecurity.client.R;
+import kz.topsecurity.client.domain.MainScreen.AlertActivity;
 import kz.topsecurity.client.domain.base.BaseActivity;
-import kz.topsecurity.client.helper.Constants;
 import kz.topsecurity.client.helper.SharedPreferencesManager;
-import kz.topsecurity.client.model.auth.GetClientResponse;
-import kz.topsecurity.client.model.other.BasicResponseTemplate;
-import kz.topsecurity.client.service.api.RequestService;
 import kz.topsecurity.client.service.api.RetrofitClient;
 
 public class PaymentActivity extends BaseActivity {
@@ -43,18 +33,34 @@ public class PaymentActivity extends BaseActivity {
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     boolean userMadePayment = false;
     String startURL = "";
+    @BindView(R.id.profileBottom) LinearLayout podpiska;
+    @BindView(R.id.mainBottom) LinearLayout main;
+    @BindView(R.id.mainImage2) ImageView mainImg;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
         ButterKnife.bind(this);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        setTitle(R.string.payment);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        main.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplication(), AlertActivity.class);
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            finishAffinity();
+        });
+
+        mainImg.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplication(), AlertActivity.class);
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            finishAffinity();
+        });
+
         checkPlan(FIRST_CHECK);
     }
+
+
 
     private void getPlans() {
         showLoadingDialog();
@@ -144,10 +150,6 @@ public class PaymentActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-        }
-
         return super.onOptionsItemSelected(item);
     }
 

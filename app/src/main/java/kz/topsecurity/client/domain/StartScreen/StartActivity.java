@@ -15,9 +15,7 @@ import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import java.lang.ref.WeakReference;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.CompositeDisposable;
@@ -25,7 +23,8 @@ import io.reactivex.disposables.Disposable;
 import kz.topsecurity.client.BuildConfig;
 import kz.topsecurity.client.R;
 import kz.topsecurity.client.domain.InputCodeScreen.SmsCodeActivity;
-import kz.topsecurity.client.domain.MainActivityRedesign;
+import kz.topsecurity.client.domain.MainScreen.AlertActivity;
+import kz.topsecurity.client.domain.MainScreen.MainActivityNew;
 import kz.topsecurity.client.domain.RegisterScreen.SignUpActivity;
 import kz.topsecurity.client.domain.RestorePasswordScreen.RestorePasswordActivity;
 import kz.topsecurity.client.domain.base.BaseActivity;
@@ -51,12 +50,12 @@ public class StartActivity extends BaseActivity<LoginView, LoginPresenter, Login
     @BindView (R.id.tv_password_error) TextView tv_password_error;
     @BindView(R.id.cl_login_loading_layer) ConstraintLayout cl_loading_layer;
     @BindView(R.id.cl_login_layer) ConstraintLayout cl_login_layer;
-   // @BindView(R.id.cl_start_view) ConstraintLayout cl_start_view;
     @BindView(R.id.btn_sign_in) Button btn_sign_in;
     @BindView(R.id.btn_sign_up) TextView btn_sign_up;
     @BindView(R.id.tv_forget_password) TextView tv_forget_password;
     @BindView(R.id.ed_tel_number) RoundCorneredEditTextWithPhoneMask ed_tel_number;
     @BindView(R.id.ed_password) RoundCorneredEditText ed_password;
+    @BindView(R.id.phone_number_hide) RoundCorneredEditText number_hide;
 
     public static final String START_MAIN_SCREEN_KEY = "START_MAIN_SCREEN";
     public static final String SKIP_LOADING_KEY = "SKIP_LOADING";
@@ -78,6 +77,15 @@ public class StartActivity extends BaseActivity<LoginView, LoginPresenter, Login
         btn_sign_up.setOnClickListener(this);
         tv_forget_password.setOnClickListener(this);
 
+        number_hide.setOnFocusChangeListener((v, hasFocus) -> {
+            number_hide.setVisibility(View.INVISIBLE);
+        });
+
+        ed_password.setOnFocusChangeListener((v, hasFocus)-> {
+            if (ed_tel_number.getText().length() <= 3) {
+                number_hide.setVisibility(View.VISIBLE);
+            }
+        });
         initPresenter(new LoginPresenterImpl(this));
         setIMEI();
         telephone_helper = new RoundCorneredEditTextHelper(this,ed_tel_number,tv_phone_number_error);
@@ -93,10 +101,8 @@ public class StartActivity extends BaseActivity<LoginView, LoginPresenter, Login
         data.clear();
 
         checkDataBase();
-        boolean skipLoading= getIntent().getBooleanExtra(SKIP_LOADING_KEY, false);
         isUserLoggedIn = SharedPreferencesManager.getUserData(this) && SharedPreferencesManager.getUserAuthToken(this)!=null;
         boolean db_state = checkDatabaseForTables();
-        skipLoading = skipLoading && db_state;
         isUserLoggedIn = isUserLoggedIn && db_state;
 
         if(isUserLoggedIn){
@@ -129,7 +135,7 @@ public class StartActivity extends BaseActivity<LoginView, LoginPresenter, Login
                     onLoginFailed();
                 else {
                     //TODO : CHECK IF USER ACC NOT ACTIVATED
-                    boolean isPaymentActive = r.getClient().getPlan()!=null && !r.getClient().getPlan().getIsExpired();
+                    boolean isPaymentActive = r.getClient().getPlan()!= null && !r.getClient().getPlan().getIsExpired();
                     SharedPreferencesManager.setUserPaymentIsActive( StartActivity.this, isPaymentActive);
                     onSuccessLogin(r.getClient());
                 }
@@ -198,6 +204,7 @@ public class StartActivity extends BaseActivity<LoginView, LoginPresenter, Login
         switch (id){
             case R.id.btn_sign_in:{
                 login();
+                number_hide.setVisibility(View.INVISIBLE);
                 break;
             }
             case R.id.btn_sign_up:{
@@ -228,19 +235,18 @@ public class StartActivity extends BaseActivity<LoginView, LoginPresenter, Login
             return;
         }
         hideSoftKeyboard(btn_sign_in);
+        SharedPreferencesManager.setUserPassword(getApplication(), ed_password.getText().toString());
         presenter.login(ed_tel_number.getRawText(),ed_tel_number.getText().toString(), ed_password.getText().toString(),imei);
     }
 
 
     private void register() {
         startActivity(new Intent(this,SignUpActivity.class));
-        finish();
     }
 
 
     private void startRestorePasswordActivity() {
         startActivity(new Intent(this, RestorePasswordActivity.class));
-        finish();
     }
 
     @Override
@@ -266,7 +272,11 @@ public class StartActivity extends BaseActivity<LoginView, LoginPresenter, Login
 
     void startMainActivity(){
         runOnUiThread(() -> {
-            startActivity(new Intent(StartActivity.this, MainActivityRedesign.class));
+            if (SharedPreferencesManager.getCheckClientAvatar(getApplication())) {
+                startActivity(new Intent(StartActivity.this, AlertActivity.class));
+            } else {
+                startActivity(new Intent(StartActivity.this, MainActivityNew.class));
+            }
             System.gc();
             finish();
         });
@@ -274,12 +284,7 @@ public class StartActivity extends BaseActivity<LoginView, LoginPresenter, Login
 
     @Override
     public void onErrorDeactivated() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                btn_sign_in.setEnabled(true);
-            }
-        });
+        runOnUiThread(() -> btn_sign_in.setEnabled(true));
     }
 
 
@@ -342,10 +347,7 @@ public class StartActivity extends BaseActivity<LoginView, LoginPresenter, Login
         if(client.getPhoto().contains("no-avatar") || client.getPhoto()==null || client.getPhoto().isEmpty()) {
             SharedPreferencesManager.setCheckClientAvatar(StartActivity.this, false);
         }
-        else {
-            SharedPreferencesManager.setCheckClientAvatar(StartActivity.this, true);
-            startMainActivity();
-        }
+        startMainActivity();
     }
 
     @Override
@@ -365,23 +367,17 @@ public class StartActivity extends BaseActivity<LoginView, LoginPresenter, Login
 
     @Override
     public void onShowLoading() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                cl_login_layer.setVisibility(View.GONE);
-                cl_loading_layer.setVisibility(View.VISIBLE);
-            }
+        runOnUiThread(() -> {
+            cl_login_layer.setVisibility(View.GONE);
+            cl_loading_layer.setVisibility(View.VISIBLE);
         });
     }
 
     @Override
     public void onHideLoading() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                cl_login_layer.setVisibility(View.VISIBLE );
-                cl_loading_layer.setVisibility(View.GONE);
-            }
+        runOnUiThread(() -> {
+            cl_login_layer.setVisibility(View.VISIBLE );
+            cl_loading_layer.setVisibility(View.GONE);
         });
     }
 

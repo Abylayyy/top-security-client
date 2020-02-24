@@ -38,6 +38,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import kz.topsecurity.client.domain.ProfileScreen.ProfileActivity;
 import kz.topsecurity.client.domain.base.BaseActivity;
+import kz.topsecurity.client.fragments.main_fragment.ProfileMainFragment;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnShowRationale;
 import permissions.dispatcher.PermissionRequest;
@@ -103,7 +104,7 @@ public class CropPictureActivity extends BaseActivity {
     private void returnImage(String s) {
         if(s!=null && !s.isEmpty()){
             Intent intent = new Intent();
-            intent.putExtra(ProfileActivity.CROPPED_IMAGE_PATH,s);
+            intent.putExtra(ProfileMainFragment.CROPPED_IMAGE_PATH, s);
             setResult(RESULT_OK,intent);
         }
         finish();
@@ -145,16 +146,8 @@ public class CropPictureActivity extends BaseActivity {
 
     private void showRationaleDialog(@StringRes int messageResId, final PermissionRequest request) {
         new AlertDialog.Builder(this).setPositiveButton(R.string.button_allow,
-                new DialogInterface.OnClickListener() {
-                    @Override public void onClick(@NonNull DialogInterface dialog, int which) {
-                        request.proceed();
-                    }
-                }).setNegativeButton(R.string.button_deny,
-                new DialogInterface.OnClickListener() {
-                @Override public void onClick(@NonNull DialogInterface dialog, int which) {
-                    request.cancel();
-                }
-        }).setCancelable(false).setMessage(messageResId).show();
+                (dialog, which) -> request.proceed()).setNegativeButton(R.string.button_deny,
+                (dialog, which) -> request.cancel()).setCancelable(false).setMessage(messageResId).show();
     }
 
     @Override

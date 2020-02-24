@@ -13,22 +13,44 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
-
-    <!-- <uses-feature android:name="android.hardware.camera" -->
-    <!-- android:required="false" /> -->
     <application
         android:name=".application.TopSecurityClientApplication"
         android:allowBackup="true"
         android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:usesCleartextTraffic="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <uses-library android:name="org.apache.http.legacy"
-            android:required="false"/>
+        <activity android:name=".domain.pincodeScreen.PinCodeActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".domain.MainScreen.MainActivityNew"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan"
+            tools:ignore="InnerclassSeparator" />
+        <activity
+            android:name=".domain.MainScreen.AlertActivity"
+            android:label="Тревога"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="d7efdc006c378252d5af49194b71cf9c714de39e" />
@@ -58,31 +80,25 @@
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
-        </service>
-
-        <!-- PREVENT INSTANCE ID AUTO GENERATION. see : https://firebase.google.com/docs/cloud-messaging/android/client -->
+        </service> <!-- PREVENT INSTANCE ID AUTO GENERATION. see : https://firebase.google.com/docs/cloud-messaging/android/client -->
         <!-- START -->
         <!-- <meta-data android:name="firebase_messaging_auto_init_enabled" -->
         <!-- android:value="false" /> -->
         <!-- <meta-data android:name="firebase_analytics_collection_enabled" -->
         <!-- android:value="false" /> -->
         <!-- END -->
-
         <service
             android:name=".service.firebaseMessagingService.FireBaseJobService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
             </intent-filter>
-        </service>
-
-        <!-- <service -->
+        </service> <!-- <service -->
         <!-- android:name="mad.location.manager.lib.Services.KalmanLocationService" -->
         <!-- android:enabled="true" -->
         <!-- android:exported="false" -->
         <!-- android:stopWithTask="false" /> -->
         <!-- <meta-data android:name="net.hockeyapp.android.appIdentifier" android:value="${HOCKEYAPP_APP_ID}" /> -->
-
         <activity
             android:name=".domain.SplashScreen.SplashScreen"
             android:screenOrientation="portrait"
@@ -101,34 +117,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".domain.RegisterScreen.RegisterActivity"
-            android:label="@string/title_activity_register"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".domain.MainScreen.MainActivity"
-            android:label="@string/title_activity_main"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".domain.MainActivityRedesign"
-            android:label="@string/title_activity_main"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".domain.ProfileScreen.ProfileActivity"
             android:label="@string/title_activity_profile"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".domain.ProfileScreen.EditPasswordScreen.EditPasswordActivity"
-            android:label="@string/title_activity_edit_password"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <!-- Services -->
 
         <service
             android:name=".service.trackingService.TrackingService"
@@ -152,11 +144,6 @@
         </receiver>
 
         <activity
-            android:name=".domain.SettingsScreen.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".domain.PlaceScreen.PlaceActivity"
             android:label="@string/title_activity_place"
             android:screenOrientation="portrait"
@@ -174,80 +161,46 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".domain.TrustedNumbersScreen.TrustedNumbersActivity"
-            android:label="@string/title_activity_trusted_numbers"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".domain.TrustedNumbersScreen.additionalScreen.CreateTrustedNumberActivity"
-            android:label="@string/title_activity_trusted_numbers"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".domain.ProfileScreen.CropPhotoScreen.CropPictureActivity"
             android:label="@string/title_activity_crop_picture_activiry"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".domain.ProfileScreen.EditEmailScreen.EditEmailActivity"
-            android:label="@string/title_activity_edit_email"
-            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".domain.RestorePasswordScreen.RestorePasswordActivity"
             android:label="@string/title_activity_restore_password"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".domain.RestorePasswordScreen.additional.ChangePasswordActivity"
             android:label="@string/title_activity_change_password"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".domain.InputCodeScreen.SmsCodeActivity"
             android:label="@string/title_activity_sms_code"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".domain.PaymentScreen.PaymentActivity"
             android:label="@string/title_activity_payment"
+            android:parentActivityName=".domain.MainScreen.AlertActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".domain.SetSecretCancelCodeScreen.SetSecretCancelCodeActivity"
-            android:label="@string/title_activity_set_secret_cancel_code"
-            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".domain.AlertHistoryScreen.AlertHistoryActivity"
             android:label="@string/title_activity_alert_history"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".domain.introductionScreen.IntroductionActivity"
-            android:label="@string/title_activity_introduction"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".domain.FeedbackScreen.FeedbackActivity"
-            android:label="@string/title_activity_about"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".domain.TutorialSliderScreen.TutorialSliderActivity"
-            android:label="@string/title_activity_tutorial_slider"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".domain.AnimationTest.AnimationActivity" />
-        <activity
-            android:name=".domain.informationScreen.aboutScreen.AboutActivity"
-            android:label="@string/title_activity_about"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".domain.informationScreen.InformationActivity"
-            android:label="@string/title_activity_information"
-            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".domain.RegisterScreen.SignUpActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
-            android:name=".domain.HealthCardScreen.HealthCardActivity"
-            android:label="@string/title_activity_health_card"
+            android:name=".domain.RegisterScreen.InfoActivity"
+            android:label="Info"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".domain.HealthCardScreen.additionalScreen.ListInputActivity"
-            android:label="@string/title_activity_list_input"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+
     </application>
 
 </manifest>

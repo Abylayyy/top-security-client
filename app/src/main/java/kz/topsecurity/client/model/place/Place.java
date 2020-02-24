@@ -30,6 +30,11 @@ public class Place {
     @Expose
     private Integer radius;
 
+    public Place(String name, double lat, double lng) {
+        this.name = name;
+        this.lat = lat;
+    }
+
     public Integer getId() {
         return id;
     }

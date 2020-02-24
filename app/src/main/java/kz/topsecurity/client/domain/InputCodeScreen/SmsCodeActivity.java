@@ -1,5 +1,6 @@
 package kz.topsecurity.client.domain.InputCodeScreen;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -13,7 +14,7 @@ import butterknife.ButterKnife;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import kz.topsecurity.client.R;
-import kz.topsecurity.client.domain.MainScreen.MainActivity;
+import kz.topsecurity.client.domain.MainScreen.MainActivityNew;
 import kz.topsecurity.client.domain.StartScreen.StartActivity;
 import kz.topsecurity.client.domain.base.BaseActivity;
 import kz.topsecurity.client.helper.Constants;
@@ -40,6 +41,7 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
     @BindView(R.id.tv_sms_code_error) TextView tv_sms_code_error;
     @BindView(R.id.tv_send_again) TextView tv_send_again;
     @BindView(R.id.btn_confirm) Button btn_confirm;
+    @BindView(R.id.count_down_time) TextView count_down;
 
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     boolean isSuccess = false;
@@ -54,6 +56,7 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
     int onBackAction = -1;
     int onForwardAction = -1;
     private String sendedPhone,password,imei;
+    private static final String format = "%02d:%02d";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +66,13 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
         btn_confirm.setOnClickListener(this);
         iv_back.setOnClickListener(this);
         tv_send_again.setOnClickListener(this);
+
         setupView();
+
         onBackAction = getIntent().getIntExtra(ON_BACK_EXTRA,-1);
         onForwardAction = getIntent().getIntExtra(ON_FORWARD_EXTRA , -1);
         sendedPhone = getIntent().getStringExtra(GET_PHONE_NUMB);
+
         if(sendedPhone!=null){
             SharedPreferencesManager.setTmpSendedCode(this,sendedPhone);
             if(getIntent().getIntExtra(FOR_LOGIN,-1)!=-1) {
@@ -113,11 +119,18 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
 
     CountDownTimer countDownTimer =  new CountDownTimer(60000, 1000) {
 
+        @SuppressLint("DefaultLocale")
         public void onTick(long millisUntilFinished) {
-            tv_send_again.setText(String.format("%s (%d)",getString(R.string.send_again) , millisUntilFinished / 1000));
+            tv_send_again.setVisibility(View.GONE);
+            count_down.setVisibility(View.VISIBLE);
+            int seconds = (int) (millisUntilFinished / 1000);
+            int minutes = seconds / 60;
+            count_down.setText(String.format(format, minutes, seconds));
         }
 
         public void onFinish() {
+            tv_send_again.setVisibility(View.VISIBLE);
+            count_down.setVisibility(View.GONE);
             tv_send_again.setClickable(true);
             tv_send_again.setText(getString(R.string.send_again));
         }
@@ -164,7 +177,7 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
         if(sendedPhone==null)
             sendedPhone = SharedPreferencesManager.getTmpSendedCode(this);
         showLoadingDialog();
-        Disposable disposable = new RequestService<BasicResponse>(new RequestService.RequestResponse<BasicResponse>() {
+        Disposable disposable = new RequestService<>(new RequestService.RequestResponse<BasicResponse>() {
             @Override
             public void onSuccess(BasicResponse data) {
                 hideProgressDialog();
@@ -189,7 +202,7 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
 
     private void onConfirmCode(String code) {
         showLoadingDialog();
-        Disposable disposable = new RequestService<BasicResponse>(new RequestService.RequestResponse<BasicResponse>() {
+        Disposable disposable = new RequestService<>(new RequestService.RequestResponse<BasicResponse>() {
             @Override
             public void onSuccess(BasicResponse data) {
                 hideProgressDialog();
@@ -263,9 +276,7 @@ public class SmsCodeActivity extends BaseActivity implements View.OnClickListene
 
     private void onSuccessLogin(){
         isSuccess = true;
-        Class activityToClass = MainActivity.class;
-//        if(onForwardAction==TO_MAIN)
-//            activityToClass = MainActivity.class;
+        Class activityToClass = MainActivityNew.class;
         startActivity(new Intent(this,activityToClass));
         System.gc();
         finish();

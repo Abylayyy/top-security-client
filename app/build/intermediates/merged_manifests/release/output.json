@@ -1,0 +1,1 @@
+[{"outputType":{"type":"MERGED_MANIFESTS"},"apkData":{"type":"MAIN","splits":[],"versionCode":26,"versionName":"2.5","enabled":true,"outputFile":"app-release.apk","fullName":"release","baseName":"release"},"path":"AndroidManifest.xml","properties":{"packageId":"kz.topsecurity.client","split":"","minSdkVersion":"16"}}]

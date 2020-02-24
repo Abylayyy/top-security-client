@@ -1,0 +1,596 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="kz.topsecurity.client"
+4    android:versionCode="26"
+5    android:versionName="2.5" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="16"
+8-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="28" />
+9-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+11-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:6:5-80
+11-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:6:22-77
+12    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+12-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:7:5-75
+12-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:7:22-72
+13    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+13-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:8:5-81
+13-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:8:22-78
+14    <uses-permission android:name="android.permission.CAMERA" />
+14-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:9:5-65
+14-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:9:22-62
+15    <uses-permission android:name="android.permission.INTERNET" />
+15-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:10:5-67
+15-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:10:22-64
+16    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+16-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:11:5-79
+16-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:11:22-76
+17    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+17-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:12:5-81
+17-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:12:22-78
+18    <uses-permission android:name="android.permission.VIBRATE" />
+18-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:13:5-66
+18-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:13:22-63
+19    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+19-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:14:5-77
+19-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:14:22-74
+20    <uses-permission android:name="android.permission.WAKE_LOCK" />
+20-->[net.gotev:uploadservice:3.4.2] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\498c540105d25b4be926dd0521cdd0de\uploadservice-3.4.2\AndroidManifest.xml:14:5-68
+20-->[net.gotev:uploadservice:3.4.2] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\498c540105d25b4be926dd0521cdd0de\uploadservice-3.4.2\AndroidManifest.xml:14:22-65
+21    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- Include required permissions for Google Maps API to run. -->
+21-->[com.google.android.libraries.places:places:1.0.0] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\4b954db33d5428ae5cb5ced481355276\places-1.0.0\AndroidManifest.xml:10:5-76
+21-->[com.google.android.libraries.places:places:1.0.0] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\4b954db33d5428ae5cb5ced481355276\places-1.0.0\AndroidManifest.xml:10:22-73
+22    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+22-->[com.google.android.gms:play-services-maps:16.0.0] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\fa776e0280edabcb2ae078c8a76ffa14\play-services-maps-16.0.0\AndroidManifest.xml:23:5-79
+22-->[com.google.android.gms:play-services-maps:16.0.0] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\fa776e0280edabcb2ae078c8a76ffa14\play-services-maps-16.0.0\AndroidManifest.xml:23:22-76
+23
+24    <uses-feature
+24-->[com.google.android.gms:play-services-maps:16.0.0] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\fa776e0280edabcb2ae078c8a76ffa14\play-services-maps-16.0.0\AndroidManifest.xml:26:5-28:35
+25        android:glEsVersion="0x00020000"
+25-->[com.google.android.gms:play-services-maps:16.0.0] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\fa776e0280edabcb2ae078c8a76ffa14\play-services-maps-16.0.0\AndroidManifest.xml:27:9-41
+26        android:required="true" />
+26-->[com.google.android.gms:play-services-maps:16.0.0] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\fa776e0280edabcb2ae078c8a76ffa14\play-services-maps-16.0.0\AndroidManifest.xml:28:9-32
+27
+28    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" /> <!-- Required by older versions of Google Play services to create IID tokens -->
+28-->[com.google.firebase:firebase-analytics:16.0.4] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\dc46b76e74bd8caf49181b1559413765\firebase-analytics-16.0.4\AndroidManifest.xml:26:5-110
+28-->[com.google.firebase:firebase-analytics:16.0.4] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\dc46b76e74bd8caf49181b1559413765\firebase-analytics-16.0.4\AndroidManifest.xml:26:22-107
+29    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+29-->[com.google.firebase:firebase-iid:17.0.3] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\769605fe5bde49d33d83649558e85e39\firebase-iid-17.0.3\AndroidManifest.xml:26:5-82
+29-->[com.google.firebase:firebase-iid:17.0.3] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\769605fe5bde49d33d83649558e85e39\firebase-iid-17.0.3\AndroidManifest.xml:26:22-79
+30
+31    <application
+31-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:16:5-204:19
+32        android:name="kz.topsecurity.client.application.TopSecurityClientApplication"
+32-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:17:9-65
+33        android:allowBackup="true"
+33-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:18:9-35
+34        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
+34-->[com.android.support:support-compat:28.0.0] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\19966d1e5650dd5fd8a783184195ac80\support-compat-28.0.0\AndroidManifest.xml:22:18-91
+35        android:debuggable="true"
+36        android:fullBackupContent="false"
+36-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:19:9-42
+37        android:icon="@mipmap/ic_launcher"
+37-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:20:9-43
+38        android:label="@string/app_name"
+38-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:21:9-41
+39        android:roundIcon="@mipmap/ic_launcher_round"
+39-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:22:9-54
+40        android:supportsRtl="true"
+40-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:23:9-35
+41        android:theme="@style/AppTheme"
+41-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:24:9-40
+42        android:usesCleartextTraffic="true" >
+42-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:25:9-44
+43        <activity
+43-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:27:9-30:59
+44            android:name="kz.topsecurity.client.domain.pincodeScreen.PinCodeActivity"
+44-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:27:19-71
+45            android:launchMode="singleTop"
+45-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:28:13-43
+46            android:screenOrientation="portrait"
+46-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:29:13-49
+47            android:theme="@style/AppTheme.NoActionBar" />
+47-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:30:13-56
+48
+49        <meta-data
+49-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:32:9-34:69
+50            android:name="com.google.android.gms.version"
+50-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:33:13-58
+51            android:value="@integer/google_play_services_version" />
+51-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:34:13-66
+52
+53        <activity
+53-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:36:9-42:50
+54            android:name="kz.topsecurity.client.domain.MainScreen.MainActivityNew"
+54-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:37:13-62
+55            android:launchMode="singleTop"
+55-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:38:13-43
+56            android:screenOrientation="portrait"
+56-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:39:13-49
+57            android:theme="@style/AppTheme.NoActionBar"
+57-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:40:13-56
+58            android:windowSoftInputMode="adjustPan" />
+58-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:41:13-52
+59        <activity
+59-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:43:9-48:59
+60            android:name="kz.topsecurity.client.domain.MainScreen.AlertActivity"
+60-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:44:13-60
+61            android:label="Тревога"
+61-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:45:13-36
+62            android:launchMode="singleTop"
+62-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:46:13-43
+63            android:screenOrientation="portrait"
+63-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:47:13-49
+64            android:theme="@style/AppTheme.NoActionBar" />
+64-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:48:13-56
+65
+66        <uses-library
+66-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:50:9-52:40
+67            android:name="org.apache.http.legacy"
+67-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:51:13-50
+68            android:required="false" />
+68-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:52:13-37
+69
+70        <meta-data
+70-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:54:9-56:72
+71            android:name="io.fabric.ApiKey"
+71-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:55:13-44
+72            android:value="d7efdc006c378252d5af49194b71cf9c714de39e" />
+72-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:56:13-69
+73        <meta-data
+73-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:57:9-59:36
+74            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+74-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:58:13-70
+75            android:value="face" />
+75-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:59:13-33
+76
+77        <service
+77-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:61:9-73:19
+78            android:name="kz.topsecurity.client.service.trackingService.volumeService.VolumeService"
+78-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:62:13-80
+79            android:enabled="true"
+79-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:63:13-35
+80            android:exported="true"
+80-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:64:13-36
+81            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" >
+81-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:65:13-79
+82            <intent-filter>
+82-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:66:13-68:29
+83                <action android:name="android.accessibilityservice.AccessibilityService" />
+83-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:67:17-92
+83-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:67:25-89
+84            </intent-filter>
+85
+86            <meta-data
+86-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:70:13-72:57
+87                android:name="android.accessibilityservice"
+87-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:71:17-60
+88                android:resource="@xml/serviceconfig" />
+88-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:72:17-54
+89        </service>
+90        <service android:name="kz.topsecurity.client.service.firebaseMessagingService.MyFirebaseMessagingService" >
+90-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:74:9-78:19
+90-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:74:18-93
+91            <intent-filter>
+91-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:75:13-77:29
+92                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+92-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:76:17-78
+92-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:76:25-75
+93            </intent-filter>
+94        </service>
+95        <service android:name="kz.topsecurity.client.service.firebaseMessagingService.FirebaseInstanceIDService" >
+95-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:79:9-83:19
+95-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:79:18-92
+96            <intent-filter>
+96-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:80:13-82:29
+97                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+97-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:81:17-80
+97-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:81:25-77
+98            </intent-filter>
+99        </service> <!-- PREVENT INSTANCE ID AUTO GENERATION. see : https://firebase.google.com/docs/cloud-messaging/android/client -->
+100        <!-- START -->
+101        <!-- <meta-data android:name="firebase_messaging_auto_init_enabled" -->
+102        <!-- android:value="false" /> -->
+103        <!-- <meta-data android:name="firebase_analytics_collection_enabled" -->
+104        <!-- android:value="false" /> -->
+105        <!-- END -->
+106        <service
+106-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:90:9-96:19
+107            android:name="kz.topsecurity.client.service.firebaseMessagingService.FireBaseJobService"
+107-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:91:13-80
+108            android:exported="false" >
+108-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:92:13-37
+109            <intent-filter>
+109-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:93:13-95:29
+110                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
+110-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:94:17-84
+110-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:94:25-81
+111            </intent-filter>
+112        </service> <!-- <service -->
+113        <!-- android:name="mad.location.manager.lib.Services.KalmanLocationService" -->
+114        <!-- android:enabled="true" -->
+115        <!-- android:exported="false" -->
+116        <!-- android:stopWithTask="false" /> -->
+117        <!-- <meta-data android:name="net.hockeyapp.android.appIdentifier" android:value="${HOCKEYAPP_APP_ID}" /> -->
+118        <activity
+118-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:102:9-111:20
+119            android:name="kz.topsecurity.client.domain.SplashScreen.SplashScreen"
+119-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:103:13-61
+120            android:screenOrientation="portrait"
+120-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:104:13-49
+121            android:theme="@style/SplashScreenTheme" >
+121-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:105:13-53
+122            <intent-filter>
+122-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:106:13-110:29
+123                <action android:name="android.intent.action.MAIN" />
+123-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:107:17-69
+123-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:107:25-66
+124
+125                <category android:name="android.intent.category.LAUNCHER" />
+125-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:109:17-77
+125-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:109:27-74
+126            </intent-filter>
+127        </activity>
+128        <activity
+128-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:112:9-117:59
+129            android:name="kz.topsecurity.client.domain.StartScreen.StartActivity"
+129-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:113:13-61
+130            android:label="@string/title_activity_splash_screen"
+130-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:114:13-65
+131            android:launchMode="singleTop"
+131-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:115:13-43
+132            android:screenOrientation="portrait"
+132-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:116:13-49
+133            android:theme="@style/AppTheme.NoActionBar" />
+133-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:117:13-56
+134        <activity
+134-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:119:9-123:59
+135            android:name="kz.topsecurity.client.domain.ProfileScreen.ProfileActivity"
+135-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:120:13-65
+136            android:label="@string/title_activity_profile"
+136-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:121:13-59
+137            android:screenOrientation="portrait"
+137-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:122:13-49
+138            android:theme="@style/AppTheme.NoActionBar" />
+138-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:123:13-56
+139
+140        <service
+140-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:125:9-127:38
+141            android:name="kz.topsecurity.client.service.trackingService.TrackingService"
+141-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:126:13-68
+142            android:enabled="true" />
+142-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:127:13-35
+143
+144        <receiver android:name="kz.topsecurity.client.service.trackingService.listenerImpl.PowerConnectionReceiver" />
+144-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:129:9-98
+144-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:129:19-95
+145        <receiver
+145-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:130:9-138:20
+146            android:name="kz.topsecurity.client.service.trackingService.listenerImpl.TrackingServiceRestarterBroadcastReceiver"
+146-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:131:13-107
+147            android:enabled="true"
+147-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:132:13-35
+148            android:exported="true"
+148-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:133:13-36
+149            android:label="RestartTrackerServiceWhenStopped" >
+149-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:134:13-61
+150            <intent-filter>
+150-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:135:13-137:29
+151                <action android:name=".RestartTrackingService" />
+151-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:136:17-66
+151-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:136:25-63
+152            </intent-filter>
+153        </receiver>
+154        <receiver android:name="kz.topsecurity.client.service.trackingService.listenerImpl.VolumeServiceReceiver" >
+154-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:139:9-144:20
+154-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:139:19-93
+155
+156            <!-- <intent-filter> -->
+157            <!-- <action android:name="kz.topsecurity.client.service.trackingService.volumeService.VolumeServiceActionBroadcast" /> -->
+158            <!-- </intent-filter> -->
+159        </receiver>
+160
+161        <activity
+161-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:146:9-150:59
+162            android:name="kz.topsecurity.client.domain.PlaceScreen.PlaceActivity"
+162-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:147:13-61
+163            android:label="@string/title_activity_place"
+163-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:148:13-57
+164            android:screenOrientation="portrait"
+164-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:149:13-49
+165            android:theme="@style/AppTheme.NoActionBar" />
+165-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:150:13-56
+166        <!--
+167             The API key for Google Maps-based APIs is defined as a string resource.
+168             (See the file "res/values/google_maps_api.xml").
+169             Note that the API key is linked to the encryption key used to sign the APK.
+170             You need a different API key for each encryption key, including the release key that is used to
+171             sign the APK for publishing.
+172             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+173        -->
+174        <meta-data
+174-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:159:9-161:55
+175            android:name="com.google.android.geo.API_KEY"
+175-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:160:13-58
+176            android:value="@string/google_maps_key" />
+176-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:161:13-52
+177
+178        <activity
+178-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:163:9-167:59
+179            android:name="kz.topsecurity.client.domain.ProfileScreen.CropPhotoScreen.CropPictureActivity"
+179-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:164:13-85
+180            android:label="@string/title_activity_crop_picture_activiry"
+180-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:165:13-73
+181            android:screenOrientation="portrait"
+181-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:166:13-49
+182            android:theme="@style/AppTheme.NoActionBar" />
+182-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:167:13-56
+183        <activity
+183-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:169:9-172:59
+184            android:name="kz.topsecurity.client.domain.RestorePasswordScreen.RestorePasswordActivity"
+184-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:170:13-81
+185            android:label="@string/title_activity_restore_password"
+185-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:171:13-68
+186            android:theme="@style/AppTheme.NoActionBar" />
+186-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:172:13-56
+187        <activity
+187-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:174:9-177:59
+188            android:name="kz.topsecurity.client.domain.RestorePasswordScreen.additional.ChangePasswordActivity"
+188-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:175:13-91
+189            android:label="@string/title_activity_change_password"
+189-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:176:13-67
+190            android:theme="@style/AppTheme.NoActionBar" />
+190-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:177:13-56
+191        <activity
+191-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:179:9-182:59
+192            android:name="kz.topsecurity.client.domain.InputCodeScreen.SmsCodeActivity"
+192-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:180:13-67
+193            android:label="@string/title_activity_sms_code"
+193-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:181:13-60
+194            android:theme="@style/AppTheme.NoActionBar" />
+194-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:182:13-56
+195        <activity
+195-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:184:9-188:59
+196            android:name="kz.topsecurity.client.domain.PaymentScreen.PaymentActivity"
+196-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:185:13-65
+197            android:label="@string/title_activity_payment"
+197-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:186:13-59
+198            android:parentActivityName="kz.topsecurity.client.domain.MainScreen.AlertActivity"
+198-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:187:13-74
+199            android:theme="@style/AppTheme.NoActionBar" />
+199-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:188:13-56
+200        <activity
+200-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:190:9-193:59
+201            android:name="kz.topsecurity.client.domain.AlertHistoryScreen.AlertHistoryActivity"
+201-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:191:13-75
+202            android:label="@string/title_activity_alert_history"
+202-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:192:13-65
+203            android:theme="@style/AppTheme.NoActionBar" />
+203-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:193:13-56
+204        <activity
+204-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:195:9-197:59
+205            android:name="kz.topsecurity.client.domain.RegisterScreen.SignUpActivity"
+205-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:196:13-65
+206            android:theme="@style/AppTheme.NoActionBar" />
+206-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:197:13-56
+207        <activity
+207-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:199:9-202:59
+208            android:name="kz.topsecurity.client.domain.RegisterScreen.InfoActivity"
+208-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:200:13-63
+209            android:label="Info"
+209-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:201:13-33
+210            android:theme="@style/AppTheme.NoActionBar" />
+210-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:202:13-56
+211
+212        <service
+212-->[net.gotev:uploadservice:3.4.2] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\498c540105d25b4be926dd0521cdd0de\uploadservice-3.4.2\AndroidManifest.xml:17:9-21:19
+213            android:name="net.gotev.uploadservice.UploadService"
+213-->[net.gotev:uploadservice:3.4.2] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\498c540105d25b4be926dd0521cdd0de\uploadservice-3.4.2\AndroidManifest.xml:18:13-65
+214            android:enabled="true"
+214-->[net.gotev:uploadservice:3.4.2] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\498c540105d25b4be926dd0521cdd0de\uploadservice-3.4.2\AndroidManifest.xml:19:13-35
+215            android:exported="false" >
+215-->[net.gotev:uploadservice:3.4.2] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\498c540105d25b4be926dd0521cdd0de\uploadservice-3.4.2\AndroidManifest.xml:20:13-37
+216        </service> <!-- Autocomplete -->
+217        <activity
+217-->[com.google.android.libraries.places:places:1.0.0] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\4b954db33d5428ae5cb5ced481355276\places-1.0.0\AndroidManifest.xml:16:9-23:20
+218            android:name="com.google.android.libraries.places.widget.AutocompleteActivity"
+218-->[com.google.android.libraries.places:places:1.0.0] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\4b954db33d5428ae5cb5ced481355276\places-1.0.0\AndroidManifest.xml:17:13-91
+219            android:exported="false"
+219-->[com.google.android.libraries.places:places:1.0.0] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\4b954db33d5428ae5cb5ced481355276\places-1.0.0\AndroidManifest.xml:18:13-37
+220            android:hardwareAccelerated="true"
+220-->[com.google.android.libraries.places:places:1.0.0] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\4b954db33d5428ae5cb5ced481355276\places-1.0.0\AndroidManifest.xml:19:13-47
+221            android:label="@string/places_autocomplete_label"
+221-->[com.google.android.libraries.places:places:1.0.0] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\4b954db33d5428ae5cb5ced481355276\places-1.0.0\AndroidManifest.xml:20:13-62
+222            android:theme="@style/PlacesAutocompleteThemeOverlay"
+222-->[com.google.android.libraries.places:places:1.0.0] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\4b954db33d5428ae5cb5ced481355276\places-1.0.0\AndroidManifest.xml:21:13-66
+223            android:windowSoftInputMode="stateAlwaysVisible|adjustPan" >
+223-->[com.google.android.libraries.places:places:1.0.0] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\4b954db33d5428ae5cb5ced481355276\places-1.0.0\AndroidManifest.xml:22:13-71
+224        </activity>
+225        <!--
+226             FirebaseMessagingService performs security checks at runtime,
+227             no need for explicit permissions despite exported="true"
+228        -->
+229        <service
+229-->[com.google.firebase:firebase-messaging:17.3.3] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\0a79989ea9be33d1584fff3e33cc106b\firebase-messaging-17.3.3\AndroidManifest.xml:28:9-34:19
+230            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+230-->[com.google.firebase:firebase-messaging:17.3.3] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\0a79989ea9be33d1584fff3e33cc106b\firebase-messaging-17.3.3\AndroidManifest.xml:29:13-82
+231            android:exported="true" >
+231-->[com.google.firebase:firebase-messaging:17.3.3] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\0a79989ea9be33d1584fff3e33cc106b\firebase-messaging-17.3.3\AndroidManifest.xml:30:13-36
+232            <intent-filter android:priority="-500" >
+232-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:75:13-77:29
+233                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+233-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:76:17-78
+233-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:76:25-75
+234            </intent-filter>
+235        </service>
+236        <service
+236-->[com.google.firebase:firebase-crash:16.2.1] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\77466ab330e575af09384c3d0a65d386\firebase-crash-16.2.1\AndroidManifest.xml:25:9-29:19
+237            android:name="com.google.firebase.components.ComponentDiscoveryService"
+237-->[com.google.firebase:firebase-crash:16.2.1] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\77466ab330e575af09384c3d0a65d386\firebase-crash-16.2.1\AndroidManifest.xml:25:18-89
+238            android:exported="false" >
+238-->[com.google.firebase:firebase-iid:17.0.3] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\769605fe5bde49d33d83649558e85e39\firebase-iid-17.0.3\AndroidManifest.xml:31:13-37
+239            <meta-data
+239-->[com.google.firebase:firebase-crash:16.2.1] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\77466ab330e575af09384c3d0a65d386\firebase-crash-16.2.1\AndroidManifest.xml:26:13-28:85
+240                android:name="com.google.firebase.components:com.google.firebase.crash.component.FirebaseCrashRegistrar"
+240-->[com.google.firebase:firebase-crash:16.2.1] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\77466ab330e575af09384c3d0a65d386\firebase-crash-16.2.1\AndroidManifest.xml:27:17-121
+241                android:value="com.google.firebase.components.ComponentRegistrar" />
+241-->[com.google.firebase:firebase-crash:16.2.1] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\77466ab330e575af09384c3d0a65d386\firebase-crash-16.2.1\AndroidManifest.xml:28:17-82
+242            <meta-data
+242-->[com.google.firebase:firebase-measurement-connector-impl:17.0.2] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\f69c2c578fc1bfa1709a7472100306b1\firebase-measurement-connector-impl-17.0.2\AndroidManifest.xml:28:13-30:85
+243                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+243-->[com.google.firebase:firebase-measurement-connector-impl:17.0.2] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\f69c2c578fc1bfa1709a7472100306b1\firebase-measurement-connector-impl-17.0.2\AndroidManifest.xml:29:17-139
+244                android:value="com.google.firebase.components.ComponentRegistrar" />
+244-->[com.google.firebase:firebase-measurement-connector-impl:17.0.2] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\f69c2c578fc1bfa1709a7472100306b1\firebase-measurement-connector-impl-17.0.2\AndroidManifest.xml:30:17-82
+245            <meta-data
+245-->[com.google.firebase:firebase-iid:17.0.3] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\769605fe5bde49d33d83649558e85e39\firebase-iid-17.0.3\AndroidManifest.xml:32:13-34:85
+246                android:name="com.google.firebase.components:com.google.firebase.iid.Registrar"
+246-->[com.google.firebase:firebase-iid:17.0.3] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\769605fe5bde49d33d83649558e85e39\firebase-iid-17.0.3\AndroidManifest.xml:33:17-96
+247                android:value="com.google.firebase.components.ComponentRegistrar" />
+247-->[com.google.firebase:firebase-iid:17.0.3] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\769605fe5bde49d33d83649558e85e39\firebase-iid-17.0.3\AndroidManifest.xml:34:17-82
+248        </service>
+249
+250        <receiver
+250-->[com.google.firebase:firebase-analytics:16.0.4] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\dc46b76e74bd8caf49181b1559413765\firebase-analytics-16.0.4\AndroidManifest.xml:29:9-33:20
+251            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+251-->[com.google.firebase:firebase-analytics:16.0.4] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\dc46b76e74bd8caf49181b1559413765\firebase-analytics-16.0.4\AndroidManifest.xml:30:13-85
+252            android:enabled="true"
+252-->[com.google.firebase:firebase-analytics:16.0.4] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\dc46b76e74bd8caf49181b1559413765\firebase-analytics-16.0.4\AndroidManifest.xml:31:13-35
+253            android:exported="false" >
+253-->[com.google.firebase:firebase-analytics:16.0.4] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\dc46b76e74bd8caf49181b1559413765\firebase-analytics-16.0.4\AndroidManifest.xml:32:13-37
+254        </receiver>
+255        <receiver
+255-->[com.google.firebase:firebase-analytics:16.0.4] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\dc46b76e74bd8caf49181b1559413765\firebase-analytics-16.0.4\AndroidManifest.xml:34:9-42:20
+256            android:name="com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver"
+256-->[com.google.firebase:firebase-analytics:16.0.4] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\dc46b76e74bd8caf49181b1559413765\firebase-analytics-16.0.4\AndroidManifest.xml:35:13-100
+257            android:enabled="true"
+257-->[com.google.firebase:firebase-analytics:16.0.4] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\dc46b76e74bd8caf49181b1559413765\firebase-analytics-16.0.4\AndroidManifest.xml:36:13-35
+258            android:exported="true"
+258-->[com.google.firebase:firebase-analytics:16.0.4] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\dc46b76e74bd8caf49181b1559413765\firebase-analytics-16.0.4\AndroidManifest.xml:37:13-36
+259            android:permission="android.permission.INSTALL_PACKAGES" >
+259-->[com.google.firebase:firebase-analytics:16.0.4] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\dc46b76e74bd8caf49181b1559413765\firebase-analytics-16.0.4\AndroidManifest.xml:38:13-69
+260            <intent-filter>
+260-->[com.google.firebase:firebase-analytics:16.0.4] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\dc46b76e74bd8caf49181b1559413765\firebase-analytics-16.0.4\AndroidManifest.xml:39:13-41:29
+261                <action android:name="com.android.vending.INSTALL_REFERRER" />
+261-->[com.google.firebase:firebase-analytics:16.0.4] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\dc46b76e74bd8caf49181b1559413765\firebase-analytics-16.0.4\AndroidManifest.xml:40:17-79
+261-->[com.google.firebase:firebase-analytics:16.0.4] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\dc46b76e74bd8caf49181b1559413765\firebase-analytics-16.0.4\AndroidManifest.xml:40:25-76
+262            </intent-filter>
+263        </receiver>
+264
+265        <service
+265-->[com.google.firebase:firebase-analytics:16.0.4] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\dc46b76e74bd8caf49181b1559413765\firebase-analytics-16.0.4\AndroidManifest.xml:44:9-47:40
+266            android:name="com.google.android.gms.measurement.AppMeasurementService"
+266-->[com.google.firebase:firebase-analytics:16.0.4] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\dc46b76e74bd8caf49181b1559413765\firebase-analytics-16.0.4\AndroidManifest.xml:45:13-84
+267            android:enabled="true"
+267-->[com.google.firebase:firebase-analytics:16.0.4] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\dc46b76e74bd8caf49181b1559413765\firebase-analytics-16.0.4\AndroidManifest.xml:46:13-35
+268            android:exported="false" />
+268-->[com.google.firebase:firebase-analytics:16.0.4] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\dc46b76e74bd8caf49181b1559413765\firebase-analytics-16.0.4\AndroidManifest.xml:47:13-37
+269        <service
+269-->[com.google.firebase:firebase-analytics:16.0.4] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\dc46b76e74bd8caf49181b1559413765\firebase-analytics-16.0.4\AndroidManifest.xml:48:9-52:72
+270            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+270-->[com.google.firebase:firebase-analytics:16.0.4] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\dc46b76e74bd8caf49181b1559413765\firebase-analytics-16.0.4\AndroidManifest.xml:49:13-87
+271            android:enabled="true"
+271-->[com.google.firebase:firebase-analytics:16.0.4] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\dc46b76e74bd8caf49181b1559413765\firebase-analytics-16.0.4\AndroidManifest.xml:50:13-35
+272            android:exported="false"
+272-->[com.google.firebase:firebase-analytics:16.0.4] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\dc46b76e74bd8caf49181b1559413765\firebase-analytics-16.0.4\AndroidManifest.xml:51:13-37
+273            android:permission="android.permission.BIND_JOB_SERVICE" />
+273-->[com.google.firebase:firebase-analytics:16.0.4] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\dc46b76e74bd8caf49181b1559413765\firebase-analytics-16.0.4\AndroidManifest.xml:52:13-69
+274
+275        <receiver
+275-->[com.google.firebase:firebase-iid:17.0.3] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\769605fe5bde49d33d83649558e85e39\firebase-iid-17.0.3\AndroidManifest.xml:37:9-44:20
+276            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+276-->[com.google.firebase:firebase-iid:17.0.3] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\769605fe5bde49d33d83649558e85e39\firebase-iid-17.0.3\AndroidManifest.xml:38:13-78
+277            android:exported="true"
+277-->[com.google.firebase:firebase-iid:17.0.3] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\769605fe5bde49d33d83649558e85e39\firebase-iid-17.0.3\AndroidManifest.xml:39:13-36
+278            android:permission="com.google.android.c2dm.permission.SEND" >
+278-->[com.google.firebase:firebase-iid:17.0.3] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\769605fe5bde49d33d83649558e85e39\firebase-iid-17.0.3\AndroidManifest.xml:40:13-73
+279            <intent-filter>
+279-->[com.google.firebase:firebase-iid:17.0.3] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\769605fe5bde49d33d83649558e85e39\firebase-iid-17.0.3\AndroidManifest.xml:41:13-43:29
+280                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+280-->[com.google.firebase:firebase-iid:17.0.3] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\769605fe5bde49d33d83649558e85e39\firebase-iid-17.0.3\AndroidManifest.xml:42:17-81
+280-->[com.google.firebase:firebase-iid:17.0.3] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\769605fe5bde49d33d83649558e85e39\firebase-iid-17.0.3\AndroidManifest.xml:42:25-78
+281            </intent-filter>
+282        </receiver>
+283        <!--
+284             FirebaseInstanceIdService performs security checks at runtime,
+285             no need for explicit permissions despite exported="true"
+286        -->
+287        <service
+287-->[com.google.firebase:firebase-iid:17.0.3] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\769605fe5bde49d33d83649558e85e39\firebase-iid-17.0.3\AndroidManifest.xml:50:9-56:19
+288            android:name="com.google.firebase.iid.FirebaseInstanceIdService"
+288-->[com.google.firebase:firebase-iid:17.0.3] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\769605fe5bde49d33d83649558e85e39\firebase-iid-17.0.3\AndroidManifest.xml:51:13-77
+289            android:exported="true" >
+289-->[com.google.firebase:firebase-iid:17.0.3] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\769605fe5bde49d33d83649558e85e39\firebase-iid-17.0.3\AndroidManifest.xml:52:13-36
+290            <intent-filter android:priority="-500" >
+290-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:80:13-82:29
+291                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+291-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:81:17-80
+291-->C:\android_projects\client-android-development@77853d0463897\app\src\main\AndroidManifest.xml:81:25-77
+292            </intent-filter>
+293        </service>
+294
+295        <provider
+295-->[com.google.firebase:firebase-common:16.0.3] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\14c34ae0ebe494f4ff9101ddc3e64cf5\firebase-common-16.0.3\AndroidManifest.xml:10:9-14:39
+296            android:name="com.google.firebase.provider.FirebaseInitProvider"
+296-->[com.google.firebase:firebase-common:16.0.3] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\14c34ae0ebe494f4ff9101ddc3e64cf5\firebase-common-16.0.3\AndroidManifest.xml:11:13-77
+297            android:authorities="kz.topsecurity.client.firebaseinitprovider"
+297-->[com.google.firebase:firebase-common:16.0.3] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\14c34ae0ebe494f4ff9101ddc3e64cf5\firebase-common-16.0.3\AndroidManifest.xml:12:13-72
+298            android:exported="false"
+298-->[com.google.firebase:firebase-common:16.0.3] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\14c34ae0ebe494f4ff9101ddc3e64cf5\firebase-common-16.0.3\AndroidManifest.xml:13:13-37
+299            android:initOrder="100" />
+299-->[com.google.firebase:firebase-common:16.0.3] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\14c34ae0ebe494f4ff9101ddc3e64cf5\firebase-common-16.0.3\AndroidManifest.xml:14:13-36
+300
+301        <activity
+301-->[com.google.android.gms:play-services-base:16.1.0] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\81c1323028f8ed7eda1bbb958ee5e020\play-services-base-16.1.0\AndroidManifest.xml:23:9-26:75
+302            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+302-->[com.google.android.gms:play-services-base:16.1.0] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\81c1323028f8ed7eda1bbb958ee5e020\play-services-base-16.1.0\AndroidManifest.xml:24:13-79
+303            android:exported="false"
+303-->[com.google.android.gms:play-services-base:16.1.0] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\81c1323028f8ed7eda1bbb958ee5e020\play-services-base-16.1.0\AndroidManifest.xml:25:13-37
+304            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+304-->[com.google.android.gms:play-services-base:16.1.0] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\81c1323028f8ed7eda1bbb958ee5e020\play-services-base-16.1.0\AndroidManifest.xml:26:13-72
+305
+306        <provider
+306-->[android.arch.lifecycle:extensions:1.1.1] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\69bcd5f9bd00456eee1a5285673181a1\extensions-1.1.1\AndroidManifest.xml:23:9-27:43
+307            android:name="android.arch.lifecycle.ProcessLifecycleOwnerInitializer"
+307-->[android.arch.lifecycle:extensions:1.1.1] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\69bcd5f9bd00456eee1a5285673181a1\extensions-1.1.1\AndroidManifest.xml:24:13-83
+308            android:authorities="kz.topsecurity.client.lifecycle-trojan"
+308-->[android.arch.lifecycle:extensions:1.1.1] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\69bcd5f9bd00456eee1a5285673181a1\extensions-1.1.1\AndroidManifest.xml:25:13-68
+309            android:exported="false"
+309-->[android.arch.lifecycle:extensions:1.1.1] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\69bcd5f9bd00456eee1a5285673181a1\extensions-1.1.1\AndroidManifest.xml:26:13-37
+310            android:multiprocess="true" />
+310-->[android.arch.lifecycle:extensions:1.1.1] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\69bcd5f9bd00456eee1a5285673181a1\extensions-1.1.1\AndroidManifest.xml:27:13-40
+311        <!--
+312             Receives GooglePlay execution requests and forwards them to the
+313             appropriate internal service.
+314        -->
+315        <service
+315-->[com.firebase:firebase-jobdispatcher:0.8.5] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\0c6a3ccb317be9f48550bac5adc78c77\firebase-jobdispatcher-0.8.5\AndroidManifest.xml:32:9-39:19
+316            android:name="com.firebase.jobdispatcher.GooglePlayReceiver"
+316-->[com.firebase:firebase-jobdispatcher:0.8.5] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\0c6a3ccb317be9f48550bac5adc78c77\firebase-jobdispatcher-0.8.5\AndroidManifest.xml:33:13-73
+317            android:exported="true"
+317-->[com.firebase:firebase-jobdispatcher:0.8.5] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\0c6a3ccb317be9f48550bac5adc78c77\firebase-jobdispatcher-0.8.5\AndroidManifest.xml:34:13-36
+318            android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE" >
+318-->[com.firebase:firebase-jobdispatcher:0.8.5] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\0c6a3ccb317be9f48550bac5adc78c77\firebase-jobdispatcher-0.8.5\AndroidManifest.xml:35:13-93
+319            <intent-filter>
+319-->[com.firebase:firebase-jobdispatcher:0.8.5] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\0c6a3ccb317be9f48550bac5adc78c77\firebase-jobdispatcher-0.8.5\AndroidManifest.xml:36:13-38:29
+320                <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY" />
+320-->[com.firebase:firebase-jobdispatcher:0.8.5] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\0c6a3ccb317be9f48550bac5adc78c77\firebase-jobdispatcher-0.8.5\AndroidManifest.xml:37:17-87
+320-->[com.firebase:firebase-jobdispatcher:0.8.5] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\0c6a3ccb317be9f48550bac5adc78c77\firebase-jobdispatcher-0.8.5\AndroidManifest.xml:37:25-84
+321            </intent-filter>
+322        </service>
+323
+324        <provider
+324-->[com.crashlytics.sdk.android:crashlytics:2.9.6] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\3ad8a270b382f9513a99f4e8cf2b114a\crashlytics-2.9.6\AndroidManifest.xml:12:9-16:38
+325            android:name="com.crashlytics.android.CrashlyticsInitProvider"
+325-->[com.crashlytics.sdk.android:crashlytics:2.9.6] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\3ad8a270b382f9513a99f4e8cf2b114a\crashlytics-2.9.6\AndroidManifest.xml:13:13-75
+326            android:authorities="kz.topsecurity.client.crashlyticsinitprovider"
+326-->[com.crashlytics.sdk.android:crashlytics:2.9.6] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\3ad8a270b382f9513a99f4e8cf2b114a\crashlytics-2.9.6\AndroidManifest.xml:14:13-75
+327            android:exported="false"
+327-->[com.crashlytics.sdk.android:crashlytics:2.9.6] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\3ad8a270b382f9513a99f4e8cf2b114a\crashlytics-2.9.6\AndroidManifest.xml:15:13-37
+328            android:initOrder="90" />
+328-->[com.crashlytics.sdk.android:crashlytics:2.9.6] C:\Users\aibol\.gradle\caches\transforms-2\files-2.1\3ad8a270b382f9513a99f4e8cf2b114a\crashlytics-2.9.6\AndroidManifest.xml:16:13-35
+329    </application>
+330
+331</manifest>

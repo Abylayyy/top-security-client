@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash_screen_bg"
+    tools:context=".domain.pincodeScreen.PinCodeActivity">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <GridLayout
+            android:id="@+id/gridLayout2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:alignmentMode="alignBounds"
+            android:columnCount="3"
+            android:useDefaultMargins="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/circleField">
+
+            <TextView
+                android:id="@+id/oneBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="11dp"
+                android:background="@drawable/circle_pincode"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="#fff"
+                android:textSize="24sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/twoBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="11dp"
+                android:background="@drawable/circle_pincode"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:text="2"
+                android:textColor="#fff"
+                android:textSize="24sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/threeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="11dp"
+                android:background="@drawable/circle_pincode"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:text="3"
+                android:textColor="#fff"
+                android:textSize="24sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/fourBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="11dp"
+                android:background="@drawable/circle_pincode"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:text="4"
+                android:textColor="#fff"
+                android:textSize="24sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/fiveBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="11dp"
+                android:background="@drawable/circle_pincode"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:text="5"
+                android:textColor="#fff"
+                android:textSize="24sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/sixBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="11dp"
+                android:background="@drawable/circle_pincode"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:text="6"
+                android:textColor="#fff"
+                android:textSize="24sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/sevenBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="11dp"
+                android:background="@drawable/circle_pincode"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:text="7"
+                android:textColor="#fff"
+                android:textSize="24sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/eightBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="11dp"
+                android:background="@drawable/circle_pincode"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:text="8"
+                android:textColor="#fff"
+                android:textSize="24sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/nineBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="11dp"
+                android:background="@drawable/circle_pincode"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:text="9"
+                android:textColor="#fff"
+                android:textSize="24sp"
+                android:textStyle="normal" />
+
+            <ImageView
+                android:id="@+id/faceID"
+                android:layout_width="43dp"
+                android:layout_height="43dp"
+                android:layout_gravity="center"
+                android:layout_margin="11dp"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/face_id_icon" />
+
+            <TextView
+                android:id="@+id/zeroBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="11dp"
+                android:background="@drawable/circle_pincode"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="#fff"
+                android:textSize="24sp"
+                android:textStyle="normal" />
+
+            <ImageView
+                android:id="@+id/clearBtn"
+                android:layout_width="43dp"
+                android:layout_height="23dp"
+                android:layout_gravity="center"
+                android:layout_margin="11dp"
+                app:srcCompat="@drawable/subtract" />
+
+        </GridLayout>
+
+        <TextView
+            android:id="@+id/forgetPin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:padding="3dp"
+            android:text="Забыли код доступа?"
+            android:textColor="#fff"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/gridLayout2" />
+
+        <TextView
+            android:id="@+id/infoText"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="@string/pincode_information"
+            android:textColor="#9E9E9E"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.poovam.pinedittextfield.CirclePinField
+            android:id="@+id/circleField"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="true"
+            android:inputType="number"
+            android:textSelectHandle="@drawable/text_handle"
+            android:textSize="12sp"
+            app:circleRadius="5dp"
+            app:fieldBgColor="#262626"
+            app:fillerColor="#6d6d6d"
+            app:fillerRadius="5dp"
+            app:highlightColor="#262626"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/infoText"
+            app:noOfFields="4" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>
