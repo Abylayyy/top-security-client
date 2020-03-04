@@ -4,7 +4,7 @@
             "outputFile": "C:\\android_projects\\client-android-development@77853d0463897\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v23\\values-v23.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\aibol\\.gradle\\caches\\transforms-2\\files-2.1\\c2cc7fb79b3d127fc5cba7773698c88a\\cardview-v7-28.0.0\\res\\values-v23\\values-v23.xml",
+                    "source": "C:\\Users\\aibol\\.gradle\\caches\\transforms-2\\files-2.1\\d29ef36ab32038fa573957ec459ea5c1\\cardview-v7-28.0.0\\res\\values-v23\\values-v23.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -23,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\aibol\\.gradle\\caches\\transforms-2\\files-2.1\\17d8b4193974dd9fff6324b7f6857798\\appcompat-v7-28.0.0\\res\\values-v23\\values-v23.xml",
+                    "source": "C:\\Users\\aibol\\.gradle\\caches\\transforms-2\\files-2.1\\a045b9b0464b1fe511910864805094b4\\appcompat-v7-28.0.0\\res\\values-v23\\values-v23.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,19,32,33,34,35,36",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4",

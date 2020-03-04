@@ -4,7 +4,7 @@
             "outputFile": "C:\\android_projects\\client-android-development@77853d0463897\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v24\\values-v24.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\aibol\\.gradle\\caches\\transforms-2\\files-2.1\\099b9be58432499e049ccf73a686941c\\support-media-compat-28.0.0\\res\\values-v24\\values-v24.xml",
+                    "source": "C:\\Users\\aibol\\.gradle\\caches\\transforms-2\\files-2.1\\5b7b938ffbfe1b2b3a7e1335a4d9750a\\support-media-compat-28.0.0\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\aibol\\.gradle\\caches\\transforms-2\\files-2.1\\17d8b4193974dd9fff6324b7f6857798\\appcompat-v7-28.0.0\\res\\values-v24\\values-v24.xml",
+                    "source": "C:\\Users\\aibol\\.gradle\\caches\\transforms-2\\files-2.1\\a045b9b0464b1fe511910864805094b4\\appcompat-v7-28.0.0\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",
